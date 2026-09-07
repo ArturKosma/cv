@@ -1,5 +1,5 @@
 ---
-description: Core CV standards — design clarity first, modular shared CSS, PC+mobile parity, ask often, extensive visual QA before push
+description: Core CV standards — design clarity first, Brittany Chiang portfolio-clean direction, modular shared CSS, PC+mobile parity, ask often, extensive visual QA before push
 alwaysApply: true
 ---
 
@@ -41,6 +41,29 @@ Meaning for this repo:
 - Clean code above clever code
 
 Mirror what people treat as “perfect clean design”: clarity, hierarchy, restraint, consistency, accessibility — not visual noise.
+
+## 1b. Design direction reference — Brittany Chiang portfolio-clean
+
+**North star:** [brittanychiang.com](https://brittanychiang.com) (portfolio-clean direction).
+
+Use as the **clarity / structure / restraint** reference — not a pixel clone, and not a blind restyle unless the user asks.
+
+Patterns to follow from that direction:
+
+- Short copy; every sentence earns its place
+- One accent color for interactive affordances (links, active states, CTAs)
+- Dark, quiet chrome; content louder than decoration
+- Clear section hierarchy (About / Experience / Projects style thinking) with calm spacing
+- Accessibility-first: skip link, semantic landmarks, keyboard-friendly, reduced-motion respect
+- Shared design system across the whole site (no per-page style drift)
+- Prefer lists and scannable blocks over long prose walls
+- Subtle polish (hover/focus) over flashy motion
+
+When proposing visual or structural changes, check:
+
+> Does this move us closer to Brittany Chiang–level portfolio clarity?
+
+Current colors/layout may stay until the user requests a restyle pass; still use this reference for new work and future redesigns.
 
 ## 2. PC + mobile parity (PC primary)
 

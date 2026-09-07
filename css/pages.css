@@ -75,16 +75,25 @@
   }
 }
 
+@media (min-width: 901px) {
+  .identity {
+    position: sticky;
+    top: calc(var(--nav-h) + var(--space-6));
+  }
+}
+
 @media (max-width: 900px) {
   .home-layout {
     grid-template-columns: 1fr;
     gap: var(--space-7);
+    align-items: start;
   }
 
   .identity {
     justify-items: start;
     text-align: left;
     order: -1;
+    position: static;
   }
 
   .timeline-summary {

@@ -150,6 +150,12 @@ async function assertPage(page, path, viewport) {
       details[0].dataset._noWash = noWash ? "1" : "0";
       details[0].dataset._stacked = stackedBeats ? "1" : "0";
       details[0].dataset._pair = noSideBySideMedia ? "1" : "0";
+      const codeCompare = details[0].querySelector(".code-compare");
+      const panels = codeCompare ? codeCompare.querySelectorAll(".code-panel") : [];
+      details[0].dataset._code =
+        codeCompare && panels.length >= 2 && codeCompare.textContent.includes("Before")
+          ? "1"
+          : "0";
       details[0].open = false;
       if (details[0].open !== false) expandOk = false;
     }
@@ -192,6 +198,7 @@ async function assertPage(page, path, viewport) {
       pairLayout: firstDetails?.dataset._pair === "1",
       chevronOk: firstDetails?.dataset._chevronOk === "1",
       noWash: firstDetails?.dataset._noWash === "1",
+      hasCodeCompare: firstDetails?.dataset._code === "1",
       hasSkip: Boolean(document.querySelector(".skip-link")),
       hasMain: Boolean(document.querySelector("#main")),
     };
@@ -240,6 +247,7 @@ async function assertPage(page, path, viewport) {
     if (!report.hasDetail) fail(`${label}: expand must include detail text`);
     if (!report.chevronOk) fail(`${label}: expand control should be a chevron, not +/-`);
     if (!report.noWash) fail(`${label}: sample hover should not use a row background wash`);
+    if (!report.hasCodeCompare) fail(`${label}: expanded sample should include before/after code`);
   }
 
   return report;
@@ -360,6 +368,67 @@ async function main() {
       fail("experience: role/project must use a different color from company");
     }
 
+    const accordionHome = await page.evaluate(async () => {
+      const items = [...document.querySelectorAll(".timeline details")];
+      items.forEach((d) => {
+        d.open = false;
+      });
+      items[0].open = true;
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      items[1].open = true;
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      return {
+        openCount: items.filter((d) => d.open).length,
+        secondOpen: items[1].open,
+        firstClosed: !items[0].open,
+      };
+    });
+    if (accordionHome.openCount !== 1 || !accordionHome.secondOpen || !accordionHome.firstClosed) {
+      fail("experience: opening one timeline record must close the others");
+    }
+
+    const identityCenter = await page.evaluate(() => {
+      const identity = document.querySelector(".identity");
+      const summaries = [...document.querySelectorAll(".timeline-summary")];
+      if (!identity || summaries.length < 2) return { ok: false };
+      document.querySelectorAll(".timeline details").forEach((d) => {
+        d.open = false;
+      });
+      const top = summaries[0].getBoundingClientRect().top;
+      const bottom = summaries[summaries.length - 1].getBoundingClientRect().bottom;
+      const mid = (top + bottom) / 2;
+      const box = identity.getBoundingClientRect();
+      const idMid = (box.top + box.bottom) / 2;
+      return { ok: Math.abs(idMid - mid) < 28, delta: Math.abs(idMid - mid) };
+    });
+    if (!identityCenter.ok) {
+      fail(`experience: identity should sit at the center of collapsed records (delta ${identityCenter.delta})`);
+    }
+
+    await page.goto(`${BASE}/samples.html`, { waitUntil: "networkidle0" });
+    const accordionSamples = await page.evaluate(async () => {
+      const items = [...document.querySelectorAll("details[data-project]")];
+      items.forEach((d) => {
+        d.open = false;
+      });
+      items[0].open = true;
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      items[1].open = true;
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      return {
+        openCount: items.filter((d) => d.open).length,
+        secondOpen: items[1].open,
+        firstClosed: !items[0].open,
+      };
+    });
+    if (
+      accordionSamples.openCount !== 1 ||
+      !accordionSamples.secondOpen ||
+      !accordionSamples.firstClosed
+    ) {
+      fail("samples: opening one record must close the others");
+    }
+
     console.log(
       JSON.stringify(
         {
@@ -368,6 +437,7 @@ async function main() {
           nav: "PASS",
           mediaOnDemand: "PASS",
           experience: "PASS",
+          accordion: "PASS",
         },
         null,
         2

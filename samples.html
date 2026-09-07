@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Samples — Artur Kosma." />
     <title>Samples — Artur Kosma</title>
-    <link rel="stylesheet" href="css/tokens.css?v=13" />
-    <link rel="stylesheet" href="css/base.css?v=13" />
-    <link rel="stylesheet" href="css/components.css?v=13" />
-    <link rel="stylesheet" href="css/pages.css?v=13" />
+    <link rel="stylesheet" href="css/tokens.css?v=14" />
+    <link rel="stylesheet" href="css/base.css?v=14" />
+    <link rel="stylesheet" href="css/components.css?v=14" />
+    <link rel="stylesheet" href="css/pages.css?v=14" />
   </head>
   <body class="page-samples">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -55,11 +55,31 @@
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
                   </div>
                 </div>
-                <p class="project-detail">
-                  Placeholder: Locomotor is a C++ locomotion plugin. I changed the hardcoded line
-                  trace that only hit flat ground so it can hit walls of any form — letting the
-                  character walk on surfaces like a spider.
-                </p>
+                <div class="project-detail">
+                  <p>
+                    Placeholder: Locomotor’s ground probe only hit flat floors. I reworked the
+                    trace so it can hit walls of any form — so the character can walk on surfaces
+                    like a spider.
+                  </p>
+                  <div class="code-compare" aria-label="Placeholder code before and after">
+                    <figure class="code-panel">
+                      <figcaption>Before</figcaption>
+                      <pre><code>// Placeholder — original ground-only probe
+FHitResult Hit;
+const FVector TraceEnd = Start - FVector(0.f, 0.f, TraceLength);
+GetWorld()-&gt;LineTraceSingleByChannel(
+    Hit, Start, TraceEnd, ECC_Visibility);</code></pre>
+                    </figure>
+                    <figure class="code-panel">
+                      <figcaption>After</figcaption>
+                      <pre><code>// Placeholder — surface-aware probe (any orientation)
+FHitResult Hit;
+const FVector TraceEnd = Start + (-SurfaceNormal * TraceLength);
+GetWorld()-&gt;LineTraceSingleByChannel(
+    Hit, Start, TraceEnd, ECC_Visibility);</code></pre>
+                    </figure>
+                  </div>
+                </div>
               </div>
               <div class="project-beat">
                 <div
@@ -254,6 +274,7 @@
       </ul>
     </main>
 
-    <script src="js/media-on-demand.js?v=13" defer></script>
+    <script src="js/accordion.js?v=14" defer></script>
+    <script src="js/media-on-demand.js?v=14" defer></script>
   </body>
 </html>

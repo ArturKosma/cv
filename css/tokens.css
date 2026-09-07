@@ -26,6 +26,7 @@
   --measure: 40rem;
   --nav-h: 3.75rem;
   --font: "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-mono: "Cascadia Code", "SF Mono", "Consolas", "Liberation Mono", monospace;
   --ease: 160ms ease;
   --glow: radial-gradient(ellipse 80% 50% at 15% 0%, #1c2a22 0%, transparent 55%),
     radial-gradient(ellipse 55% 40% at 95% 85%, #1a2228 0%, transparent 50%);

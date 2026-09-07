@@ -30,36 +30,27 @@
   line-height: 1.02;
 }
 
+.page-samples .page,
 .page-portfolio .page {
   padding-top: calc(var(--nav-h) + var(--space-6));
 }
 
-.page-portfolio .portfolio-intro {
-  display: grid;
-  gap: var(--space-3);
-  margin-bottom: var(--space-2);
-  animation: rise 0.65s ease-out both;
-}
-
-.page-portfolio .portfolio-title {
-  font-size: var(--text-xl);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
-
+.page-samples .project-list > li:nth-child(1) details,
 .page-portfolio .project-list > li:nth-child(1) details {
   animation: fade 0.55s ease-out both;
 }
 
+.page-samples .project-list > li:nth-child(2) details,
 .page-portfolio .project-list > li:nth-child(2) details {
   animation: fade 0.55s ease-out 0.06s both;
 }
 
+.page-samples .project-list > li:nth-child(3) details,
 .page-portfolio .project-list > li:nth-child(3) details {
   animation: fade 0.55s ease-out 0.12s both;
 }
 
+.page-samples .project-list > li:nth-child(4) details,
 .page-portfolio .project-list > li:nth-child(4) details {
   animation: fade 0.55s ease-out 0.18s both;
 }
@@ -108,6 +99,7 @@
   }
 
   .page-portfolio .page,
+  .page-samples .page,
   .page-home .page {
     width: min(100% - 2rem, 68rem);
   }

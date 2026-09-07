@@ -35,7 +35,7 @@ Meaning for this repo:
 
 - **Shared CSS is mandatory** — one design system / stylesheet modules reused across pages
 - **Never** invent different one-off styles per subpage that drift from the system
-- **Identical site chrome on every page** — same header markup and placement (Home + Portfolio, top-right only). No per-page brand link, no left-nav on one page and right-nav on another
+- **Identical site chrome on every page** — same header markup and placement (Home + Samples, top-right only). No per-page brand link, no left-nav on one page and right-nav on another
 - Structure / presentation / behavior stay separated and reusable
 - Predictable file layout; easy to add a page or portfolio item without rewriting the base
 - No copy-paste CSS/HTML duplication when a shared class or partial pattern would do
@@ -59,9 +59,9 @@ Patterns to follow from that direction:
 - Shared design system across the whole site (no per-page style drift)
 - Prefer lists and scannable blocks over long prose walls
 - Subtle polish (hover/focus) over flashy motion
-- **Portfolio row hover = accent-only (option A):** title color → accent, chevron brightens; **no background wash / no full-row highlight**
-- **Portfolio expand copy:** short blurb under the title stays visible; deeper detail sits **to the right of media** and must not merely repeat the blurb (pattern: what it is + what you changed)
-- **Portfolio row layout:** collapsed = still thumb + title/blurb; expanded = more stills/gallery + more detail paragraphs
+- **Portfolio/Samples row hover = accent-only (option A):** title color → accent, chevron brightens; **no background wash / no full-row highlight**
+- **Samples expand copy:** short blurb under the title stays visible; each expand row is **one video + text to the right**, then the next video+text row underneath — never two media side by side
+- **Samples row layout:** collapsed = video thumb + title/blurb; no large page H1 (“Portfolio”/“Samples”) above the list
 
 When proposing visual or structural changes, check:
 

@@ -73,17 +73,15 @@ async function assertPage(page, path, viewport) {
     let blurbStays = true;
     let hasDetail = true;
     let hasThumb = true;
-    let hasGallery = true;
-    let textRightOfMedia = true;
+    let stackedBeats = true;
+    let noSideBySideMedia = true;
     if (details.length) {
-      const thumb = details[0].querySelector(".project-thumb .still-frame");
+      const thumb = details[0].querySelector(".project-thumb .thumb-video");
       hasThumb = Boolean(thumb);
       details[0].open = true;
       const body = details[0].querySelector(".project-body");
-      const detailBlock = details[0].querySelector(".project-detail-block");
+      const beats = [...details[0].querySelectorAll(".project-beat")];
       const detailsText = details[0].querySelectorAll(".project-detail");
-      const media = details[0].querySelector(".media-slot");
-      const gallery = details[0].querySelector(".project-gallery");
       const blurb = details[0].querySelector(".project-blurb");
       const summary = details[0].querySelector("summary");
       const blurbVisible = blurb && getComputedStyle(blurb).display !== "none";
@@ -98,19 +96,33 @@ async function assertPage(page, path, viewport) {
         !hoverBg ||
         hoverBg === "rgba(0, 0, 0, 0)" ||
         hoverBg === "transparent";
-      layoutOk = Boolean(body && media && detailBlock);
-      hasGallery = Boolean(gallery && gallery.querySelectorAll(".media-slot").length >= 2);
+      layoutOk = Boolean(body && beats.length >= 1);
+      stackedBeats = beats.length >= 2;
       blurbStays = Boolean(blurbVisible);
       hasDetail = detailsText.length >= 1 && [...detailsText].every((p) => p.textContent.trim());
-      if (gallery && detailBlock && window.innerWidth > 720) {
-        const g = gallery.getBoundingClientRect();
-        const d = detailBlock.getBoundingClientRect();
-        textRightOfMedia = d.left >= g.right - 1;
+
+      if (window.innerWidth > 720 && beats.length >= 2) {
+        const a = beats[0].getBoundingClientRect();
+        const b = beats[1].getBoundingClientRect();
+        stackedBeats = b.top >= a.bottom - 1;
+        for (const beat of beats) {
+          const media = beat.querySelector(".media-slot");
+          const text = beat.querySelector(".project-detail");
+          if (!media || !text) {
+            noSideBySideMedia = false;
+            break;
+          }
+          const m = media.getBoundingClientRect();
+          const t = text.getBoundingClientRect();
+          if (!(t.left >= m.right - 1)) noSideBySideMedia = false;
+        }
       }
+
       expandOk = details[0].open === true;
       details[0].dataset._chevronOk = chevronOk ? "1" : "0";
       details[0].dataset._noWash = noWash ? "1" : "0";
-      details[0].dataset._textRight = textRightOfMedia ? "1" : "0";
+      details[0].dataset._stacked = stackedBeats ? "1" : "0";
+      details[0].dataset._pair = noSideBySideMedia ? "1" : "0";
       details[0].open = false;
       if (details[0].open !== false) expandOk = false;
     }
@@ -119,6 +131,7 @@ async function assertPage(page, path, viewport) {
     const navBox = nav ? nav.getBoundingClientRect() : null;
     const navPinnedRight =
       Boolean(navBox) && navBox.right >= window.innerWidth - 48 && navBox.left > window.innerWidth * 0.4;
+    const pageTitle = document.querySelector(".portfolio-title");
 
     const firstDetails = document.querySelector("details[data-project]");
     return {
@@ -127,6 +140,7 @@ async function assertPage(page, path, viewport) {
       hasBrand: Boolean(brand),
       hasHeroTitle: Boolean(heroTitle),
       hasEyebrow: Boolean(eyebrow),
+      hasPageTitle: Boolean(pageTitle),
       lede,
       overflowX,
       homeSplit,
@@ -141,8 +155,8 @@ async function assertPage(page, path, viewport) {
       blurbStays,
       hasDetail,
       hasThumb,
-      hasGallery,
-      textRightOfMedia: firstDetails?.dataset._textRight === "1",
+      stackedBeats: firstDetails?.dataset._stacked === "1",
+      pairLayout: firstDetails?.dataset._pair === "1",
       chevronOk: firstDetails?.dataset._chevronOk === "1",
       noWash: firstDetails?.dataset._noWash === "1",
       hasSkip: Boolean(document.querySelector(".skip-link")),
@@ -153,9 +167,9 @@ async function assertPage(page, path, viewport) {
   if (!report.hasSkip) fail(`${label}: missing skip link`);
   if (!report.hasMain) fail(`${label}: missing #main`);
   if (report.hasBrand) fail(`${label}: brand link should be removed`);
-  if (report.btnCount < 2) fail(`${label}: expected Home + Portfolio buttons`);
+  if (report.btnCount < 2) fail(`${label}: expected Home + Samples buttons`);
   if (report.btns[0].text !== "Home") fail(`${label}: Home should be leftmost nav button`);
-  if (report.btns[1].text !== "Portfolio") fail(`${label}: Portfolio should follow Home`);
+  if (report.btns[1].text !== "Samples") fail(`${label}: Samples should follow Home`);
   if (!report.navPinnedRight) fail(`${label}: nav buttons must be pinned top-right`);
   for (const btn of report.btns) {
     if (!btn.display.includes("flex")) fail(`${label}: ${btn.text} display=${btn.display}`);
@@ -174,18 +188,18 @@ async function assertPage(page, path, viewport) {
     if (!report.homeSplit) fail(`${label}: experience should sit left of identity on desktop`);
   }
 
-  if (path.includes("portfolio")) {
-    if (report.hasEyebrow) fail(`${label}: Selected Work eyebrow should be gone`);
-    if (report.projectCount < 1) fail(`${label}: no portfolio items`);
-    if (!report.hasThumb) fail(`${label}: collapsed row must include a still thumb`);
+  if (path.includes("samples")) {
+    if (report.hasPageTitle) fail(`${label}: big Samples/Portfolio page title should be removed`);
+    if (report.projectCount < 1) fail(`${label}: no sample items`);
+    if (!report.hasThumb) fail(`${label}: collapsed row must include a video thumb`);
     if (!report.expandOk) fail(`${label}: expand/collapse failed`);
-    if (!report.layoutOk) fail(`${label}: expand layout missing gallery+detail`);
-    if (!report.hasGallery) fail(`${label}: expand must show multiple stills`);
+    if (!report.layoutOk) fail(`${label}: expand layout missing beats`);
+    if (!report.stackedBeats) fail(`${label}: beats must stack vertically, not side-by-side media`);
+    if (!report.pairLayout) fail(`${label}: each beat must be one media + text to the right`);
     if (!report.blurbStays) fail(`${label}: short description must stay visible when expanded`);
-    if (!report.hasDetail) fail(`${label}: expand must include detail text beside media`);
-    if (!report.textRightOfMedia) fail(`${label}: detail text must sit to the right of media`);
+    if (!report.hasDetail) fail(`${label}: expand must include detail text`);
     if (!report.chevronOk) fail(`${label}: expand control should be a chevron, not +/-`);
-    if (!report.noWash) fail(`${label}: portfolio hover should not use a row background wash`);
+    if (!report.noWash) fail(`${label}: sample hover should not use a row background wash`);
   }
 
   return report;
@@ -202,16 +216,16 @@ async function main() {
   try {
     for (const viewport of VIEWPORTS) {
       await assertPage(page, "/index.html", viewport);
-      await assertPage(page, "/portfolio.html", viewport);
+      await assertPage(page, "/samples.html", viewport);
     }
 
     await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
     await page.goto(`${BASE}/index.html`, { waitUntil: "networkidle0" });
     await Promise.all([
       page.waitForNavigation({ waitUntil: "networkidle0" }),
-      page.click('a.btn[href="portfolio.html"]'),
+      page.click('a.btn[href="samples.html"]'),
     ]);
-    if (!page.url().includes("portfolio.html")) fail("nav: Portfolio click failed");
+    if (!page.url().includes("samples.html")) fail("nav: Samples click failed");
 
     await Promise.all([
       page.waitForNavigation({ waitUntil: "networkidle0" }),
@@ -219,7 +233,7 @@ async function main() {
     ]);
     if (!page.url().includes("index.html")) fail("nav: Home click failed");
 
-    await page.goto(`${BASE}/portfolio.html`, { waitUntil: "networkidle0" });
+    await page.goto(`${BASE}/samples.html`, { waitUntil: "networkidle0" });
     await page.waitForFunction(() => {
       const details = document.querySelector("details[data-project]");
       details.open = true;

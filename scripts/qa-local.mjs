@@ -86,16 +86,17 @@ async function assertPage(page, path, viewport) {
         after.content !== '"+"' &&
         after.content !== '"–"' &&
         after.content !== '"-"';
-      const summaryBox = summary ? summary.getBoundingClientRect() : null;
-      const listBox = document.querySelector(".project-list")?.getBoundingClientRect();
-      const wideHover =
-        Boolean(summaryBox && listBox) && summaryBox.width >= listBox.width - 2;
+      const hoverBg = summary ? getComputedStyle(summary).backgroundColor : "";
+      const noWash =
+        !hoverBg ||
+        hoverBg === "rgba(0, 0, 0, 0)" ||
+        hoverBg === "transparent";
       layoutOk = Boolean(body && media);
       blurbStays = Boolean(blurbVisible);
       noExtraDetail = !detail;
       expandOk = details[0].open === true;
       details[0].dataset._chevronOk = chevronOk ? "1" : "0";
-      details[0].dataset._wideHover = wideHover ? "1" : "0";
+      details[0].dataset._noWash = noWash ? "1" : "0";
       details[0].open = false;
       if (details[0].open !== false) expandOk = false;
     }
@@ -126,7 +127,7 @@ async function assertPage(page, path, viewport) {
       blurbStays,
       noExtraDetail,
       chevronOk: firstDetails?.dataset._chevronOk === "1",
-      wideHover: firstDetails?.dataset._wideHover === "1",
+      noWash: firstDetails?.dataset._noWash === "1",
       hasSkip: Boolean(document.querySelector(".skip-link")),
       hasMain: Boolean(document.querySelector("#main")),
     };
@@ -164,7 +165,7 @@ async function assertPage(page, path, viewport) {
     if (!report.blurbStays) fail(`${label}: short description must stay visible when expanded`);
     if (!report.noExtraDetail) fail(`${label}: expand must not add a second description`);
     if (!report.chevronOk) fail(`${label}: expand control should be a chevron, not +/-`);
-    if (!report.wideHover) fail(`${label}: portfolio row hover/hit area should span list width`);
+    if (!report.noWash) fail(`${label}: portfolio hover should not use a row background wash`);
   }
 
   return report;

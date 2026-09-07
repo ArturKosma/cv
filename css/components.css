@@ -173,13 +173,9 @@
   list-style: none;
   display: grid;
   gap: var(--space-2);
-  padding: var(--space-5) var(--space-5) var(--space-5) var(--space-4);
-  margin-inline: calc(var(--space-4) * -1);
-  width: calc(100% + var(--space-4) * 2);
+  padding: var(--space-5) 2rem var(--space-5) 0;
   position: relative;
   cursor: pointer;
-  border-radius: 2px;
-  transition: background var(--ease);
 }
 
 .project-list summary::-webkit-details-marker {
@@ -190,14 +186,19 @@
 .project-list summary::after {
   content: "";
   position: absolute;
-  right: var(--space-4);
+  right: 0.15rem;
   top: calc(var(--space-5) + 0.35rem);
   width: 0.45rem;
   height: 0.45rem;
-  border-right: 1.5px solid var(--accent);
-  border-bottom: 1.5px solid var(--accent);
+  border-right: 1.5px solid var(--muted);
+  border-bottom: 1.5px solid var(--muted);
   transform: rotate(45deg);
-  transition: transform var(--ease);
+  transition: transform var(--ease), border-color var(--ease);
+}
+
+.project-list details[open] summary::after,
+.project-list summary:hover::after {
+  border-color: var(--accent);
 }
 
 .project-list details[open] summary::after {
@@ -205,8 +206,8 @@
   transform: rotate(225deg);
 }
 
-.project-list summary:hover {
-  background: rgba(232, 236, 233, 0.045);
+.project-list summary:hover .project-name {
+  color: var(--accent);
 }
 
 .project-name {
@@ -214,6 +215,7 @@
   font-weight: 650;
   letter-spacing: -0.015em;
   padding-right: var(--space-5);
+  transition: color var(--ease);
 }
 
 .project-blurb {
@@ -225,7 +227,11 @@
 }
 
 .project-body {
-  padding: 0 var(--space-4) var(--space-5);
+  padding: 0 0 var(--space-5);
+}
+
+details[open] .project-body {
+  animation: rise 0.55s ease-out both;
 }
 
 .media-slot {

@@ -227,6 +227,10 @@
 }
 
 .project-body {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  gap: var(--space-5);
   padding: 0 0 var(--space-5);
 }
 
@@ -234,7 +238,16 @@ details[open] .project-body {
   animation: rise 0.55s ease-out both;
 }
 
+.project-detail {
+  flex: 0 1 18rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
 .media-slot {
+  flex: 1 1 18rem;
   min-width: 0;
   max-width: 40rem;
 }
@@ -260,4 +273,15 @@ details[open] .project-body {
   background:
     linear-gradient(135deg, rgba(232, 236, 233, 0.03), transparent 55%),
     rgba(10, 14, 12, 0.35);
+}
+
+@media (max-width: 720px) {
+  .project-body {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .project-detail {
+    flex-basis: auto;
+  }
 }

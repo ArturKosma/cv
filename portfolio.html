@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Portfolio — Artur Kosma." />
     <title>Portfolio — Artur Kosma</title>
-    <link rel="stylesheet" href="css/tokens.css?v=7" />
-    <link rel="stylesheet" href="css/base.css?v=7" />
-    <link rel="stylesheet" href="css/components.css?v=7" />
-    <link rel="stylesheet" href="css/pages.css?v=7" />
+    <link rel="stylesheet" href="css/tokens.css?v=8" />
+    <link rel="stylesheet" href="css/base.css?v=8" />
+    <link rel="stylesheet" href="css/components.css?v=8" />
+    <link rel="stylesheet" href="css/pages.css?v=8" />
   </head>
   <body class="page-portfolio">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -29,6 +29,34 @@
         <li>
           <details data-project>
             <summary>
+              <span class="project-name">Locomotor</span>
+              <span class="project-blurb">Unreal locomotion system — short note on what it is and how I used it.</span>
+            </summary>
+            <div class="project-body">
+              <div
+                class="media-slot"
+                data-media-slot
+                data-type="video"
+                data-src=""
+                data-poster=""
+                data-alt="Locomotor sample"
+              >
+                <div class="media-slot__frame" data-media-frame>
+                  <div class="media-slot__placeholder" aria-hidden="true"></div>
+                </div>
+              </div>
+              <p class="project-detail">
+                Placeholder: Locomotor is a C++ locomotion plugin. I changed the hardcoded line trace
+                that only hit flat ground so it can hit walls of any form — letting the character walk
+                on surfaces like a spider.
+              </p>
+            </div>
+          </details>
+        </li>
+
+        <li>
+          <details data-project>
+            <summary>
               <span class="project-name">MetaHuman export pipeline</span>
               <span class="project-blurb">Character export from Maya into Unreal with consistent naming and LODs.</span>
             </summary>
@@ -45,6 +73,9 @@
                   <div class="media-slot__placeholder" aria-hidden="true"></div>
                 </div>
               </div>
+              <p class="project-detail">
+                Placeholder: what it is + what I changed (scripts, naming, LOD rules, export steps).
+              </p>
             </div>
           </details>
         </li>
@@ -68,6 +99,9 @@
                   <div class="media-slot__placeholder" aria-hidden="true"></div>
                 </div>
               </div>
+              <p class="project-detail">
+                Placeholder: what it is + what I changed (clip tags, export path, playback wiring).
+              </p>
             </div>
           </details>
         </li>
@@ -91,35 +125,15 @@
                   <div class="media-slot__placeholder" aria-hidden="true"></div>
                 </div>
               </div>
-            </div>
-          </details>
-        </li>
-
-        <li>
-          <details data-project>
-            <summary>
-              <span class="project-name">Realtime drone / sim content</span>
-              <span class="project-blurb">Asset and animation support for drone-related real-time scenes.</span>
-            </summary>
-            <div class="project-body">
-              <div
-                class="media-slot"
-                data-media-slot
-                data-type="video"
-                data-src=""
-                data-poster=""
-                data-alt="Realtime drone sim content sample"
-              >
-                <div class="media-slot__frame" data-media-frame>
-                  <div class="media-slot__placeholder" aria-hidden="true"></div>
-                </div>
-              </div>
+              <p class="project-detail">
+                Placeholder: what each tool does + what I wrote or changed in the scripts.
+              </p>
             </div>
           </details>
         </li>
       </ul>
     </main>
 
-    <script src="js/media-on-demand.js?v=7" defer></script>
+    <script src="js/media-on-demand.js?v=8" defer></script>
   </body>
 </html>

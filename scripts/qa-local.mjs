@@ -71,7 +71,8 @@ async function assertPage(page, path, viewport) {
     let expandOk = true;
     let layoutOk = true;
     let blurbStays = true;
-    let noExtraDetail = true;
+    let hasDetail = true;
+    let textRightOfMedia = true;
     if (details.length) {
       details[0].open = true;
       const body = details[0].querySelector(".project-body");
@@ -91,12 +92,18 @@ async function assertPage(page, path, viewport) {
         !hoverBg ||
         hoverBg === "rgba(0, 0, 0, 0)" ||
         hoverBg === "transparent";
-      layoutOk = Boolean(body && media);
+      layoutOk = Boolean(body && media && detail);
       blurbStays = Boolean(blurbVisible);
-      noExtraDetail = !detail;
+      hasDetail = Boolean(detail && detail.textContent.trim().length > 0);
+      if (media && detail && window.innerWidth > 720) {
+        const m = media.getBoundingClientRect();
+        const d = detail.getBoundingClientRect();
+        textRightOfMedia = d.left >= m.right - 1;
+      }
       expandOk = details[0].open === true;
       details[0].dataset._chevronOk = chevronOk ? "1" : "0";
       details[0].dataset._noWash = noWash ? "1" : "0";
+      details[0].dataset._textRight = textRightOfMedia ? "1" : "0";
       details[0].open = false;
       if (details[0].open !== false) expandOk = false;
     }
@@ -125,7 +132,8 @@ async function assertPage(page, path, viewport) {
       expandOk,
       layoutOk,
       blurbStays,
-      noExtraDetail,
+      hasDetail,
+      textRightOfMedia: firstDetails?.dataset._textRight === "1",
       chevronOk: firstDetails?.dataset._chevronOk === "1",
       noWash: firstDetails?.dataset._noWash === "1",
       hasSkip: Boolean(document.querySelector(".skip-link")),
@@ -161,9 +169,10 @@ async function assertPage(page, path, viewport) {
     if (report.hasEyebrow) fail(`${label}: Selected Work eyebrow should be gone`);
     if (report.projectCount < 1) fail(`${label}: no portfolio items`);
     if (!report.expandOk) fail(`${label}: expand/collapse failed`);
-    if (!report.layoutOk) fail(`${label}: expand layout missing media`);
+    if (!report.layoutOk) fail(`${label}: expand layout missing media+detail`);
     if (!report.blurbStays) fail(`${label}: short description must stay visible when expanded`);
-    if (!report.noExtraDetail) fail(`${label}: expand must not add a second description`);
+    if (!report.hasDetail) fail(`${label}: expand must include detail text beside media`);
+    if (!report.textRightOfMedia) fail(`${label}: detail text must sit to the right of media`);
     if (!report.chevronOk) fail(`${label}: expand control should be a chevron, not +/-`);
     if (!report.noWash) fail(`${label}: portfolio hover should not use a row background wash`);
   }

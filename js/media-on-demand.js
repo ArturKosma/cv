@@ -18,7 +18,7 @@
     if (!src) {
       const empty = document.createElement("div");
       empty.className = "media-slot__placeholder";
-      empty.textContent = "Media placeholder";
+      empty.setAttribute("aria-hidden", "true");
       frame.appendChild(empty);
       slot.dataset.loaded = "true";
       return;

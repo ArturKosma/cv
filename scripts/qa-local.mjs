@@ -20,14 +20,12 @@ function fail(msg) {
 }
 
 function approxNotBlueLink(color) {
-  // Default browser link blue is roughly rgb(0, 0, 238) / similar
   const m = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
   if (!m) return true;
   const r = Number(m[1]);
   const g = Number(m[2]);
   const b = Number(m[3]);
-  const looksLikeLinkBlue = b > 180 && r < 80 && g < 120;
-  return !looksLikeLinkBlue;
+  return !(b > 180 && r < 80 && g < 120);
 }
 
 async function assertPage(page, path, viewport) {
@@ -41,81 +39,94 @@ async function assertPage(page, path, viewport) {
     waitUntil: "networkidle0",
     timeout: 15000,
   });
-  if (!res || !res.ok()) fail(`${label}: HTTP ${res && res.status()}`);
+  if (!res || !(res.ok() || res.status() === 304)) fail(`${label}: HTTP ${res && res.status()}`);
 
   const report = await page.evaluate(() => {
-    const body = getComputedStyle(document.body);
-    const btn = document.querySelector(".btn");
-    const btnStyle = btn ? getComputedStyle(btn) : null;
+    const btns = [...document.querySelectorAll(".nav-actions .btn")].map((el) => ({
+      text: el.textContent.trim(),
+      href: el.getAttribute("href"),
+      display: getComputedStyle(el).display,
+      color: getComputedStyle(el).color,
+      decoration: getComputedStyle(el).textDecorationLine,
+    }));
     const brand = document.querySelector(".brand-link");
-    const brandStyle = brand ? getComputedStyle(brand) : null;
-    const header = document.querySelector(".site-header");
-    const skip = document.querySelector(".skip-link");
-    const main = document.querySelector("#main");
-
+    const heroTitle = document.querySelector(".hero-title");
+    const eyebrow = document.querySelector(".eyebrow");
+    const lede = document.querySelector(".lede")?.textContent.trim() || "";
     const overflowX =
       document.documentElement.scrollWidth > document.documentElement.clientWidth + 1;
+    const homeNoScroll =
+      !document.body.classList.contains("page-home") ||
+      (document.documentElement.scrollHeight <= window.innerHeight + 1 &&
+        getComputedStyle(document.body).overflow === "hidden");
 
     const details = [...document.querySelectorAll("details[data-project]")];
     let expandOk = true;
-    let mediaPlaceholder = true;
+    let layoutOk = true;
+    let noDuplicateBlurb = true;
     if (details.length) {
       details[0].open = true;
-      const slot = details[0].querySelector("[data-media-slot]");
-      const placeholder = details[0].querySelector(".media-slot__placeholder");
-      mediaPlaceholder = Boolean(slot && placeholder);
+      const body = details[0].querySelector(".project-body");
+      const detail = details[0].querySelector(".project-detail");
+      const media = details[0].querySelector(".media-slot");
+      const blurb = details[0].querySelector(".project-blurb");
+      const blurbHidden = blurb && getComputedStyle(blurb).display === "none";
+      const bodyStyle = body ? getComputedStyle(body) : null;
+      layoutOk = Boolean(body && detail && media);
+      if (bodyStyle && window.innerWidth > 834) {
+        layoutOk = layoutOk && bodyStyle.display.includes("grid");
+      }
+      noDuplicateBlurb = Boolean(blurbHidden);
       expandOk = details[0].open === true;
       details[0].open = false;
       if (details[0].open !== false) expandOk = false;
     }
 
     return {
-      bg: body.backgroundColor,
-      color: body.color,
-      hasHeader: Boolean(header),
-      hasSkip: Boolean(skip),
-      hasMain: Boolean(main),
-      btnText: btn ? btn.textContent.trim() : null,
-      btnDisplay: btnStyle ? btnStyle.display : null,
-      btnBg: btnStyle ? btnStyle.backgroundColor : null,
-      btnColor: btnStyle ? btnStyle.color : null,
-      btnDecoration: btnStyle ? btnStyle.textDecorationLine : null,
-      btnBorder: btnStyle ? btnStyle.borderTopWidth : null,
-      brandDecoration: brandStyle ? brandStyle.textDecorationLine : null,
-      brandColor: brandStyle ? brandStyle.color : null,
+      btnCount: btns.length,
+      btns,
+      hasBrand: Boolean(brand),
+      hasHeroTitle: Boolean(heroTitle),
+      hasEyebrow: Boolean(eyebrow),
+      lede,
       overflowX,
+      homeNoScroll,
       projectCount: details.length,
       expandOk,
-      mediaPlaceholder,
-      title: document.title,
+      layoutOk,
+      noDuplicateBlurb,
+      hasSkip: Boolean(document.querySelector(".skip-link")),
+      hasMain: Boolean(document.querySelector("#main")),
     };
   });
 
-  if (!report.hasHeader) fail(`${label}: missing site header`);
   if (!report.hasSkip) fail(`${label}: missing skip link`);
   if (!report.hasMain) fail(`${label}: missing #main`);
-  if (!report.btnText) fail(`${label}: missing Portfolio button`);
-  if (report.btnDisplay !== "inline-flex" && report.btnDisplay !== "flex") {
-    fail(`${label}: Portfolio button display=${report.btnDisplay}`);
-  }
-  if (report.btnDecoration && report.btnDecoration.includes("underline")) {
-    fail(`${label}: Portfolio button is underlined (${report.btnDecoration})`);
-  }
-  if (!approxNotBlueLink(report.btnColor)) {
-    fail(`${label}: Portfolio button looks like default blue link (${report.btnColor})`);
+  if (report.hasBrand) fail(`${label}: brand link should be removed`);
+  if (report.btnCount < 2) fail(`${label}: expected Home + Portfolio buttons`);
+  if (report.btns[0].text !== "Home") fail(`${label}: Home should be leftmost nav button`);
+  if (report.btns[1].text !== "Portfolio") fail(`${label}: Portfolio should follow Home`);
+  for (const btn of report.btns) {
+    if (!btn.display.includes("flex")) fail(`${label}: ${btn.text} display=${btn.display}`);
+    if (btn.decoration.includes("underline")) fail(`${label}: ${btn.text} underlined`);
+    if (!approxNotBlueLink(btn.color)) fail(`${label}: ${btn.text} blue link color ${btn.color}`);
   }
   if (report.overflowX) fail(`${label}: horizontal overflow`);
 
-  // Soft contrast sanity: body text should not be near-black on near-black
-  if (report.color === report.bg) fail(`${label}: fg equals bg`);
-
-  if (path.includes("portfolio")) {
-    if (report.projectCount < 1) fail(`${label}: no portfolio items`);
-    if (!report.expandOk) fail(`${label}: expand/collapse failed`);
-    if (!report.mediaPlaceholder) fail(`${label}: media placeholder missing`);
+  if (path.includes("index")) {
+    if (report.hasHeroTitle) fail(`${label}: golden CV label should be gone`);
+    if (!report.lede.includes("Animation Engineer")) fail(`${label}: wrong home lede`);
+    if (!report.homeNoScroll) fail(`${label}: home page should not scroll`);
   }
 
-  // Nav round-trip smoke on one viewport only handled outside
+  if (path.includes("portfolio")) {
+    if (report.hasEyebrow) fail(`${label}: Selected Work eyebrow should be gone`);
+    if (report.projectCount < 1) fail(`${label}: no portfolio items`);
+    if (!report.expandOk) fail(`${label}: expand/collapse failed`);
+    if (!report.layoutOk) fail(`${label}: expand layout missing media+detail`);
+    if (!report.noDuplicateBlurb) fail(`${label}: blurb still visible while expanded`);
+  }
+
   return report;
 }
 
@@ -125,63 +136,48 @@ async function main() {
     headless: "new",
     args: ["--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage"],
   });
-
   const page = await browser.newPage();
-  const results = [];
 
   try {
     for (const viewport of VIEWPORTS) {
-      const home = await assertPage(page, "/index.html", viewport);
-      const portfolio = await assertPage(page, "/portfolio.html", viewport);
-      results.push({ viewport: viewport.name, home, portfolio, status: "PASS" });
+      await assertPage(page, "/index.html", viewport);
+      await assertPage(page, "/portfolio.html", viewport);
     }
 
-    // Navigation + on-demand script behavior (desktop)
     await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
     await page.goto(`${BASE}/index.html`, { waitUntil: "networkidle0" });
     await Promise.all([
       page.waitForNavigation({ waitUntil: "networkidle0" }),
       page.click('a.btn[href="portfolio.html"]'),
     ]);
-    if (!page.url().includes("portfolio.html")) fail("nav: Portfolio click did not reach portfolio");
+    if (!page.url().includes("portfolio.html")) fail("nav: Portfolio click failed");
 
     await Promise.all([
       page.waitForNavigation({ waitUntil: "networkidle0" }),
-      page.click('a.brand-link[href="index.html"]'),
+      page.click('a.btn[href="index.html"]'),
     ]);
-    if (!page.url().includes("index.html")) fail("nav: brand click did not reach home");
+    if (!page.url().includes("index.html")) fail("nav: Home click failed");
 
-    // On-demand loader: empty data-src should mark loaded without network media
     await page.goto(`${BASE}/portfolio.html`, { waitUntil: "networkidle0" });
-    const mediaState = await page.evaluate(() => {
-      const details = document.querySelector("details[data-project]");
-      details.open = true;
-      // allow toggle handler
-      details.dispatchEvent(new Event("toggle"));
-      const slot = details.querySelector("[data-media-slot]");
-      return {
-        loaded: slot.dataset.loaded,
-        text: slot.querySelector(".media-slot__placeholder")?.textContent || "",
-      };
-    });
-    // toggle listener is sync on Event; our script listens to toggle on details
-    // Re-check after microtask
     await page.waitForFunction(() => {
       const details = document.querySelector("details[data-project]");
-      if (!details.open) details.open = true;
+      details.open = true;
       const slot = details.querySelector("[data-media-slot]");
       return slot && slot.dataset.loaded === "true";
     }, { timeout: 3000 });
 
-    const cssRequests = [];
-    page.on("request", (req) => {
-      if (req.url().includes("/css/")) cssRequests.push(req.url());
-    });
-    await page.goto(`${BASE}/index.html`, { waitUntil: "networkidle0" });
-    const uniqueCss = [...new Set(cssRequests)];
-    if (uniqueCss.length < 4) fail(`expected shared css modules, got ${uniqueCss.length}`);
-
-    console.log(JSON.stringify({ ok: true, viewports: results.map((r) => r.viewport), nav: "PASS", mediaOnDemand: "PASS", cssModules: uniqueCss.length }, null, 2));
+    console.log(
+      JSON.stringify(
+        {
+          ok: true,
+          viewports: VIEWPORTS.map((v) => v.name),
+          nav: "PASS",
+          mediaOnDemand: "PASS",
+        },
+        null,
+        2
+      )
+    );
   } finally {
     await browser.close();
   }

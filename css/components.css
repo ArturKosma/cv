@@ -5,25 +5,13 @@
   z-index: 20;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: var(--space-4);
   min-height: var(--nav-h);
   padding: var(--space-3) var(--space-5);
   background: rgba(15, 20, 18, 0.88);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(10px);
-}
-
-.brand-link {
-  font-weight: 700;
-  font-size: 1rem;
-  letter-spacing: -0.02em;
-  text-decoration: none;
-  color: var(--fg);
-}
-
-.brand-link:hover {
-  color: var(--accent);
 }
 
 .nav-actions {
@@ -67,15 +55,6 @@
   width: min(100% - 2.5rem, 68rem);
   margin: 0 auto;
   padding: var(--space-7) 0 var(--space-8);
-}
-
-.eyebrow {
-  margin-bottom: var(--space-3);
-  font-size: var(--text-xs);
-  font-weight: 650;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--accent);
 }
 
 .lede {
@@ -129,6 +108,10 @@
   background: rgba(232, 236, 233, 0.03);
 }
 
+.project-list details[open] .project-blurb {
+  display: none;
+}
+
 .project-name {
   font-size: var(--text-lg);
   font-weight: 650;
@@ -144,27 +127,29 @@
 
 .project-body {
   display: grid;
-  gap: var(--space-4);
-  max-width: var(--measure);
+  grid-template-columns: minmax(0, 1.4fr) minmax(12rem, 0.8fr);
+  gap: var(--space-5);
+  align-items: start;
   padding: 0 2.25rem var(--space-5) 0;
+}
+
+.project-detail {
+  margin: 0;
   color: var(--muted);
   font-size: var(--text-sm);
   line-height: 1.6;
 }
 
 .media-slot {
-  display: grid;
-  gap: var(--space-3);
-  padding: var(--space-4);
-  border: 1px solid var(--line);
-  background: rgba(232, 236, 233, 0.03);
+  min-width: 0;
 }
 
 .media-slot__frame {
   position: relative;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: #0a0e0c;
+  background: rgba(232, 236, 233, 0.04);
+  border: 1px solid var(--line);
 }
 
 .media-slot__frame img,
@@ -175,17 +160,16 @@
 }
 
 .media-slot__placeholder {
-  display: grid;
-  place-items: center;
   width: 100%;
   height: 100%;
-  color: var(--muted);
-  font-size: var(--text-xs);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  background:
+    linear-gradient(135deg, rgba(232, 236, 233, 0.03), transparent 55%),
+    rgba(10, 14, 12, 0.35);
 }
 
-.media-slot__note {
-  color: var(--muted);
-  font-size: var(--text-xs);
+@media (max-width: 834px) {
+  .project-body {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
 }

@@ -3,10 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Portfolio — selected work by Artur Kosma."
-    />
+    <meta name="description" content="Portfolio — Artur Kosma." />
     <title>Portfolio — Artur Kosma</title>
     <link rel="stylesheet" href="css/tokens.css" />
     <link rel="stylesheet" href="css/base.css" />
@@ -17,17 +14,15 @@
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header class="site-header">
-      <a class="brand-link" href="index.html">Artur Kosma</a>
       <nav class="nav-actions" aria-label="Primary">
+        <a class="btn" href="index.html">Home</a>
         <a class="btn" href="portfolio.html" aria-current="page">Portfolio</a>
       </nav>
     </header>
 
     <main id="main" class="page">
       <header class="portfolio-intro">
-        <p class="eyebrow">Selected work</p>
         <h1 class="portfolio-title">Portfolio</h1>
-        <p class="lede">Projects across animation, real-time pipelines, and tools. Expand an item for detail.</p>
       </header>
 
       <ul class="project-list">
@@ -38,10 +33,6 @@
               <span class="project-blurb">Character export from Maya into Unreal with consistent naming and LODs.</span>
             </summary>
             <div class="project-body">
-              <p>
-                Tooling around MetaHuman / Maya export so characters land in Unreal with predictable
-                skeleton, materials, and LOD setup.
-              </p>
               <div
                 class="media-slot"
                 data-media-slot
@@ -51,10 +42,12 @@
                 data-alt="MetaHuman export pipeline sample"
               >
                 <div class="media-slot__frame" data-media-frame>
-                  <div class="media-slot__placeholder">Media loads on expand</div>
+                  <div class="media-slot__placeholder" aria-hidden="true"></div>
                 </div>
-                <p class="media-slot__note">Placeholder — drop files into assets/portfolio/metahuman-export/</p>
               </div>
+              <p class="project-detail">
+                Maya → Unreal export with predictable skeleton, materials, and LOD setup.
+              </p>
             </div>
           </details>
         </li>
@@ -66,10 +59,6 @@
               <span class="project-blurb">Capture clips prepared for real-time motion-matching playback.</span>
             </summary>
             <div class="project-body">
-              <p>
-                Animation sets and export paths for a motion-matching experiment — clip hygiene,
-                tagging, and engine-side playback wiring.
-              </p>
               <div
                 class="media-slot"
                 data-media-slot
@@ -79,10 +68,12 @@
                 data-alt="Motion matching prototype sample"
               >
                 <div class="media-slot__frame" data-media-frame>
-                  <div class="media-slot__placeholder">Media loads on expand</div>
+                  <div class="media-slot__placeholder" aria-hidden="true"></div>
                 </div>
-                <p class="media-slot__note">Placeholder — drop files into assets/portfolio/motion-matching/</p>
               </div>
+              <p class="project-detail">
+                Clip hygiene, tagging, and engine-side wiring for motion-matching playback.
+              </p>
             </div>
           </details>
         </li>
@@ -94,10 +85,6 @@
               <span class="project-blurb">Maya helpers for rename, curve cleanup, and batch export.</span>
             </summary>
             <div class="project-body">
-              <p>
-                Small utilities for shot work: batch rename, curve cleanup, and export helpers that
-                cut repetitive clicks.
-              </p>
               <div
                 class="media-slot"
                 data-media-slot
@@ -107,10 +94,12 @@
                 data-alt="Animation tool scripts sample"
               >
                 <div class="media-slot__frame" data-media-frame>
-                  <div class="media-slot__placeholder">Media loads on expand</div>
+                  <div class="media-slot__placeholder" aria-hidden="true"></div>
                 </div>
-                <p class="media-slot__note">Placeholder — drop files into assets/portfolio/animation-tools/</p>
               </div>
+              <p class="project-detail">
+                Shot utilities that cut repetitive rename, cleanup, and export clicks.
+              </p>
             </div>
           </details>
         </li>
@@ -122,10 +111,6 @@
               <span class="project-blurb">Asset and animation support for drone-related real-time scenes.</span>
             </summary>
             <div class="project-body">
-              <p>
-                Supported real-time scenes with drone-related assets and animation — setup, export,
-                and iteration in an Unreal-based workflow.
-              </p>
               <div
                 class="media-slot"
                 data-media-slot
@@ -135,10 +120,12 @@
                 data-alt="Realtime drone sim content sample"
               >
                 <div class="media-slot__frame" data-media-frame>
-                  <div class="media-slot__placeholder">Media loads on expand</div>
+                  <div class="media-slot__placeholder" aria-hidden="true"></div>
                 </div>
-                <p class="media-slot__note">Placeholder — drop files into assets/portfolio/drone-sim/</p>
               </div>
+              <p class="project-detail">
+                Drone assets and animation iterated inside an Unreal real-time workflow.
+              </p>
             </div>
           </details>
         </li>

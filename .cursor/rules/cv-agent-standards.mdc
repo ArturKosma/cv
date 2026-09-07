@@ -1,0 +1,57 @@
+---
+description: Core CV project standards — AAA modular design, PC+mobile parity, ask often, visual QA before push
+alwaysApply: true
+---
+
+# CV project agent standards
+
+These rules are mandatory for every proposal, edit, commit, and push in this repo.
+
+## 1. AAA modular design (source quality)
+
+Before creating, changing, proposing, or pushing anything, cross-examine it:
+
+> Is this following modular AAA design patterns?
+
+Treat source quality as first-class. Prefer:
+
+- Clear separation of concerns (structure / presentation / behavior)
+- Small, reusable modules over one-off dumps
+- Predictable naming and file layout
+- Extensible patterns (easy to add a portfolio item, section, or page without rewriting the base)
+- No fragile copy-paste duplication when a shared module would do
+- Production-minded CSS/HTML/JS: intentional, maintainable, not throwaway
+
+If a change fails that AAA modular check, redesign it before shipping.
+
+When "AAA modular" is ambiguous for a given change, ask the user before proceeding.
+
+## 2. PC + mobile parity (PC primary)
+
+- **Primary target:** desktop / PC layout and polish
+- **Required:** iPad and mobile must show the **same high visual quality**, not a degraded fallback
+- Design and implement for both from the start — never "fix later"
+- Touch targets, type scale, spacing, nav, and interactive controls must feel intentional on iPad
+- Avoid patterns that look fine on PC but break on mobile (hover-only UX, tiny hit areas, overflow, fixed desktop assumptions)
+
+## 3. Ask questions aggressively
+
+- Whenever even **slightly** unsure about intent, content, design, copy, structure, or scope — **ask**
+- Do not limit how many questions you ask; more clarity is better than guessing
+- Prefer short, concrete questions (options when helpful)
+- Do not invent portfolio entries, bio facts, job history, or visual direction when uncertain
+- Asking is required behavior, not optional politeness
+
+## 4. Visual QA before every push (hard gate)
+
+Every time you write or change UI, spend extra effort on testing. **Do not push until visual quality is verified on both PC and mobile viewports.**
+
+Minimum bar:
+
+- Main test: **visual quality parity** (PC and mobile/iPad-width)
+- Explicitly check known traps, e.g. a styled button on PC becoming a default blue underlined link on iPad/Safari
+- Verify nav, buttons, links, typography, spacing, expand/collapse, and layout at desktop width **and** iPad/mobile widths
+- Use available browser / screenshot / responsive tooling in the environment to compare
+- If you cannot verify a surface, say so and ask before pushing
+
+**Push rule:** no push of UI changes without completed visual QA for PC + mobile parity.

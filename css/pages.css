@@ -1,26 +1,30 @@
 /* Page-specific compositions — still shared tokens/components */
-.page-home {
-  height: 100dvh;
-  overflow: hidden;
-}
-
 .page-home .page {
-  height: 100dvh;
-  padding: 0;
-  display: grid;
-  place-items: center;
+  padding-top: calc(var(--nav-h) + var(--space-6));
+  padding-bottom: var(--space-7);
 }
 
-.page-home .hero {
+.home-layout {
   display: grid;
-  gap: var(--space-4);
-  max-width: 40rem;
-  padding-inline: var(--space-5);
+  grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
   animation: rise 0.7s ease-out both;
 }
 
+.identity {
+  display: grid;
+  justify-items: end;
+  text-align: right;
+  gap: var(--space-3);
+}
+
+.identity .lede {
+  max-width: 22rem;
+}
+
 .hero-brand {
-  font-size: var(--text-hero);
+  font-size: clamp(2.4rem, 5vw, 4rem);
   font-weight: 700;
   letter-spacing: -0.035em;
   line-height: 1.02;
@@ -80,14 +84,32 @@
   }
 }
 
+@media (max-width: 900px) {
+  .home-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-7);
+  }
+
+  .identity {
+    justify-items: start;
+    text-align: left;
+    order: -1;
+  }
+
+  .timeline-item {
+    grid-template-columns: 6.25rem 1fr;
+    gap: var(--space-3);
+  }
+}
+
 @media (max-width: 834px) {
   .site-header {
     padding-inline: var(--space-4);
   }
 
-  .page-portfolio .page {
+  .page-portfolio .page,
+  .page-home .page {
     width: min(100% - 2rem, 68rem);
-    padding-top: var(--space-6);
   }
 
   .project-list summary,
@@ -98,10 +120,15 @@
 
 @media (max-width: 480px) {
   .hero-brand {
-    font-size: clamp(2.35rem, 12vw, 3rem);
+    font-size: clamp(2.2rem, 11vw, 2.8rem);
   }
 
   .btn {
     min-height: 2.75rem;
+  }
+
+  .timeline-item {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
   }
 }

@@ -55,10 +55,17 @@ async function assertPage(page, path, viewport) {
     const lede = document.querySelector(".lede")?.textContent.trim() || "";
     const overflowX =
       document.documentElement.scrollWidth > document.documentElement.clientWidth + 1;
-    const homeNoScroll =
-      !document.body.classList.contains("page-home") ||
-      (document.documentElement.scrollHeight <= window.innerHeight + 1 &&
-        getComputedStyle(document.body).overflow === "hidden");
+
+    const experience = document.querySelector(".experience");
+    const identity = document.querySelector(".identity");
+    const portrait = document.querySelector(".portrait-frame");
+    const timelineItems = document.querySelectorAll(".timeline-item").length;
+    let homeSplit = true;
+    if (experience && identity && window.innerWidth > 900) {
+      const e = experience.getBoundingClientRect();
+      const i = identity.getBoundingClientRect();
+      homeSplit = e.left < i.left && i.right > window.innerWidth * 0.45;
+    }
 
     const details = [...document.querySelectorAll("details[data-project]")];
     let expandOk = true;
@@ -93,7 +100,11 @@ async function assertPage(page, path, viewport) {
       hasEyebrow: Boolean(eyebrow),
       lede,
       overflowX,
-      homeNoScroll,
+      homeSplit,
+      hasExperience: Boolean(experience),
+      hasIdentity: Boolean(identity),
+      hasPortrait: Boolean(portrait),
+      timelineItems,
       navPinnedRight,
       projectCount: details.length,
       expandOk,
@@ -122,7 +133,11 @@ async function assertPage(page, path, viewport) {
   if (path.includes("index")) {
     if (report.hasHeroTitle) fail(`${label}: golden CV label should be gone`);
     if (!report.lede.includes("Animation Engineer")) fail(`${label}: wrong home lede`);
-    if (!report.homeNoScroll) fail(`${label}: home page should not scroll`);
+    if (!report.hasExperience) fail(`${label}: missing experience timeline`);
+    if (!report.hasIdentity) fail(`${label}: missing identity block`);
+    if (!report.hasPortrait) fail(`${label}: missing photo placeholder`);
+    if (report.timelineItems < 1) fail(`${label}: timeline empty`);
+    if (!report.homeSplit) fail(`${label}: experience should sit left of identity on desktop`);
   }
 
   if (path.includes("portfolio")) {

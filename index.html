@@ -8,10 +8,10 @@
       content="Artur Kosma — Animation Engineer with passion for games."
     />
     <title>Artur Kosma</title>
-    <link rel="stylesheet" href="css/tokens.css?v=4" />
-    <link rel="stylesheet" href="css/base.css?v=4" />
-    <link rel="stylesheet" href="css/components.css?v=4" />
-    <link rel="stylesheet" href="css/pages.css?v=4" />
+    <link rel="stylesheet" href="css/tokens.css?v=5" />
+    <link rel="stylesheet" href="css/base.css?v=5" />
+    <link rel="stylesheet" href="css/components.css?v=5" />
+    <link rel="stylesheet" href="css/pages.css?v=5" />
   </head>
   <body class="page-home">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -23,10 +23,45 @@
       </nav>
     </header>
 
-    <main id="main" class="page">
-      <section class="hero" aria-labelledby="hero-name">
+    <main id="main" class="page home-layout">
+      <section class="experience" aria-labelledby="experience-heading">
+        <h2 id="experience-heading" class="section-label">Experience</h2>
+        <ol class="timeline">
+          <li class="timeline-item">
+            <time class="timeline-dates" datetime="2017/2019">2017–2019</time>
+            <div class="timeline-copy">
+              <h3 class="timeline-role">Junior Programmer</h3>
+              <p class="timeline-org">The Farm 51</p>
+            </div>
+          </li>
+          <li class="timeline-item is-placeholder">
+            <time class="timeline-dates">YYYY–YYYY</time>
+            <div class="timeline-copy">
+              <h3 class="timeline-role">Role placeholder</h3>
+              <p class="timeline-org">Company placeholder</p>
+            </div>
+          </li>
+          <li class="timeline-item is-placeholder">
+            <time class="timeline-dates">YYYY–YYYY</time>
+            <div class="timeline-copy">
+              <h3 class="timeline-role">Role placeholder</h3>
+              <p class="timeline-org">Company placeholder</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="identity" aria-labelledby="hero-name">
         <h1 id="hero-name" class="hero-brand">Artur Kosma</h1>
         <p class="lede">Animation Engineer with passion for games</p>
+        <div class="portrait">
+          <div
+            class="portrait-frame"
+            role="img"
+            aria-label="Portrait photo placeholder"
+          ></div>
+          <p class="portrait-note">Photo placeholder</p>
+        </div>
       </section>
     </main>
   </body>

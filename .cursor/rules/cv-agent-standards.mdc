@@ -1,5 +1,5 @@
 ---
-description: Core CV standards — design clarity first, Brittany Chiang portfolio-clean direction, modular shared CSS, PC+mobile parity, ask often, extensive visual QA before push
+description: Core CV standards — design clarity first, Brittany Chiang portfolio-clean direction, modular shared CSS, zero-wait lightweight media, PC+mobile parity, ask often, extensive visual QA before push
 alwaysApply: true
 ---
 
@@ -64,6 +64,27 @@ When proposing visual or structural changes, check:
 > Does this move us closer to Brittany Chiang–level portfolio clarity?
 
 Current colors/layout may stay until the user requests a restyle pass; still use this reference for new work and future redesigns.
+
+## 1c. Uber-giga-lightweight (zero wait)
+
+The site must feel **instant**. We will add large images/GIFs (especially in experience / portfolio / samples). Performance is a hard constraint on every code decision.
+
+Cross-examine every proposal:
+
+> Is this the most efficient solution that still preserves clarity and quality?
+
+Required patterns:
+
+- **Load on demand** — heavy media must not load until needed (expand open, in-viewport, click-to-play, etc.)
+- Prefer static HTML/CSS first; add JS only when it earns its weight
+- No eager giant assets on first paint; landing page stays tiny
+- Images: modern formats when possible (WebP/AVIF), correct dimensions, `loading="lazy"` / deferred decode; never ship full-res when a smaller derivative works
+- GIFs/video: do not auto-download the heavy file until the user opts in (poster/thumbnail first; play on demand)
+- Avoid heavy frameworks, big animation libraries, unused CSS/JS, and duplicate assets
+- Cache-friendly structure; minimal requests on initial load
+- Measure mentally: first contentful paint and interaction should feel immediate on PC and iPad
+
+If a feature needs heavy media and would hurt first load, redesign the loading strategy before shipping — do not “add it and optimize later.”
 
 ## 2. PC + mobile parity (PC primary)
 

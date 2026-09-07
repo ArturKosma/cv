@@ -69,6 +69,8 @@ Current colors/layout may stay until the user requests a restyle pass; still use
 
 The site must feel **instant**. We will add large images/GIFs (especially in experience / portfolio / samples). Performance is a hard constraint on every code decision.
 
+**Asset location:** media lives **in this GitHub repo** (not an external CDN). That makes lean loading even more important — do not force visitors to download the whole media library on first paint.
+
 Cross-examine every proposal:
 
 > Is this the most efficient solution that still preserves clarity and quality?
@@ -78,8 +80,10 @@ Required patterns:
 - **Load on demand** — heavy media must not load until needed (expand open, in-viewport, click-to-play, etc.)
 - Prefer static HTML/CSS first; add JS only when it earns its weight
 - No eager giant assets on first paint; landing page stays tiny
+- Keep a clear `assets/` (or similar) layout; reference paths consistently; avoid duplicating the same binary
 - Images: modern formats when possible (WebP/AVIF), correct dimensions, `loading="lazy"` / deferred decode; never ship full-res when a smaller derivative works
 - GIFs/video: do not auto-download the heavy file until the user opts in (poster/thumbnail first; play on demand)
+- Prefer lighter motion formats when quality allows (e.g. compressed MP4/WebM over huge GIFs), unless the user requires GIF
 - Avoid heavy frameworks, big animation libraries, unused CSS/JS, and duplicate assets
 - Cache-friendly structure; minimal requests on initial load
 - Measure mentally: first contentful paint and interaction should feel immediate on PC and iPad

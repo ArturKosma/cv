@@ -82,11 +82,33 @@ Required patterns:
 - No eager giant assets on first paint; landing page stays tiny
 - Keep a clear `assets/` (or similar) layout; reference paths consistently; avoid duplicating the same binary
 - Images: modern formats when possible (WebP/AVIF), correct dimensions, `loading="lazy"` / deferred decode; never ship full-res when a smaller derivative works
+- Motion: choose the **lightest format that does not compromise quality** (usually compressed MP4/WebM over huge GIFs; use GIF only when it is truly the better quality/fit)
 - GIFs/video: do not auto-download the heavy file until the user opts in (poster/thumbnail first; play on demand)
-- Prefer lighter motion formats when quality allows (e.g. compressed MP4/WebM over huge GIFs), unless the user requires GIF
 - Avoid heavy frameworks, big animation libraries, unused CSS/JS, and duplicate assets
 - Cache-friendly structure; minimal requests on initial load
 - Measure mentally: first contentful paint and interaction should feel immediate on PC and iPad
+
+### In-repo asset layout (modular)
+
+```
+assets/
+  portfolio/<project-slug>/
+    thumb.webp      # tiny list/card preview (always cheap)
+    poster.webp     # still frame before play (on-demand section)
+    media.mp4       # primary motion (preferred when quality holds)
+    media.webm      # optional alt
+    media.gif       # only if required / quality-better than video
+  experience/<item-slug>/   # same pattern when needed
+  samples/<item-slug>/      # same pattern when needed
+  shared/                   # site-wide icons/logos sparingly
+```
+
+Rules for that tree:
+
+- One folder per item (`slug`); no dumped flat megabytes in one directory
+- Always ship a lightweight `thumb` (and `poster` for motion) before the heavy `media.*`
+- Never reference full `media.*` on first paint of landing or closed accordion rows
+- Keep naming consistent so new items are drop-in modules
 
 If a feature needs heavy media and would hurt first load, redesign the loading strategy before shipping — do not “add it and optimize later.”
 

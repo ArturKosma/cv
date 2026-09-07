@@ -114,7 +114,7 @@
 
   .project-list summary,
   .project-body {
-    padding-right: 1.75rem;
+    padding-right: var(--space-4);
   }
 }
 

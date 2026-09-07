@@ -173,37 +173,47 @@
   list-style: none;
   display: grid;
   gap: var(--space-2);
-  padding: var(--space-5) 2.25rem var(--space-5) 0;
+  padding: var(--space-5) var(--space-5) var(--space-5) var(--space-4);
+  margin-inline: calc(var(--space-4) * -1);
+  width: calc(100% + var(--space-4) * 2);
   position: relative;
   cursor: pointer;
+  border-radius: 2px;
+  transition: background var(--ease);
 }
 
 .project-list summary::-webkit-details-marker {
   display: none;
 }
 
+/* Chevron: small V that rotates when open */
 .project-list summary::after {
-  content: "+";
+  content: "";
   position: absolute;
-  right: 0;
-  top: var(--space-5);
-  color: var(--accent);
-  font-size: 1.25rem;
-  line-height: 1;
+  right: var(--space-4);
+  top: calc(var(--space-5) + 0.35rem);
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 1.5px solid var(--accent);
+  border-bottom: 1.5px solid var(--accent);
+  transform: rotate(45deg);
+  transition: transform var(--ease);
 }
 
 .project-list details[open] summary::after {
-  content: "–";
+  top: calc(var(--space-5) + 0.55rem);
+  transform: rotate(225deg);
 }
 
 .project-list summary:hover {
-  background: rgba(232, 236, 233, 0.03);
+  background: rgba(232, 236, 233, 0.045);
 }
 
 .project-name {
   font-size: var(--text-lg);
   font-weight: 650;
   letter-spacing: -0.015em;
+  padding-right: var(--space-5);
 }
 
 .project-blurb {
@@ -211,10 +221,11 @@
   color: var(--muted);
   font-size: var(--text-sm);
   line-height: 1.5;
+  padding-right: var(--space-5);
 }
 
 .project-body {
-  padding: 0 2.25rem var(--space-5) 0;
+  padding: 0 var(--space-4) var(--space-5);
 }
 
 .media-slot {

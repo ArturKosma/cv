@@ -78,11 +78,24 @@ async function assertPage(page, path, viewport) {
       const detail = details[0].querySelector(".project-detail");
       const media = details[0].querySelector(".media-slot");
       const blurb = details[0].querySelector(".project-blurb");
+      const summary = details[0].querySelector("summary");
       const blurbVisible = blurb && getComputedStyle(blurb).display !== "none";
+      const after = summary ? getComputedStyle(summary, "::after") : null;
+      const chevronOk =
+        Boolean(after) &&
+        after.content !== '"+"' &&
+        after.content !== '"–"' &&
+        after.content !== '"-"';
+      const summaryBox = summary ? summary.getBoundingClientRect() : null;
+      const listBox = document.querySelector(".project-list")?.getBoundingClientRect();
+      const wideHover =
+        Boolean(summaryBox && listBox) && summaryBox.width >= listBox.width - 2;
       layoutOk = Boolean(body && media);
       blurbStays = Boolean(blurbVisible);
       noExtraDetail = !detail;
       expandOk = details[0].open === true;
+      details[0].dataset._chevronOk = chevronOk ? "1" : "0";
+      details[0].dataset._wideHover = wideHover ? "1" : "0";
       details[0].open = false;
       if (details[0].open !== false) expandOk = false;
     }
@@ -92,6 +105,7 @@ async function assertPage(page, path, viewport) {
     const navPinnedRight =
       Boolean(navBox) && navBox.right >= window.innerWidth - 48 && navBox.left > window.innerWidth * 0.4;
 
+    const firstDetails = document.querySelector("details[data-project]");
     return {
       btnCount: btns.length,
       btns,
@@ -111,6 +125,8 @@ async function assertPage(page, path, viewport) {
       layoutOk,
       blurbStays,
       noExtraDetail,
+      chevronOk: firstDetails?.dataset._chevronOk === "1",
+      wideHover: firstDetails?.dataset._wideHover === "1",
       hasSkip: Boolean(document.querySelector(".skip-link")),
       hasMain: Boolean(document.querySelector("#main")),
     };
@@ -147,6 +163,8 @@ async function assertPage(page, path, viewport) {
     if (!report.layoutOk) fail(`${label}: expand layout missing media`);
     if (!report.blurbStays) fail(`${label}: short description must stay visible when expanded`);
     if (!report.noExtraDetail) fail(`${label}: expand must not add a second description`);
+    if (!report.chevronOk) fail(`${label}: expand control should be a chevron, not +/-`);
+    if (!report.wideHover) fail(`${label}: portfolio row hover/hit area should span list width`);
   }
 
   return report;

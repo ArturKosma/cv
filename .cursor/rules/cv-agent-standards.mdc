@@ -59,6 +59,7 @@ Patterns to follow from that direction:
 - Shared design system across the whole site (no per-page style drift)
 - Prefer lists and scannable blocks over long prose walls
 - Subtle polish (hover/focus) over flashy motion
+- **Portfolio row hover = accent-only (option A):** title color → accent, chevron brightens; **no background wash / no full-row highlight**
 
 When proposing visual or structural changes, check:
 

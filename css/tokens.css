@@ -1,0 +1,31 @@
+/* Design tokens — shared across every page */
+:root {
+  --bg: #0f1412;
+  --bg-elevated: #151b18;
+  --fg: #e8ece9;
+  --muted: #9aa89f;
+  --accent: #c4a35a;
+  --accent-soft: rgba(196, 163, 90, 0.16);
+  --line: rgba(232, 236, 233, 0.12);
+  --focus: #e8ece9;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.9rem;
+  --text-md: 1.05rem;
+  --text-lg: 1.25rem;
+  --text-xl: clamp(1.75rem, 4vw, 2.5rem);
+  --text-hero: clamp(2.75rem, 8vw, 4.75rem);
+  --measure: 40rem;
+  --nav-h: 3.75rem;
+  --font: "Segoe UI", "Helvetica Neue", sans-serif;
+  --ease: 160ms ease;
+  --glow: radial-gradient(ellipse 80% 50% at 15% 0%, #1c2a22 0%, transparent 55%),
+    radial-gradient(ellipse 55% 40% at 95% 85%, #1a2228 0%, transparent 50%);
+}

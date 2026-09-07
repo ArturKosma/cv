@@ -1,0 +1,100 @@
+/* Page-specific compositions — still shared tokens/components */
+.page-home .hero {
+  min-height: calc(100vh - var(--nav-h) - 6rem);
+  display: grid;
+  align-content: center;
+  gap: var(--space-4);
+  max-width: 40rem;
+  animation: rise 0.7s ease-out both;
+}
+
+.hero-brand {
+  font-size: var(--text-hero);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+
+.hero-title {
+  font-size: var(--text-xs);
+  font-weight: 650;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.page-portfolio .portfolio-intro {
+  display: grid;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+  animation: rise 0.65s ease-out both;
+}
+
+.page-portfolio .portfolio-title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.page-portfolio .project-list > li:nth-child(1) details {
+  animation: fade 0.55s ease-out both;
+}
+
+.page-portfolio .project-list > li:nth-child(2) details {
+  animation: fade 0.55s ease-out 0.06s both;
+}
+
+.page-portfolio .project-list > li:nth-child(3) details {
+  animation: fade 0.55s ease-out 0.12s both;
+}
+
+.page-portfolio .project-list > li:nth-child(4) details {
+  animation: fade 0.55s ease-out 0.18s both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 834px) {
+  .site-header {
+    padding-inline: var(--space-4);
+  }
+
+  .page {
+    width: min(100% - 2rem, 68rem);
+    padding-top: var(--space-6);
+  }
+
+  .project-list summary,
+  .project-body {
+    padding-right: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-brand {
+    font-size: clamp(2.35rem, 12vw, 3rem);
+  }
+
+  .btn {
+    min-height: 2.75rem;
+  }
+}

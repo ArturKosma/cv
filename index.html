@@ -3,17 +3,32 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Artur Kosma — technical artist CV. Animation, tools, and real-time pipelines."
+    />
     <title>Artur Kosma</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/pages.css" />
   </head>
   <body class="page-home">
-    <header class="site-nav">
-      <a class="nav-btn" href="portfolio.html">Portfolio</a>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <a class="brand-link" href="index.html" aria-current="page">Artur Kosma</a>
+      <nav class="nav-actions" aria-label="Primary">
+        <a class="btn" href="portfolio.html">Portfolio</a>
+      </nav>
     </header>
-    <main>
-      <p class="brand">Artur Kosma</p>
-      <h1>CV</h1>
-      <p class="lede">Technical artist — animation, tools, and real-time pipelines.</p>
+
+    <main id="main" class="page">
+      <section class="hero" aria-labelledby="hero-name">
+        <p class="hero-title">CV</p>
+        <h1 id="hero-name" class="hero-brand">Artur Kosma</h1>
+        <p class="lede">Technical artist — animation, tools, and real-time pipelines.</p>
+      </section>
     </main>
   </body>
 </html>

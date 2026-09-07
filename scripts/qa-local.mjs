@@ -157,7 +157,9 @@ async function assertPage(page, path, viewport) {
     const nav = document.querySelector(".nav-actions");
     const navBox = nav ? nav.getBoundingClientRect() : null;
     const navPinnedRight =
-      Boolean(navBox) && navBox.right >= window.innerWidth - 48 && navBox.left > window.innerWidth * 0.4;
+      Boolean(navBox) &&
+      navBox.right >= window.innerWidth - 48 &&
+      navBox.left > window.innerWidth * 0.3;
     const pageTitle = document.querySelector(".portfolio-title");
 
     const firstDetails = document.querySelector("details[data-project]");
@@ -198,9 +200,10 @@ async function assertPage(page, path, viewport) {
   if (!report.hasSkip) fail(`${label}: missing skip link`);
   if (!report.hasMain) fail(`${label}: missing #main`);
   if (report.hasBrand) fail(`${label}: brand link should be removed`);
-  if (report.btnCount < 2) fail(`${label}: expected Home + Samples buttons`);
-  if (report.btns[0].text !== "Home") fail(`${label}: Home should be leftmost nav button`);
-  if (report.btns[1].text !== "Samples") fail(`${label}: Samples should follow Home`);
+  if (report.btnCount < 2) fail(`${label}: expected Experience + Samples buttons`);
+  if (report.btns[0].text !== "Experience")
+    fail(`${label}: Experience should be leftmost nav button`);
+  if (report.btns[1].text !== "Samples") fail(`${label}: Samples should follow Experience`);
   if (!report.navPinnedRight) fail(`${label}: nav buttons must be pinned top-right`);
   for (const btn of report.btns) {
     if (!btn.display.includes("flex")) fail(`${label}: ${btn.text} display=${btn.display}`);
@@ -215,7 +218,7 @@ async function assertPage(page, path, viewport) {
     if (!report.hasExperience) fail(`${label}: missing experience timeline`);
     if (!report.hasIdentity) fail(`${label}: missing identity block`);
     if (!report.hasPortrait) fail(`${label}: missing photo placeholder`);
-    if (report.timelineItems < 1) fail(`${label}: timeline empty`);
+    if (report.timelineItems < 4) fail(`${label}: expected 4 timeline items`);
     if (!report.timelineExpandable) fail(`${label}: timeline items must be expandable`);
     if (!report.timelineGrew) fail(`${label}: opening a timeline record must expand it`);
     if (!report.timelineLineSpans)
@@ -268,15 +271,61 @@ async function main() {
       page.waitForNavigation({ waitUntil: "networkidle0" }),
       page.click('a.btn[href="index.html"]'),
     ]);
-    if (!page.url().includes("index.html")) fail("nav: Home click failed");
+    if (!page.url().includes("index.html")) fail("nav: Experience click failed");
 
     await page.goto(`${BASE}/samples.html`, { waitUntil: "networkidle0" });
-    await page.waitForFunction(() => {
+    const mediaBehavior = await page.evaluate(async () => {
       const details = document.querySelector("details[data-project]");
       details.open = true;
-      const slot = details.querySelector("[data-media-slot]");
-      return slot && slot.dataset.loaded === "true";
-    }, { timeout: 3000 });
+      await new Promise((r) => {
+        const start = performance.now();
+        const tick = () => {
+          const slot = details.querySelector("[data-media-slot]");
+          if (slot && slot.dataset.loaded === "true") return r();
+          if (performance.now() - start > 2500) return r();
+          requestAnimationFrame(tick);
+        };
+        tick();
+      });
+      const videos = [...details.querySelectorAll(".media-slot__frame video")];
+      return {
+        count: videos.length,
+        allLoop: videos.every((v) => v.loop),
+        allMuted: videos.every((v) => v.muted),
+        noControls: videos.every((v) => !v.controls),
+        pointerNone: videos.every(
+          (v) => getComputedStyle(v).pointerEvents === "none"
+        ),
+        loaded: details.querySelector("[data-media-slot]")?.dataset.loaded === "true",
+      };
+    });
+    if (!mediaBehavior.loaded) fail("mediaOnDemand: slot did not load");
+    if (mediaBehavior.count < 1) fail("mediaOnDemand: no expand videos");
+    if (!mediaBehavior.allLoop) fail("mediaOnDemand: expand videos must loop");
+    if (!mediaBehavior.allMuted) fail("mediaOnDemand: expand videos must be muted");
+    if (!mediaBehavior.noControls) fail("mediaOnDemand: expand videos must have no controls");
+    if (!mediaBehavior.pointerNone)
+      fail("mediaOnDemand: expand videos must not accept pointer interaction");
+
+    await page.goto(`${BASE}/index.html`, { waitUntil: "networkidle0" });
+    const experienceCopy = await page.evaluate(() =>
+      [...document.querySelectorAll(".timeline-item")].map((li) => ({
+        dates: li.querySelector(".timeline-dates")?.textContent.trim() || "",
+        org: li.querySelector(".timeline-org")?.textContent.trim() || "",
+        role: li.querySelector(".timeline-role")?.textContent.trim() || "",
+        detail: li.querySelector(".timeline-detail")?.textContent.trim() || "",
+      }))
+    );
+    if (experienceCopy.length !== 4) fail("experience: expected 4 roles");
+    if (experienceCopy[0].dates !== "2026–Present") fail("experience: newest role should be first");
+    if (!experienceCopy[0].role.includes("Rescue Drone Simulator"))
+      fail("experience: current role/project missing");
+    if (!experienceCopy[3].role.includes("Junior Programmer"))
+      fail("experience: junior role missing at end");
+    if (!experienceCopy.every((i) => i.org === "The Farm 51"))
+      fail("experience: all entries should be The Farm 51");
+    if (!experienceCopy.every((i) => i.detail.length > 40))
+      fail("experience: each entry needs real detail copy");
 
     console.log(
       JSON.stringify(
@@ -285,6 +334,7 @@ async function main() {
           viewports: VIEWPORTS.map((v) => v.name),
           nav: "PASS",
           mediaOnDemand: "PASS",
+          experience: "PASS",
         },
         null,
         2

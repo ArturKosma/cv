@@ -35,7 +35,7 @@ Meaning for this repo:
 
 - **Shared CSS is mandatory** — one design system / stylesheet modules reused across pages
 - **Never** invent different one-off styles per subpage that drift from the system
-- **Identical site chrome on every page** — same header markup and placement (Home + Samples, top-right only). No per-page brand link, no left-nav on one page and right-nav on another
+- **Identical site chrome on every page** — same header markup and placement (Experience + Samples, top-right only). No per-page brand link, no left-nav on one page and right-nav on another
 - Structure / presentation / behavior stay separated and reusable
 - Predictable file layout; easy to add a page or portfolio item without rewriting the base
 - No copy-paste CSS/HTML duplication when a shared class or partial pattern would do
@@ -147,7 +147,7 @@ UI changes require **super extensive** testing. Agent viewport testing is enough
 
 ### Surfaces to verify on each viewport
 - Landing page and every subpage touched
-- Top nav / Portfolio button / home link — must look like intentional controls, **never** default blue underlined browser links
+- Top nav / Experience + Samples — must look like intentional controls, **never** default blue underlined browser links
 - Typography hierarchy, spacing rhythm, overflow, wrapping
 - Expand/collapse (portfolio details): open + closed states
 - Focus/keyboard affordances where relevant

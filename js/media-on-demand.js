@@ -1,6 +1,7 @@
 /**
  * On-demand media loader for portfolio/experience slots.
- * Heavy media.* files load only after <details> opens (or explicit play).
+ * Heavy media.* files load only after <details> opens.
+ * Expand videos autoplay muted in a loop — no player chrome or interaction.
  */
 (function () {
   function loadSlot(slot) {
@@ -33,12 +34,24 @@
       frame.appendChild(img);
     } else {
       const video = document.createElement("video");
-      video.controls = true;
+      video.controls = false;
+      video.muted = true;
+      video.loop = true;
+      video.autoplay = true;
       video.playsInline = true;
-      video.preload = "none";
+      video.preload = "metadata";
+      video.setAttribute("muted", "");
+      video.setAttribute("playsinline", "");
+      video.setAttribute("aria-hidden", "true");
+      video.tabIndex = -1;
+      video.disablePictureInPicture = true;
+      video.disableRemotePlayback = true;
       if (poster) video.poster = poster;
       video.src = src;
+      video.addEventListener("contextmenu", (e) => e.preventDefault());
       frame.appendChild(video);
+      const play = video.play();
+      if (play && typeof play.catch === "function") play.catch(() => {});
     }
 
     slot.dataset.loaded = "true";

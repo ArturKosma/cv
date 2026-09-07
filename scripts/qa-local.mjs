@@ -84,6 +84,11 @@ async function assertPage(page, path, viewport) {
       if (details[0].open !== false) expandOk = false;
     }
 
+    const nav = document.querySelector(".nav-actions");
+    const navBox = nav ? nav.getBoundingClientRect() : null;
+    const navPinnedRight =
+      Boolean(navBox) && navBox.right >= window.innerWidth - 48 && navBox.left > window.innerWidth * 0.4;
+
     return {
       btnCount: btns.length,
       btns,
@@ -93,6 +98,7 @@ async function assertPage(page, path, viewport) {
       lede,
       overflowX,
       homeNoScroll,
+      navPinnedRight,
       projectCount: details.length,
       expandOk,
       layoutOk,
@@ -109,6 +115,7 @@ async function assertPage(page, path, viewport) {
   if (report.btnCount < 2) fail(`${label}: expected Home + Portfolio buttons`);
   if (report.btns[0].text !== "Home") fail(`${label}: Home should be leftmost nav button`);
   if (report.btns[1].text !== "Portfolio") fail(`${label}: Portfolio should follow Home`);
+  if (!report.navPinnedRight) fail(`${label}: nav buttons must be pinned top-right`);
   for (const btn of report.btns) {
     if (!btn.display.includes("flex")) fail(`${label}: ${btn.text} display=${btn.display}`);
     if (btn.decoration.includes("underline")) fail(`${label}: ${btn.text} underlined`);

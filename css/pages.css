@@ -4,11 +4,6 @@
   overflow: hidden;
 }
 
-.page-home .site-header {
-  position: fixed;
-  inset: 0 0 auto 0;
-}
-
 .page-home .page {
   height: 100dvh;
   padding: 0;
@@ -29,6 +24,10 @@
   font-weight: 700;
   letter-spacing: -0.035em;
   line-height: 1.02;
+}
+
+.page-portfolio .page {
+  padding-top: calc(var(--nav-h) + var(--space-6));
 }
 
 .page-portfolio .portfolio-intro {

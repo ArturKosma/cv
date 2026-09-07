@@ -59,13 +59,40 @@ async function assertPage(page, path, viewport) {
     const experience = document.querySelector(".experience");
     const identity = document.querySelector(".identity");
     const portrait = document.querySelector(".portrait-frame");
-    const timelineItems = document.querySelectorAll(".timeline-item").length;
+    const timeline = document.querySelector(".timeline");
+    const timelineItems = [...document.querySelectorAll(".timeline-item")];
     let homeSplit = true;
     if (experience && identity && window.innerWidth > 900) {
       const e = experience.getBoundingClientRect();
       const i = identity.getBoundingClientRect();
       homeSplit = e.left < i.left && i.right > window.innerWidth * 0.45;
     }
+
+    let timelineExpandable = true;
+    let timelineGrew = true;
+    let timelineLineSpans = true;
+    if (timelineItems.length) {
+      const first = timelineItems[0];
+      const details = first.querySelector("details");
+      timelineExpandable = Boolean(details);
+      if (details) {
+        const beforeH = first.getBoundingClientRect().height;
+        const beforeLineH = timeline ? timeline.getBoundingClientRect().height : 0;
+        details.open = true;
+        const afterH = first.getBoundingClientRect().height;
+        const afterLineH = timeline ? timeline.getBoundingClientRect().height : 0;
+        const body = details.querySelector(".timeline-body");
+        const bodyVisible = body && getComputedStyle(body).display !== "none";
+        timelineGrew = afterH > beforeH + 16 && bodyVisible;
+        timelineLineSpans = afterLineH > beforeLineH + 16;
+        details.open = false;
+      }
+    }
+
+    const projectList = document.querySelector(".project-list");
+    const projectListTopBorder = projectList
+      ? getComputedStyle(projectList).borderTopWidth
+      : null;
 
     const details = [...document.querySelectorAll("details[data-project]")];
     let expandOk = true;
@@ -147,7 +174,11 @@ async function assertPage(page, path, viewport) {
       hasExperience: Boolean(experience),
       hasIdentity: Boolean(identity),
       hasPortrait: Boolean(portrait),
-      timelineItems,
+      timelineItems: timelineItems.length,
+      timelineExpandable,
+      timelineGrew,
+      timelineLineSpans,
+      projectListTopBorder,
       navPinnedRight,
       projectCount: details.length,
       expandOk,
@@ -185,11 +216,17 @@ async function assertPage(page, path, viewport) {
     if (!report.hasIdentity) fail(`${label}: missing identity block`);
     if (!report.hasPortrait) fail(`${label}: missing photo placeholder`);
     if (report.timelineItems < 1) fail(`${label}: timeline empty`);
+    if (!report.timelineExpandable) fail(`${label}: timeline items must be expandable`);
+    if (!report.timelineGrew) fail(`${label}: opening a timeline record must expand it`);
+    if (!report.timelineLineSpans)
+      fail(`${label}: vertical timeline line must grow with expanded records`);
     if (!report.homeSplit) fail(`${label}: experience should sit left of identity on desktop`);
   }
 
   if (path.includes("samples")) {
     if (report.hasPageTitle) fail(`${label}: big Samples/Portfolio page title should be removed`);
+    if (report.projectListTopBorder !== "0px")
+      fail(`${label}: samples list must not have a top horizontal line`);
     if (report.projectCount < 1) fail(`${label}: no sample items`);
     if (!report.hasThumb) fail(`${label}: collapsed row must include a video thumb`);
     if (!report.expandOk) fail(`${label}: expand/collapse failed`);

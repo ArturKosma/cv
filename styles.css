@@ -1,0 +1,88 @@
+:root {
+  --bg: #0f1412;
+  --fg: #e8ece9;
+  --muted: #9aa89f;
+  --accent: #c4a35a;
+  --glow: radial-gradient(ellipse 80% 50% at 20% 0%, #1c2a22 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 90% 80%, #1a2228 0%, transparent 50%);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+  background-image: var(--glow);
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+}
+
+main {
+  max-width: 36rem;
+  animation: rise 0.8s ease-out both;
+}
+
+.brand {
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 1.25rem;
+}
+
+h1 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.85rem;
+  animation: fade 1s ease-out 0.2s both;
+}
+
+.lede {
+  font-size: 1.1rem;
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 28rem;
+  animation: fade 1s ease-out 0.35s both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+  }
+}

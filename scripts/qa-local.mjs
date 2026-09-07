@@ -309,23 +309,56 @@ async function main() {
 
     await page.goto(`${BASE}/index.html`, { waitUntil: "networkidle0" });
     const experienceCopy = await page.evaluate(() =>
-      [...document.querySelectorAll(".timeline-item")].map((li) => ({
-        dates: li.querySelector(".timeline-dates")?.textContent.trim() || "",
-        org: li.querySelector(".timeline-org")?.textContent.trim() || "",
-        role: li.querySelector(".timeline-role")?.textContent.trim() || "",
-        detail: li.querySelector(".timeline-detail")?.textContent.trim() || "",
-      }))
+      [...document.querySelectorAll(".timeline-item")].map((li) => {
+        const role = li.querySelector(".timeline-role");
+        const project = li.querySelector(".timeline-project");
+        const org = li.querySelector(".timeline-org");
+        const roleStyle = role ? getComputedStyle(role) : null;
+        const projectStyle = project ? getComputedStyle(project) : null;
+        const orgStyle = org ? getComputedStyle(org) : null;
+        return {
+          dates: li.querySelector(".timeline-dates")?.textContent.trim() || "",
+          org: org?.textContent.trim() || "",
+          role: role?.textContent.trim() || "",
+          project: project?.textContent.trim() || "",
+          detail: li.querySelector(".timeline-detail")?.textContent.trim() || "",
+          orgSize: orgStyle ? Number.parseFloat(orgStyle.fontSize) : 0,
+          roleSize: roleStyle ? Number.parseFloat(roleStyle.fontSize) : 0,
+          projectSize: projectStyle ? Number.parseFloat(projectStyle.fontSize) : 0,
+          roleColor: roleStyle?.color || "",
+          projectColor: projectStyle?.color || "",
+          orgColor: orgStyle?.color || "",
+        };
+      })
     );
     if (experienceCopy.length !== 4) fail("experience: expected 4 roles");
     if (experienceCopy[0].dates !== "2026–Present") fail("experience: newest role should be first");
-    if (!experienceCopy[0].role.includes("Rescue Drone Simulator"))
-      fail("experience: current role/project missing");
-    if (!experienceCopy[3].role.includes("Junior Programmer"))
+    if (experienceCopy[0].project !== "Rescue Drone Simulator")
+      fail("experience: current project missing");
+    if (experienceCopy[2].project !== "Chernobylite 1")
+      fail("experience: 2019–2021 must be Chernobylite 1");
+    if (experienceCopy[3].project !== "Chernobylite 1")
+      fail("experience: 2017–2019 must be Chernobylite 1");
+    if (experienceCopy[3].role !== "Junior Programmer")
       fail("experience: junior role missing at end");
     if (!experienceCopy.every((i) => i.org === "The Farm 51"))
       fail("experience: all entries should be The Farm 51");
     if (!experienceCopy.every((i) => i.detail.length > 40))
       fail("experience: each entry needs real detail copy");
+    if (
+      !experienceCopy.every(
+        (i) => i.roleSize < i.orgSize - 1 && i.projectSize <= i.roleSize + 0.5
+      )
+    ) {
+      fail("experience: role/project must be smaller than company");
+    }
+    if (
+      !experienceCopy.every(
+        (i) => i.roleColor !== i.orgColor && i.projectColor !== i.orgColor
+      )
+    ) {
+      fail("experience: role/project must use a different color from company");
+    }
 
     console.log(
       JSON.stringify(

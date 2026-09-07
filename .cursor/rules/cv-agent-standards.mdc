@@ -1,5 +1,5 @@
 ---
-description: Core CV project standards — AAA modular design, PC+mobile parity, ask often, visual QA before push
+description: Core CV standards — design clarity first, modular shared CSS, PC+mobile parity, ask often, extensive visual QA before push
 alwaysApply: true
 ---
 
@@ -7,51 +7,81 @@ alwaysApply: true
 
 These rules are mandatory for every proposal, edit, commit, and push in this repo.
 
-## 1. AAA modular design (source quality)
+## 0. DESIGN CLARITY ABOVE ALL (most important)
+
+**Clarity beats everything else** — aesthetics, cleverness, density, decoration.
+
+- Cleanness of the site is the #1 product goal
+- Least amount of text that still communicates; no chaos, no clutter, no competing focal points
+- One clear hierarchy per view; whitespace over boxes; restraint over ornament
+- A person using a screen reader (or otherwise reading without sighted layout cues) must be able to understand **all** content without friction
+- Prefer semantic HTML (`header`, `nav`, `main`, `h1`–`h3`, lists, `button`/`a` correctly), meaningful link text, labels, and logical reading order
+- Strong contrast, readable type size, clear focus states — accessibility is part of clarity, not an afterthought
+- If a design choice adds noise without aiding understanding, remove it
+
+Cross-examine every change:
+
+> Is this the clearest possible version?
+
+If not, simplify before shipping.
+
+## 1. AAA modular design = general software modularity
 
 Before creating, changing, proposing, or pushing anything, cross-examine it:
 
-> Is this following modular AAA design patterns?
+> Is this following modular, production-quality software design?
 
-Treat source quality as first-class. Prefer:
+Meaning for this repo:
 
-- Clear separation of concerns (structure / presentation / behavior)
-- Small, reusable modules over one-off dumps
-- Predictable naming and file layout
-- Extensible patterns (easy to add a portfolio item, section, or page without rewriting the base)
-- No fragile copy-paste duplication when a shared module would do
-- Production-minded CSS/HTML/JS: intentional, maintainable, not throwaway
+- **Shared CSS is mandatory** — one design system / stylesheet modules reused across pages
+- **Never** invent different one-off styles per subpage that drift from the system
+- Structure / presentation / behavior stay separated and reusable
+- Predictable file layout; easy to add a page or portfolio item without rewriting the base
+- No copy-paste CSS/HTML duplication when a shared class or partial pattern would do
+- Clean code above clever code
 
-If a change fails that AAA modular check, redesign it before shipping.
-
-When "AAA modular" is ambiguous for a given change, ask the user before proceeding.
+Mirror what people treat as “perfect clean design”: clarity, hierarchy, restraint, consistency, accessibility — not visual noise.
 
 ## 2. PC + mobile parity (PC primary)
 
 - **Primary target:** desktop / PC layout and polish
 - **Required:** iPad and mobile must show the **same high visual quality**, not a degraded fallback
-- Design and implement for both from the start — never "fix later"
-- Touch targets, type scale, spacing, nav, and interactive controls must feel intentional on iPad
-- Avoid patterns that look fine on PC but break on mobile (hover-only UX, tiny hit areas, overflow, fixed desktop assumptions)
+- Design both from the start — never “fix later”
+- Touch targets, type, spacing, nav, and controls must feel intentional on iPad
+- Avoid hover-only UX, tiny hit areas, overflow, or desktop-only assumptions
 
 ## 3. Ask questions aggressively
 
-- Whenever even **slightly** unsure about intent, content, design, copy, structure, or scope — **ask**
-- Do not limit how many questions you ask; more clarity is better than guessing
+- Whenever even **slightly** unsure — **ask**
+- No limit on how many questions; more is better than guessing
 - Prefer short, concrete questions (options when helpful)
-- Do not invent portfolio entries, bio facts, job history, or visual direction when uncertain
-- Asking is required behavior, not optional politeness
+- Do not invent portfolio facts, bio, jobs, or major visual direction when uncertain
+- **Portfolio placeholders stay until the user replaces them** — do not delete or rewrite with fake “real” entries unless asked
 
-## 4. Visual QA before every push (hard gate)
+## 4. Extensive visual QA before every push (hard gate)
 
-Every time you write or change UI, spend extra effort on testing. **Do not push until visual quality is verified on both PC and mobile viewports.**
+UI changes require **super extensive** testing. Agent viewport testing is enough (user is not required to re-check on device), but the bar is high.
 
-Minimum bar:
+**Do not push UI until all of the below pass** at minimum:
 
-- Main test: **visual quality parity** (PC and mobile/iPad-width)
-- Explicitly check known traps, e.g. a styled button on PC becoming a default blue underlined link on iPad/Safari
-- Verify nav, buttons, links, typography, spacing, expand/collapse, and layout at desktop width **and** iPad/mobile widths
-- Use available browser / screenshot / responsive tooling in the environment to compare
-- If you cannot verify a surface, say so and ask before pushing
+### Viewports (test all)
+- Desktop wide (~1440px)
+- Desktop medium (~1280px)
+- iPad landscape (~1024–1180px)
+- iPad portrait (~768–834px)
+- Mobile (~390px)
 
-**Push rule:** no push of UI changes without completed visual QA for PC + mobile parity.
+### Surfaces to verify on each viewport
+- Landing page and every subpage touched
+- Top nav / Portfolio button / home link — must look like intentional controls, **never** default blue underlined browser links
+- Typography hierarchy, spacing rhythm, overflow, wrapping
+- Expand/collapse (portfolio details): open + closed states
+- Focus/keyboard affordances where relevant
+- Contrast and readability of brand, body, muted text, accents
+
+### Method
+- Use browser + screenshots (or equivalent) in this environment
+- Compare PC vs iPad/mobile captures side by side mentally against clarity + parity rules
+- Call out any residual risk before push; if blocked, ask — do not push blind
+
+**Push rule:** no UI push without completed extensive visual QA evidence (screenshots / recorded checks).

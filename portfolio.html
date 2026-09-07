@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio — Artur Kosma</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="page-portfolio">
+    <header class="site-nav">
+      <a class="nav-home" href="index.html">Artur Kosma</a>
+      <span class="nav-btn is-current" aria-current="page">Portfolio</span>
+    </header>
+
+    <main class="portfolio">
+      <p class="eyebrow">Selected work</p>
+      <h1 class="portfolio-title">Portfolio</h1>
+      <p class="lede">Projects across animation, real-time pipelines, and tools. Tap a title to expand.</p>
+
+      <ul class="project-list">
+        <li>
+          <details>
+            <summary>
+              <span class="project-name">MetaHuman export pipeline</span>
+              <span class="project-blurb">Automated character export from Maya into Unreal with consistent naming and LODs.</span>
+            </summary>
+            <div class="project-body">
+              <p>
+                Built tooling around MetaHuman / Maya export so characters land in Unreal with predictable
+                skeleton, materials, and LOD setup. Reduced hand fixes between DCC and engine.
+              </p>
+            </div>
+          </details>
+        </li>
+        <li>
+          <details>
+            <summary>
+              <span class="project-name">Motion matching prototype</span>
+              <span class="project-blurb">Explored motion-matching data flow from capture clips into a real-time player.</span>
+            </summary>
+            <div class="project-body">
+              <p>
+                Prepared animation sets and export paths for a motion-matching experiment, focusing on clip
+                hygiene, tagging, and engine-side playback wiring.
+              </p>
+            </div>
+          </details>
+        </li>
+        <li>
+          <details>
+            <summary>
+              <span class="project-name">Animation tool scripts</span>
+              <span class="project-blurb">Maya helpers for rename, curve cleanup, and batch export on production shots.</span>
+            </summary>
+            <div class="project-body">
+              <p>
+                Small utilities for day-to-day animation work: batch rename, curve cleanup, and export
+                helpers aimed at cutting repetitive clicks on shot work.
+              </p>
+            </div>
+          </details>
+        </li>
+        <li>
+          <details>
+            <summary>
+              <span class="project-name">Realtime drone / sim content</span>
+              <span class="project-blurb">Asset and animation support for drone-related real-time scenes.</span>
+            </summary>
+            <div class="project-body">
+              <p>
+                Supported real-time scenes with drone-related assets and animation — setup, export, and
+                iteration inside an Unreal-based workflow.
+              </p>
+            </div>
+          </details>
+        </li>
+      </ul>
+    </main>
+  </body>
+</html>

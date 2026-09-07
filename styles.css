@@ -3,6 +3,8 @@
   --fg: #e8ece9;
   --muted: #9aa89f;
   --accent: #c4a35a;
+  --line: rgba(232, 236, 233, 0.12);
+  --panel: rgba(232, 236, 233, 0.04);
   --glow: radial-gradient(ellipse 80% 50% at 20% 0%, #1c2a22 0%, transparent 55%),
     radial-gradient(ellipse 60% 40% at 90% 80%, #1a2228 0%, transparent 50%);
 }
@@ -23,12 +25,75 @@ body {
   color: var(--fg);
   background: var(--bg);
   background-image: var(--glow);
-  display: grid;
-  place-items: center;
   padding: 2rem;
 }
 
-main {
+.page-home {
+  display: grid;
+  place-items: center;
+}
+
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1.1rem 1.4rem;
+  pointer-events: none;
+}
+
+.site-nav > * {
+  pointer-events: auto;
+}
+
+.page-portfolio .site-nav {
+  justify-content: space-between;
+}
+
+.nav-home {
+  color: var(--fg);
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: 1rem;
+}
+
+.nav-home:hover {
+  color: var(--accent);
+}
+
+.nav-btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: rgba(15, 20, 18, 0.72);
+  color: var(--fg);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.65rem 0.95rem;
+  backdrop-filter: blur(8px);
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.nav-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.nav-btn.is-current {
+  border-color: var(--accent);
+  color: var(--accent);
+  cursor: default;
+}
+
+.page-home main {
   max-width: 36rem;
   animation: rise 0.8s ease-out both;
 }
@@ -41,7 +106,7 @@ main {
   margin-bottom: 1.25rem;
 }
 
-h1 {
+.page-home h1 {
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.28em;
@@ -57,6 +122,113 @@ h1 {
   color: var(--muted);
   max-width: 28rem;
   animation: fade 1s ease-out 0.35s both;
+}
+
+.portfolio {
+  max-width: 42rem;
+  margin: 5rem auto 3rem;
+  animation: rise 0.7s ease-out both;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+
+.portfolio-title {
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 0.85rem;
+}
+
+.portfolio .lede {
+  margin-bottom: 2.25rem;
+}
+
+.project-list {
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.project-list li {
+  border-bottom: 1px solid var(--line);
+}
+
+.project-list details {
+  animation: fade 0.7s ease-out both;
+}
+
+.project-list li:nth-child(2) details {
+  animation-delay: 0.08s;
+}
+
+.project-list li:nth-child(3) details {
+  animation-delay: 0.16s;
+}
+
+.project-list li:nth-child(4) details {
+  animation-delay: 0.24s;
+}
+
+.project-list summary {
+  list-style: none;
+  cursor: pointer;
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.15rem 2rem 1.15rem 0;
+  position: relative;
+  transition: background 0.2s ease;
+}
+
+.project-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.project-list summary::after {
+  content: "+";
+  position: absolute;
+  right: 0;
+  top: 1.15rem;
+  color: var(--accent);
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.project-list details[open] summary::after {
+  content: "–";
+}
+
+.project-list summary:hover {
+  background: var(--panel);
+}
+
+.project-name {
+  font-size: 1.15rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.project-blurb {
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--muted);
+  padding-right: 1rem;
+}
+
+.project-body {
+  padding: 0 2rem 1.25rem 0;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.6;
+  max-width: 36rem;
+  animation: fade 0.25s ease-out both;
 }
 
 @keyframes rise {
@@ -84,5 +256,23 @@ h1 {
   *::before,
   *::after {
     animation: none !important;
+  }
+}
+
+@media (max-width: 540px) {
+  body {
+    padding: 1.25rem;
+  }
+
+  .site-nav {
+    padding: 0.9rem 1rem;
+  }
+
+  .portfolio {
+    margin-top: 4.5rem;
+  }
+
+  .project-blurb {
+    font-size: 0.9rem;
   }
 }

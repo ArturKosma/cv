@@ -64,6 +64,7 @@ async function assertPage(page, path, viewport) {
     let expandOk = true;
     let layoutOk = true;
     let noDuplicateBlurb = true;
+    let textRightOfMedia = true;
     if (details.length) {
       details[0].open = true;
       const body = details[0].querySelector(".project-body");
@@ -71,12 +72,13 @@ async function assertPage(page, path, viewport) {
       const media = details[0].querySelector(".media-slot");
       const blurb = details[0].querySelector(".project-blurb");
       const blurbHidden = blurb && getComputedStyle(blurb).display === "none";
-      const bodyStyle = body ? getComputedStyle(body) : null;
       layoutOk = Boolean(body && detail && media);
-      if (bodyStyle && window.innerWidth > 834) {
-        layoutOk = layoutOk && bodyStyle.display.includes("grid");
-      }
       noDuplicateBlurb = Boolean(blurbHidden);
+      if (media && detail && window.innerWidth > 520) {
+        const m = media.getBoundingClientRect();
+        const d = detail.getBoundingClientRect();
+        textRightOfMedia = d.left >= m.right - 1 && d.top < m.bottom;
+      }
       expandOk = details[0].open === true;
       details[0].open = false;
       if (details[0].open !== false) expandOk = false;
@@ -95,6 +97,7 @@ async function assertPage(page, path, viewport) {
       expandOk,
       layoutOk,
       noDuplicateBlurb,
+      textRightOfMedia,
       hasSkip: Boolean(document.querySelector(".skip-link")),
       hasMain: Boolean(document.querySelector("#main")),
     };
@@ -125,6 +128,7 @@ async function assertPage(page, path, viewport) {
     if (!report.expandOk) fail(`${label}: expand/collapse failed`);
     if (!report.layoutOk) fail(`${label}: expand layout missing media+detail`);
     if (!report.noDuplicateBlurb) fail(`${label}: blurb still visible while expanded`);
+    if (!report.textRightOfMedia) fail(`${label}: detail text is not to the right of media`);
   }
 
   return report;

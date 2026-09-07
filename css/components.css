@@ -126,14 +126,15 @@
 }
 
 .project-body {
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(12rem, 0.8fr);
-  gap: var(--space-5);
+  display: flex;
+  flex-direction: row;
   align-items: start;
+  gap: var(--space-5);
   padding: 0 2.25rem var(--space-5) 0;
 }
 
 .project-detail {
+  flex: 0 1 16rem;
   margin: 0;
   color: var(--muted);
   font-size: var(--text-sm);
@@ -141,7 +142,9 @@
 }
 
 .media-slot {
+  flex: 1 1 18rem;
   min-width: 0;
+  max-width: 40rem;
 }
 
 .media-slot__frame {
@@ -167,9 +170,13 @@
     rgba(10, 14, 12, 0.35);
 }
 
-@media (max-width: 834px) {
+@media (max-width: 520px) {
   .project-body {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     gap: var(--space-3);
+  }
+
+  .project-detail {
+    flex-basis: auto;
   }
 }

@@ -61,6 +61,7 @@ Patterns to follow from that direction:
 - Subtle polish (hover/focus) over flashy motion
 - **Portfolio row hover = accent-only (option A):** title color → accent, chevron brightens; **no background wash / no full-row highlight**
 - **Portfolio expand copy:** short blurb under the title stays visible; deeper detail sits **to the right of media** and must not merely repeat the blurb (pattern: what it is + what you changed)
+- **Portfolio row layout:** collapsed = still thumb + title/blurb; expanded = more stills/gallery + more detail paragraphs
 
 When proposing visual or structural changes, check:
 

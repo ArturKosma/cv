@@ -72,12 +72,18 @@ async function assertPage(page, path, viewport) {
     let layoutOk = true;
     let blurbStays = true;
     let hasDetail = true;
+    let hasThumb = true;
+    let hasGallery = true;
     let textRightOfMedia = true;
     if (details.length) {
+      const thumb = details[0].querySelector(".project-thumb .still-frame");
+      hasThumb = Boolean(thumb);
       details[0].open = true;
       const body = details[0].querySelector(".project-body");
-      const detail = details[0].querySelector(".project-detail");
+      const detailBlock = details[0].querySelector(".project-detail-block");
+      const detailsText = details[0].querySelectorAll(".project-detail");
       const media = details[0].querySelector(".media-slot");
+      const gallery = details[0].querySelector(".project-gallery");
       const blurb = details[0].querySelector(".project-blurb");
       const summary = details[0].querySelector("summary");
       const blurbVisible = blurb && getComputedStyle(blurb).display !== "none";
@@ -92,13 +98,14 @@ async function assertPage(page, path, viewport) {
         !hoverBg ||
         hoverBg === "rgba(0, 0, 0, 0)" ||
         hoverBg === "transparent";
-      layoutOk = Boolean(body && media && detail);
+      layoutOk = Boolean(body && media && detailBlock);
+      hasGallery = Boolean(gallery && gallery.querySelectorAll(".media-slot").length >= 2);
       blurbStays = Boolean(blurbVisible);
-      hasDetail = Boolean(detail && detail.textContent.trim().length > 0);
-      if (media && detail && window.innerWidth > 720) {
-        const m = media.getBoundingClientRect();
-        const d = detail.getBoundingClientRect();
-        textRightOfMedia = d.left >= m.right - 1;
+      hasDetail = detailsText.length >= 1 && [...detailsText].every((p) => p.textContent.trim());
+      if (gallery && detailBlock && window.innerWidth > 720) {
+        const g = gallery.getBoundingClientRect();
+        const d = detailBlock.getBoundingClientRect();
+        textRightOfMedia = d.left >= g.right - 1;
       }
       expandOk = details[0].open === true;
       details[0].dataset._chevronOk = chevronOk ? "1" : "0";
@@ -133,6 +140,8 @@ async function assertPage(page, path, viewport) {
       layoutOk,
       blurbStays,
       hasDetail,
+      hasThumb,
+      hasGallery,
       textRightOfMedia: firstDetails?.dataset._textRight === "1",
       chevronOk: firstDetails?.dataset._chevronOk === "1",
       noWash: firstDetails?.dataset._noWash === "1",
@@ -168,8 +177,10 @@ async function assertPage(page, path, viewport) {
   if (path.includes("portfolio")) {
     if (report.hasEyebrow) fail(`${label}: Selected Work eyebrow should be gone`);
     if (report.projectCount < 1) fail(`${label}: no portfolio items`);
+    if (!report.hasThumb) fail(`${label}: collapsed row must include a still thumb`);
     if (!report.expandOk) fail(`${label}: expand/collapse failed`);
-    if (!report.layoutOk) fail(`${label}: expand layout missing media+detail`);
+    if (!report.layoutOk) fail(`${label}: expand layout missing gallery+detail`);
+    if (!report.hasGallery) fail(`${label}: expand must show multiple stills`);
     if (!report.blurbStays) fail(`${label}: short description must stay visible when expanded`);
     if (!report.hasDetail) fail(`${label}: expand must include detail text beside media`);
     if (!report.textRightOfMedia) fail(`${label}: detail text must sit to the right of media`);

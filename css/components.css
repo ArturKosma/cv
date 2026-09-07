@@ -172,7 +172,9 @@
 .project-list summary {
   list-style: none;
   display: grid;
-  gap: var(--space-2);
+  grid-template-columns: minmax(7.5rem, 11rem) minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: center;
   padding: var(--space-5) 2rem var(--space-5) 0;
   position: relative;
   cursor: pointer;
@@ -182,14 +184,35 @@
   display: none;
 }
 
+.project-thumb {
+  min-width: 0;
+}
+
+.still-frame {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(145deg, rgba(232, 236, 233, 0.05), transparent 55%),
+    rgba(10, 14, 12, 0.4);
+}
+
+.project-copy {
+  display: grid;
+  gap: var(--space-2);
+  padding-right: var(--space-5);
+  min-width: 0;
+}
+
 /* Chevron: small V that rotates when open */
 .project-list summary::after {
   content: "";
   position: absolute;
   right: 0.15rem;
-  top: calc(var(--space-5) + 0.35rem);
+  top: 50%;
   width: 0.45rem;
   height: 0.45rem;
+  margin-top: -0.35rem;
   border-right: 1.5px solid var(--muted);
   border-bottom: 1.5px solid var(--muted);
   transform: rotate(45deg);
@@ -202,7 +225,7 @@
 }
 
 .project-list details[open] summary::after {
-  top: calc(var(--space-5) + 0.55rem);
+  margin-top: -0.15rem;
   transform: rotate(225deg);
 }
 
@@ -214,7 +237,6 @@
   font-size: var(--text-lg);
   font-weight: 650;
   letter-spacing: -0.015em;
-  padding-right: var(--space-5);
   transition: color var(--ease);
 }
 
@@ -223,7 +245,6 @@
   color: var(--muted);
   font-size: var(--text-sm);
   line-height: 1.5;
-  padding-right: var(--space-5);
 }
 
 .project-body {
@@ -238,8 +259,22 @@ details[open] .project-body {
   animation: rise 0.55s ease-out both;
 }
 
-.project-detail {
+.project-gallery {
+  flex: 1 1 20rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  min-width: 0;
+  max-width: 42rem;
+}
+
+.project-detail-block {
   flex: 0 1 18rem;
+  display: grid;
+  gap: var(--space-4);
+}
+
+.project-detail {
   margin: 0;
   color: var(--muted);
   font-size: var(--text-sm);
@@ -247,14 +282,12 @@ details[open] .project-body {
 }
 
 .media-slot {
-  flex: 1 1 18rem;
   min-width: 0;
-  max-width: 40rem;
 }
 
 .media-slot__frame {
   position: relative;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
   background: rgba(232, 236, 233, 0.04);
   border: 1px solid var(--line);
@@ -276,12 +309,32 @@ details[open] .project-body {
 }
 
 @media (max-width: 720px) {
+  .project-list summary {
+    grid-template-columns: minmax(6rem, 8rem) minmax(0, 1fr);
+    gap: var(--space-3);
+  }
+
   .project-body {
     flex-direction: column;
     gap: var(--space-3);
   }
 
-  .project-detail {
+  .project-gallery {
+    grid-template-columns: 1fr 1fr;
+    max-width: none;
+  }
+
+  .project-detail-block {
     flex-basis: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-list summary {
+    grid-template-columns: 1fr;
+  }
+
+  .project-thumb {
+    max-width: 12rem;
   }
 }

@@ -63,22 +63,18 @@ async function assertPage(page, path, viewport) {
     const details = [...document.querySelectorAll("details[data-project]")];
     let expandOk = true;
     let layoutOk = true;
-    let noDuplicateBlurb = true;
-    let textRightOfMedia = true;
+    let blurbStays = true;
+    let noExtraDetail = true;
     if (details.length) {
       details[0].open = true;
       const body = details[0].querySelector(".project-body");
       const detail = details[0].querySelector(".project-detail");
       const media = details[0].querySelector(".media-slot");
       const blurb = details[0].querySelector(".project-blurb");
-      const blurbHidden = blurb && getComputedStyle(blurb).display === "none";
-      layoutOk = Boolean(body && detail && media);
-      noDuplicateBlurb = Boolean(blurbHidden);
-      if (media && detail && window.innerWidth > 520) {
-        const m = media.getBoundingClientRect();
-        const d = detail.getBoundingClientRect();
-        textRightOfMedia = d.left >= m.right - 1 && d.top < m.bottom;
-      }
+      const blurbVisible = blurb && getComputedStyle(blurb).display !== "none";
+      layoutOk = Boolean(body && media);
+      blurbStays = Boolean(blurbVisible);
+      noExtraDetail = !detail;
       expandOk = details[0].open === true;
       details[0].open = false;
       if (details[0].open !== false) expandOk = false;
@@ -102,8 +98,8 @@ async function assertPage(page, path, viewport) {
       projectCount: details.length,
       expandOk,
       layoutOk,
-      noDuplicateBlurb,
-      textRightOfMedia,
+      blurbStays,
+      noExtraDetail,
       hasSkip: Boolean(document.querySelector(".skip-link")),
       hasMain: Boolean(document.querySelector("#main")),
     };
@@ -133,9 +129,9 @@ async function assertPage(page, path, viewport) {
     if (report.hasEyebrow) fail(`${label}: Selected Work eyebrow should be gone`);
     if (report.projectCount < 1) fail(`${label}: no portfolio items`);
     if (!report.expandOk) fail(`${label}: expand/collapse failed`);
-    if (!report.layoutOk) fail(`${label}: expand layout missing media+detail`);
-    if (!report.noDuplicateBlurb) fail(`${label}: blurb still visible while expanded`);
-    if (!report.textRightOfMedia) fail(`${label}: detail text is not to the right of media`);
+    if (!report.layoutOk) fail(`${label}: expand layout missing media`);
+    if (!report.blurbStays) fail(`${label}: short description must stay visible when expanded`);
+    if (!report.noExtraDetail) fail(`${label}: expand must not add a second description`);
   }
 
   return report;

@@ -53,4 +53,13 @@
   requestAnimationFrame(() => requestAnimationFrame(lockToCollapsedRecords));
   desktop.addEventListener("change", lockToCollapsedRecords);
   window.addEventListener("resize", lockToCollapsedRecords);
+
+  const portrait = identity.querySelector("img.portrait-frame");
+  if (portrait) {
+    if (portrait.complete) {
+      requestAnimationFrame(lockToCollapsedRecords);
+    } else {
+      portrait.addEventListener("load", lockToCollapsedRecords, { once: true });
+    }
+  }
 })();

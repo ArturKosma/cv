@@ -41,7 +41,7 @@ async function assertPage(page, path, viewport) {
   });
   if (!res || !(res.ok() || res.status() === 304)) fail(`${label}: HTTP ${res && res.status()}`);
 
-  const report = await page.evaluate(() => {
+  const report = await page.evaluate(async () => {
     const btns = [...document.querySelectorAll(".nav-actions .btn")].map((el) => ({
       text: el.textContent.trim(),
       href: el.getAttribute("href"),
@@ -59,6 +59,7 @@ async function assertPage(page, path, viewport) {
     const experience = document.querySelector(".experience");
     const identity = document.querySelector(".identity");
     const portrait = document.querySelector(".portrait-frame");
+    const sectionLabel = document.querySelector(".experience .section-label");
     const timeline = document.querySelector(".timeline");
     const timelineItems = [...document.querySelectorAll(".timeline-item")];
     let homeSplit = true;
@@ -67,6 +68,17 @@ async function assertPage(page, path, viewport) {
       const i = identity.getBoundingClientRect();
       homeSplit = e.left < i.left && i.right > window.innerWidth * 0.45;
     }
+
+    let portraitMatchesText = true;
+    if (portrait && identity && window.innerWidth > 900) {
+      const iw = identity.getBoundingClientRect().width;
+      const pw = portrait.getBoundingClientRect().width;
+      portraitMatchesText = Math.abs(pw - iw) < 2;
+    }
+    const portraitIsImage =
+      Boolean(portrait) &&
+      portrait.tagName === "IMG" &&
+      Boolean(portrait.getAttribute("src"));
 
     let timelineExpandable = true;
     let timelineGrew = true;
@@ -102,10 +114,22 @@ async function assertPage(page, path, viewport) {
     let hasThumb = true;
     let stackedBeats = true;
     let noSideBySideMedia = true;
+    let textFitsMedia = true;
     if (details.length) {
       const thumb = details[0].querySelector(".project-thumb .thumb-video");
       hasThumb = Boolean(thumb);
       details[0].open = true;
+      await new Promise((r) => {
+        const start = performance.now();
+        const tick = () => {
+          const capped = details[0].querySelector(".project-detail");
+          if (window.innerWidth <= 720) return r();
+          if (capped && capped.style.maxHeight) return r();
+          if (performance.now() - start > 1200) return r();
+          requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
       const body = details[0].querySelector(".project-body");
       const beats = [...details[0].querySelectorAll(".project-beat")];
       const detailsText = details[0].querySelectorAll(".project-detail");
@@ -145,11 +169,24 @@ async function assertPage(page, path, viewport) {
         }
       }
 
+      if (window.innerWidth > 720 && beats.length) {
+        for (const beat of beats) {
+          const media = beat.querySelector(".media-slot");
+          const text = beat.querySelector(".project-detail");
+          if (!media || !text) continue;
+          const m = media.getBoundingClientRect();
+          const t = text.getBoundingClientRect();
+          if (Math.abs(t.top - m.top) > 2) textFitsMedia = false;
+          if (t.height > m.height + 2) textFitsMedia = false;
+        }
+      }
+
       expandOk = details[0].open === true;
       details[0].dataset._chevronOk = chevronOk ? "1" : "0";
       details[0].dataset._noWash = noWash ? "1" : "0";
       details[0].dataset._stacked = stackedBeats ? "1" : "0";
       details[0].dataset._pair = noSideBySideMedia ? "1" : "0";
+      details[0].dataset._textFit = textFitsMedia ? "1" : "0";
       const codeCompare = details[0].querySelector(".code-compare");
       const panels = codeCompare ? codeCompare.querySelectorAll(".code-panel") : [];
       details[0].dataset._code =
@@ -182,6 +219,9 @@ async function assertPage(page, path, viewport) {
       hasExperience: Boolean(experience),
       hasIdentity: Boolean(identity),
       hasPortrait: Boolean(portrait),
+      hasSectionLabel: Boolean(sectionLabel),
+      portraitIsImage,
+      portraitMatchesText,
       timelineItems: timelineItems.length,
       timelineExpandable,
       timelineGrew,
@@ -199,6 +239,7 @@ async function assertPage(page, path, viewport) {
       chevronOk: firstDetails?.dataset._chevronOk === "1",
       noWash: firstDetails?.dataset._noWash === "1",
       hasCodeCompare: firstDetails?.dataset._code === "1",
+      textFitsMedia: firstDetails?.dataset._textFit === "1",
       hasSkip: Boolean(document.querySelector(".skip-link")),
       hasMain: Boolean(document.querySelector("#main")),
     };
@@ -225,6 +266,11 @@ async function assertPage(page, path, viewport) {
     if (!report.hasExperience) fail(`${label}: missing experience timeline`);
     if (!report.hasIdentity) fail(`${label}: missing identity block`);
     if (!report.hasPortrait) fail(`${label}: missing photo placeholder`);
+    if (report.hasSectionLabel) fail(`${label}: Experience section label above timeline should be removed`);
+    if (!report.portraitIsImage) fail(`${label}: portrait should be a real placeholder image`);
+    if (viewport.width >= 900 && !report.portraitMatchesText) {
+      fail(`${label}: portrait width should match identity text above it`);
+    }
     if (report.timelineItems < 4) fail(`${label}: expected 4 timeline items`);
     if (!report.timelineExpandable) fail(`${label}: timeline items must be expandable`);
     if (!report.timelineGrew) fail(`${label}: opening a timeline record must expand it`);
@@ -248,6 +294,9 @@ async function assertPage(page, path, viewport) {
     if (!report.chevronOk) fail(`${label}: expand control should be a chevron, not +/-`);
     if (!report.noWash) fail(`${label}: sample hover should not use a row background wash`);
     if (!report.hasCodeCompare) fail(`${label}: expanded sample should include before/after code`);
+    if (viewport.width > 720 && !report.textFitsMedia) {
+      fail(`${label}: expand text must top-align and not exceed media height`);
+    }
   }
 
   return report;
@@ -387,22 +436,30 @@ async function main() {
       fail("experience: opening one timeline record must close the others");
     }
 
-    const identityCenter = await page.evaluate(() => {
+    const identityCenter = await page.evaluate(async () => {
       const identity = document.querySelector(".identity");
       const summaries = [...document.querySelectorAll(".timeline-summary")];
       if (!identity || summaries.length < 2) return { ok: false };
       document.querySelectorAll(".timeline details").forEach((d) => {
         d.open = false;
       });
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      window.dispatchEvent(new Event("resize"));
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
       const top = summaries[0].getBoundingClientRect().top;
       const bottom = summaries[summaries.length - 1].getBoundingClientRect().bottom;
       const mid = (top + bottom) / 2;
       const box = identity.getBoundingClientRect();
       const idMid = (box.top + box.bottom) / 2;
-      return { ok: Math.abs(idMid - mid) < 28, delta: Math.abs(idMid - mid) };
+      const idTaller = box.height > bottom - top + 8;
+      // If identity is taller than the collapsed records, top-align is correct.
+      if (idTaller) return { ok: Math.abs(box.top - top) < 24, delta: Math.abs(box.top - top), mode: "top" };
+      return { ok: Math.abs(idMid - mid) < 28, delta: Math.abs(idMid - mid), mode: "center" };
     });
     if (!identityCenter.ok) {
-      fail(`experience: identity should sit at the center of collapsed records (delta ${identityCenter.delta})`);
+      fail(
+        `experience: identity should sit at the center of collapsed records (delta ${identityCenter.delta}, mode ${identityCenter.mode})`
+      );
     }
 
     await page.goto(`${BASE}/samples.html`, { waitUntil: "networkidle0" });

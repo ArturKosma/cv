@@ -215,22 +215,20 @@
   display: grid;
   gap: var(--space-2);
   margin-top: var(--space-5);
+  width: 100%;
 }
 
 .portrait-frame {
-  width: min(100%, 18rem);
-  aspect-ratio: 3 / 4;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-height: 22rem;
+  object-fit: cover;
+  object-position: center top;
   border: 1px solid var(--line);
   background:
     linear-gradient(160deg, rgba(232, 236, 233, 0.05), transparent 50%),
     rgba(10, 14, 12, 0.45);
-}
-
-.portrait-note {
-  font-size: var(--text-xs);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
 }
 
 .project-list {
@@ -337,28 +335,29 @@ details[open] .project-body {
 }
 
 .project-beat {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
   align-items: start;
   gap: var(--space-5);
 }
 
 .project-beat .media-slot {
-  flex: 1 1 18rem;
   min-width: 0;
-  max-width: 40rem;
+  max-width: none;
 }
 
 .project-detail {
-  flex: 1 1 18rem;
   min-width: 0;
-  max-width: 26rem;
   margin: 0;
   color: var(--muted);
   font-size: var(--text-sm);
   line-height: 1.6;
   display: grid;
+  align-content: start;
   gap: var(--space-3);
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
 }
 
 .project-detail > p {
@@ -436,16 +435,12 @@ details[open] .project-body {
   }
 
   .project-beat {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: var(--space-3);
   }
 
-  .project-beat .media-slot {
-    max-width: none;
-  }
-
   .project-detail {
-    flex-basis: auto;
+    max-height: none !important;
   }
 }
 

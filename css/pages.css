@@ -14,13 +14,16 @@
 
 .identity {
   display: grid;
-  justify-items: end;
+  justify-items: stretch;
+  justify-self: end;
+  width: max-content;
+  max-width: 100%;
   text-align: right;
   gap: var(--space-3);
 }
 
 .identity .lede {
-  max-width: 22rem;
+  max-width: none;
 }
 
 .hero-brand {
@@ -90,7 +93,10 @@
   }
 
   .identity {
-    justify-items: start;
+    justify-items: stretch;
+    justify-self: stretch;
+    width: 100%;
+    max-width: 22rem;
     text-align: left;
     order: -1;
     position: static;

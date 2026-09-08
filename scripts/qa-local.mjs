@@ -535,7 +535,8 @@ async function main() {
         targetOpen: items[2].open,
         previousClosed: !items[0].open,
         // Either pinned near the prior viewport position, or parked under the header.
-        viewportStable: afterTop >= 80 && afterTop < 220 || Math.abs(afterTop - beforeTop) < 16,
+        viewportStable:
+          (afterTop >= 80 && afterTop < 220) || Math.abs(afterTop - beforeTop) < 16,
         beforeTop,
         afterTop,
       };

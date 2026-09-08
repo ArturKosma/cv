@@ -379,28 +379,10 @@ async function assertPage(page, path, viewport) {
     fail(`${label}: Quiet Olive accent drifted: ${report.accent}`);
   if (report.bg.toLowerCase() !== "#101410")
     fail(`${label}: Quiet Olive bg drifted: ${report.bg}`);
-  // Active must read clearly vs idle chrome (was ~1.13:1 — effectively invisible)
-  {
-    const parse = (c) => {
-      const m = String(c).match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
-      if (m) return [Number(m[1]), Number(m[2]), Number(m[3])];
-      if (String(c).startsWith("#")) {
-        const h = c.slice(1);
-        const n = h.length === 3 ? [...h].map((x) => x + x).join("") : h;
-        return [parseInt(n.slice(0, 2), 16), parseInt(n.slice(2, 4), 16), parseInt(n.slice(4, 6), 16)];
-      }
-      return null;
-    };
-    const lum = ([r, g, b]) => {
-      const f = (v) => {
-        v /= 255;
-        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-      };
-      return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
-    };
-    const accentLum = lum(parse(report.accent));
-    const mutedLum = lum(parse(getComputedStyle ? null : null));
-  }
+  if (report.muted.toLowerCase() !== "#87907f")
+    fail(`${label}: Quiet Olive muted drifted: ${report.muted}`);
+  if (!report.accentBrighterThanMuted)
+    fail(`${label}: active accent must be clearly brighter than idle muted chrome`);
 
   if (path.includes("index")) {
     if (report.hasHeroTitle) fail(`${label}: golden CV label should be gone`);

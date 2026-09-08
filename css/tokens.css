@@ -1,20 +1,19 @@
 /* Design tokens — shared across every page */
 /*
-  Quiet Olive — emphasis pass (cross-checked vs clean portfolio refs):
-  inactive chrome stays mid/quiet; active accent must be clearly brighter +
-  chromatic (Chiang-style: muted slate idle vs vivid accent current).
-  Previous accent sat ~same luminance as --muted (~1.13:1) — too little emphasis.
+  Navy Clarity — aligned to clean portfolio refs (Chiang-style hierarchy):
+  deep navy field (air, not forest), slate idle chrome, one soft teal accent
+  used sparingly for active/interactive. Accent stays clearly brighter than muted.
 */
 :root {
-  --bg: #101410;
-  --bg-elevated: #161b16;
-  --fg: #e9ece6;
-  --muted: #87907f;
-  --muted-dim: #5f6658;
-  --accent: #b8c9a0;
-  --accent-soft: rgba(184, 201, 160, 0.16);
-  --line: rgba(233, 236, 230, 0.12);
-  --focus: #e9ece6;
+  --bg: #0a121c;
+  --bg-elevated: #111a26;
+  --fg: #e6eef8;
+  --muted: #8896a8;
+  --muted-dim: #5c6b7c;
+  --accent: #5ec2b7;
+  --accent-soft: rgba(94, 194, 183, 0.16);
+  --line: rgba(230, 238, 248, 0.12);
+  --focus: #e6eef8;
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -37,5 +36,5 @@
   --ease: 160ms ease;
   --page-max: 68rem;
   --page-gutter: 1.25rem;
-  --glow: radial-gradient(ellipse 70% 45% at 12% 0%, #1c2418 0%, transparent 50%);
+  --glow: radial-gradient(ellipse 70% 45% at 12% 0%, #152338 0%, transparent 52%);
 }

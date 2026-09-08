@@ -72,8 +72,8 @@
 }
 
 /*
-  Contact — avatar + icons on a shared left rail; name, title, and handles
-  right-aligned in the remaining width (cleaner than a crowded left stack).
+  Contact — shared media column (avatar width): portrait + icons centered
+  under that column; name/title/handles right-aligned with a moderate gutter.
 */
 .contact-layout {
   display: grid;
@@ -82,24 +82,27 @@
 }
 
 .contact-card {
+  --contact-media: 4.5rem;
+  --contact-gap: var(--space-5);
   display: grid;
-  gap: var(--space-3);
+  grid-template-columns: var(--contact-media) max-content;
+  column-gap: var(--contact-gap);
+  row-gap: var(--space-3);
   width: max-content;
   max-width: 100%;
 }
 
 .contact-identity {
-  display: flex;
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
   min-width: 0;
 }
 
 .contact-avatar {
-  flex: 0 0 auto;
-  width: 4.5rem;
-  height: 4.5rem;
+  width: var(--contact-media);
+  height: var(--contact-media);
   border-radius: 50%;
   object-fit: cover;
   object-position: center top;
@@ -129,18 +132,25 @@
 }
 
 .contact-list {
+  grid-column: 1 / -1;
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
+  grid-template-columns: subgrid;
   gap: 0;
-  width: 100%;
+}
+
+.contact-list > li {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
 }
 
 .contact-row {
+  grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: 1.125rem minmax(0, 1fr);
-  column-gap: 0.65rem;
+  grid-template-columns: subgrid;
   align-items: center;
   padding: 0.4rem 0;
   color: inherit;
@@ -161,6 +171,7 @@
 .contact-icon {
   width: 1.125rem;
   height: 1.125rem;
+  justify-self: center;
   display: grid;
   place-items: center;
   color: var(--muted-dim);

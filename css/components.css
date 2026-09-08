@@ -140,9 +140,16 @@ details[data-project][open]::details-content {
 
 .timeline {
   list-style: none;
+  display: flex;
+  flex-direction: column;
   margin: 0;
   padding: 0;
   border-left: 1px solid var(--line);
+}
+
+/* Collapsed desktop: fill portrait height; space items so the last row sits on the bottom */
+.timeline.timeline--fit-portrait {
+  justify-content: space-between;
 }
 
 .timeline-item {

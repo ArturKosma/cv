@@ -647,7 +647,17 @@ async function main() {
       window.dispatchEvent(new Event("resize"));
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
       // Allow expand-close height transition + stretch pass to settle.
-      await new Promise((r) => setTimeout(r, 480));
+      const bottomsAligned = () => {
+        if (window.innerWidth < 901) return true;
+        const last = document.querySelector(".timeline-item:last-child");
+        if (!last) return false;
+        return Math.abs(last.getBoundingClientRect().bottom - portrait.getBoundingClientRect().bottom) < 5;
+      };
+      const settleDeadline = performance.now() + 900;
+      while (!bottomsAligned() && performance.now() < settleDeadline) {
+        window.dispatchEvent(new Event("resize"));
+        await new Promise((r) => setTimeout(r, 50));
+      }
 
       const brandBox = brand.getBoundingClientRect();
       const portraitBox = portrait.getBoundingClientRect();

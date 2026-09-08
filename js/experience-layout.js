@@ -4,11 +4,12 @@
  * - Pin the timeline so its left rail lines up with the left edge of
  *   the top nav (EXPERIENCE … CONTACT), right edge with the page shell
  * - Match timeline top to the portrait top
- * - When all rows are collapsed, stretch inter-item gaps so the timeline
- *   bottom meets the portrait bottom
+ * - When all rows are collapsed, stretch the timeline to the portrait
+ *   height and space items so the last row meets the portrait bottom
  */
 (function () {
   const MQ = window.matchMedia("(min-width: 901px)");
+  const CLOSE_MS = 450;
   const identity = document.querySelector(".identity");
   const brand = document.querySelector(".hero-brand");
   const experience = document.querySelector(".experience");
@@ -69,6 +70,8 @@
 
   function clearTimelineStretch() {
     if (!timeline) return;
+    timeline.classList.remove("timeline--fit-portrait");
+    timeline.style.minHeight = "";
     timeline.querySelectorAll(":scope > .timeline-item").forEach((item) => {
       item.style.paddingBottom = "";
     });
@@ -78,28 +81,15 @@
     clearTimelineStretch();
     if (!MQ.matches || !portrait || !timeline) return;
 
-    const items = [...timeline.querySelectorAll(":scope > .timeline-item")];
-    if (items.length < 2) return;
-
     const anyOpen = [...timeline.querySelectorAll("details")].some((d) => d.open);
     if (anyOpen) return;
 
-    // Flush cleared paddings before measuring the natural collapsed height.
-    void timeline.offsetHeight;
+    // Portrait height is the target; flex space-between pins the last row.
+    const height = Math.round(portrait.getBoundingClientRect().height);
+    if (height <= 0) return;
 
-    const portraitBox = portrait.getBoundingClientRect();
-    const timelineTop = timeline.getBoundingClientRect().top;
-    const lastBottom = items[items.length - 1].getBoundingClientRect().bottom;
-    const extra = Math.round(portraitBox.height - (lastBottom - timelineTop));
-    if (extra <= 4) return;
-
-    const gapCount = items.length - 1;
-    const bump = extra / gapCount;
-    items.forEach((item, index) => {
-      if (index === gapCount) return;
-      const base = parseFloat(getComputedStyle(item).paddingBottom) || 0;
-      item.style.paddingBottom = `${base + bump}px`;
-    });
+    timeline.style.minHeight = `${height}px`;
+    timeline.classList.add("timeline--fit-portrait");
   }
 
   function syncAll() {
@@ -126,7 +116,7 @@
         // Wait for ::details-content height transition to finish, then stretch.
         stretchTimer = window.setTimeout(() => {
           syncTimelineStretchToPortrait();
-        }, 420);
+        }, CLOSE_MS);
       });
     });
   }

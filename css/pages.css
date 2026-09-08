@@ -163,20 +163,26 @@
   color: var(--accent);
 }
 
+/*
+  Resume — document column shares the site left edge (same as Contact/Experience).
+  Download sits on that column’s left rail so it doesn’t float mid-viewport.
+  Paper stays a readable measure; not a full-bleed card spanning the shell.
+*/
 .resume-layout {
   display: grid;
-  gap: var(--space-4);
+  justify-items: start;
   padding-bottom: var(--space-8);
 }
 
-.resume-layout .resume-toolbar,
-.resume-layout .resume-sheet {
-  max-width: 46rem;
+.resume-column {
+  width: min(100%, 46rem);
+  display: grid;
+  gap: var(--space-3);
 }
 
 .resume-toolbar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .resume-download {
@@ -189,8 +195,14 @@
   transition: color var(--ease);
 }
 
-.resume-download:hover {
+.resume-download:hover,
+.resume-download:focus-visible {
   color: var(--fg);
+}
+
+.resume-download:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
 }
 
 .resume-sheet {
@@ -251,8 +263,9 @@
 
 .resume-role__top {
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.15rem 0.75rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.15rem 1rem;
+  align-items: baseline;
 }
 
 .resume-role__title {
@@ -285,19 +298,20 @@
   color: #2a322e;
 }
 
+/*
+  Reel — media spans the full content shell (same width rhythm as Samples).
+  No arbitrary mid-width cap; note shares the same left edge.
+*/
 .reel-layout {
   display: grid;
-  gap: var(--space-4);
+  gap: var(--space-3);
   padding-bottom: var(--space-8);
-}
-
-.reel-layout .yt-facade,
-.reel-layout .reel-note {
-  max-width: 56rem;
+  justify-items: stretch;
 }
 
 .yt-facade {
   position: relative;
+  width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   background: #0a0e0c;
@@ -325,6 +339,11 @@
   color: inherit;
 }
 
+.yt-facade__button:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
 .yt-facade__poster {
   position: absolute;
   inset: 0;
@@ -342,6 +361,7 @@
   background: rgba(15, 20, 18, 0.72);
   border: 1px solid rgba(232, 236, 233, 0.35);
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  transition: border-color var(--ease), background var(--ease);
 }
 
 .yt-facade__play::before {

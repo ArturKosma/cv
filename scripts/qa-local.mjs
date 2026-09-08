@@ -244,8 +244,32 @@ async function assertPage(page, path, viewport) {
     const primaryRow = document.querySelector(".contact-row--primary");
     const resumeSheet = document.querySelector(".resume-sheet");
     const resumeDownload = document.querySelector(".resume-download");
+    const resumeColumn = document.querySelector(".resume-column");
     const ytFacade = document.querySelector(".yt-facade");
+    const reelNote = document.querySelector(".reel-note");
     const contactLede = document.querySelector(".contact-lede")?.textContent.trim() || "";
+
+    const pageBox = document.querySelector(".page")?.getBoundingClientRect();
+    const sheetBox = resumeSheet?.getBoundingClientRect();
+    const downloadBox = resumeDownload?.getBoundingClientRect();
+    const columnBox = resumeColumn?.getBoundingClientRect();
+    const facadeBox = ytFacade?.getBoundingClientRect();
+    const noteBox = reelNote?.getBoundingClientRect();
+
+    const resumeLeftAligned =
+      Boolean(pageBox && sheetBox && downloadBox && columnBox) &&
+      Math.abs(sheetBox.left - pageBox.left) < 2 &&
+      Math.abs(downloadBox.left - sheetBox.left) < 2 &&
+      Math.abs(columnBox.left - pageBox.left) < 2 &&
+      Math.abs(columnBox.right - sheetBox.right) < 2;
+
+    const reelFullShell =
+      Boolean(pageBox && facadeBox && noteBox) &&
+      Math.abs(facadeBox.left - pageBox.left) < 2 &&
+      Math.abs(facadeBox.right - pageBox.right) < 2 &&
+      Math.abs(noteBox.left - pageBox.left) < 2 &&
+      Math.abs(facadeBox.width - pageBox.width) < 2;
+
     return {
       btnCount: btns.length,
       btns,
@@ -298,9 +322,12 @@ async function assertPage(page, path, viewport) {
       contactLede,
       hasResumeSheet: Boolean(resumeSheet),
       hasResumeDownload: Boolean(resumeDownload),
+      hasResumeColumn: Boolean(resumeColumn),
       resumeDownloadHref: resumeDownload?.getAttribute("href") || "",
+      resumeLeftAligned,
       hasYtFacade: Boolean(ytFacade),
       ytId: ytFacade?.dataset.youtubeId || "",
+      reelFullShell,
     };
   });
 
@@ -391,13 +418,18 @@ async function assertPage(page, path, viewport) {
   if (path.includes("resume.html")) {
     if (!report.hasResumeSheet) fail(`${label}: resume page must show the resume`);
     if (!report.hasResumeDownload) fail(`${label}: resume page must offer PDF download`);
+    if (!report.hasResumeColumn) fail(`${label}: resume toolbar+sheet must share one column`);
     if (!report.resumeDownloadHref.includes("Artur-Kosma-Resume.pdf"))
       fail(`${label}: resume download must point at the PDF`);
+    if (!report.resumeLeftAligned)
+      fail(`${label}: resume download+sheet must share the page left edge (no mid-float download)`);
   }
 
   if (path.includes("reel.html")) {
     if (!report.hasYtFacade) fail(`${label}: reel page must embed a YouTube facade`);
     if (!report.ytId) fail(`${label}: reel facade missing youtube id`);
+    if (!report.reelFullShell)
+      fail(`${label}: reel facade must span the full content shell like Samples`);
   }
 
   return report;

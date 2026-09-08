@@ -414,12 +414,6 @@
   border-color: transparent transparent transparent var(--accent);
 }
 
-.reel-note {
-  margin: 0;
-  color: var(--muted-dim);
-  font-size: var(--text-xs);
-}
-
 @media (min-width: 901px) {
   .identity {
     position: sticky;

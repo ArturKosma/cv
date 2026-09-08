@@ -258,7 +258,6 @@ async function assertPage(page, path, viewport) {
     const resumeDownload = document.querySelector(".resume-download");
     const resumeColumn = document.querySelector(".resume-column");
     const ytFacade = document.querySelector(".yt-facade");
-    const reelNote = document.querySelector(".reel-note");
     const contactLede = document.querySelector(".contact-lede")?.textContent.trim() || "";
 
     const previewEl = resumeFrame || resumeSheet;
@@ -266,7 +265,6 @@ async function assertPage(page, path, viewport) {
     const downloadBox = resumeDownload?.getBoundingClientRect();
     const columnBox = resumeColumn?.getBoundingClientRect();
     const facadeBox = ytFacade?.getBoundingClientRect();
-    const noteBox = reelNote?.getBoundingClientRect();
     const frameRatio =
       previewBox && previewBox.width > 0 ? previewBox.height / previewBox.width : 0;
 
@@ -278,10 +276,9 @@ async function assertPage(page, path, viewport) {
       Math.abs(columnBox.right - previewBox.right) < 2;
 
     const reelFullShell =
-      Boolean(pageBox && facadeBox && noteBox) &&
+      Boolean(pageBox && facadeBox) &&
       Math.abs(facadeBox.left - pageBox.left) < 2 &&
       Math.abs(facadeBox.right - pageBox.right) < 2 &&
-      Math.abs(noteBox.left - pageBox.left) < 2 &&
       Math.abs(facadeBox.width - pageBox.width) < 2;
 
     return {

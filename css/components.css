@@ -54,6 +54,7 @@
 
 .btn[aria-current="page"] {
   color: var(--accent);
+  font-weight: 600;
   cursor: default;
 }
 

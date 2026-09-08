@@ -1,15 +1,20 @@
 /* Design tokens — shared across every page */
-/* Forest + Steel: craft/loyalty green field + quiet steel accent (intelligent, not luxury gold) */
+/*
+  Quiet Olive — emphasis pass (cross-checked vs clean portfolio refs):
+  inactive chrome stays mid/quiet; active accent must be clearly brighter +
+  chromatic (Chiang-style: muted slate idle vs vivid accent current).
+  Previous accent sat ~same luminance as --muted (~1.13:1) — too little emphasis.
+*/
 :root {
-  --bg: #0f1412;
-  --bg-elevated: #151b18;
-  --fg: #e8ece9;
-  --muted: #9aa89f;
-  --muted-dim: #6e7a72;
-  --accent: #7a9399;
-  --accent-soft: rgba(122, 147, 153, 0.16);
-  --line: rgba(232, 236, 233, 0.12);
-  --focus: #e8ece9;
+  --bg: #101410;
+  --bg-elevated: #161b16;
+  --fg: #e9ece6;
+  --muted: #87907f;
+  --muted-dim: #5f6658;
+  --accent: #b8c9a0;
+  --accent-soft: rgba(184, 201, 160, 0.16);
+  --line: rgba(233, 236, 230, 0.12);
+  --focus: #e9ece6;
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -32,5 +37,5 @@
   --ease: 160ms ease;
   --page-max: 68rem;
   --page-gutter: 1.25rem;
-  --glow: radial-gradient(ellipse 70% 45% at 12% 0%, #18241e 0%, transparent 50%);
+  --glow: radial-gradient(ellipse 70% 45% at 12% 0%, #1c2418 0%, transparent 50%);
 }

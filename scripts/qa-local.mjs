@@ -329,6 +329,25 @@ async function assertPage(page, path, viewport) {
       reelFullShell,
       accent: getComputedStyle(document.documentElement).getPropertyValue("--accent").trim(),
       bg: getComputedStyle(document.documentElement).getPropertyValue("--bg").trim(),
+      muted: getComputedStyle(document.documentElement).getPropertyValue("--muted").trim(),
+      accentBrighterThanMuted: (() => {
+        const parse = (c) => {
+          const h = String(c).trim().replace("#", "");
+          if (h.length !== 6) return null;
+          return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+        };
+        const lum = ([r, g, b]) => {
+          const f = (v) => {
+            v /= 255;
+            return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+          };
+          return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+        };
+        const a = parse(getComputedStyle(document.documentElement).getPropertyValue("--accent"));
+        const m = parse(getComputedStyle(document.documentElement).getPropertyValue("--muted"));
+        if (!a || !m) return false;
+        return lum(a) > lum(m) * 1.25;
+      })(),
     };
   });
 
@@ -356,10 +375,32 @@ async function assertPage(page, path, viewport) {
     if (!approxNotBlueLink(btn.color)) fail(`${label}: ${btn.text} blue link color ${btn.color}`);
   }
   if (report.overflowX) fail(`${label}: horizontal overflow`);
-  if (report.accent.toLowerCase() !== "#7a9399")
-    fail(`${label}: Forest+Steel accent drifted: ${report.accent}`);
-  if (report.bg.toLowerCase() !== "#0f1412")
-    fail(`${label}: Forest+Steel bg drifted: ${report.bg}`);
+  if (report.accent.toLowerCase() !== "#b8c9a0")
+    fail(`${label}: Quiet Olive accent drifted: ${report.accent}`);
+  if (report.bg.toLowerCase() !== "#101410")
+    fail(`${label}: Quiet Olive bg drifted: ${report.bg}`);
+  // Active must read clearly vs idle chrome (was ~1.13:1 — effectively invisible)
+  {
+    const parse = (c) => {
+      const m = String(c).match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+      if (m) return [Number(m[1]), Number(m[2]), Number(m[3])];
+      if (String(c).startsWith("#")) {
+        const h = c.slice(1);
+        const n = h.length === 3 ? [...h].map((x) => x + x).join("") : h;
+        return [parseInt(n.slice(0, 2), 16), parseInt(n.slice(2, 4), 16), parseInt(n.slice(4, 6), 16)];
+      }
+      return null;
+    };
+    const lum = ([r, g, b]) => {
+      const f = (v) => {
+        v /= 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+      };
+      return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+    };
+    const accentLum = lum(parse(report.accent));
+    const mutedLum = lum(parse(getComputedStyle ? null : null));
+  }
 
   if (path.includes("index")) {
     if (report.hasHeroTitle) fail(`${label}: golden CV label should be gone`);

@@ -1,19 +1,19 @@
 /* Design tokens — shared across every page */
 /*
-  Navy Clarity — aligned to clean portfolio refs (Chiang-style hierarchy):
-  deep navy field (air, not forest), slate idle chrome, one soft teal accent
-  used sparingly for active/interactive. Accent stays clearly brighter than muted.
+  Cursor Atmosphere — charcoal field (like Cursor UI), slate-gray idle,
+  soft blue accent for active states, plus a quiet bottom “magic” wash
+  to break flat boredom without forest murk or neon disco.
 */
 :root {
-  --bg: #0a121c;
-  --bg-elevated: #111a26;
-  --fg: #e6eef8;
-  --muted: #8896a8;
-  --muted-dim: #5c6b7c;
-  --accent: #5ec2b7;
-  --accent-soft: rgba(94, 194, 183, 0.16);
-  --line: rgba(230, 238, 248, 0.12);
-  --focus: #e6eef8;
+  --bg: #121212;
+  --bg-elevated: #1a1a1a;
+  --fg: #ececec;
+  --muted: #8b8b8b;
+  --muted-dim: #5e5e5e;
+  --accent: #7eb0ff;
+  --accent-soft: rgba(126, 176, 255, 0.16);
+  --line: rgba(236, 236, 236, 0.12);
+  --focus: #ececec;
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -36,5 +36,17 @@
   --ease: 160ms ease;
   --page-max: 68rem;
   --page-gutter: 1.25rem;
-  --glow: radial-gradient(ellipse 70% 45% at 12% 0%, #152338 0%, transparent 52%);
+  /* Soft top lift — Cursor-like depth, not green forest */
+  --glow: radial-gradient(ellipse 70% 45% at 12% 0%, #1c1c1c 0%, transparent 55%);
+  /* Bottom atmosphere — quiet blue wash + faint sparks */
+  --magic-bottom:
+    radial-gradient(ellipse 90% 70% at 50% 100%, rgba(126, 176, 255, 0.16), transparent 68%),
+    radial-gradient(ellipse 45% 55% at 18% 100%, rgba(120, 200, 220, 0.08), transparent 62%),
+    radial-gradient(ellipse 40% 50% at 82% 100%, rgba(160, 180, 255, 0.07), transparent 60%),
+    radial-gradient(1.2px 1.2px at 12% 78%, rgba(255, 255, 255, 0.35), transparent),
+    radial-gradient(1px 1px at 28% 88%, rgba(126, 176, 255, 0.45), transparent),
+    radial-gradient(1.2px 1.2px at 47% 82%, rgba(255, 255, 255, 0.28), transparent),
+    radial-gradient(1px 1px at 63% 92%, rgba(120, 200, 220, 0.4), transparent),
+    radial-gradient(1.2px 1.2px at 79% 85%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 91% 90%, rgba(126, 176, 255, 0.35), transparent);
 }

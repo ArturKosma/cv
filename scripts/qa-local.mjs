@@ -375,12 +375,12 @@ async function assertPage(page, path, viewport) {
     if (!approxNotBlueLink(btn.color)) fail(`${label}: ${btn.text} blue link color ${btn.color}`);
   }
   if (report.overflowX) fail(`${label}: horizontal overflow`);
-  if (report.accent.toLowerCase() !== "#b8c9a0")
-    fail(`${label}: Quiet Olive accent drifted: ${report.accent}`);
-  if (report.bg.toLowerCase() !== "#101410")
-    fail(`${label}: Quiet Olive bg drifted: ${report.bg}`);
-  if (report.muted.toLowerCase() !== "#87907f")
-    fail(`${label}: Quiet Olive muted drifted: ${report.muted}`);
+  if (report.accent.toLowerCase() !== "#7eb0ff")
+    fail(`${label}: Cursor Atmosphere accent drifted: ${report.accent}`);
+  if (report.bg.toLowerCase() !== "#121212")
+    fail(`${label}: Cursor Atmosphere bg drifted: ${report.bg}`);
+  if (report.muted.toLowerCase() !== "#8b8b8b")
+    fail(`${label}: Cursor Atmosphere muted drifted: ${report.muted}`);
   if (!report.accentBrighterThanMuted)
     fail(`${label}: active accent must be clearly brighter than idle muted chrome`);
 

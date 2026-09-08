@@ -71,11 +71,14 @@ async function assertPage(page, path, viewport) {
     }
 
     let portraitMatchesText = true;
+    let ledeSingleLine = true;
     let ledeIsDisplay = true;
     if (portrait && identity && heroBrand && window.innerWidth > 900) {
-      const bw = heroBrand.getBoundingClientRect().width;
-      const pw = portrait.getBoundingClientRect().width;
-      portraitMatchesText = Math.abs(pw - bw) < 3;
+      const brandBox = heroBrand.getBoundingClientRect();
+      const portraitBox = portrait.getBoundingClientRect();
+      const ratio = portraitBox.width / brandBox.width;
+      const leftAligned = Math.abs(portraitBox.left - brandBox.left) < 3;
+      portraitMatchesText = ratio > 0.78 && ratio < 0.92 && leftAligned;
     }
     const ledeEl = document.querySelector(".identity .lede");
     const brandFamily = heroBrand
@@ -88,6 +91,7 @@ async function assertPage(page, path, viewport) {
         ledeFamily.includes("space grotesk") &&
         !ledeFamily.includes("caveat") &&
         !ledeFamily.includes("script");
+      ledeSingleLine = ledeEl.getClientRects().length <= 1;
     }
     const bodyIsDm = getComputedStyle(document.body).fontFamily.toLowerCase().includes("dm sans");
     const portraitIsImage =
@@ -232,6 +236,7 @@ async function assertPage(page, path, viewport) {
       portraitMatchesText,
       brandIsDisplay,
       ledeIsDisplay,
+      ledeSingleLine,
       bodyIsDm,
       timelineItems: timelineItems.length,
       timelineExpandable,
@@ -280,10 +285,13 @@ async function assertPage(page, path, viewport) {
     if (report.hasSectionLabel) fail(`${label}: Experience section label above timeline should be removed`);
     if (!report.portraitIsImage) fail(`${label}: portrait should be a real placeholder image`);
     if (viewport.width >= 900 && !report.portraitMatchesText) {
-      fail(`${label}: portrait width should match Artur Kosma`);
+      fail(`${label}: portrait should be slightly narrower than Artur Kosma with matching left edge`);
     }
     if (!report.brandIsDisplay) fail(`${label}: name should use Space Grotesk`);
     if (!report.ledeIsDisplay) fail(`${label}: lede should use Space Grotesk, not handwritten`);
+    if (viewport.width >= 900 && !report.ledeSingleLine) {
+      fail(`${label}: lede must stay on one line`);
+    }
     if (!report.bodyIsDm) fail(`${label}: body should use DM Sans`);
     if (report.timelineItems < 4) fail(`${label}: expected 4 timeline items`);
     if (!report.timelineExpandable) fail(`${label}: timeline items must be expandable`);
@@ -462,21 +470,28 @@ async function main() {
       window.dispatchEvent(new Event("resize"));
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
       await new Promise((r) => setTimeout(r, 50));
-      const t = timeline.getBoundingClientRect();
-      const i = identity.getBoundingClientRect();
-      const bw = brand.getBoundingClientRect().width;
-      const pw = portrait.getBoundingClientRect().width;
-      const heightDelta = Math.abs(t.height - i.height);
-      const widthDelta = Math.abs(pw - bw);
+      const brandBox = brand.getBoundingClientRect();
+      const portraitBox = portrait.getBoundingClientRect();
+      const timelineBox = timeline.getBoundingClientRect();
+      const mid = (brandBox.top + portraitBox.bottom) / 2;
+      const timelineMid = (timelineBox.top + timelineBox.bottom) / 2;
+      const ratio = portraitBox.width / brandBox.width;
+      const leftAligned = Math.abs(portraitBox.left - brandBox.left) < 3;
       return {
-        ok: heightDelta < 24 && widthDelta < 3,
-        heightDelta,
-        widthDelta,
+        ok:
+          Math.abs(timelineMid - mid) < 28 &&
+          ratio > 0.78 &&
+          ratio < 0.92 &&
+          leftAligned &&
+          timelineBox.height < identity.getBoundingClientRect().height - 24,
+        midDelta: Math.abs(timelineMid - mid),
+        ratio,
+        leftAligned,
       };
     });
     if (!identityCenter.ok) {
       fail(
-        `experience: collapsed timeline should match identity height and portrait should match name (hΔ ${identityCenter.heightDelta}, wΔ ${identityCenter.widthDelta})`
+        `experience: timeline should sit mid name→image; portrait narrower + left-aligned (midΔ ${identityCenter.midDelta}, ratio ${identityCenter.ratio})`
       );
     }
 

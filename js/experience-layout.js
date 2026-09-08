@@ -1,6 +1,6 @@
 /**
- * Experience layout: lock identity block width to the brand name
- * so the portrait matches. Column stays right-aligned in the grid.
+ * Experience layout: lock identity width to the brand name so the
+ * portrait matches. Identity sits left of the centered timeline rail.
  */
 (function () {
   const identity = document.querySelector(".identity");
@@ -12,7 +12,6 @@
     identity.style.width = "";
     identity.style.maxWidth = "";
     const natural = Math.ceil(brand.getBoundingClientRect().width);
-    // Cap to the grid cell so we never overflow the page shell.
     identity.style.width = "100%";
     const cell = Math.floor(identity.getBoundingClientRect().width);
     identity.style.width = "";

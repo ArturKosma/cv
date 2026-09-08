@@ -5,9 +5,10 @@
 }
 
 .home-layout {
+  /* Equal columns so the experience rail sits on the horizontal center */
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-  gap: clamp(2rem, 4vw, 4rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0;
   align-items: start;
 }
 
@@ -18,11 +19,12 @@
 .identity {
   display: grid;
   justify-items: stretch;
-  justify-self: stretch;
+  justify-self: end;
   width: 100%;
   max-width: 22rem;
   min-width: 0;
-  margin-left: auto;
+  margin-left: 0;
+  padding-right: clamp(1.25rem, 3vw, 2.25rem);
   text-align: left;
   gap: var(--space-3);
 }
@@ -413,7 +415,7 @@
     width: 100%;
     max-width: 20rem;
     margin-left: 0;
-    order: -1;
+    padding-right: 0;
     position: static;
   }
 

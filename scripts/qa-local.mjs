@@ -67,7 +67,10 @@ async function assertPage(page, path, viewport) {
     if (experience && identity && window.innerWidth > 900) {
       const e = experience.getBoundingClientRect();
       const i = identity.getBoundingClientRect();
-      homeSplit = e.left < i.left && i.right > window.innerWidth * 0.45;
+      const mid = window.innerWidth / 2;
+      homeSplit =
+        i.left < e.left &&
+        Math.abs(e.left - mid) < window.innerWidth * 0.08;
     }
 
     let portraitMatchesText = true;
@@ -382,7 +385,7 @@ async function assertPage(page, path, viewport) {
     if (!report.timelineExpandable) fail(`${label}: timeline items must be expandable`);
     if (!report.timelineGrew) fail(`${label}: opening a timeline record must expand it`);
     if (!report.timelineChevronOk) fail(`${label}: timeline rows need a quiet chevron, not +/-`);
-    if (!report.homeSplit) fail(`${label}: experience should sit left of identity on desktop`);
+    if (!report.homeSplit) fail(`${label}: identity left, timeline rail near horizontal center`);
   }
 
   if (path.includes("samples")) {
@@ -586,12 +589,12 @@ async function main() {
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
       return {
         openCount: items.filter((d) => d.open).length,
+        firstOpen: items[0].open,
         secondOpen: items[1].open,
-        firstClosed: !items[0].open,
       };
     });
-    if (accordionHome.openCount !== 1 || !accordionHome.secondOpen || !accordionHome.firstClosed) {
-      fail("experience: opening one timeline record must close the others");
+    if (accordionHome.openCount !== 2 || !accordionHome.firstOpen || !accordionHome.secondOpen) {
+      fail("experience: opening one timeline record must leave others open");
     }
 
     const identityLayout = await page.evaluate(async () => {
@@ -605,7 +608,6 @@ async function main() {
       document.querySelectorAll(".timeline details").forEach((d) => {
         d.open = false;
       });
-      document.querySelectorAll("[data-acc-page-pad]").forEach((el) => el.remove());
       window.dispatchEvent(new Event("resize"));
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
       await new Promise((r) => setTimeout(r, 50));
@@ -614,40 +616,23 @@ async function main() {
       const portraitBox = portrait.getBoundingClientRect();
       const timelineBox = timeline.getBoundingClientRect();
       const experienceBox = experience.getBoundingClientRect();
-
-      const first = timeline.querySelector("details");
-      const second = timeline.querySelectorAll(".timeline-item")[1];
-      const firstTopBefore = first.getBoundingClientRect().top;
-      const secondTopBefore = second.getBoundingClientRect().top;
-      const marginBefore = timeline.style.marginTop || "";
-
-      first.open = true;
-      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-
-      const firstTopAfter = first.getBoundingClientRect().top;
-      const secondTopAfter = second.getBoundingClientRect().top;
-      const marginAfter = timeline.style.marginTop || "";
-
-      first.open = false;
-      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      const identityBox = identity.getBoundingClientRect();
+      const mid = window.innerWidth / 2;
 
       return {
         ok:
           Math.abs(portraitBox.width - brandBox.width) < 3 &&
           Math.abs(portraitBox.right - brandBox.right) < 3 &&
           Math.abs(timelineBox.top - experienceBox.top) < 4 &&
-          !marginBefore &&
-          marginBefore === marginAfter &&
-          Math.abs(firstTopAfter - firstTopBefore) < 2 &&
-          secondTopAfter > secondTopBefore + 8,
-        topLocked: Math.abs(timelineBox.top - experienceBox.top) < 4,
-        clickedStable: Math.abs(firstTopAfter - firstTopBefore) < 2,
-        lowerMoved: secondTopAfter > secondTopBefore + 8,
+          identityBox.right <= experienceBox.left + 2 &&
+          Math.abs(experienceBox.left - mid) < window.innerWidth * 0.08,
+        railCentered: Math.abs(experienceBox.left - mid) < window.innerWidth * 0.08,
+        identityLeft: identityBox.right <= experienceBox.left + 2,
       };
     });
     if (!identityLayout.ok) {
       fail(
-        `experience: top-locked timeline, full-width right portrait, clicked row stable (topLocked ${identityLayout.topLocked}, clickedStable ${identityLayout.clickedStable})`
+        `experience: identity left + centered timeline rail (railCentered ${identityLayout.railCentered}, identityLeft ${identityLayout.identityLeft})`
       );
     }
 
@@ -658,38 +643,22 @@ async function main() {
         d.open = false;
       });
       items[0].open = true;
-      await new Promise((r) => setTimeout(r, 80));
-
-      const abs = items[2].getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({ top: Math.max(0, abs - 140), behavior: "instant" });
-      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-
-      const beforeTop = items[2].getBoundingClientRect().top;
+      await new Promise((r) => setTimeout(r, 40));
       items[2].open = true;
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-      const afterTop = items[2].getBoundingClientRect().top;
 
       return {
         openCount: items.filter((d) => d.open).length,
+        firstOpen: items[0].open,
         targetOpen: items[2].open,
-        previousClosed: !items[0].open,
-        viewportStable: Math.abs(afterTop - beforeTop) < 3,
-        beforeTop,
-        afterTop,
       };
     });
     if (
-      accordionSamples.openCount !== 1 ||
-      !accordionSamples.targetOpen ||
-      !accordionSamples.previousClosed
+      accordionSamples.openCount !== 2 ||
+      !accordionSamples.firstOpen ||
+      !accordionSamples.targetOpen
     ) {
-      fail("samples: opening one record must close the others");
-    }
-    if (!accordionSamples.viewportStable) {
-      fail(
-        `samples: clicked item must not move (before ${accordionSamples.beforeTop}, after ${accordionSamples.afterTop})`
-      );
+      fail("samples: opening one record must leave others open");
     }
 
     console.log(

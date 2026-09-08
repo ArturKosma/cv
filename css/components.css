@@ -75,22 +75,6 @@
   }
 }
 
-@keyframes expand-in {
-  from {
-    opacity: 0;
-    transform: translateY(0.35rem);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.timeline-body.is-entering,
-.project-body.is-entering {
-  animation: expand-in 0.28s ease both;
-}
-
 .lede {
   max-width: 32rem;
   color: var(--muted);

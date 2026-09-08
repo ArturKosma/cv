@@ -36,7 +36,7 @@ Meaning for this repo:
 - **Shared CSS is mandatory** — one design system / stylesheet modules reused across pages
 - **Never** invent different one-off styles per subpage that drift from the system
 - **Identical site chrome on every page** — same header markup and placement (Experience, Samples, Resume, Reel, Contact — top-right only). No per-page brand link, no left-nav on one page and right-nav on another
-- **Resume** = `resume.html` subpage first (view the one-pager), plus a Download PDF action on the same left-edge column as the paper (not floating mid-viewport). Source for the PDF: `assets/resume/resume-source.html`
+- **Resume** = `resume.html` subpage first (full letter-page PDF preview on-site), plus a Download PDF action on the same left-edge column. Source for the PDF: `assets/resume/resume-source.html`
 - **Reel** = `reel.html` subpage with an on-page YouTube facade spanning the full content shell (same width rhythm as Samples; click-to-load iframe; no eager embed). Keep first paint light.
 - **Subpage alignment** = every page shares the `.page` left edge with nav right edge; do not invent arbitrary mid-width caps that drift from Samples / Contact rhythms
 - **Contact** = miniature profile + Senior Animation Engineer + icon + destination rows (email primary; no uppercase label column; no horizontal rules; avatar is identity only)

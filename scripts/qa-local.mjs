@@ -247,24 +247,29 @@ async function assertPage(page, path, viewport) {
     );
     const primaryRow = document.querySelector(".contact-row--primary");
     const resumeSheet = document.querySelector(".resume-sheet");
+    const resumeFrame = document.querySelector(".resume-frame");
+    const resumeEmbed = document.querySelector(".resume-embed");
     const resumeDownload = document.querySelector(".resume-download");
     const resumeColumn = document.querySelector(".resume-column");
     const ytFacade = document.querySelector(".yt-facade");
     const reelNote = document.querySelector(".reel-note");
     const contactLede = document.querySelector(".contact-lede")?.textContent.trim() || "";
 
-    const sheetBox = resumeSheet?.getBoundingClientRect();
+    const previewEl = resumeFrame || resumeSheet;
+    const previewBox = previewEl?.getBoundingClientRect();
     const downloadBox = resumeDownload?.getBoundingClientRect();
     const columnBox = resumeColumn?.getBoundingClientRect();
     const facadeBox = ytFacade?.getBoundingClientRect();
     const noteBox = reelNote?.getBoundingClientRect();
+    const frameRatio =
+      previewBox && previewBox.width > 0 ? previewBox.height / previewBox.width : 0;
 
     const resumeLeftAligned =
-      Boolean(pageBox && sheetBox && downloadBox && columnBox) &&
-      Math.abs(sheetBox.left - pageBox.left) < 2 &&
-      Math.abs(downloadBox.left - sheetBox.left) < 2 &&
+      Boolean(pageBox && previewBox && downloadBox && columnBox) &&
+      Math.abs(previewBox.left - pageBox.left) < 2 &&
+      Math.abs(downloadBox.left - previewBox.left) < 2 &&
       Math.abs(columnBox.left - pageBox.left) < 2 &&
-      Math.abs(columnBox.right - sheetBox.right) < 2;
+      Math.abs(columnBox.right - previewBox.right) < 2;
 
     const reelFullShell =
       Boolean(pageBox && facadeBox && noteBox) &&
@@ -324,6 +329,10 @@ async function assertPage(page, path, viewport) {
       primaryIsMailto: primaryRow?.getAttribute("href")?.startsWith("mailto:") || false,
       contactLede,
       hasResumeSheet: Boolean(resumeSheet),
+      hasResumeFrame: Boolean(resumeFrame),
+      hasResumeEmbed: Boolean(resumeEmbed),
+      resumeEmbedSrc: resumeEmbed?.getAttribute("src") || "",
+      resumeLetterRatio: frameRatio,
       hasResumeDownload: Boolean(resumeDownload),
       hasResumeColumn: Boolean(resumeColumn),
       resumeDownloadHref: resumeDownload?.getAttribute("href") || "",
@@ -428,13 +437,18 @@ async function assertPage(page, path, viewport) {
   }
 
   if (path.includes("resume.html")) {
-    if (!report.hasResumeSheet) fail(`${label}: resume page must show the resume`);
+    if (!report.hasResumeFrame || !report.hasResumeEmbed)
+      fail(`${label}: resume page must show a full-page PDF embed`);
+    if (!report.resumeEmbedSrc.includes("Artur-Kosma-Resume.pdf"))
+      fail(`${label}: resume embed must point at the PDF`);
+    if (!(report.resumeLetterRatio > 1.2 && report.resumeLetterRatio < 1.4))
+      fail(`${label}: resume frame must be letter-page aspect (~8.5×11)`);
     if (!report.hasResumeDownload) fail(`${label}: resume page must offer PDF download`);
-    if (!report.hasResumeColumn) fail(`${label}: resume toolbar+sheet must share one column`);
+    if (!report.hasResumeColumn) fail(`${label}: resume toolbar+preview must share one column`);
     if (!report.resumeDownloadHref.includes("Artur-Kosma-Resume.pdf"))
       fail(`${label}: resume download must point at the PDF`);
     if (!report.resumeLeftAligned)
-      fail(`${label}: resume download+sheet must share the page left edge (no mid-float download)`);
+      fail(`${label}: resume download+preview must share the page left edge (no mid-float download)`);
   }
 
   if (path.includes("reel.html")) {

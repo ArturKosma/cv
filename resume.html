@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Resume — Artur Kosma." />
     <title>Resume — Artur Kosma</title>
-    <link rel="stylesheet" href="css/tokens.css?v=47" />
-    <link rel="stylesheet" href="css/base.css?v=47" />
-    <link rel="stylesheet" href="css/components.css?v=47" />
-    <link rel="stylesheet" href="css/pages.css?v=47" />
+    <link rel="stylesheet" href="css/tokens.css?v=49" />
+    <link rel="stylesheet" href="css/base.css?v=49" />
+    <link rel="stylesheet" href="css/components.css?v=49" />
+    <link rel="stylesheet" href="css/pages.css?v=49" />
   </head>
   <body class="page-resume">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -25,9 +25,8 @@
 
     <main id="main" class="page resume-layout">
       <!--
-        Resume pattern (clean refs + site alignment):
-        one left-edge column shared with Contact/Experience; download on that
-        rail (not floating mid-page); paper is a readable document measure.
+        Full letter-page PDF preview on-site, plus Download.
+        HTML sheet is a fallback when the browser cannot embed PDFs.
       -->
       <div class="resume-column">
         <div class="resume-toolbar">
@@ -39,7 +38,16 @@
           >
         </div>
 
-        <article class="resume-sheet" aria-label="Resume">
+        <div class="resume-frame">
+          <iframe
+            class="resume-embed"
+            title="Artur Kosma resume"
+            src="assets/resume/Artur-Kosma-Resume.pdf#view=FitH"
+            loading="lazy"
+          ></iframe>
+        </div>
+
+        <article class="resume-sheet resume-sheet--fallback" aria-label="Resume">
           <header class="resume-sheet__header">
             <h1>Artur Kosma</h1>
             <p class="resume-sheet__headline">Senior Animation Engineer — Games</p>

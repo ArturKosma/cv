@@ -29,5 +29,7 @@
   --font-display: "Space Grotesk", "DM Sans", sans-serif;
   --font-mono: "Cascadia Code", "SF Mono", "Consolas", "Liberation Mono", monospace;
   --ease: 160ms ease;
+  --page-max: 68rem;
+  --page-gutter: 1.25rem;
   --glow: radial-gradient(ellipse 70% 45% at 12% 0%, #18241e 0%, transparent 50%);
 }

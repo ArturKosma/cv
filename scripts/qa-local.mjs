@@ -214,10 +214,12 @@ async function assertPage(page, path, viewport) {
 
     const nav = document.querySelector(".nav-actions");
     const navBox = nav ? nav.getBoundingClientRect() : null;
+    const pageBox = document.querySelector(".page")?.getBoundingClientRect();
     const navPinnedRight =
       Boolean(navBox) &&
-      navBox.right >= window.innerWidth - 48 &&
-      navBox.left > window.innerWidth * 0.3;
+      Boolean(pageBox) &&
+      Math.abs(navBox.right - pageBox.right) < 4 &&
+      navBox.left > window.innerWidth * 0.25;
     const pageTitle = document.querySelector(".portfolio-title");
 
     const firstDetails = document.querySelector("details[data-project]");
@@ -270,7 +272,7 @@ async function assertPage(page, path, viewport) {
   if (report.btns[0].text !== "Experience")
     fail(`${label}: Experience should be leftmost nav button`);
   if (report.btns[1].text !== "Samples") fail(`${label}: Samples should follow Experience`);
-  if (!report.navPinnedRight) fail(`${label}: nav buttons must be pinned top-right`);
+  if (!report.navPinnedRight) fail(`${label}: nav must align to the content shell (top-right)`);
   for (const btn of report.btns) {
     if (!btn.display.includes("flex")) fail(`${label}: ${btn.text} display=${btn.display}`);
     if (btn.decoration.includes("underline")) fail(`${label}: ${btn.text} underlined`);

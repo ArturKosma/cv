@@ -12,7 +12,8 @@
   justify-content: flex-end;
   width: 100%;
   min-height: var(--nav-h);
-  padding: var(--space-4) var(--space-5);
+  /* Match .page horizontal inset so nav shares the content shell */
+  padding: var(--space-4) max(var(--page-gutter), calc((100% - var(--page-max)) / 2));
   background: transparent;
   pointer-events: none;
 }
@@ -55,7 +56,7 @@
 }
 
 .page {
-  width: min(100% - 2.5rem, 68rem);
+  width: min(100% - (var(--page-gutter) * 2), var(--page-max));
   margin: 0 auto;
   padding: var(--space-7) 0 var(--space-8);
 }
@@ -97,9 +98,9 @@
 .timeline-summary {
   list-style: none;
   display: grid;
-  grid-template-columns: 7.5rem minmax(0, 1fr);
-  gap: var(--space-4);
-  align-items: start;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  column-gap: var(--space-5);
+  align-items: baseline;
   padding-right: 1.25rem;
   position: relative;
   cursor: pointer;
@@ -113,7 +114,7 @@
   content: "";
   position: absolute;
   right: 0.1rem;
-  top: 0.55rem;
+  top: 0.45rem;
   width: 0.35rem;
   height: 0.35rem;
   border-right: 1.5px solid var(--muted-dim);
@@ -128,7 +129,7 @@
 }
 
 .timeline-item details[open] > .timeline-summary::after {
-  top: 0.7rem;
+  top: 0.6rem;
   transform: rotate(225deg);
 }
 
@@ -141,8 +142,7 @@
   font-weight: 500;
   letter-spacing: 0.02em;
   color: var(--muted-dim);
-  line-height: 1.4;
-  padding-top: 0.35rem;
+  line-height: 1.35;
   font-variant-numeric: tabular-nums;
 }
 
@@ -159,7 +159,7 @@
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0.35rem 0.5rem;
-  margin-top: 0.2rem;
+  margin-top: 0.15rem;
 }
 
 .timeline-role,
@@ -180,7 +180,7 @@
 .timeline-body {
   grid-column: 1 / -1;
   padding: var(--space-3) 0 0;
-  margin-left: calc(7.5rem + var(--space-4));
+  margin-left: calc(7rem + var(--space-5));
 }
 
 .timeline-detail {

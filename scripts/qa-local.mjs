@@ -226,10 +226,19 @@ async function assertPage(page, path, viewport) {
       Boolean(navBox) &&
       Boolean(pageBox) &&
       Math.abs(navBox.right - pageBox.right) < 4 &&
-      navBox.left > window.innerWidth * 0.25;
+      (window.innerWidth < 700 || navBox.left > window.innerWidth * 0.25);
     const pageTitle = document.querySelector(".portfolio-title");
 
     const firstDetails = document.querySelector("details[data-project]");
+    const contactCard = document.querySelector(".contact-card");
+    const contactAvatar = document.querySelector(".contact-avatar");
+    const mailLink = document.querySelector('a[href^="mailto:"]');
+    const linkedIn = [...document.querySelectorAll(".contact-row, .nav-actions a")].find((a) =>
+      (a.getAttribute("href") || "").includes("linkedin.com")
+    );
+    const facebook = [...document.querySelectorAll(".contact-avatar-link, .contact-row")].find((a) =>
+      (a.getAttribute("href") || "").includes("facebook.com")
+    );
     return {
       btnCount: btns.length,
       btns,
@@ -271,17 +280,32 @@ async function assertPage(page, path, viewport) {
       textFitsMedia: firstDetails?.dataset._textFit === "1",
       hasSkip: Boolean(document.querySelector(".skip-link")),
       hasMain: Boolean(document.querySelector("#main")),
+      hasContactCard: Boolean(contactCard),
+      hasContactAvatar: Boolean(contactAvatar),
+      hasEmailLink: Boolean(mailLink),
+      hasLinkedIn: Boolean(linkedIn),
+      hasFacebook: Boolean(facebook),
     };
   });
 
   if (!report.hasSkip) fail(`${label}: missing skip link`);
   if (!report.hasMain) fail(`${label}: missing #main`);
   if (report.hasBrand) fail(`${label}: brand link should be removed`);
-  if (report.btnCount < 2) fail(`${label}: expected Experience + Samples buttons`);
+  if (report.btnCount !== 5)
+    fail(`${label}: expected Experience, Samples, Resume, Reel, Contact`);
   if (report.btns[0].text !== "Experience")
     fail(`${label}: Experience should be leftmost nav button`);
   if (report.btns[1].text !== "Samples") fail(`${label}: Samples should follow Experience`);
+  if (report.btns[2].text !== "Resume") fail(`${label}: Resume should follow Samples`);
+  if (report.btns[3].text !== "Reel") fail(`${label}: Reel should follow Resume`);
+  if (report.btns[4].text !== "Contact") fail(`${label}: Contact should be last nav button`);
   if (!report.navPinnedRight) fail(`${label}: nav must align to the content shell (top-right)`);
+  const resume = report.btns[2];
+  if (!String(resume.href || "").includes("Artur-Kosma-Resume.pdf"))
+    fail(`${label}: Resume must point at the downloadable PDF`);
+  const reel = report.btns[3];
+  if (!String(reel.href || "").includes("youtube.com") && !String(reel.href || "").includes("youtu.be"))
+    fail(`${label}: Reel must link to YouTube`);
   for (const btn of report.btns) {
     if (!btn.display.includes("flex")) fail(`${label}: ${btn.text} display=${btn.display}`);
     if (btn.decoration.includes("underline")) fail(`${label}: ${btn.text} underlined`);
@@ -334,6 +358,14 @@ async function assertPage(page, path, viewport) {
     }
   }
 
+  if (path.includes("contact")) {
+    if (!report.hasContactCard) fail(`${label}: missing contact card`);
+    if (!report.hasContactAvatar) fail(`${label}: missing miniature profile image`);
+    if (!report.hasEmailLink) fail(`${label}: missing email link`);
+    if (!report.hasLinkedIn) fail(`${label}: missing LinkedIn link`);
+    if (!report.hasFacebook) fail(`${label}: missing Facebook link`);
+  }
+
   return report;
 }
 
@@ -349,6 +381,7 @@ async function main() {
     for (const viewport of VIEWPORTS) {
       await assertPage(page, "/index.html", viewport);
       await assertPage(page, "/samples.html", viewport);
+      await assertPage(page, "/contact.html", viewport);
     }
 
     await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });

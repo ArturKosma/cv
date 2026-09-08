@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Artur Kosma — Resume</title>
+    <style>
+      /* Print/PDF resume — light, scannable in ~5 seconds */
+      @page {
+        size: Letter;
+        margin: 0.55in 0.65in;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color: #1a1f1c;
+        background: #fff;
+        font-size: 10.5pt;
+        line-height: 1.35;
+      }
+
+      .resume {
+        max-width: 7.5in;
+        margin: 0 auto;
+      }
+
+      header {
+        margin-bottom: 14pt;
+        padding-bottom: 10pt;
+        border-bottom: 1.5pt solid #1a1f1c;
+      }
+
+      h1 {
+        font-size: 26pt;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.05;
+      }
+
+      .headline {
+        margin-top: 4pt;
+        font-size: 12pt;
+        font-weight: 500;
+        color: #3d4741;
+      }
+
+      .contact {
+        margin-top: 6pt;
+        font-size: 9pt;
+        color: #5a655e;
+      }
+
+      .contact span + span::before {
+        content: "·";
+        margin: 0 0.4em;
+        color: #9aa39c;
+      }
+
+      h2 {
+        margin: 12pt 0 6pt;
+        font-size: 9pt;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #1a1f1c;
+      }
+
+      .role {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 2pt 12pt;
+        margin-bottom: 8pt;
+      }
+
+      .role:last-child {
+        margin-bottom: 0;
+      }
+
+      .role-title {
+        font-weight: 700;
+        font-size: 10.5pt;
+      }
+
+      .role-meta {
+        color: #3d4741;
+        font-size: 9.5pt;
+      }
+
+      .role-dates {
+        font-size: 9pt;
+        color: #5a655e;
+        white-space: nowrap;
+        text-align: right;
+      }
+
+      .role p {
+        grid-column: 1 / -1;
+        margin-top: 2pt;
+        color: #2a322e;
+        font-size: 9.5pt;
+      }
+
+      .skills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4pt 10pt;
+        font-size: 9.5pt;
+        color: #2a322e;
+      }
+
+      .skills span {
+        white-space: nowrap;
+      }
+
+      .skills span + span::before {
+        content: none;
+      }
+
+      .note {
+        margin-top: 14pt;
+        font-size: 8pt;
+        color: #8a938c;
+      }
+    </style>
+  </head>
+  <body>
+    <article class="resume">
+      <header>
+        <h1>Artur Kosma</h1>
+        <p class="headline">Animation Engineer — Games</p>
+        <p class="contact">
+          <!-- Replace placeholders -->
+          <span>artur.kosma@example.com</span>
+          <span>linkedin.com/in/arturkosma</span>
+          <span>Poland</span>
+        </p>
+      </header>
+
+      <h2>Experience</h2>
+
+      <div class="role">
+        <div>
+          <div class="role-title">Senior Animation Engineer — The Farm 51</div>
+          <div class="role-meta">Rescue Drone Simulator</div>
+        </div>
+        <div class="role-dates">2026–Present</div>
+        <p>Owns animation systems for the rescue drone simulator after returning to pure engineering.</p>
+      </div>
+
+      <div class="role">
+        <div>
+          <div class="role-title">Lead Combat Engineer — The Farm 51</div>
+          <div class="role-meta">Chernobylite 2</div>
+        </div>
+        <div class="role-dates">2021–2026</div>
+        <p>Led a multidisciplinary team of 10+; ~50/50 leadership and hands-on combat/animation engineering.</p>
+      </div>
+
+      <div class="role">
+        <div>
+          <div class="role-title">Lead Animator &amp; Programmer — The Farm 51</div>
+          <div class="role-meta">Chernobylite 1</div>
+        </div>
+        <div class="role-dates">2019–2021</div>
+        <p>First lead role: planned mocap, managed animators, shipped movement and animation systems.</p>
+      </div>
+
+      <div class="role">
+        <div>
+          <div class="role-title">Junior Programmer — The Farm 51</div>
+          <div class="role-meta">Chernobylite 1</div>
+        </div>
+        <div class="role-dates">2017–2019</div>
+        <p>Owned character animation/rigging pipeline while studying; authored character anims and movement/AI code.</p>
+      </div>
+
+      <h2>Focus</h2>
+      <p class="skills">
+        <span>Animation systems</span>
+        <span>Gameplay engineering</span>
+        <span>Unreal Engine</span>
+        <span>Technical animation</span>
+        <span>Team leadership</span>
+        <span>Mocap / pipelines</span>
+      </p>
+    </article>
+  </body>
+</html>

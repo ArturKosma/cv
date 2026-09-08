@@ -622,41 +622,48 @@ async function main() {
       const experienceBox = experience.getBoundingClientRect();
       const identityBox = identity.getBoundingClientRect();
       const pageBox = pageEl.getBoundingClientRect();
+      const nav = document.querySelector(".nav-actions");
+      const navBox = nav?.getBoundingClientRect();
       const dates = [...document.querySelectorAll(".timeline-dates")].map((el) =>
         el.getBoundingClientRect().left
       );
       const orgs = [...document.querySelectorAll(".timeline-org")].map((el) =>
         el.getBoundingClientRect().left
       );
-
-      const nav = document.querySelector(".nav-actions");
-      const navBox = nav?.getBoundingClientRect();
+      const metas = [...document.querySelectorAll(".timeline-meta")].map((el) => {
+        const role = el.querySelector(".timeline-role");
+        const h = el.getBoundingClientRect().height;
+        const roleH = role ? role.getBoundingClientRect().height : h;
+        return h <= roleH * 1.35;
+      });
 
       return {
         ok:
           Boolean(navBox) &&
           Math.abs(portraitBox.width - brandBox.width) < 3 &&
           Math.abs(portraitBox.right - brandBox.right) < 3 &&
-          Math.abs(timelineBox.top - experienceBox.top) < 4 &&
           Math.abs(identityBox.left - pageBox.left) < 3 &&
           identityBox.right < experienceBox.left &&
           experienceBox.right - pageBox.right < 2 &&
           Math.abs(experienceBox.left - navBox.left) < 3 &&
+          Math.abs(timelineBox.bottom - portraitBox.bottom) < 8 &&
+          experienceBox.top > navBox.bottom + 24 &&
+          metas.every(Boolean) &&
           dates.every((l) => Math.abs(l - dates[0]) < 1) &&
           orgs.every((l) => Math.abs(l - orgs[0]) < 1),
         pageLeftAligned: Math.abs(identityBox.left - pageBox.left) < 3,
-        identityLeftOfRail: identityBox.right < experienceBox.left,
-        timelineRightPinned: experienceBox.right - pageBox.right < 2,
         railAtNavLeft: Boolean(navBox) && Math.abs(experienceBox.left - navBox.left) < 3,
-        datesAligned: dates.every((l) => Math.abs(l - dates[0]) < 1),
-        orgsAligned: orgs.every((l) => Math.abs(l - orgs[0]) < 1),
+        bottomsMatch: Math.abs(timelineBox.bottom - portraitBox.bottom) < 8,
+        belowNav: experienceBox.top > (navBox?.bottom || 0) + 24,
+        metaOneLine: metas.every(Boolean),
         gap: experienceBox.left - identityBox.right,
         railDelta: navBox ? experienceBox.left - navBox.left : null,
+        bottomDelta: timelineBox.bottom - portraitBox.bottom,
       };
     });
     if (!identityLayout.ok) {
       fail(
-        `experience: timeline rail must match nav left edge (delta ${identityLayout.railDelta}, gap ${identityLayout.gap})`
+        `experience: nav-aligned rail, portrait baseline, one-line roles (metaOneLine ${identityLayout.metaOneLine}, bottomDelta ${identityLayout.bottomDelta})`
       );
     }
 

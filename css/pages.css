@@ -8,22 +8,25 @@
   /*
     Identity on the shared page-left edge. Timeline width is pinned in JS
     so its rail matches the left edge of the top nav (EXPERIENCE…).
+    Experience sits on the portrait baseline (bottom-aligned).
   */
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: flex-start;
   gap: clamp(2.5rem, 6vw, 5rem);
 }
 
 .experience {
   min-width: 0;
   flex: 0 1 auto;
+  align-self: flex-end;
 }
 
 .identity {
   display: grid;
   justify-items: stretch;
   flex: 0 0 auto;
+  align-self: flex-start;
   width: 100%;
   max-width: 20rem;
   min-width: 0;
@@ -435,12 +438,22 @@
   }
 
   .timeline-summary {
-    grid-template-columns: 6.5rem minmax(0, 1fr);
+    grid-template-columns: 6rem minmax(0, 1fr);
     column-gap: var(--space-3);
   }
 
   .timeline-body {
-    margin-left: calc(6.5rem + var(--space-3));
+    margin-left: calc(6rem + var(--space-3));
+  }
+
+  .timeline-meta {
+    flex-wrap: wrap;
+    white-space: normal;
+  }
+
+  .timeline-role,
+  .timeline-project {
+    white-space: normal;
   }
 }
 

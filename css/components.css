@@ -221,8 +221,7 @@
 .portrait-frame {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 5;
-  max-height: 22rem;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   object-position: center top;
   border: 1px solid var(--line);

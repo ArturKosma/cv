@@ -348,14 +348,24 @@
 }
 
 /*
-  Reel — media spans the full content shell (same width rhythm as Samples).
-  No arbitrary mid-width cap; note shares the same left edge.
+  Reel — quiet year label, then media spanning the full content shell
+  (same width rhythm as Samples). No arbitrary mid-width cap.
 */
 .reel-layout {
   display: grid;
   gap: var(--space-3);
   padding-bottom: var(--space-8);
   justify-items: stretch;
+}
+
+.reel-title {
+  justify-self: start;
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 
 .yt-facade {

@@ -177,7 +177,9 @@ details[data-project][open]::details-content {
   grid-template-columns: 6.25rem minmax(0, 1fr);
   column-gap: var(--space-4);
   align-items: baseline;
-  padding-right: 1.25rem;
+  /* Full row width so the chevron parks in a right gutter, not beside the org name */
+  width: 100%;
+  padding-right: 1.75rem;
   position: relative;
   cursor: pointer;
   user-select: none;
@@ -192,19 +194,22 @@ details[data-project][open]::details-content {
 .timeline-summary::after {
   content: "";
   position: absolute;
-  right: 0.1rem;
+  right: 0.15rem;
   top: 0.45rem;
   width: 0.35rem;
   height: 0.35rem;
   border-right: 1.5px solid var(--muted-dim);
   border-bottom: 1.5px solid var(--muted-dim);
+  opacity: 0.45;
   transform: rotate(45deg);
-  transition: border-color var(--ease), transform var(--ease);
+  transition: border-color var(--ease), transform var(--ease), opacity var(--ease);
+  pointer-events: none;
 }
 
 .timeline-summary:hover::after,
 .timeline-item details[open] > .timeline-summary::after {
   border-color: var(--accent);
+  opacity: 1;
 }
 
 .timeline-item details[open] > .timeline-summary::after {
@@ -326,7 +331,8 @@ details[data-project][open]::details-content {
   grid-template-columns: minmax(7rem, 10rem) minmax(0, 1fr);
   gap: var(--space-5);
   align-items: center;
-  padding: var(--space-5) 1.25rem var(--space-5) 0;
+  width: 100%;
+  padding: var(--space-5) 1.75rem var(--space-5) 0;
   position: relative;
   cursor: pointer;
   user-select: none;
@@ -341,20 +347,23 @@ details[data-project][open]::details-content {
 .project-list summary::after {
   content: "";
   position: absolute;
-  right: 0.1rem;
+  right: 0.15rem;
   top: 50%;
   width: 0.35rem;
   height: 0.35rem;
   margin-top: -0.28rem;
   border-right: 1.5px solid var(--muted-dim);
   border-bottom: 1.5px solid var(--muted-dim);
+  opacity: 0.45;
   transform: rotate(45deg);
-  transition: border-color var(--ease), transform var(--ease);
+  transition: border-color var(--ease), transform var(--ease), opacity var(--ease);
+  pointer-events: none;
 }
 
 .project-list summary:hover::after,
 .project-list details[open] > summary::after {
   border-color: var(--accent);
+  opacity: 1;
 }
 
 .project-list details[open] > summary::after {

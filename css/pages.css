@@ -219,9 +219,11 @@
 .resume-toolbar {
   display: flex;
   justify-content: flex-start;
+  align-items: center;
+  gap: var(--space-4);
 }
 
-.resume-download {
+.resume-action {
   color: var(--accent);
   font-size: var(--text-xs);
   font-weight: 500;
@@ -231,12 +233,12 @@
   transition: color var(--ease);
 }
 
-.resume-download:hover,
-.resume-download:focus-visible {
+.resume-action:hover,
+.resume-action:focus-visible {
   color: var(--fg);
 }
 
-.resume-download:focus-visible {
+.resume-action:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 3px;
 }
@@ -360,7 +362,7 @@
 }
 
 .reel-title {
-  /* Match Resume “Download PDF” quiet accent label */
+  /* Match Resume Open / Download quiet accent label */
   justify-self: start;
   margin: 0;
   color: var(--accent);

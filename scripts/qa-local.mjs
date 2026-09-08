@@ -255,11 +255,23 @@ async function assertPage(page, path, viewport) {
     const resumeSheet = document.querySelector(".resume-sheet");
     const resumeFrame = document.querySelector(".resume-frame");
     const resumePage = document.querySelector(".resume-page");
-    const resumeDownload = document.querySelector(".resume-download");
+    const resumeActions = [...document.querySelectorAll(".resume-toolbar .resume-action")];
+    const resumeOpen = resumeActions[0] || null;
+    const resumeDownload =
+      document.querySelector(".resume-download") || resumeActions[1] || null;
     const resumeColumn = document.querySelector(".resume-column");
     const ytFacade = document.querySelector(".yt-facade");
     const reelTitle = document.querySelector(".reel-title");
     const contactLede = document.querySelector(".contact-lede")?.textContent.trim() || "";
+    const resumeActionStyle = resumeOpen
+      ? {
+          color: getComputedStyle(resumeOpen).color,
+          fontWeight: getComputedStyle(resumeOpen).fontWeight,
+          letterSpacing: getComputedStyle(resumeOpen).letterSpacing,
+          fontSize: getComputedStyle(resumeOpen).fontSize,
+          textTransform: getComputedStyle(resumeOpen).textTransform,
+        }
+      : null;
     const resumeDownloadStyle = resumeDownload
       ? {
           color: getComputedStyle(resumeDownload).color,
@@ -281,6 +293,7 @@ async function assertPage(page, path, viewport) {
 
     const previewEl = resumeFrame || resumeSheet;
     const previewBox = previewEl?.getBoundingClientRect();
+    const openBox = resumeOpen?.getBoundingClientRect();
     const downloadBox = resumeDownload?.getBoundingClientRect();
     const columnBox = resumeColumn?.getBoundingClientRect();
     const facadeBox = ytFacade?.getBoundingClientRect();
@@ -288,11 +301,16 @@ async function assertPage(page, path, viewport) {
       previewBox && previewBox.width > 0 ? previewBox.height / previewBox.width : 0;
 
     const resumeLeftAligned =
-      Boolean(pageBox && previewBox && downloadBox && columnBox) &&
+      Boolean(pageBox && previewBox && openBox && columnBox) &&
       Math.abs(previewBox.left - pageBox.left) < 2 &&
-      Math.abs(downloadBox.left - previewBox.left) < 2 &&
+      Math.abs(openBox.left - previewBox.left) < 2 &&
       Math.abs(columnBox.left - pageBox.left) < 2 &&
       Math.abs(columnBox.right - previewBox.right) < 2;
+
+    const resumeOpenLeftOfDownload =
+      Boolean(openBox && downloadBox) &&
+      openBox.right < downloadBox.left &&
+      Math.abs(openBox.top - downloadBox.top) < 4;
 
     const reelFullShell =
       Boolean(pageBox && facadeBox) &&
@@ -359,9 +377,19 @@ async function assertPage(page, path, viewport) {
       resumePageAlt: resumePage?.getAttribute("alt") || "",
       resumeLetterRatio: frameRatio,
       hasResumeDownload: Boolean(resumeDownload),
+      hasResumeOpen: Boolean(resumeOpen),
       hasResumeColumn: Boolean(resumeColumn),
+      resumeOpenText: resumeOpen?.textContent.trim() || "",
+      resumeOpenHref: resumeOpen?.getAttribute("href") || "",
+      resumeOpenHasDownload: resumeOpen?.hasAttribute("download") || false,
+      resumeOpenTarget: resumeOpen?.getAttribute("target") || "",
+      resumeDownloadText: resumeDownload?.textContent.trim() || "",
       resumeDownloadHref: resumeDownload?.getAttribute("href") || "",
+      resumeDownloadHasDownload: resumeDownload?.hasAttribute("download") || false,
       resumeLeftAligned,
+      resumeOpenLeftOfDownload,
+      resumeActionStyle,
+      resumeDownloadStyle,
       hasYtFacade: Boolean(ytFacade),
       ytId: ytFacade?.dataset.youtubeId || "",
       reelFullShell,
@@ -478,16 +506,33 @@ async function assertPage(page, path, viewport) {
       fail(`${label}: resume preview needs a descriptive alt text`);
     if (!(report.resumeLetterRatio > 1.2 && report.resumeLetterRatio < 1.4))
       fail(`${label}: resume frame must be letter-page aspect (~8.5×11)`);
-    if (!report.hasResumeDownload) fail(`${label}: resume page must offer PDF download`);
+    if (!report.hasResumeOpen) fail(`${label}: resume page must offer Open (native PDF)`);
+    if (!report.hasResumeDownload) fail(`${label}: resume page must offer Download`);
     if (!report.hasResumeColumn) fail(`${label}: resume toolbar+preview must share one column`);
+    if (report.resumeOpenText.toLowerCase() !== "open")
+      fail(`${label}: Open label must be Open (got ${report.resumeOpenText})`);
+    if (report.resumeDownloadText.toLowerCase() !== "download")
+      fail(`${label}: Download label must be Download (got ${report.resumeDownloadText})`);
+    if (!String(report.resumeOpenHref || "").endsWith("resume.pdf"))
+      fail(`${label}: Open must point at root resume.pdf for native browser view`);
+    if (report.resumeOpenHasDownload)
+      fail(`${label}: Open must not force download (native PDF viewer)`);
+    if (report.resumeOpenTarget !== "_blank")
+      fail(`${label}: Open should open the PDF in a new tab`);
     if (!report.resumeDownloadHref.includes("Artur-Kosma-Resume.pdf"))
-      fail(`${label}: resume download must point at the PDF`);
+      fail(`${label}: Download must point at the PDF`);
+    if (!report.resumeDownloadHasDownload)
+      fail(`${label}: Download must use the download attribute`);
+    if (!report.resumeOpenLeftOfDownload)
+      fail(`${label}: Open must sit to the left of Download`);
     if (!report.resumeLeftAligned)
-      fail(`${label}: resume download+preview must share the page left edge (no mid-float download)`);
+      fail(`${label}: resume Open+preview must share the page left edge (no mid-float toolbar)`);
     if (report.resumeDownloadStyle?.color !== "rgb(196, 163, 90)")
-      fail(`${label}: Download PDF must use accent gold`);
+      fail(`${label}: Download must use accent gold`);
     if (report.resumeDownloadStyle?.fontWeight !== "500")
-      fail(`${label}: Download PDF weight should be 500`);
+      fail(`${label}: Download weight should be 500`);
+    if (report.resumeActionStyle?.color !== report.resumeDownloadStyle?.color)
+      fail(`${label}: Open and Download must share the same accent color`);
   }
 
   if (path.includes("reel.html")) {
@@ -498,11 +543,11 @@ async function assertPage(page, path, viewport) {
     if (!report.hasReelTitle) fail(`${label}: reel must show a quiet year label`);
     if (report.reelTitleText !== "2026")
       fail(`${label}: reel year label should be 2026 (got ${report.reelTitleText})`);
-    // Match Resume Download PDF quiet accent recipe (same color/weight/tracking).
+    // Match Resume Open / Download quiet accent recipe (same color/weight/tracking).
     if (report.reelTitleStyle?.color !== "rgb(196, 163, 90)")
-      fail(`${label}: reel year color must match Resume Download PDF gold`);
+      fail(`${label}: reel year color must match Resume Open/Download gold`);
     if (report.reelTitleStyle?.fontWeight !== "500")
-      fail(`${label}: reel year weight must match Resume Download PDF (500)`);
+      fail(`${label}: reel year weight must match Resume Open/Download (500)`);
   }
 
   return report;

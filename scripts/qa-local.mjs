@@ -604,11 +604,11 @@ async function main() {
       !experienceCopy.every(
         (i) =>
           i.detailSize > i.roleSize &&
-          i.detailColor !== i.roleColor &&
-          i.detailColor !== i.orgColor
+          i.detailColor !== i.orgColor &&
+          i.detailColor !== i.projectColor
       )
     ) {
-      fail("experience: expanded detail must read clearer than the role/project line");
+      fail("experience: expanded detail must read clearer than the quiet project line");
     }
 
     const accordionHome = await page.evaluate(async () => {

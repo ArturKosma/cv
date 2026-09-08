@@ -22,7 +22,9 @@
 
         const pin = () => {
           const delta = details.getBoundingClientRect().top - topBefore;
-          if (Math.abs(delta) > 0.5) window.scrollBy(0, delta);
+          if (Math.abs(delta) > 0.5) {
+            window.scrollBy({ top: delta, left: 0, behavior: "instant" });
+          }
         };
 
         pin();

@@ -522,7 +522,7 @@ async function main() {
 
       // Place the second item near the top of the viewport (requires real scroll).
       const absoluteTop = items[1].getBoundingClientRect().top + window.scrollY;
-      window.scrollTo(0, Math.max(0, absoluteTop - 120));
+      window.scrollTo({ top: Math.max(0, absoluteTop - 120), behavior: "instant" });
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
 
       const beforeTop = items[1].getBoundingClientRect().top;

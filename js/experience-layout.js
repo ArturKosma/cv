@@ -1,8 +1,9 @@
 /**
  * Experience layout helpers:
  * - Identity column width locks to "Artur Kosma"
- * - Portrait is slightly narrower, left-aligned with the name
- * - Collapsed timeline sits in the vertical middle of name→portrait
+ * - Portrait fills that width and stays right-aligned
+ * - Collapsed timeline is vertically centered on name→portrait
+ * - Expanding a record does not reflow that offset (only content below moves)
  */
 (function () {
   const layout = document.querySelector(".home-layout");
@@ -18,7 +19,6 @@
   function clearTimelineOffset() {
     timeline.style.marginTop = "";
     timeline.style.minHeight = "";
-    layout.classList.remove("timeline-spaced");
   }
 
   function syncBrandWidth() {
@@ -34,10 +34,10 @@
       return;
     }
 
-    clearTimelineOffset();
-
-    // When a record is open, keep natural flow from the top.
+    // Keep the current offset while expanded so only rows below shift.
     if (timeline.querySelector("details[open]")) return;
+
+    clearTimelineOffset();
 
     const brandBox = brand.getBoundingClientRect();
     const portraitBox = portrait
@@ -56,8 +56,12 @@
     requestAnimationFrame(syncTimelineCenter);
   }
 
+  // Recenter only after everything is collapsed again.
   timeline.querySelectorAll("details").forEach((details) => {
-    details.addEventListener("toggle", () => requestAnimationFrame(syncTimelineCenter));
+    details.addEventListener("toggle", () => {
+      if (timeline.querySelector("details[open]")) return;
+      requestAnimationFrame(syncTimelineCenter);
+    });
   });
 
   requestAnimationFrame(() => requestAnimationFrame(sync));

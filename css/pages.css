@@ -47,8 +47,8 @@
 }
 
 .identity .portrait {
-  width: 84%;
-  justify-self: start;
+  width: 100%;
+  justify-self: end;
   margin-top: var(--space-4);
 }
 
@@ -122,7 +122,7 @@
   }
 
   .identity .portrait {
-    width: 84%;
+    width: min(100%, 18rem);
     justify-self: start;
   }
 

@@ -76,9 +76,9 @@ async function assertPage(page, path, viewport) {
     if (portrait && identity && heroBrand && window.innerWidth > 900) {
       const brandBox = heroBrand.getBoundingClientRect();
       const portraitBox = portrait.getBoundingClientRect();
-      const ratio = portraitBox.width / brandBox.width;
-      const leftAligned = Math.abs(portraitBox.left - brandBox.left) < 3;
-      portraitMatchesText = ratio > 0.78 && ratio < 0.92 && leftAligned;
+      const widthMatch = Math.abs(portraitBox.width - brandBox.width) < 3;
+      const rightAligned = Math.abs(portraitBox.right - brandBox.right) < 3;
+      portraitMatchesText = widthMatch && rightAligned;
     }
     const ledeEl = document.querySelector(".identity .lede");
     const brandFamily = heroBrand
@@ -285,7 +285,7 @@ async function assertPage(page, path, viewport) {
     if (report.hasSectionLabel) fail(`${label}: Experience section label above timeline should be removed`);
     if (!report.portraitIsImage) fail(`${label}: portrait should be a real placeholder image`);
     if (viewport.width >= 900 && !report.portraitMatchesText) {
-      fail(`${label}: portrait should be slightly narrower than Artur Kosma with matching left edge`);
+      fail(`${label}: portrait should fill Artur Kosma width and stay right-aligned`);
     }
     if (!report.brandIsDisplay) fail(`${label}: name should use Space Grotesk`);
     if (!report.ledeIsDisplay) fail(`${label}: lede should use Space Grotesk, not handwritten`);
@@ -470,28 +470,44 @@ async function main() {
       window.dispatchEvent(new Event("resize"));
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
       await new Promise((r) => setTimeout(r, 50));
+
       const brandBox = brand.getBoundingClientRect();
       const portraitBox = portrait.getBoundingClientRect();
       const timelineBox = timeline.getBoundingClientRect();
       const mid = (brandBox.top + portraitBox.bottom) / 2;
       const timelineMid = (timelineBox.top + timelineBox.bottom) / 2;
-      const ratio = portraitBox.width / brandBox.width;
-      const leftAligned = Math.abs(portraitBox.left - brandBox.left) < 3;
+      const marginBefore = timeline.style.marginTop;
+
+      // Expand first item — margin offset must stay put; only lower content moves.
+      const first = timeline.querySelector("details");
+      const secondTopBefore = timeline
+        .querySelectorAll(".timeline-item")[1]
+        ?.getBoundingClientRect().top;
+      first.open = true;
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      const marginAfter = timeline.style.marginTop;
+      const secondTopAfter = timeline
+        .querySelectorAll(".timeline-item")[1]
+        ?.getBoundingClientRect().top;
+
+      first.open = false;
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+
       return {
         ok:
           Math.abs(timelineMid - mid) < 28 &&
-          ratio > 0.78 &&
-          ratio < 0.92 &&
-          leftAligned &&
-          timelineBox.height < identity.getBoundingClientRect().height - 24,
+          Math.abs(portraitBox.width - brandBox.width) < 3 &&
+          Math.abs(portraitBox.right - brandBox.right) < 3 &&
+          marginBefore === marginAfter &&
+          secondTopAfter > secondTopBefore + 8,
         midDelta: Math.abs(timelineMid - mid),
-        ratio,
-        leftAligned,
+        marginStable: marginBefore === marginAfter,
+        lowerMoved: secondTopAfter > secondTopBefore + 8,
       };
     });
     if (!identityCenter.ok) {
       fail(
-        `experience: timeline should sit mid name→image; portrait narrower + left-aligned (midΔ ${identityCenter.midDelta}, ratio ${identityCenter.ratio})`
+        `experience: portrait full-width right-aligned; timeline centered when collapsed and stable on expand (midΔ ${identityCenter.midDelta})`
       );
     }
 
@@ -503,12 +519,25 @@ async function main() {
       });
       items[0].open = true;
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+      // Place the second item near the top of the viewport (requires real scroll).
+      const absoluteTop = items[1].getBoundingClientRect().top + window.scrollY;
+      window.scrollTo(0, Math.max(0, absoluteTop - 120));
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+      const beforeTop = items[1].getBoundingClientRect().top;
       items[1].open = true;
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      const afterTop = items[1].getBoundingClientRect().top;
+
       return {
         openCount: items.filter((d) => d.open).length,
         secondOpen: items[1].open,
         firstClosed: !items[0].open,
+        viewportStable: Math.abs(afterTop - beforeTop) < 12,
+        beforeTop,
+        afterTop,
       };
     });
     if (
@@ -517,6 +546,11 @@ async function main() {
       !accordionSamples.firstClosed
     ) {
       fail("samples: opening one record must close the others");
+    }
+    if (!accordionSamples.viewportStable) {
+      fail(
+        `samples: opening a lower record must keep it from jumping up the viewport (Δ ${accordionSamples.afterTop - accordionSamples.beforeTop})`
+      );
     }
 
     console.log(

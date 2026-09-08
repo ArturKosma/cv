@@ -527,8 +527,8 @@ async function assertPage(page, path, viewport) {
     fail(`${label}: html should reserve scrollbar-gutter: stable (no layout jump)`);
   if (report.accent.toLowerCase() !== "#c4a35a")
     fail(`${label}: original gold accent drifted: ${report.accent}`);
-  if (report.bg.toLowerCase() !== "#0f1412")
-    fail(`${label}: original forest bg drifted: ${report.bg}`);
+  if (report.bg.toLowerCase() !== "#0b0c0b")
+    fail(`${label}: field bg drifted: ${report.bg}`);
   if (report.muted.toLowerCase() !== "#9aa89f")
     fail(`${label}: original muted drifted: ${report.muted}`);
 

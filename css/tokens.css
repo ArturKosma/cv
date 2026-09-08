@@ -1,8 +1,8 @@
 /* Design tokens — shared across every page */
-/* Original craft palette: forest field + gold accent */
+/* Dark charcoal field (quiet green undertone) + gold accent */
 :root {
-  --bg: #0f1412;
-  --bg-elevated: #151b18;
+  --bg: #0b0c0b;
+  --bg-elevated: #121412;
   --fg: #e8ece9;
   --muted: #9aa89f;
   --muted-dim: #6e7a72;
@@ -33,10 +33,9 @@
   --page-max: 68rem;
   --page-gutter: 1.25rem;
   /*
-    Field glow — original forest key. Black micro-noise (multiply) dithers
-    banding without lightening the field.
+    Field glow — darker, less green. Black micro-noise (multiply) dithers banding.
   */
-  --glow: radial-gradient(ellipse 70% 45% at 12% 0%, #18241e 0%, transparent 50%);
+  --glow: radial-gradient(ellipse 70% 45% at 12% 0%, #141916 0%, transparent 50%);
   --noise: url("../assets/noise.png");
   --field: var(--noise), var(--glow);
 }

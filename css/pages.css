@@ -464,14 +464,10 @@
     margin-left: calc(6rem + var(--space-3));
   }
 
-  .timeline-meta {
+  .timeline-project,
+  .timeline-role {
     overflow: visible;
     text-overflow: unset;
-    white-space: normal;
-  }
-
-  .timeline-role,
-  .timeline-project {
     white-space: normal;
   }
 }

@@ -327,8 +327,8 @@ async function assertPage(page, path, viewport) {
       hasYtFacade: Boolean(ytFacade),
       ytId: ytFacade?.dataset.youtubeId || "",
       reelFullShell,
-      accent: style.getPropertyValue("--accent").trim(),
-      bg: style.getPropertyValue("--bg").trim(),
+      accent: getComputedStyle(document.documentElement).getPropertyValue("--accent").trim(),
+      bg: getComputedStyle(document.documentElement).getPropertyValue("--bg").trim(),
     };
   });
 
@@ -356,6 +356,10 @@ async function assertPage(page, path, viewport) {
     if (!approxNotBlueLink(btn.color)) fail(`${label}: ${btn.text} blue link color ${btn.color}`);
   }
   if (report.overflowX) fail(`${label}: horizontal overflow`);
+  if (report.accent.toLowerCase() !== "#7a9399")
+    fail(`${label}: Forest+Steel accent drifted: ${report.accent}`);
+  if (report.bg.toLowerCase() !== "#0f1412")
+    fail(`${label}: Forest+Steel bg drifted: ${report.bg}`);
 
   if (path.includes("index")) {
     if (report.hasHeroTitle) fail(`${label}: golden CV label should be gone`);

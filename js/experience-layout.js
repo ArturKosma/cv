@@ -3,7 +3,7 @@
  * - Lock identity width to the brand name so the portrait matches
  * - Pin the timeline so its left rail lines up with the left edge of
  *   the top nav (EXPERIENCE … CONTACT), right edge with the page shell
- * - Match timeline top to the portrait top
+ * - Timeline top matches portrait top via CSS subgrid (no post-paint margin)
  * - When all rows are collapsed, add static inter-item padding so the
  *   last row meets the portrait bottom. Those gaps stay frozen while
  *   any row is open/closing — expand only grows the opened body.
@@ -20,10 +20,13 @@
   const portrait = identity?.querySelector("img.portrait-frame");
   if (!identity || !brand || !experience || !nav || !page) return;
 
+  document.documentElement.classList.add("has-layout-js");
+
   /** True while a close height transition is still settling. */
   let closeSettling = false;
   let stretchTimer = 0;
   let basePadPx = null;
+  let ready = false;
 
   function timelineItems() {
     return timeline ? [...timeline.querySelectorAll(":scope > .timeline-item")] : [];
@@ -31,6 +34,12 @@
 
   function anyDetailsOpen() {
     return Boolean(timeline && [...timeline.querySelectorAll("details")].some((d) => d.open));
+  }
+
+  function markReady() {
+    if (ready) return;
+    ready = true;
+    page.classList.add("is-layout-ready");
   }
 
   function readBasePadPx() {
@@ -92,16 +101,6 @@
     }
   }
 
-  function syncExperienceTopToPortrait() {
-    experience.style.marginTop = "";
-    if (!MQ.matches || !portrait) return;
-
-    const identityBox = identity.getBoundingClientRect();
-    const portraitBox = portrait.getBoundingClientRect();
-    const offset = Math.max(0, Math.round(portraitBox.top - identityBox.top));
-    experience.style.marginTop = `${offset}px`;
-  }
-
   function syncTimelineStretchToPortrait() {
     if (!timeline || !portrait) return;
 
@@ -144,11 +143,16 @@
   function syncAll() {
     syncBrandWidth();
     syncExperienceToNav();
-    syncExperienceTopToPortrait();
     syncTimelineStretchToPortrait();
   }
 
-  requestAnimationFrame(() => requestAnimationFrame(syncAll));
+  // Sync before first paint when possible (defer already waits for DOM).
+  // Do not wait on double-rAF — that guaranteed a wrong-position frame.
+  syncAll();
+  markReady();
+  // Failsafe if an earlier throw left the timeline hidden.
+  window.setTimeout(markReady, 400);
+
   window.addEventListener("resize", syncAll);
   MQ.addEventListener("change", syncAll);
 

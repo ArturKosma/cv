@@ -8,7 +8,8 @@
   /*
     Identity on the shared page-left edge. Timeline width is pinned in JS
     so its rail matches the left edge of the top nav (EXPERIENCE…).
-    Timeline top is pinned to the portrait top in JS.
+    Desktop: subgrid shares the portrait row so timeline top matches the
+    image without a post-paint marginTop (avoids the under-nav flash).
   */
   display: flex;
   justify-content: space-between;
@@ -61,6 +62,16 @@
 .identity .portrait {
   width: 100%;
   margin-top: var(--space-5);
+}
+
+/*
+  Hide timeline until JS pins width — only when layout JS is active.
+  Prevents a one-frame rail at the wrong horizontal position.
+*/
+@media (min-width: 901px) {
+  .has-layout-js .home-layout:not(.is-layout-ready) .experience {
+    visibility: hidden;
+  }
 }
 
 .page-samples .page,
@@ -485,9 +496,43 @@
 }
 
 @media (min-width: 901px) {
+  .home-layout {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    column-gap: clamp(2.5rem, 6vw, 5rem);
+    row-gap: var(--space-3);
+    justify-content: space-between;
+    align-items: start;
+  }
+
   .identity {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    display: grid;
+    grid-template-rows: subgrid;
+    gap: 0;
     position: sticky;
     top: calc(var(--nav-h) + var(--space-6));
+  }
+
+  /*
+    Space above the portrait used to be margin on .portrait only.
+    Move it onto both portrait + experience so they share the same
+    content start inside the third subgrid row.
+  */
+  .identity .portrait {
+    margin-top: 0;
+    padding-top: var(--space-5);
+  }
+
+  .experience {
+    grid-column: 2;
+    grid-row: 3;
+    justify-self: end;
+    width: 100%;
+    padding-top: var(--space-5);
+    margin-top: 0 !important;
   }
 }
 

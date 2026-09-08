@@ -290,7 +290,7 @@
   width: 100%;
   aspect-ratio: 16 / 10;
   object-fit: cover;
-  background: rgba(14, 20, 25, 0.4);
+  background: rgba(10, 14, 12, 0.4);
   pointer-events: none;
 }
 
@@ -359,7 +359,7 @@
 .code-panel {
   margin: 0;
   min-width: 0;
-  background: rgba(14, 20, 25, 0.55);
+  background: rgba(10, 14, 12, 0.55);
 }
 
 .code-panel figcaption {
@@ -390,7 +390,7 @@
   position: relative;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  background: rgba(231, 236, 239, 0.04);
+  background: rgba(232, 236, 233, 0.04);
 }
 
 .media-slot__frame img,
@@ -408,7 +408,7 @@
 .media-slot__placeholder {
   width: 100%;
   height: 100%;
-  background: rgba(14, 20, 25, 0.35);
+  background: rgba(10, 14, 12, 0.35);
 }
 
 @media (max-width: 720px) {

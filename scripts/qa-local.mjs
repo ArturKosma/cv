@@ -88,6 +88,7 @@ async function assertPage(page, path, viewport) {
       ? getComputedStyle(heroBrand).fontFamily.toLowerCase()
       : "";
     const ledeFamily = ledeEl ? getComputedStyle(ledeEl).fontFamily.toLowerCase() : "";
+    const ledeAlign = ledeEl ? getComputedStyle(ledeEl).textAlign : "";
     const brandIsDisplay = brandFamily.includes("space grotesk");
     if (ledeEl) {
       ledeIsBody =
@@ -100,6 +101,7 @@ async function assertPage(page, path, viewport) {
       Boolean(portrait) &&
       portrait.tagName === "IMG" &&
       Boolean(portrait.getAttribute("src"));
+    const scrollbarGutter = getComputedStyle(document.documentElement).scrollbarGutter;
 
     let timelineExpandable = true;
     let timelineGrew = true;
@@ -377,6 +379,8 @@ async function assertPage(page, path, viewport) {
     if (!approxNotBlueLink(btn.color)) fail(`${label}: ${btn.text} blue link color ${btn.color}`);
   }
   if (report.overflowX) fail(`${label}: horizontal overflow`);
+  if (!String(report.scrollbarGutter || "").includes("stable"))
+    fail(`${label}: html should reserve scrollbar-gutter: stable (no layout jump)`);
   if (report.accent.toLowerCase() !== "#c4a35a")
     fail(`${label}: original gold accent drifted: ${report.accent}`);
   if (report.bg.toLowerCase() !== "#0f1412")
@@ -387,6 +391,8 @@ async function assertPage(page, path, viewport) {
   if (path.includes("index")) {
     if (report.hasHeroTitle) fail(`${label}: golden CV label should be gone`);
     if (!report.lede.includes("Animation Engineer")) fail(`${label}: wrong home lede`);
+    if (report.ledeAlign !== "right")
+      fail(`${label}: home lede should be right-aligned (got ${report.ledeAlign})`);
     if (!report.hasExperience) fail(`${label}: missing experience timeline`);
     if (!report.hasIdentity) fail(`${label}: missing identity block`);
     if (!report.hasPortrait) fail(`${label}: missing photo placeholder`);

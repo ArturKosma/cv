@@ -132,17 +132,20 @@
 }
 
 .contact-email {
-  display: grid;
-  grid-template-columns: var(--contact-media) minmax(0, 1fr);
-  column-gap: var(--contact-gap);
+  display: inline-flex;
   align-items: center;
-  align-self: stretch;
-  width: 100%;
+  justify-content: center;
+  align-self: center;
+  gap: 0.5rem;
   margin: 0;
   padding: 0;
   color: inherit;
   text-decoration: none;
+  max-width: 100%;
   transition: color var(--ease);
+  -webkit-user-select: text;
+  user-select: text;
+  cursor: text;
 }
 
 .contact-email:focus-visible {
@@ -150,20 +153,12 @@
   outline-offset: 3px;
 }
 
-.contact-email__inner {
-  grid-column: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-width: 0;
-  max-width: 100%;
-}
-
 .contact-email__icon {
   flex: 0 0 auto;
   display: block;
   color: var(--muted-dim);
   transition: color var(--ease);
+  pointer-events: none;
 }
 
 .contact-email .contact-value {
@@ -177,6 +172,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   transition: color var(--ease);
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 .contact-email:hover .contact-value,
@@ -197,7 +194,7 @@
   justify-content: center;
   align-self: stretch;
   width: 100%;
-  gap: 0.15rem;
+  gap: 0.45rem;
 }
 
 .contact-social__link {

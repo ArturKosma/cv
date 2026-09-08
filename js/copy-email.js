@@ -1,6 +1,7 @@
 /**
  * Contact email: click copies the address instead of opening a mail client.
- * Drag-select still works for manual copy (click is ignored while text is selected).
+ * Drag-select still works for manual copy (click-to-copy is skipped after a drag
+ * or when text is already selected).
  */
 (function () {
   const link = document.querySelector(
@@ -14,9 +15,12 @@
 
   const original = label.textContent.trim() || email;
   let resetTimer = 0;
+  let dragMoved = false;
+  let pointerX = 0;
+  let pointerY = 0;
 
   link.setAttribute("aria-label", `Copy email ${email}`);
-  link.setAttribute("title", "Click to copy");
+  link.setAttribute("title", "Click to copy · drag to select");
 
   async function copyEmail() {
     try {
@@ -43,12 +47,28 @@
     }, 1200);
   }
 
+  function hasEmailSelection() {
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed) return false;
+    return link.contains(sel.anchorNode) || link.contains(sel.focusNode);
+  }
+
+  link.addEventListener("pointerdown", (event) => {
+    dragMoved = false;
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+  });
+
+  link.addEventListener("pointermove", (event) => {
+    if (event.buttons === 0) return;
+    if (Math.abs(event.clientX - pointerX) > 3 || Math.abs(event.clientY - pointerY) > 3) {
+      dragMoved = true;
+    }
+  });
+
   link.addEventListener("click", (event) => {
     event.preventDefault();
-    const sel = window.getSelection();
-    if (sel && !sel.isCollapsed && link.contains(sel.anchorNode)) {
-      return;
-    }
+    if (dragMoved || hasEmailSelection()) return;
     copyEmail().then(flashCopied);
   });
 })();

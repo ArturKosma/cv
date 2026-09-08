@@ -37,7 +37,9 @@
 }
 
 .identity .lede {
-  max-width: none;
+  justify-self: end;
+  width: max-content;
+  max-width: 100%;
   font-family: var(--font);
   font-size: var(--text-sm);
   font-weight: 400;

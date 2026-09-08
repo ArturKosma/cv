@@ -20,18 +20,18 @@
 
 /*
   Fixed nav over tall content (resume letter page, etc.):
-  Clean portfolio pattern — content scrolls under a field-matched fade so
-  links stay readable and paper never sits on top of the nav.
+  Clean portfolio pattern — opaque field under the link row so paper
+  never collides with the nav; soft fade only below the chrome.
 */
 .site-header::before {
   content: "";
   position: absolute;
   inset: 0 0 auto;
-  height: calc(var(--nav-h) + var(--space-5));
+  height: calc(var(--nav-h) + var(--space-6));
   background: linear-gradient(
     to bottom,
     var(--bg) 0%,
-    var(--bg) 68%,
+    var(--bg) 82%,
     transparent 100%
   );
   pointer-events: none;

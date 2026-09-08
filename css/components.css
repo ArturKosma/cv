@@ -80,15 +80,29 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  border-left: 1px solid var(--line);
 }
 
 .timeline-item {
   position: relative;
-  padding: 0 0 var(--space-6) 0;
+  padding: 0 0 var(--space-6) var(--space-5);
 }
 
 .timeline-item:last-child {
   padding-bottom: 0;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -0.28rem;
+  top: 0.45rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--bg);
+  z-index: 1;
 }
 
 .timeline-item details {
@@ -216,8 +230,8 @@
   border-bottom: 1px solid var(--line);
 }
 
-.project-list > li:first-child {
-  border-top: 1px solid var(--line);
+.project-list > li:last-child {
+  border-bottom: 0;
 }
 
 .project-list details {

@@ -127,6 +127,13 @@ async function assertPage(page, path, viewport) {
     const projectListTopBorder = projectList
       ? getComputedStyle(projectList).borderTopWidth
       : null;
+    const projectItems = projectList ? [...projectList.children] : [];
+    const firstItemTopBorder = projectItems[0]
+      ? getComputedStyle(projectItems[0]).borderTopWidth
+      : null;
+    const lastItemBottomBorder = projectItems.length
+      ? getComputedStyle(projectItems[projectItems.length - 1]).borderBottomWidth
+      : null;
 
     const details = [...document.querySelectorAll("details[data-project]")];
     let expandOk = true;
@@ -247,6 +254,8 @@ async function assertPage(page, path, viewport) {
       timelineGrew,
       timelineChevronOk,
       projectListTopBorder,
+      firstItemTopBorder,
+      lastItemBottomBorder,
       navPinnedRight,
       projectCount: details.length,
       expandOk,
@@ -305,6 +314,10 @@ async function assertPage(page, path, viewport) {
     if (report.hasPageTitle) fail(`${label}: big Samples/Portfolio page title should be removed`);
     if (report.projectListTopBorder !== "0px")
       fail(`${label}: samples list must not have a top horizontal line`);
+    if (report.firstItemTopBorder !== "0px")
+      fail(`${label}: first sample row must not have a top horizontal line`);
+    if (report.lastItemBottomBorder !== "0px")
+      fail(`${label}: last sample row must not have a bottom horizontal line`);
     if (report.projectCount < 1) fail(`${label}: no sample items`);
     if (!report.hasThumb) fail(`${label}: collapsed row must include a video thumb`);
     if (!report.expandOk) fail(`${label}: expand/collapse failed`);

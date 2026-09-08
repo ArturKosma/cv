@@ -78,6 +78,16 @@ body {
   line-height: 1.55;
   color: var(--fg);
   background: transparent;
+  /* Accidental drag-select on chrome/identity feels broken; copy via Resume PDF */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+input,
+textarea,
+[contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 img,

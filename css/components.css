@@ -140,25 +140,26 @@ details[data-project][open]::details-content {
 
 .timeline {
   list-style: none;
-  display: flex;
-  flex-direction: column;
   margin: 0;
   padding: 0;
   border-left: 1px solid var(--line);
 }
 
-/* Collapsed desktop: fill portrait height; space items so the last row sits on the bottom */
-.timeline.timeline--fit-portrait {
-  justify-content: space-between;
-}
-
 .timeline-item {
   position: relative;
   padding: 0 0 var(--space-6) var(--space-5);
+  /* Match expand curve so portrait-fit gap release doesn't snap against open */
+  transition: padding-bottom 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .timeline-item:last-child {
   padding-bottom: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-item {
+    transition: none;
+  }
 }
 
 .timeline-item::before {

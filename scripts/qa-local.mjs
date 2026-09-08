@@ -232,13 +232,16 @@ async function assertPage(page, path, viewport) {
     const firstDetails = document.querySelector("details[data-project]");
     const contactCard = document.querySelector(".contact-card");
     const contactAvatar = document.querySelector(".contact-avatar");
+    const contactAvatarLink = document.querySelector(".contact-avatar-link");
+    const contactLabels = document.querySelectorAll(".contact-label");
     const mailLink = document.querySelector('a[href^="mailto:"]');
     const linkedIn = [...document.querySelectorAll(".contact-link, .contact-row, a")].find((a) =>
       (a.getAttribute("href") || "").includes("linkedin.com")
     );
-    const facebook = [...document.querySelectorAll(".contact-avatar-link, .contact-link, .contact-row")].find((a) =>
+    const facebook = [...document.querySelectorAll(".contact-link, .contact-row")].find((a) =>
       (a.getAttribute("href") || "").includes("facebook.com")
     );
+    const primaryRow = document.querySelector(".contact-row--primary");
     const resumeSheet = document.querySelector(".resume-sheet");
     const resumeDownload = document.querySelector(".resume-download");
     const ytFacade = document.querySelector(".yt-facade");
@@ -286,9 +289,12 @@ async function assertPage(page, path, viewport) {
       hasMain: Boolean(document.querySelector("#main")),
       hasContactCard: Boolean(contactCard),
       hasContactAvatar: Boolean(contactAvatar),
+      contactAvatarIsLink: Boolean(contactAvatarLink),
+      contactLabelCount: contactLabels.length,
       hasEmailLink: Boolean(mailLink),
       hasLinkedIn: Boolean(linkedIn),
       hasFacebook: Boolean(facebook),
+      primaryIsMailto: primaryRow?.getAttribute("href")?.startsWith("mailto:") || false,
       contactLede,
       hasResumeSheet: Boolean(resumeSheet),
       hasResumeDownload: Boolean(resumeDownload),
@@ -371,9 +377,13 @@ async function assertPage(page, path, viewport) {
   if (path.includes("contact")) {
     if (!report.hasContactCard) fail(`${label}: missing contact card`);
     if (!report.hasContactAvatar) fail(`${label}: missing miniature profile image`);
+    if (report.contactAvatarIsLink) fail(`${label}: avatar should be identity only, not a second Facebook control`);
+    if (report.contactLabelCount !== 0)
+      fail(`${label}: redundant EMAIL/LINKEDIN label column should be gone`);
     if (!report.hasEmailLink) fail(`${label}: missing email link`);
     if (!report.hasLinkedIn) fail(`${label}: missing LinkedIn link`);
     if (!report.hasFacebook) fail(`${label}: missing Facebook link`);
+    if (!report.primaryIsMailto) fail(`${label}: email should be the primary contact row`);
     if (report.contactLede !== "Senior Animation Engineer")
       fail(`${label}: contact title should be Senior Animation Engineer`);
   }

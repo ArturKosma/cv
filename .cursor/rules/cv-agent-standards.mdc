@@ -38,7 +38,7 @@ Meaning for this repo:
 - **Identical site chrome on every page** — same header markup and placement (Experience, Samples, Resume, Reel, Contact — top-right only). No per-page brand link, no left-nav on one page and right-nav on another
 - **Resume** = `resume.html` subpage first (view the one-pager), plus a Download PDF action. Source for the PDF: `assets/resume/resume-source.html`
 - **Reel** = `reel.html` subpage with an on-page YouTube facade (click-to-load iframe; no eager embed). Keep first paint light.
-- **Contact** = minimal page: miniature profile, title, email / LinkedIn / Facebook as quiet text links
+- **Contact** = miniature profile + Senior Animation Engineer + icon + destination rows (email primary; no uppercase label column; no horizontal rules; avatar is identity only)
 - Structure / presentation / behavior stay separated and reusable
 - Predictable file layout; easy to add a page or portfolio item without rewriting the base
 - No copy-paste CSS/HTML duplication when a shared class or partial pattern would do

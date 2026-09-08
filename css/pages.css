@@ -5,10 +5,14 @@
 }
 
 .home-layout {
-  /* Equal columns so the experience rail sits on the horizontal center */
+  /*
+    Align with other pages: share the page-left edge (Samples/Contact),
+    identity left + timeline right with the rail between them — not a
+    viewport-centered orphan that wastes the left shell.
+  */
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 0;
+  grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
+  gap: clamp(1.75rem, 3.5vw, 3rem);
   align-items: start;
 }
 
@@ -19,12 +23,12 @@
 .identity {
   display: grid;
   justify-items: stretch;
-  justify-self: end;
+  justify-self: start;
   width: 100%;
   max-width: 22rem;
   min-width: 0;
   margin-left: 0;
-  padding-right: clamp(1.25rem, 3vw, 2.25rem);
+  padding-right: 0;
   text-align: left;
   gap: var(--space-3);
 }

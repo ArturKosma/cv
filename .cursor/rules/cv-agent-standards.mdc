@@ -65,11 +65,11 @@ Patterns to follow from that direction:
 - Prefer lists and scannable blocks over long prose walls
 - Subtle polish (hover/focus) over flashy motion
 - **Expandable lists** = native `<details>`; multiple items may stay open. No exclusive accordion, no auto-scroll / pin / page-pad logic
-- Subtle page/expand rise-in animation for quiet oomph; respect reduced-motion
+- Subtle page/expand rise-in animation for quiet oomph (re-trigger on each open); respect reduced-motion
 - **Portfolio/Samples row hover = accent-only (option A):** title color → accent, chevron brightens; **no background wash / no full-row highlight**
 - **Samples expand copy:** short blurb under the title stays visible; each expand row is **one video + text to the right**, then the next video+text row underneath — never two media side by side
 - **Samples row layout:** collapsed = video thumb + title/blurb; no large page H1 (“Portfolio”/“Samples”) above the list
-- **Experience layout:** identity left, timeline right; vertical rail on the horizontal center (equal columns)
+- **Experience layout:** identity left on the shared page edge (same as Contact/Samples), timeline right with rail between — do not orphan content at viewport center
 
 When proposing visual or structural changes, check:
 

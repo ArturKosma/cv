@@ -67,10 +67,11 @@ async function assertPage(page, path, viewport) {
     if (experience && identity && window.innerWidth > 900) {
       const e = experience.getBoundingClientRect();
       const i = identity.getBoundingClientRect();
-      const mid = window.innerWidth / 2;
+      const pageBox = document.querySelector(".page")?.getBoundingClientRect();
       homeSplit =
+        Boolean(pageBox) &&
         i.left < e.left &&
-        Math.abs(e.left - mid) < window.innerWidth * 0.08;
+        Math.abs(i.left - pageBox.left) < 3;
     }
 
     let portraitMatchesText = true;
@@ -385,7 +386,7 @@ async function assertPage(page, path, viewport) {
     if (!report.timelineExpandable) fail(`${label}: timeline items must be expandable`);
     if (!report.timelineGrew) fail(`${label}: opening a timeline record must expand it`);
     if (!report.timelineChevronOk) fail(`${label}: timeline rows need a quiet chevron, not +/-`);
-    if (!report.homeSplit) fail(`${label}: identity left, timeline rail near horizontal center`);
+    if (!report.homeSplit) fail(`${label}: identity must share the page left edge; timeline to the right`);
   }
 
   if (path.includes("samples")) {
@@ -603,7 +604,10 @@ async function main() {
       const brand = document.querySelector(".hero-brand");
       const portrait = document.querySelector(".portrait-frame");
       const experience = document.querySelector(".experience");
-      if (!identity || !timeline || !brand || !portrait || !experience) return { ok: false };
+      const pageEl = document.querySelector(".page");
+      if (!identity || !timeline || !brand || !portrait || !experience || !pageEl) {
+        return { ok: false };
+      }
 
       document.querySelectorAll(".timeline details").forEach((d) => {
         d.open = false;
@@ -617,22 +621,32 @@ async function main() {
       const timelineBox = timeline.getBoundingClientRect();
       const experienceBox = experience.getBoundingClientRect();
       const identityBox = identity.getBoundingClientRect();
-      const mid = window.innerWidth / 2;
+      const pageBox = pageEl.getBoundingClientRect();
+      const dates = [...document.querySelectorAll(".timeline-dates")].map((el) =>
+        el.getBoundingClientRect().left
+      );
+      const orgs = [...document.querySelectorAll(".timeline-org")].map((el) =>
+        el.getBoundingClientRect().left
+      );
 
       return {
         ok:
           Math.abs(portraitBox.width - brandBox.width) < 3 &&
           Math.abs(portraitBox.right - brandBox.right) < 3 &&
           Math.abs(timelineBox.top - experienceBox.top) < 4 &&
-          identityBox.right <= experienceBox.left + 2 &&
-          Math.abs(experienceBox.left - mid) < window.innerWidth * 0.08,
-        railCentered: Math.abs(experienceBox.left - mid) < window.innerWidth * 0.08,
-        identityLeft: identityBox.right <= experienceBox.left + 2,
+          Math.abs(identityBox.left - pageBox.left) < 3 &&
+          identityBox.right < experienceBox.left &&
+          dates.every((l) => Math.abs(l - dates[0]) < 1) &&
+          orgs.every((l) => Math.abs(l - orgs[0]) < 1),
+        pageLeftAligned: Math.abs(identityBox.left - pageBox.left) < 3,
+        identityLeftOfRail: identityBox.right < experienceBox.left,
+        datesAligned: dates.every((l) => Math.abs(l - dates[0]) < 1),
+        orgsAligned: orgs.every((l) => Math.abs(l - orgs[0]) < 1),
       };
     });
     if (!identityLayout.ok) {
       fail(
-        `experience: identity left + centered timeline rail (railCentered ${identityLayout.railCentered}, identityLeft ${identityLayout.identityLeft})`
+        `experience: page-left identity + consistent timeline columns (pageLeft ${identityLayout.pageLeftAligned}, dates ${identityLayout.datesAligned}, orgs ${identityLayout.orgsAligned})`
       );
     }
 

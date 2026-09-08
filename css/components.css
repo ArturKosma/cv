@@ -86,8 +86,8 @@
   }
 }
 
-.timeline-body,
-.project-body {
+.timeline-body.is-entering,
+.project-body.is-entering {
   animation: expand-in 0.28s ease both;
 }
 
@@ -148,6 +148,9 @@
   padding-right: 1.25rem;
   position: relative;
   cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .timeline-summary::-webkit-details-marker {
@@ -278,6 +281,9 @@
   padding: var(--space-5) 1.25rem var(--space-5) 0;
   position: relative;
   cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .project-list summary::-webkit-details-marker {

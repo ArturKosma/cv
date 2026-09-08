@@ -5,10 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Artur Kosma — Resume</title>
     <style>
-      /* Print/PDF resume — light, scannable in ~5 seconds */
+      /* Print/PDF resume — light, scannable in ~5 seconds.
+         Key color = site gold (#c4a35a), same role as Brittany Chiang’s blue:
+         separates header / section titles from body type. */
       @page {
         size: Letter;
         margin: 0.55in 0.65in;
+      }
+
+      :root {
+        --ink: #1a1f1c;
+        --ink-soft: #3d4741;
+        --ink-mute: #5a655e;
+        --ink-faint: #9aa39c;
+        --body: #2a322e;
+        --key: #c4a35a; /* website accent — forest site’s gold */
+        --key-line: color-mix(in srgb, var(--key) 55%, #e8e4d4);
       }
 
       * {
@@ -19,7 +31,7 @@
 
       body {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        color: #1a1f1c;
+        color: var(--ink);
         background: #fff;
         font-size: 10.5pt;
         line-height: 1.35;
@@ -33,7 +45,7 @@
       header {
         margin-bottom: 14pt;
         padding-bottom: 10pt;
-        border-bottom: 1.5pt solid #1a1f1c;
+        border-bottom: 1.75pt solid var(--key);
       }
 
       h1 {
@@ -41,34 +53,37 @@
         font-weight: 700;
         letter-spacing: -0.03em;
         line-height: 1.05;
+        color: var(--ink);
       }
 
       .headline {
         margin-top: 4pt;
         font-size: 12pt;
         font-weight: 500;
-        color: #3d4741;
+        color: var(--ink-soft);
       }
 
       .contact {
         margin-top: 6pt;
         font-size: 9pt;
-        color: #5a655e;
+        color: var(--ink-mute);
       }
 
       .contact span + span::before {
         content: "·";
         margin: 0 0.4em;
-        color: #9aa39c;
+        color: var(--ink-faint);
       }
 
       h2 {
-        margin: 12pt 0 6pt;
+        margin: 14pt 0 8pt;
+        padding-bottom: 4pt;
         font-size: 9pt;
         font-weight: 700;
         letter-spacing: 0.14em;
         text-transform: uppercase;
-        color: #1a1f1c;
+        color: var(--key);
+        border-bottom: 1pt solid var(--key-line);
       }
 
       .role {
@@ -88,13 +103,13 @@
       }
 
       .role-meta {
-        color: #3d4741;
+        color: var(--ink-soft);
         font-size: 9.5pt;
       }
 
       .role-dates {
         font-size: 9pt;
-        color: #5a655e;
+        color: var(--ink-mute);
         white-space: nowrap;
         text-align: right;
       }
@@ -102,7 +117,7 @@
       .role p {
         grid-column: 1 / -1;
         margin-top: 2pt;
-        color: #2a322e;
+        color: var(--body);
         font-size: 9.5pt;
       }
 
@@ -111,7 +126,7 @@
         flex-wrap: wrap;
         gap: 4pt 10pt;
         font-size: 9.5pt;
-        color: #2a322e;
+        color: var(--body);
       }
 
       .skills span {

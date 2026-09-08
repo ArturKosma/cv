@@ -288,7 +288,7 @@
 .resume-sheet__header {
   margin-bottom: 1.1rem;
   padding-bottom: 0.85rem;
-  border-bottom: 1.5px solid #1a1f1c;
+  border-bottom: 1.75px solid var(--accent);
 }
 
 .resume-sheet h1 {
@@ -320,11 +320,13 @@
 
 .resume-sheet h2 {
   margin: 1rem 0 0.55rem;
+  padding-bottom: 0.35rem;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #1a1f1c;
+  color: var(--accent);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 45%, #e8e4d4);
 }
 
 .resume-role {

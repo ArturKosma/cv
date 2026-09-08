@@ -646,7 +646,8 @@ async function main() {
       });
       window.dispatchEvent(new Event("resize"));
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-      await new Promise((r) => setTimeout(r, 50));
+      // Allow expand-close height transition + stretch pass to settle.
+      await new Promise((r) => setTimeout(r, 480));
 
       const brandBox = brand.getBoundingClientRect();
       const portraitBox = portrait.getBoundingClientRect();

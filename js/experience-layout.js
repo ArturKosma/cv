@@ -114,9 +114,19 @@
   MQ.addEventListener("change", syncAll);
 
   if (timeline) {
+    let stretchTimer = 0;
     timeline.querySelectorAll("details").forEach((details) => {
       details.addEventListener("toggle", () => {
-        requestAnimationFrame(syncTimelineStretchToPortrait);
+        window.clearTimeout(stretchTimer);
+        if (details.open) {
+          // Drop the collapsed stretch as soon as something opens.
+          syncTimelineStretchToPortrait();
+          return;
+        }
+        // Wait for ::details-content height transition to finish, then stretch.
+        stretchTimer = window.setTimeout(() => {
+          syncTimelineStretchToPortrait();
+        }, 420);
       });
     });
   }

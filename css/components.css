@@ -350,7 +350,7 @@ details[data-project][open]::details-content {
   margin-top: -0.28rem;
   border-right: 1.5px solid var(--muted-dim);
   border-bottom: 1.5px solid var(--muted-dim);
-  opacity: 0.45;
+  opacity: 0.85;
   transform: rotate(45deg);
   transition: border-color var(--ease), transform var(--ease), opacity var(--ease);
   pointer-events: none;

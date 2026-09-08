@@ -585,10 +585,13 @@ async function main() {
       fail("experience: each entry needs real detail copy");
     if (
       !experienceCopy.every(
-        (i) => i.roleSize < i.orgSize - 1 && i.projectSize <= i.roleSize + 0.5
+        (i) =>
+          i.projectSize < i.orgSize - 1 &&
+          i.roleSize < i.orgSize - 1 &&
+          i.roleSize <= i.projectSize + 0.25
       )
     ) {
-      fail("experience: role/project must be smaller than company");
+      fail("experience: company > game title ≥ role in type size");
     }
     if (
       !experienceCopy.every(

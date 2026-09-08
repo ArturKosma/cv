@@ -65,52 +65,14 @@ html {
 }
 
 body {
-  position: relative;
-  isolation: isolate;
   min-height: 100%;
   font-family: var(--font);
   font-size: var(--text-md);
   line-height: 1.55;
   color: var(--fg);
-  background-color: var(--bg);
+  background: var(--bg);
   background-image: var(--glow);
   background-attachment: fixed;
-}
-
-/* Quiet bottom “magic” — Cursor-like atmosphere, not a loud hero effect */
-body::after {
-  content: "";
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: min(46vh, 32rem);
-  pointer-events: none;
-  z-index: 0;
-  background-image: var(--magic-bottom);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  opacity: 0.9;
-  animation: magic-breathe 12s ease-in-out infinite alternate;
-}
-
-@keyframes magic-breathe {
-  from {
-    opacity: 0.55;
-    transform: translate3d(0, 3%, 0) scale(1.02);
-  }
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body::after {
-    animation: none;
-    opacity: 0.75;
-    transform: none;
-  }
 }
 
 img,

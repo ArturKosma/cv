@@ -84,7 +84,7 @@
   border-radius: 50%;
   object-fit: cover;
   object-position: center top;
-  background: rgba(18, 18, 18, 0.45);
+  background: rgba(10, 14, 12, 0.45);
 }
 
 .contact-name {
@@ -314,7 +314,7 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: #0a0a0a;
+  background: #0a0e0c;
 }
 
 .yt-facade.is-playing iframe {
@@ -358,8 +358,8 @@
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
-  background: rgba(18, 18, 18, 0.72);
-  border: 1px solid rgba(236, 236, 236, 0.35);
+  background: rgba(15, 20, 18, 0.72);
+  border: 1px solid rgba(232, 236, 233, 0.35);
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
   transition: border-color var(--ease), background var(--ease);
 }
@@ -380,7 +380,7 @@
 .yt-facade__button:hover .yt-facade__play,
 .yt-facade__button:focus-visible .yt-facade__play {
   border-color: var(--accent);
-  background: rgba(18, 18, 18, 0.85);
+  background: rgba(15, 20, 18, 0.85);
 }
 
 .yt-facade__button:hover .yt-facade__play::before,

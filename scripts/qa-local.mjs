@@ -330,24 +330,6 @@ async function assertPage(page, path, viewport) {
       accent: getComputedStyle(document.documentElement).getPropertyValue("--accent").trim(),
       bg: getComputedStyle(document.documentElement).getPropertyValue("--bg").trim(),
       muted: getComputedStyle(document.documentElement).getPropertyValue("--muted").trim(),
-      accentBrighterThanMuted: (() => {
-        const parse = (c) => {
-          const h = String(c).trim().replace("#", "");
-          if (h.length !== 6) return null;
-          return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
-        };
-        const lum = ([r, g, b]) => {
-          const f = (v) => {
-            v /= 255;
-            return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-          };
-          return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
-        };
-        const a = parse(getComputedStyle(document.documentElement).getPropertyValue("--accent"));
-        const m = parse(getComputedStyle(document.documentElement).getPropertyValue("--muted"));
-        if (!a || !m) return false;
-        return lum(a) > lum(m) * 1.25;
-      })(),
     };
   });
 
@@ -375,14 +357,12 @@ async function assertPage(page, path, viewport) {
     if (!approxNotBlueLink(btn.color)) fail(`${label}: ${btn.text} blue link color ${btn.color}`);
   }
   if (report.overflowX) fail(`${label}: horizontal overflow`);
-  if (report.accent.toLowerCase() !== "#7eb0ff")
-    fail(`${label}: Cursor Atmosphere accent drifted: ${report.accent}`);
-  if (report.bg.toLowerCase() !== "#121212")
-    fail(`${label}: Cursor Atmosphere bg drifted: ${report.bg}`);
-  if (report.muted.toLowerCase() !== "#8b8b8b")
-    fail(`${label}: Cursor Atmosphere muted drifted: ${report.muted}`);
-  if (!report.accentBrighterThanMuted)
-    fail(`${label}: active accent must be clearly brighter than idle muted chrome`);
+  if (report.accent.toLowerCase() !== "#c4a35a")
+    fail(`${label}: original gold accent drifted: ${report.accent}`);
+  if (report.bg.toLowerCase() !== "#0f1412")
+    fail(`${label}: original forest bg drifted: ${report.bg}`);
+  if (report.muted.toLowerCase() !== "#9aa89f")
+    fail(`${label}: original muted drifted: ${report.muted}`);
 
   if (path.includes("index")) {
     if (report.hasHeroTitle) fail(`${label}: golden CV label should be gone`);

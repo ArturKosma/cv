@@ -280,10 +280,6 @@ async function assertPage(page, path, viewport) {
       Math.abs(noteBox.left - pageBox.left) < 2 &&
       Math.abs(facadeBox.width - pageBox.width) < 2;
 
-    const ledeEl = document.querySelector(".identity .lede");
-    const ledeAlign = ledeEl ? getComputedStyle(ledeEl).textAlign : "";
-    const scrollbarGutter = getComputedStyle(document.documentElement).scrollbarGutter;
-
     return {
       btnCount: btns.length,
       btns,

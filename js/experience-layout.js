@@ -3,10 +3,13 @@
  * - Lock identity width to the brand name so the portrait matches
  * - Pin the timeline so its left rail lines up with the left edge of
  *   the top nav (EXPERIENCE … CONTACT), right edge with the page shell
- * - Timeline top matches portrait top via CSS subgrid (no post-paint margin)
+ * - Match timeline top to the portrait top
  * - When all rows are collapsed, add static inter-item padding so the
  *   last row meets the portrait bottom. Those gaps stay frozen while
  *   any row is open/closing — expand only grows the opened body.
+ *
+ * Cold-load FOUC: `.experience` stays visibility:hidden on desktop until
+ * the first sync (and fonts, briefly) so the rail never flashes under the nav.
  */
 (function () {
   const MQ = window.matchMedia("(min-width: 901px)");
@@ -101,6 +104,16 @@
     }
   }
 
+  function syncExperienceTopToPortrait() {
+    experience.style.marginTop = "";
+    if (!MQ.matches || !portrait) return;
+
+    const identityBox = identity.getBoundingClientRect();
+    const portraitBox = portrait.getBoundingClientRect();
+    const offset = Math.max(0, Math.round(portraitBox.top - identityBox.top));
+    experience.style.marginTop = `${offset}px`;
+  }
+
   function syncTimelineStretchToPortrait() {
     if (!timeline || !portrait) return;
 
@@ -143,15 +156,37 @@
   function syncAll() {
     syncBrandWidth();
     syncExperienceToNav();
+    syncExperienceTopToPortrait();
     syncTimelineStretchToPortrait();
   }
 
-  // Sync before first paint when possible (defer already waits for DOM).
-  // Do not wait on double-rAF — that guaranteed a wrong-position frame.
-  syncAll();
-  markReady();
-  // Failsafe if an earlier throw left the timeline hidden.
-  window.setTimeout(markReady, 400);
+  async function boot() {
+    syncAll();
+
+    // Fonts swap can change brand/lede height and shift the portrait.
+    // Stay hidden until fonts settle (capped) so reveal is already correct.
+    if (document.fonts && document.fonts.ready) {
+      await Promise.race([
+        document.fonts.ready,
+        new Promise((resolve) => window.setTimeout(resolve, 250)),
+      ]);
+      syncAll();
+    }
+
+    if (portrait && !portrait.complete) {
+      await Promise.race([
+        new Promise((resolve) => portrait.addEventListener("load", resolve, { once: true })),
+        new Promise((resolve) => window.setTimeout(resolve, 250)),
+      ]);
+      syncAll();
+    }
+
+    markReady();
+  }
+
+  boot();
+  // Failsafe if boot hangs — never leave the timeline invisible.
+  window.setTimeout(markReady, 500);
 
   window.addEventListener("resize", syncAll);
   MQ.addEventListener("change", syncAll);
@@ -174,13 +209,5 @@
         }, CLOSE_MS);
       });
     });
-  }
-
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(syncAll);
-  }
-
-  if (portrait && !portrait.complete) {
-    portrait.addEventListener("load", syncAll, { once: true });
   }
 })();

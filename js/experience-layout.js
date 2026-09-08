@@ -3,7 +3,7 @@
  * - Lock identity width to the brand name so the portrait matches
  * - Pin the timeline so its left rail lines up with the left edge of
  *   the top nav (EXPERIENCE … CONTACT), right edge with the page shell
- * - Match timeline top to the portrait top (identity hello starts with face)
+ * - Match timeline top to the portrait top
  */
 (function () {
   const MQ = window.matchMedia("(min-width: 901px)");

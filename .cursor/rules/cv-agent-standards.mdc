@@ -69,7 +69,7 @@ Patterns to follow from that direction:
 - **Portfolio/Samples row hover = accent-only (option A):** title color → accent, chevron brightens; **no background wash / no full-row highlight**
 - **Samples expand copy:** short blurb under the title stays visible; each expand row is **one video + text to the right**, then the next video+text row underneath — never two media side by side
 - **Samples row layout:** collapsed = video thumb + title/blurb; no large page H1 (“Portfolio”/“Samples”) above the list
-- **Experience layout:** identity hello on the shared page-left edge — portrait (smile) first, then name, then a short cheeky loyal/gamess one-liner (left-aligned); timeline rail aligned to the left edge of the top nav (EXPERIENCE…CONTACT), right edge to the page shell; timeline top aligns with portrait top; role/project stay one line on desktop
+- **Experience layout:** identity on the shared page-left edge (name → role line → portrait); timeline rail aligned to the left edge of the top nav (EXPERIENCE…CONTACT), right edge to the page shell; timeline top aligns with portrait top; role/project stay one line on desktop
 
 When proposing visual or structural changes, check:
 

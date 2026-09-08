@@ -37,8 +37,8 @@
 }
 
 .identity .lede {
-  justify-self: start;
-  width: auto;
+  justify-self: end;
+  width: max-content;
   max-width: 100%;
   font-family: var(--font);
   font-size: var(--text-sm);
@@ -46,7 +46,7 @@
   line-height: 1.45;
   letter-spacing: 0;
   color: var(--muted);
-  text-align: left;
+  text-align: right;
 }
 
 .hero-brand {
@@ -60,7 +60,7 @@
 
 .identity .portrait {
   width: 100%;
-  margin: 0;
+  margin-top: var(--space-5);
 }
 
 .page-samples .page,

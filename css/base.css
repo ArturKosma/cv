@@ -54,10 +54,8 @@ html {
   /* Same field as body — avoids a flat black strip above the glow */
   background-color: var(--bg);
   background-image: var(--field);
-  background-size: 128px 128px, auto;
-  background-repeat: repeat, no-repeat;
-  background-attachment: fixed, fixed;
-  background-blend-mode: multiply, normal;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
 @media (prefers-reduced-motion: reduce) {

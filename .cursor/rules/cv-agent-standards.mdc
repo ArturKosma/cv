@@ -69,7 +69,7 @@ Patterns to follow from that direction:
 - **Portfolio/Samples row hover = accent-only (option A):** title color → accent, chevron brightens; **no background wash / no full-row highlight**
 - **Samples expand copy:** short blurb under the title stays visible; each expand row is **one video + text to the right**, then the next video+text row underneath — never two media side by side
 - **Samples row layout:** collapsed = video thumb + title/blurb; no large page H1 (“Portfolio”/“Samples”) above the list
-- **Experience layout:** identity on the shared page-left edge (name → role line → portrait); timeline rail aligned to the left edge of the top nav (EXPERIENCE…CONTACT), right edge to the page shell; timeline top aligns with portrait top; company → role → game title each on their own line on desktop (role louder than project; chevron in a reserved right gutter)
+- **Experience layout:** identity on the shared page-left edge (name → role line → portrait); timeline rail aligned to the left edge of the top nav (EXPERIENCE…CONTACT), right edge to the page shell; timeline top aligns with portrait top; collapsed timeline stretches so its bottom meets the portrait bottom; company → role → game title each on their own line on desktop (role louder than project; chevron in a reserved right gutter)
 
 When proposing visual or structural changes, check:
 

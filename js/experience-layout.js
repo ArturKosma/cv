@@ -4,12 +4,15 @@
  * - Pin the timeline so its left rail lines up with the left edge of
  *   the top nav (EXPERIENCE … CONTACT), right edge with the page shell
  * - Match timeline top to the portrait top
+ * - When all rows are collapsed, stretch inter-item gaps so the timeline
+ *   bottom meets the portrait bottom
  */
 (function () {
   const MQ = window.matchMedia("(min-width: 901px)");
   const identity = document.querySelector(".identity");
   const brand = document.querySelector(".hero-brand");
   const experience = document.querySelector(".experience");
+  const timeline = document.querySelector(".timeline");
   const nav = document.querySelector(".nav-actions");
   const page = document.querySelector(".page");
   const portrait = identity?.querySelector("img.portrait-frame");
@@ -64,15 +67,56 @@
     experience.style.marginTop = `${offset}px`;
   }
 
+  function clearTimelineStretch() {
+    if (!timeline) return;
+    timeline.querySelectorAll(":scope > .timeline-item").forEach((item) => {
+      item.style.paddingBottom = "";
+    });
+  }
+
+  function syncTimelineStretchToPortrait() {
+    clearTimelineStretch();
+    if (!MQ.matches || !portrait || !timeline) return;
+
+    const items = [...timeline.querySelectorAll(":scope > .timeline-item")];
+    if (items.length < 2) return;
+
+    const anyOpen = [...timeline.querySelectorAll("details")].some((d) => d.open);
+    if (anyOpen) return;
+
+    const portraitBox = portrait.getBoundingClientRect();
+    const timelineTop = timeline.getBoundingClientRect().top;
+    const lastBottom = items[items.length - 1].getBoundingClientRect().bottom;
+    const extra = Math.round(portraitBox.height - (lastBottom - timelineTop));
+    if (extra <= 4) return;
+
+    const gapCount = items.length - 1;
+    const bump = extra / gapCount;
+    items.forEach((item, index) => {
+      if (index === gapCount) return;
+      const base = parseFloat(getComputedStyle(item).paddingBottom) || 0;
+      item.style.paddingBottom = `${base + bump}px`;
+    });
+  }
+
   function syncAll() {
     syncBrandWidth();
     syncExperienceToNav();
     syncExperienceTopToPortrait();
+    syncTimelineStretchToPortrait();
   }
 
   requestAnimationFrame(() => requestAnimationFrame(syncAll));
   window.addEventListener("resize", syncAll);
   MQ.addEventListener("change", syncAll);
+
+  if (timeline) {
+    timeline.querySelectorAll("details").forEach((details) => {
+      details.addEventListener("toggle", () => {
+        requestAnimationFrame(syncTimelineStretchToPortrait);
+      });
+    });
+  }
 
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(syncAll);

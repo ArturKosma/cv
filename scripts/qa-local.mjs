@@ -677,6 +677,10 @@ async function main() {
         return project.getBoundingClientRect().top >= role.getBoundingClientRect().bottom - 2;
       });
       const requireOneLine = window.innerWidth >= 1200;
+      const lastItem = document.querySelector(".timeline-item:last-child");
+      const lastBottom = lastItem?.getBoundingClientRect().bottom ?? 0;
+      const bottomsMatch =
+        window.innerWidth < 901 || Math.abs(lastBottom - portraitBox.bottom) < 5;
 
       return {
         ok:
@@ -688,12 +692,15 @@ async function main() {
           experienceBox.right - pageBox.right < 2 &&
           Math.abs(experienceBox.left - navBox.left) < 3 &&
           Math.abs(timelineBox.top - portraitBox.top) < 4 &&
+          bottomsMatch &&
           (!requireOneLine || (rolesOneLine && projectsOneLine && projectUnderRole)) &&
           dates.every((l) => Math.abs(l - dates[0]) < 1) &&
           orgs.every((l) => Math.abs(l - orgs[0]) < 1),
         pageLeftAligned: Math.abs(identityBox.left - pageBox.left) < 3,
         railAtNavLeft: Boolean(navBox) && Math.abs(experienceBox.left - navBox.left) < 3,
         topsMatch: Math.abs(timelineBox.top - portraitBox.top) < 4,
+        bottomsMatch,
+        bottomDelta: lastBottom - portraitBox.bottom,
         rolesOneLine,
         projectsOneLine,
         projectUnderRole,
@@ -705,7 +712,7 @@ async function main() {
     });
     if (!identityLayout.ok) {
       fail(
-        `experience: nav-aligned rail, portrait top, company→role→project (rolesOneLine ${identityLayout.rolesOneLine}, projectsOneLine ${identityLayout.projectsOneLine}, topDelta ${identityLayout.topDelta})`
+        `experience: nav-aligned rail, portrait top/bottom (bottomDelta ${identityLayout.bottomDelta}, rolesOneLine ${identityLayout.rolesOneLine}, topDelta ${identityLayout.topDelta})`
       );
     }
 

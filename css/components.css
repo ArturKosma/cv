@@ -179,8 +179,8 @@
 .timeline-role,
 .timeline-project {
   margin: 0;
-  color: var(--muted);
-  font-size: var(--text-sm);
+  color: var(--muted-dim);
+  font-size: var(--text-xs);
   font-weight: 400;
   line-height: 1.45;
 }
@@ -199,10 +199,11 @@
 
 .timeline-detail {
   margin: 0;
-  max-width: 32rem;
+  max-width: 34rem;
   color: var(--muted);
   font-size: var(--text-sm);
-  line-height: 1.65;
+  font-weight: 400;
+  line-height: 1.7;
 }
 
 .portrait {

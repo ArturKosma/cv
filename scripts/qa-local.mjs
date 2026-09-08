@@ -405,21 +405,25 @@ async function main() {
         const role = li.querySelector(".timeline-role");
         const project = li.querySelector(".timeline-project");
         const org = li.querySelector(".timeline-org");
+        const detail = li.querySelector(".timeline-detail");
         const roleStyle = role ? getComputedStyle(role) : null;
         const projectStyle = project ? getComputedStyle(project) : null;
         const orgStyle = org ? getComputedStyle(org) : null;
+        const detailStyle = detail ? getComputedStyle(detail) : null;
         return {
           dates: li.querySelector(".timeline-dates")?.textContent.trim() || "",
           org: org?.textContent.trim() || "",
           role: role?.textContent.trim() || "",
           project: project?.textContent.trim() || "",
-          detail: li.querySelector(".timeline-detail")?.textContent.trim() || "",
+          detail: detail?.textContent.trim() || "",
           orgSize: orgStyle ? Number.parseFloat(orgStyle.fontSize) : 0,
           roleSize: roleStyle ? Number.parseFloat(roleStyle.fontSize) : 0,
           projectSize: projectStyle ? Number.parseFloat(projectStyle.fontSize) : 0,
+          detailSize: detailStyle ? Number.parseFloat(detailStyle.fontSize) : 0,
           roleColor: roleStyle?.color || "",
           projectColor: projectStyle?.color || "",
           orgColor: orgStyle?.color || "",
+          detailColor: detailStyle?.color || "",
         };
       })
     );
@@ -450,6 +454,16 @@ async function main() {
       )
     ) {
       fail("experience: role/project must use a different color from company");
+    }
+    if (
+      !experienceCopy.every(
+        (i) =>
+          i.detailSize > i.roleSize &&
+          i.detailColor !== i.roleColor &&
+          i.detailColor !== i.orgColor
+      )
+    ) {
+      fail("experience: expanded detail must read clearer than the role/project line");
     }
 
     const accordionHome = await page.evaluate(async () => {

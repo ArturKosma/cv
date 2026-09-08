@@ -119,8 +119,12 @@ async function assertPage(page, path, viewport) {
           after.content !== '"+"' &&
           after.content !== '"–"' &&
           after.content !== '"-"';
+        details.open = false;
+        await new Promise((r) => setTimeout(r, 40));
         const beforeH = first.getBoundingClientRect().height;
         details.open = true;
+        // Height-slide needs time to leave the closed size.
+        await new Promise((r) => setTimeout(r, 420));
         const afterH = first.getBoundingClientRect().height;
         const body = details.querySelector(".timeline-body");
         const bodyVisible = body && getComputedStyle(body).display !== "none";

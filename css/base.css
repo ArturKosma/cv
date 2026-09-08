@@ -51,6 +51,11 @@ html {
   scroll-behavior: smooth;
   /* Reserve scrollbar space so centered layout does not jump when overflow appears */
   scrollbar-gutter: stable;
+  /* Same field as body — avoids a flat black strip above the glow */
+  background-color: var(--bg);
+  background-image: var(--glow);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -72,9 +77,7 @@ body {
   font-size: var(--text-md);
   line-height: 1.55;
   color: var(--fg);
-  background: var(--bg);
-  background-image: var(--glow);
-  background-attachment: fixed;
+  background: transparent;
 }
 
 img,

@@ -8,7 +8,7 @@
   /*
     Identity on the shared page-left edge. Timeline width is pinned in JS
     so its rail matches the left edge of the top nav (EXPERIENCE…).
-    Experience sits on the portrait baseline (bottom-aligned).
+    Timeline top is pinned to the portrait top in JS.
   */
   display: flex;
   justify-content: space-between;
@@ -19,7 +19,7 @@
 .experience {
   min-width: 0;
   flex: 0 1 auto;
-  align-self: flex-end;
+  align-self: flex-start;
 }
 
 .identity {
@@ -431,6 +431,7 @@
     width: auto !important;
     max-width: none !important;
     margin-left: 0 !important;
+    margin-top: 0 !important;
   }
 
   .identity .portrait {

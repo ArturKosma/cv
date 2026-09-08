@@ -3,6 +3,7 @@
  * - Lock identity width to the brand name so the portrait matches
  * - Pin the timeline so its left rail lines up with the left edge of
  *   the top nav (EXPERIENCE … CONTACT), right edge with the page shell
+ * - Match timeline top to the portrait top
  */
 (function () {
   const MQ = window.matchMedia("(min-width: 901px)");
@@ -53,9 +54,20 @@
     }
   }
 
+  function syncExperienceTopToPortrait() {
+    experience.style.marginTop = "";
+    if (!MQ.matches || !portrait) return;
+
+    const identityBox = identity.getBoundingClientRect();
+    const portraitBox = portrait.getBoundingClientRect();
+    const offset = Math.max(0, Math.round(portraitBox.top - identityBox.top));
+    experience.style.marginTop = `${offset}px`;
+  }
+
   function syncAll() {
     syncBrandWidth();
     syncExperienceToNav();
+    syncExperienceTopToPortrait();
   }
 
   requestAnimationFrame(() => requestAnimationFrame(syncAll));

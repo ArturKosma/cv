@@ -647,25 +647,23 @@ async function main() {
           identityBox.right < experienceBox.left &&
           experienceBox.right - pageBox.right < 2 &&
           Math.abs(experienceBox.left - navBox.left) < 3 &&
-          Math.abs(timelineBox.bottom - portraitBox.bottom) < 8 &&
-          experienceBox.top > navBox.bottom + 24 &&
+          Math.abs(timelineBox.top - portraitBox.top) < 4 &&
           (!requireOneLine || metas.every(Boolean)) &&
           dates.every((l) => Math.abs(l - dates[0]) < 1) &&
           orgs.every((l) => Math.abs(l - orgs[0]) < 1),
         pageLeftAligned: Math.abs(identityBox.left - pageBox.left) < 3,
         railAtNavLeft: Boolean(navBox) && Math.abs(experienceBox.left - navBox.left) < 3,
-        bottomsMatch: Math.abs(timelineBox.bottom - portraitBox.bottom) < 8,
-        belowNav: experienceBox.top > (navBox?.bottom || 0) + 24,
+        topsMatch: Math.abs(timelineBox.top - portraitBox.top) < 4,
         metaOneLine: metas.every(Boolean),
         requireOneLine,
         gap: experienceBox.left - identityBox.right,
         railDelta: navBox ? experienceBox.left - navBox.left : null,
-        bottomDelta: timelineBox.bottom - portraitBox.bottom,
+        topDelta: timelineBox.top - portraitBox.top,
       };
     });
     if (!identityLayout.ok) {
       fail(
-        `experience: nav-aligned rail, portrait baseline, one-line roles (metaOneLine ${identityLayout.metaOneLine}, bottomDelta ${identityLayout.bottomDelta})`
+        `experience: nav-aligned rail, portrait top, one-line roles (metaOneLine ${identityLayout.metaOneLine}, topDelta ${identityLayout.topDelta})`
       );
     }
 

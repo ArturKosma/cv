@@ -23,6 +23,7 @@
 
   function syncBrandWidth() {
     identity.style.width = "";
+    brand.style.width = "";
     const width = Math.ceil(brand.getBoundingClientRect().width);
     if (width > 0) identity.style.width = `${width}px`;
   }

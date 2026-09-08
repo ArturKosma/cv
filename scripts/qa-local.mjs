@@ -99,11 +99,20 @@ async function assertPage(page, path, viewport) {
 
     let timelineExpandable = true;
     let timelineGrew = true;
+    let timelineChevronOk = true;
     if (timelineItems.length) {
       const first = timelineItems[0];
       const details = first.querySelector("details");
       timelineExpandable = Boolean(details);
       if (details) {
+        const summary = details.querySelector(".timeline-summary");
+        const after = summary ? getComputedStyle(summary, "::after") : null;
+        timelineChevronOk =
+          Boolean(after) &&
+          after.content !== "none" &&
+          after.content !== '"+"' &&
+          after.content !== '"–"' &&
+          after.content !== '"-"';
         const beforeH = first.getBoundingClientRect().height;
         details.open = true;
         const afterH = first.getBoundingClientRect().height;
@@ -234,6 +243,7 @@ async function assertPage(page, path, viewport) {
       timelineItems: timelineItems.length,
       timelineExpandable,
       timelineGrew,
+      timelineChevronOk,
       projectListTopBorder,
       navPinnedRight,
       projectCount: details.length,
@@ -285,6 +295,7 @@ async function assertPage(page, path, viewport) {
     if (report.timelineItems < 4) fail(`${label}: expected 4 timeline items`);
     if (!report.timelineExpandable) fail(`${label}: timeline items must be expandable`);
     if (!report.timelineGrew) fail(`${label}: opening a timeline record must expand it`);
+    if (!report.timelineChevronOk) fail(`${label}: timeline rows need a quiet chevron, not +/-`);
     if (!report.homeSplit) fail(`${label}: experience should sit left of identity on desktop`);
   }
 

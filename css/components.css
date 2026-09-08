@@ -100,11 +100,36 @@
   grid-template-columns: 7.5rem minmax(0, 1fr);
   gap: var(--space-4);
   align-items: start;
+  padding-right: 1.25rem;
+  position: relative;
   cursor: pointer;
 }
 
 .timeline-summary::-webkit-details-marker {
   display: none;
+}
+
+.timeline-summary::after {
+  content: "";
+  position: absolute;
+  right: 0.1rem;
+  top: 0.55rem;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-right: 1.5px solid var(--muted-dim);
+  border-bottom: 1.5px solid var(--muted-dim);
+  transform: rotate(45deg);
+  transition: border-color var(--ease), transform var(--ease);
+}
+
+.timeline-summary:hover::after,
+.timeline-item details[open] > .timeline-summary::after {
+  border-color: var(--accent);
+}
+
+.timeline-item details[open] > .timeline-summary::after {
+  top: 0.7rem;
+  transform: rotate(225deg);
 }
 
 .timeline-summary:hover .timeline-org {

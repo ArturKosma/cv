@@ -517,33 +517,36 @@ async function main() {
       items.forEach((d) => {
         d.open = false;
       });
-      items[0].open = true;
-      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-
-      // Place the second item near the top of the viewport (requires real scroll).
-      const absoluteTop = items[1].getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({ top: Math.max(0, absoluteTop - 120), behavior: "instant" });
-      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-
-      const beforeTop = items[1].getBoundingClientRect().top;
+      // Use mid-list items so there is enough scroll room to compensate.
       items[1].open = true;
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+      const absoluteTop = items[2].getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: Math.max(0, absoluteTop - 140), behavior: "instant" });
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-      const afterTop = items[1].getBoundingClientRect().top;
+
+      const beforeTop = items[2].getBoundingClientRect().top;
+      const beforeScroll = window.scrollY;
+      items[2].open = true;
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      const afterTop = items[2].getBoundingClientRect().top;
 
       return {
         openCount: items.filter((d) => d.open).length,
-        secondOpen: items[1].open,
-        firstClosed: !items[0].open,
+        targetOpen: items[2].open,
+        previousClosed: !items[1].open,
         viewportStable: Math.abs(afterTop - beforeTop) < 12,
         beforeTop,
         afterTop,
+        beforeScroll,
+        afterScroll: window.scrollY,
       };
     });
     if (
       accordionSamples.openCount !== 1 ||
-      !accordionSamples.secondOpen ||
-      !accordionSamples.firstClosed
+      !accordionSamples.targetOpen ||
+      !accordionSamples.previousClosed
     ) {
       fail("samples: opening one record must close the others");
     }

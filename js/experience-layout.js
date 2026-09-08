@@ -5,8 +5,8 @@
  *   the top nav (EXPERIENCE … CONTACT), right edge with the page shell
  * - Match timeline top to the portrait top
  * - When all rows are collapsed, add static inter-item padding so the
- *   timeline bottom meets the portrait bottom (not live flex spacing —
- *   that fights the expand height animation)
+ *   last row meets the portrait bottom. Those gaps stay frozen while
+ *   any row is open/closing — expand only grows the opened body.
  */
 (function () {
   const MQ = window.matchMedia("(min-width: 901px)");
@@ -39,35 +39,18 @@
     if (!items.length) return 0;
     const probe = items[0];
     const prev = probe.style.paddingBottom;
-    const prevTransition = probe.style.transition;
-    probe.style.transition = "none";
     probe.style.paddingBottom = "";
     void probe.offsetHeight;
     basePadPx = parseFloat(getComputedStyle(probe).paddingBottom) || 0;
     probe.style.paddingBottom = prev;
-    probe.style.transition = prevTransition;
     return basePadPx;
   }
 
-  function setItemPads(values, { instant = false } = {}) {
-    const items = timelineItems();
-    items.forEach((item, index) => {
-      if (instant) {
-        const prev = item.style.transition;
-        item.style.transition = "none";
-        item.style.paddingBottom = values[index];
-        void item.offsetHeight;
-        item.style.transition = prev;
-      } else {
-        item.style.paddingBottom = values[index];
-      }
+  function clearTimelineStretch() {
+    if (!timeline) return;
+    timelineItems().forEach((item) => {
+      item.style.paddingBottom = "";
     });
-  }
-
-  function naturalPadValues() {
-    const items = timelineItems();
-    const base = readBasePadPx();
-    return items.map((_, index) => (index === items.length - 1 ? "0px" : `${base}px`));
   }
 
   function syncBrandWidth() {
@@ -119,58 +102,50 @@
     experience.style.marginTop = `${offset}px`;
   }
 
-  /** Release portrait-fit padding back to the stylesheet baseline. */
-  function releaseTimelineStretch({ instant = false } = {}) {
-    if (!timeline) return;
-    setItemPads(naturalPadValues(), { instant });
-  }
-
-  function syncTimelineStretchToPortrait({ instant = true } = {}) {
+  function syncTimelineStretchToPortrait() {
     if (!timeline || !portrait) return;
 
-    if (!MQ.matches || anyDetailsOpen() || closeSettling) {
-      releaseTimelineStretch({ instant });
+    if (!MQ.matches) {
+      clearTimelineStretch();
       return;
     }
+
+    // Keep collapsed fit gaps frozen during open/close — only the body height moves.
+    if (anyDetailsOpen() || closeSettling) return;
 
     const items = timelineItems();
     if (items.length < 2) return;
 
     const base = readBasePadPx();
-    // Measure natural collapsed height (baseline pads, no stretch).
-    setItemPads(
-      items.map((_, index) => (index === items.length - 1 ? "0px" : `${base}px`)),
-      { instant: true }
-    );
+    let contentSum = 0;
+    items.forEach((item) => {
+      const padBottom = parseFloat(getComputedStyle(item).paddingBottom) || 0;
+      contentSum += item.getBoundingClientRect().height - padBottom;
+    });
 
-    const portraitBox = portrait.getBoundingClientRect();
-    const timelineTop = timeline.getBoundingClientRect().top;
-    const lastBottom = items[items.length - 1].getBoundingClientRect().bottom;
-    const extra = Math.round(portraitBox.height - (lastBottom - timelineTop));
-    if (extra <= 4) return;
-
+    const natural = contentSum + (items.length - 1) * base;
+    const target = portrait.getBoundingClientRect().height;
+    const extra = Math.round(target - natural);
     const gapCount = items.length - 1;
+
+    if (extra <= 4) {
+      items.forEach((item, index) => {
+        item.style.paddingBottom = index === gapCount ? "0px" : `${base}px`;
+      });
+      return;
+    }
+
     const bump = extra / gapCount;
-    setItemPads(
-      items.map((_, index) =>
-        index === gapCount ? "0px" : `${base + bump}px`
-      ),
-      { instant }
-    );
+    items.forEach((item, index) => {
+      item.style.paddingBottom = index === gapCount ? "0px" : `${base + bump}px`;
+    });
   }
 
   function syncAll() {
     syncBrandWidth();
     syncExperienceToNav();
     syncExperienceTopToPortrait();
-    syncTimelineStretchToPortrait({ instant: true });
-  }
-
-  /** Drop fit padding before open so expand doesn't fight redistributed gaps. */
-  function prepareOpen() {
-    window.clearTimeout(stretchTimer);
-    closeSettling = false;
-    releaseTimelineStretch({ instant: false });
+    syncTimelineStretchToPortrait();
   }
 
   requestAnimationFrame(() => requestAnimationFrame(syncAll));
@@ -179,33 +154,19 @@
 
   if (timeline) {
     timeline.querySelectorAll("details").forEach((details) => {
-      const summary = details.querySelector("summary");
-      // Release stretch before the open toggle so the first expand frame is clean.
-      if (summary) {
-        summary.addEventListener("pointerdown", () => {
-          if (!details.open) prepareOpen();
-        });
-        summary.addEventListener("keydown", (event) => {
-          if (details.open) return;
-          if (event.key === "Enter" || event.key === " ") prepareOpen();
-        });
-      }
-
       details.addEventListener("toggle", () => {
         window.clearTimeout(stretchTimer);
         if (details.open) {
           closeSettling = false;
-          releaseTimelineStretch({ instant: false });
           return;
         }
-        // Keep stretch off until ::details-content finish closing.
+        if (anyDetailsOpen()) return;
+
+        // Defer remeasure until the close height transition finishes.
         closeSettling = true;
-        releaseTimelineStretch({ instant: false });
         stretchTimer = window.setTimeout(() => {
           closeSettling = false;
-          if (!anyDetailsOpen()) {
-            syncTimelineStretchToPortrait({ instant: false });
-          }
+          if (!anyDetailsOpen()) syncTimelineStretchToPortrait();
         }, CLOSE_MS);
       });
     });

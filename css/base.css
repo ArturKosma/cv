@@ -54,7 +54,8 @@ html {
   /* Same field as body — avoids a flat black strip above the glow */
   background-color: var(--bg);
   background-image: var(--field);
-  background-size: 96px 96px, auto;
+  background-size: 128px 128px, 140% 95%;
+  background-position: 0 0, -8% -18%;
   background-repeat: repeat, no-repeat;
   background-attachment: fixed, fixed;
   /* Noise multiplies into the glow — darkens/dithers, never washes out */

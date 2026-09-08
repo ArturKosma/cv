@@ -33,9 +33,10 @@
   --page-max: 68rem;
   --page-gutter: 1.25rem;
   /*
-    Field glow — darker, less green. Black micro-noise (multiply) dithers banding.
+    Field glow — darker charcoal key. Use a pre-dithered image so the upper-left
+    wash doesn’t band on 8-bit displays; black micro-noise still multiplies on top.
   */
-  --glow: radial-gradient(ellipse 70% 45% at 12% 0%, #141916 0%, transparent 50%);
+  --glow: url("../assets/field-glow.webp");
   --noise: url("../assets/noise.png");
   --field: var(--noise), var(--glow);
 }

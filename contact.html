@@ -31,8 +31,8 @@
 
     <main id="main" class="page contact-layout">
       <!--
-        Brittany-style contact: identity, centered quiet email (select to copy),
-        then brand-mark socials (LinkedIn / Facebook / GitHub) centered under.
+        Brittany-style contact: identity, centered quiet email (click to copy;
+        drag-select still works), then brand-mark socials centered under.
       -->
       <section class="contact-card" aria-label="Contact">
         <div class="contact-identity">
@@ -49,7 +49,11 @@
           </div>
         </div>
 
-        <p class="contact-email contact-row--primary">
+        <a
+          class="contact-email contact-row--primary"
+          href="mailto:leq.artur.kosma@gmail.com"
+          aria-label="Copy email leq.artur.kosma@gmail.com"
+        >
           <svg
             class="contact-email__icon"
             viewBox="0 0 24 24"
@@ -64,7 +68,7 @@
             />
           </svg>
           <span class="contact-value">leq.artur.kosma@gmail.com</span>
-        </p>
+        </a>
 
         <ul class="contact-social" aria-label="Profiles">
           <li>
@@ -118,5 +122,7 @@
         </ul>
       </section>
     </main>
+
+    <script src="js/copy-email.js?v=110" defer></script>
   </body>
 </html>

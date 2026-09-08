@@ -145,7 +145,7 @@
   transition: color var(--ease);
   -webkit-user-select: text;
   user-select: text;
-  cursor: text;
+  cursor: pointer;
 }
 
 .contact-email:focus-visible {
@@ -180,8 +180,10 @@
 
 .contact-email:hover .contact-value,
 .contact-email:focus-visible .contact-value,
+.contact-email.is-copied .contact-value,
 .contact-email:hover .contact-email__icon,
-.contact-email:focus-visible .contact-email__icon {
+.contact-email:focus-visible .contact-email__icon,
+.contact-email.is-copied .contact-email__icon {
   color: var(--accent);
 }
 

@@ -295,6 +295,9 @@ async function assertPage(page, path, viewport) {
       Boolean(contactValue) &&
       (getComputedStyle(contactValue).userSelect === "text" ||
         getComputedStyle(contactValue).webkitUserSelect === "text");
+    const contactEmailCursor = contactEmailEl
+      ? getComputedStyle(contactEmailEl).cursor
+      : "";
     const contactSocialBrandMarks =
       Boolean(contactSocialLinks[0]) &&
       contactSocialLinks.every((a) => a.querySelector("svg")) &&
@@ -426,6 +429,7 @@ async function assertPage(page, path, viewport) {
       contactEmailAligned,
       contactEmailHasIcon,
       contactEmailSelectable,
+      contactEmailCursor,
       contactSocialCentered,
       contactSocialBrandMarks,
       hasResumeSheet: Boolean(resumeSheet),
@@ -550,10 +554,12 @@ async function assertPage(page, path, viewport) {
     if (!report.hasEmailLink) fail(`${label}: missing email address`);
     if (!report.hasLinkedIn) fail(`${label}: missing LinkedIn link`);
     if (!report.hasFacebook) fail(`${label}: missing Facebook link`);
-    if (!report.primaryIsEmailRow) fail(`${label}: email should be the primary contact row`);
+    if (!report.primaryIsMailto) fail(`${label}: email should be a mailto primary contact row`);
     if (!/@gmail\.com$/i.test(report.contactEmailText || ""))
       fail(`${label}: contact email text missing`);
-    if (report.copyEmailScript) fail(`${label}: click-to-copy script should be removed (select to copy)`);
+    if (!report.copyEmailScript) fail(`${label}: click-to-copy script must be present`);
+    if (report.contactEmailCursor !== "pointer")
+      fail(`${label}: email should show a pointer cursor on hover`);
     if (report.contactLede !== "Senior Animation Engineer")
       fail(`${label}: contact title should be Senior Animation Engineer`);
     if (!report.contactEmailHasIcon) fail(`${label}: email must show an icon to the left of the address`);

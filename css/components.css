@@ -74,6 +74,7 @@
 .btn[aria-current="page"] {
   color: var(--accent);
   cursor: default;
+  pointer-events: none;
 }
 
 .page {

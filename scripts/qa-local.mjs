@@ -45,10 +45,15 @@ async function assertPage(page, path, viewport) {
     const btns = [...document.querySelectorAll(".nav-actions .btn")].map((el) => ({
       text: el.textContent.trim(),
       href: el.getAttribute("href"),
+      tag: el.tagName.toLowerCase(),
+      current: el.getAttribute("aria-current") === "page",
       display: getComputedStyle(el).display,
       color: getComputedStyle(el).color,
+      cursor: getComputedStyle(el).cursor,
+      pointerEvents: getComputedStyle(el).pointerEvents,
       decoration: getComputedStyle(el).textDecorationLine,
     }));
+    const currentNav = btns.find((b) => b.current) || null;
     const brandLink = document.querySelector(".brand-link");
     const heroTitle = document.querySelector(".hero-title");
     const eyebrow = document.querySelector(".eyebrow");
@@ -373,6 +378,7 @@ async function assertPage(page, path, viewport) {
     return {
       btnCount: btns.length,
       btns,
+      currentNav,
       hasBrand: Boolean(brandLink),
       hasHeroTitle: Boolean(heroTitle),
       hasEyebrow: Boolean(eyebrow),
@@ -477,11 +483,35 @@ async function assertPage(page, path, viewport) {
   if (report.btns[3].text !== "Resume") fail(`${label}: Resume should follow Reel`);
   if (report.btns[4].text !== "Contact") fail(`${label}: Contact should be last nav button`);
   if (!report.navPinnedRight) fail(`${label}: nav must align to the content shell (top-right)`);
+  if (!report.currentNav) fail(`${label}: current page must be marked aria-current=page`);
+  if (report.currentNav.href)
+    fail(`${label}: current nav item must not be a clickable link`);
+  if (report.currentNav.tag !== "span")
+    fail(`${label}: current nav item should be a non-link span`);
+  if (report.currentNav.cursor !== "default")
+    fail(`${label}: current nav item should not show a pointer cursor`);
+  if (report.currentNav.pointerEvents !== "none")
+    fail(`${label}: current nav item must ignore clicks`);
+  const expectedCurrent = path.includes("contact")
+    ? "Contact"
+    : path.includes("resume")
+      ? "Resume"
+      : path.includes("reel")
+        ? "Reel"
+        : path.includes("samples")
+          ? "Samples"
+          : "Experience";
+  if (report.currentNav.text !== expectedCurrent)
+    fail(`${label}: current nav should be ${expectedCurrent}`);
+  for (const btn of report.btns) {
+    if (btn.current) continue;
+    if (!btn.href) fail(`${label}: ${btn.text} missing href`);
+  }
   const reel = report.btns[2];
-  if (!String(reel.href || "").includes("reel.html"))
+  if (!reel.current && !String(reel.href || "").includes("reel.html"))
     fail(`${label}: Reel must open the reel subpage`);
   const resume = report.btns[3];
-  if (!String(resume.href || "").includes("resume.html"))
+  if (!resume.current && !String(resume.href || "").includes("resume.html"))
     fail(`${label}: Resume must open the resume subpage`);
   for (const btn of report.btns) {
     if (!btn.display.includes("flex")) fail(`${label}: ${btn.text} display=${btn.display}`);

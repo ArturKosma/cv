@@ -278,6 +278,10 @@ async function assertPage(page, path, viewport) {
       Math.abs(noteBox.left - pageBox.left) < 2 &&
       Math.abs(facadeBox.width - pageBox.width) < 2;
 
+    const ledeEl = document.querySelector(".identity .lede");
+    const ledeAlign = ledeEl ? getComputedStyle(ledeEl).textAlign : "";
+    const scrollbarGutter = getComputedStyle(document.documentElement).scrollbarGutter;
+
     return {
       btnCount: btns.length,
       btns,
@@ -286,6 +290,8 @@ async function assertPage(page, path, viewport) {
       hasEyebrow: Boolean(eyebrow),
       hasPageTitle: Boolean(pageTitle),
       lede,
+      ledeAlign,
+      scrollbarGutter,
       overflowX,
       homeSplit,
       hasExperience: Boolean(experience),
@@ -351,20 +357,20 @@ async function assertPage(page, path, viewport) {
   if (!report.hasMain) fail(`${label}: missing #main`);
   if (report.hasBrand) fail(`${label}: brand link should be removed`);
   if (report.btnCount !== 5)
-    fail(`${label}: expected Experience, Samples, Resume, Reel, Contact`);
+    fail(`${label}: expected Experience, Samples, Reel, Resume, Contact`);
   if (report.btns[0].text !== "Experience")
     fail(`${label}: Experience should be leftmost nav button`);
   if (report.btns[1].text !== "Samples") fail(`${label}: Samples should follow Experience`);
-  if (report.btns[2].text !== "Resume") fail(`${label}: Resume should follow Samples`);
-  if (report.btns[3].text !== "Reel") fail(`${label}: Reel should follow Resume`);
+  if (report.btns[2].text !== "Reel") fail(`${label}: Reel should follow Samples`);
+  if (report.btns[3].text !== "Resume") fail(`${label}: Resume should follow Reel`);
   if (report.btns[4].text !== "Contact") fail(`${label}: Contact should be last nav button`);
   if (!report.navPinnedRight) fail(`${label}: nav must align to the content shell (top-right)`);
-  const resume = report.btns[2];
-  if (!String(resume.href || "").includes("resume.html"))
-    fail(`${label}: Resume must open the resume subpage`);
-  const reel = report.btns[3];
+  const reel = report.btns[2];
   if (!String(reel.href || "").includes("reel.html"))
     fail(`${label}: Reel must open the reel subpage`);
+  const resume = report.btns[3];
+  if (!String(resume.href || "").includes("resume.html"))
+    fail(`${label}: Resume must open the resume subpage`);
   for (const btn of report.btns) {
     if (!btn.display.includes("flex")) fail(`${label}: ${btn.text} display=${btn.display}`);
     if (btn.decoration.includes("underline")) fail(`${label}: ${btn.text} underlined`);

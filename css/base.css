@@ -49,6 +49,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Reserve scrollbar space so centered layout does not jump when overflow appears */
+  scrollbar-gutter: stable;
 }
 
 @media (prefers-reduced-motion: reduce) {

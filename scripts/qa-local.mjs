@@ -233,12 +233,16 @@ async function assertPage(page, path, viewport) {
     const contactCard = document.querySelector(".contact-card");
     const contactAvatar = document.querySelector(".contact-avatar");
     const mailLink = document.querySelector('a[href^="mailto:"]');
-    const linkedIn = [...document.querySelectorAll(".contact-row, .nav-actions a")].find((a) =>
+    const linkedIn = [...document.querySelectorAll(".contact-link, .contact-row, a")].find((a) =>
       (a.getAttribute("href") || "").includes("linkedin.com")
     );
-    const facebook = [...document.querySelectorAll(".contact-avatar-link, .contact-row")].find((a) =>
+    const facebook = [...document.querySelectorAll(".contact-avatar-link, .contact-link, .contact-row")].find((a) =>
       (a.getAttribute("href") || "").includes("facebook.com")
     );
+    const resumeSheet = document.querySelector(".resume-sheet");
+    const resumeDownload = document.querySelector(".resume-download");
+    const ytFacade = document.querySelector(".yt-facade");
+    const contactLede = document.querySelector(".contact-lede")?.textContent.trim() || "";
     return {
       btnCount: btns.length,
       btns,
@@ -285,6 +289,12 @@ async function assertPage(page, path, viewport) {
       hasEmailLink: Boolean(mailLink),
       hasLinkedIn: Boolean(linkedIn),
       hasFacebook: Boolean(facebook),
+      contactLede,
+      hasResumeSheet: Boolean(resumeSheet),
+      hasResumeDownload: Boolean(resumeDownload),
+      resumeDownloadHref: resumeDownload?.getAttribute("href") || "",
+      hasYtFacade: Boolean(ytFacade),
+      ytId: ytFacade?.dataset.youtubeId || "",
     };
   });
 
@@ -301,11 +311,11 @@ async function assertPage(page, path, viewport) {
   if (report.btns[4].text !== "Contact") fail(`${label}: Contact should be last nav button`);
   if (!report.navPinnedRight) fail(`${label}: nav must align to the content shell (top-right)`);
   const resume = report.btns[2];
-  if (!String(resume.href || "").includes("Artur-Kosma-Resume.pdf"))
-    fail(`${label}: Resume must point at the downloadable PDF`);
+  if (!String(resume.href || "").includes("resume.html"))
+    fail(`${label}: Resume must open the resume subpage`);
   const reel = report.btns[3];
-  if (!String(reel.href || "").includes("youtube.com") && !String(reel.href || "").includes("youtu.be"))
-    fail(`${label}: Reel must link to YouTube`);
+  if (!String(reel.href || "").includes("reel.html"))
+    fail(`${label}: Reel must open the reel subpage`);
   for (const btn of report.btns) {
     if (!btn.display.includes("flex")) fail(`${label}: ${btn.text} display=${btn.display}`);
     if (btn.decoration.includes("underline")) fail(`${label}: ${btn.text} underlined`);
@@ -364,6 +374,20 @@ async function assertPage(page, path, viewport) {
     if (!report.hasEmailLink) fail(`${label}: missing email link`);
     if (!report.hasLinkedIn) fail(`${label}: missing LinkedIn link`);
     if (!report.hasFacebook) fail(`${label}: missing Facebook link`);
+    if (report.contactLede !== "Senior Animation Engineer")
+      fail(`${label}: contact title should be Senior Animation Engineer`);
+  }
+
+  if (path.includes("resume.html")) {
+    if (!report.hasResumeSheet) fail(`${label}: resume page must show the resume`);
+    if (!report.hasResumeDownload) fail(`${label}: resume page must offer PDF download`);
+    if (!report.resumeDownloadHref.includes("Artur-Kosma-Resume.pdf"))
+      fail(`${label}: resume download must point at the PDF`);
+  }
+
+  if (path.includes("reel.html")) {
+    if (!report.hasYtFacade) fail(`${label}: reel page must embed a YouTube facade`);
+    if (!report.ytId) fail(`${label}: reel facade missing youtube id`);
   }
 
   return report;
@@ -381,6 +405,8 @@ async function main() {
     for (const viewport of VIEWPORTS) {
       await assertPage(page, "/index.html", viewport);
       await assertPage(page, "/samples.html", viewport);
+      await assertPage(page, "/resume.html", viewport);
+      await assertPage(page, "/reel.html", viewport);
       await assertPage(page, "/contact.html", viewport);
     }
 

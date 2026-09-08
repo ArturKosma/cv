@@ -53,7 +53,9 @@
 
 .page-samples .page,
 .page-portfolio .page,
-.page-contact .page {
+.page-contact .page,
+.page-resume .page,
+.page-reel .page {
   padding-top: calc(var(--nav-h) + var(--space-6));
 }
 
@@ -66,15 +68,15 @@
 .contact-card {
   display: grid;
   gap: var(--space-2);
-  max-width: 28rem;
+  max-width: 22rem;
   width: 100%;
 }
 
 .contact-avatar-link {
   display: inline-flex;
-  width: 4.5rem;
-  height: 4.5rem;
-  margin-bottom: var(--space-3);
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-bottom: var(--space-2);
   border-radius: 50%;
   overflow: hidden;
   color: inherit;
@@ -95,14 +97,14 @@
 
 .contact-name {
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-size: clamp(1.6rem, 2.8vw, 2rem);
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.1;
 }
 
 .contact-lede {
-  margin: 0 0 var(--space-5);
+  margin: 0 0 var(--space-4);
   color: var(--muted);
   font-size: var(--text-sm);
 }
@@ -112,73 +114,229 @@
   margin: 0;
   padding: 0;
   display: grid;
-  width: 100%;
-  border-top: 1px solid var(--line);
-}
-
-.contact-list > li {
-  border-bottom: 1px solid var(--line);
-}
-
-.contact-row {
-  display: grid;
-  grid-template-columns: 1.5rem 5.5rem minmax(0, 1fr);
   gap: var(--space-3);
-  align-items: center;
-  padding: var(--space-4) 0;
-  color: inherit;
+}
+
+.contact-link {
+  color: var(--muted);
+  font-size: var(--text-sm);
   text-decoration: none;
   transition: color var(--ease);
 }
 
-.contact-row:hover {
+.contact-link:hover {
   color: var(--accent);
 }
 
-.contact-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--muted-dim);
+.resume-layout {
+  display: grid;
+  gap: var(--space-4);
+  padding-bottom: var(--space-8);
 }
 
-.contact-row:hover .contact-icon {
+.resume-layout .resume-toolbar,
+.resume-layout .resume-sheet {
+  max-width: 46rem;
+}
+
+.resume-toolbar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.resume-download {
   color: var(--accent);
-}
-
-.contact-label {
   font-size: var(--text-xs);
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--muted-dim);
+  text-decoration: none;
+  transition: color var(--ease);
 }
 
-.contact-row:hover .contact-label {
-  color: var(--accent);
+.resume-download:hover {
+  color: var(--fg);
 }
 
-.contact-value {
-  font-size: var(--text-sm);
-  color: var(--muted);
-  overflow: hidden;
-  text-overflow: ellipsis;
+.resume-sheet {
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: #f7f6f2;
+  color: #1a1f1c;
+}
+
+.resume-sheet__header {
+  margin-bottom: 1.1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1.5px solid #1a1f1c;
+}
+
+.resume-sheet h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.35rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.resume-sheet__headline {
+  margin-top: 0.35rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #3d4741;
+}
+
+.resume-sheet__contact {
+  margin-top: 0.45rem;
+  font-size: 0.8rem;
+  color: #5a655e;
+}
+
+.resume-sheet__contact span + span::before {
+  content: "·";
+  margin: 0 0.4em;
+  color: #9aa39c;
+}
+
+.resume-sheet h2 {
+  margin: 1rem 0 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #1a1f1c;
+}
+
+.resume-role {
+  margin-bottom: 0.75rem;
+}
+
+.resume-role:last-of-type {
+  margin-bottom: 0;
+}
+
+.resume-role__top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.15rem 0.75rem;
+}
+
+.resume-role__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.resume-role__meta {
+  font-size: 0.85rem;
+  color: #3d4741;
+}
+
+.resume-role__dates {
+  font-size: 0.8rem;
+  color: #5a655e;
   white-space: nowrap;
+  text-align: right;
 }
 
-.contact-row:hover .contact-value {
-  color: var(--accent);
+.resume-role p {
+  margin-top: 0.2rem;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #2a322e;
 }
 
-@media (max-width: 480px) {
-  .contact-row {
-    grid-template-columns: 1.5rem minmax(0, 1fr);
-    gap: var(--space-3) var(--space-3);
-  }
+.resume-focus {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #2a322e;
+}
 
-  .contact-label {
-    display: none;
-  }
+.reel-layout {
+  display: grid;
+  gap: var(--space-4);
+  padding-bottom: var(--space-8);
+}
+
+.reel-layout .yt-facade,
+.reel-layout .reel-note {
+  max-width: 56rem;
+}
+
+.yt-facade {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #0a0e0c;
+}
+
+.yt-facade.is-playing iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.yt-facade__button {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+}
+
+.yt-facade__poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.yt-facade__play {
+  position: relative;
+  z-index: 1;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: rgba(15, 20, 18, 0.72);
+  border: 1px solid rgba(232, 236, 233, 0.35);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+.yt-facade__play::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 54%;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0.55rem 0 0.55rem 0.9rem;
+  border-color: transparent transparent transparent var(--fg);
+  transform: translate(-50%, -50%);
+}
+
+.yt-facade__button:hover .yt-facade__play,
+.yt-facade__button:focus-visible .yt-facade__play {
+  border-color: var(--accent);
+  background: rgba(15, 20, 18, 0.85);
+}
+
+.yt-facade__button:hover .yt-facade__play::before,
+.yt-facade__button:focus-visible .yt-facade__play::before {
+  border-color: transparent transparent transparent var(--accent);
+}
+
+.reel-note {
+  margin: 0;
+  color: var(--muted-dim);
+  font-size: var(--text-xs);
 }
 
 @media (min-width: 901px) {
@@ -226,6 +384,8 @@
   .page-portfolio .page,
   .page-samples .page,
   .page-contact .page,
+  .page-resume .page,
+  .page-reel .page,
   .page-home .page {
     width: min(100% - (var(--page-gutter) * 2), var(--page-max));
   }

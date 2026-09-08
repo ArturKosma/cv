@@ -390,9 +390,10 @@ async function assertPage(page, path, viewport) {
 
   if (path.includes("index")) {
     if (report.hasHeroTitle) fail(`${label}: golden CV label should be gone`);
-    if (!report.lede.includes("Animation Engineer")) fail(`${label}: wrong home lede`);
-    if (report.ledeAlign !== "right")
-      fail(`${label}: home lede should be right-aligned (got ${report.ledeAlign})`);
+    if (!/loyal/i.test(report.lede) || !/love/i.test(report.lede))
+      fail(`${label}: home lede should be the cheeky loyal/games line`);
+    if (report.ledeAlign !== "left" && report.ledeAlign !== "start")
+      fail(`${label}: home lede should be left-aligned (got ${report.ledeAlign})`);
     if (!report.hasExperience) fail(`${label}: missing experience timeline`);
     if (!report.hasIdentity) fail(`${label}: missing identity block`);
     if (!report.hasPortrait) fail(`${label}: missing photo placeholder`);

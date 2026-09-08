@@ -71,17 +71,25 @@ async function assertPage(page, path, viewport) {
     }
 
     let portraitMatchesText = true;
-    let ledeIsHand = true;
+    let ledeIsDisplay = true;
     if (portrait && identity && heroBrand && window.innerWidth > 900) {
       const bw = heroBrand.getBoundingClientRect().width;
       const pw = portrait.getBoundingClientRect().width;
       portraitMatchesText = Math.abs(pw - bw) < 3;
     }
     const ledeEl = document.querySelector(".identity .lede");
+    const brandFamily = heroBrand
+      ? getComputedStyle(heroBrand).fontFamily.toLowerCase()
+      : "";
+    const ledeFamily = ledeEl ? getComputedStyle(ledeEl).fontFamily.toLowerCase() : "";
+    const brandIsDisplay = brandFamily.includes("space grotesk");
     if (ledeEl) {
-      const ff = getComputedStyle(ledeEl).fontFamily.toLowerCase();
-      ledeIsHand = ff.includes("caveat") || ff.includes("script") || ff.includes("hand");
+      ledeIsDisplay =
+        ledeFamily.includes("space grotesk") &&
+        !ledeFamily.includes("caveat") &&
+        !ledeFamily.includes("script");
     }
+    const bodyIsDm = getComputedStyle(document.body).fontFamily.toLowerCase().includes("dm sans");
     const portraitIsImage =
       Boolean(portrait) &&
       portrait.tagName === "IMG" &&
@@ -222,7 +230,9 @@ async function assertPage(page, path, viewport) {
       hasSectionLabel: Boolean(sectionLabel),
       portraitIsImage,
       portraitMatchesText,
-      ledeIsHand,
+      brandIsDisplay,
+      ledeIsDisplay,
+      bodyIsDm,
       timelineItems: timelineItems.length,
       timelineExpandable,
       timelineGrew,
@@ -272,7 +282,9 @@ async function assertPage(page, path, viewport) {
     if (viewport.width >= 900 && !report.portraitMatchesText) {
       fail(`${label}: portrait width should match Artur Kosma`);
     }
-    if (!report.ledeIsHand) fail(`${label}: lede should use a handwritten-style font`);
+    if (!report.brandIsDisplay) fail(`${label}: name should use Space Grotesk`);
+    if (!report.ledeIsDisplay) fail(`${label}: lede should use Space Grotesk, not handwritten`);
+    if (!report.bodyIsDm) fail(`${label}: body should use DM Sans`);
     if (report.timelineItems < 4) fail(`${label}: expected 4 timeline items`);
     if (!report.timelineExpandable) fail(`${label}: timeline items must be expandable`);
     if (!report.timelineGrew) fail(`${label}: opening a timeline record must expand it`);

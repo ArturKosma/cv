@@ -28,18 +28,19 @@
 
 .identity .lede {
   max-width: none;
-  font-family: var(--font-hand);
-  font-size: clamp(1.55rem, 2.4vw, 2.05rem);
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.8vw, 1.4rem);
   font-weight: 500;
-  line-height: 1.15;
-  letter-spacing: 0.01em;
-  color: #d8c49a;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--muted);
 }
 
 .hero-brand {
+  font-family: var(--font-display);
   font-size: clamp(2.4rem, 5vw, 4rem);
   font-weight: 700;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.04em;
   line-height: 1.02;
   white-space: nowrap;
 }

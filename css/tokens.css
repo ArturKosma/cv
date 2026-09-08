@@ -25,8 +25,8 @@
   --text-hero: clamp(2.75rem, 8vw, 4.75rem);
   --measure: 40rem;
   --nav-h: 3.75rem;
-  --font: "Segoe UI", "Helvetica Neue", sans-serif;
-  --font-hand: "Caveat", "Segoe Script", "Bradley Hand", cursive;
+  --font: "DM Sans", "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-display: "Space Grotesk", "DM Sans", sans-serif;
   --font-mono: "Cascadia Code", "SF Mono", "Consolas", "Liberation Mono", monospace;
   --ease: 160ms ease;
   --glow: radial-gradient(ellipse 80% 50% at 15% 0%, #1c2a22 0%, transparent 55%),

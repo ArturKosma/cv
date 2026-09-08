@@ -32,7 +32,12 @@
   --ease: 160ms ease;
   --page-max: 68rem;
   --page-gutter: 1.25rem;
-  /* CSS field glow — charcoal wash, no dither */
-  --glow: radial-gradient(ellipse 70% 45% at 12% 0%, #171c19 0%, transparent 50%);
-  --field: var(--glow);
+  /*
+    Field glow temporarily off.
+    Restore with:
+    --glow: radial-gradient(ellipse 70% 45% at 12% 0%, #171c19 0%, transparent 50%);
+    --field: var(--glow);
+  */
+  --glow: none;
+  --field: none;
 }

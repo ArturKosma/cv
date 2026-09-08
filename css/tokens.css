@@ -1,8 +1,8 @@
 /* Design tokens — shared across every page */
-/* Dark charcoal field (quiet green undertone) + gold accent */
+/* Charcoal field (quiet undertone) + gold accent */
 :root {
-  --bg: #0b0c0b;
-  --bg-elevated: #121412;
+  --bg: #0e100e;
+  --bg-elevated: #151715;
   --fg: #e8ece9;
   --muted: #9aa89f;
   --muted-dim: #6e7a72;
@@ -32,11 +32,8 @@
   --ease: 160ms ease;
   --page-max: 68rem;
   --page-gutter: 1.25rem;
-  /*
-    Field glow — darker charcoal key. Use a pre-dithered image so the upper-left
-    wash doesn’t band on 8-bit displays; black micro-noise still multiplies on top.
-  */
-  --glow: url("../assets/field-glow.webp");
+  /* CSS field glow again — one notch brighter than the deep charcoal pass */
+  --glow: radial-gradient(ellipse 70% 45% at 12% 0%, #171c19 0%, transparent 50%);
   --noise: url("../assets/noise.png");
   --field: var(--noise), var(--glow);
 }

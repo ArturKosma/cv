@@ -29,8 +29,7 @@
   height: calc(var(--nav-h) + var(--space-6));
   background-color: var(--bg);
   background-image: var(--field);
-  background-size: 128px 128px, 140% 95%;
-  background-position: 0 0, -8% -18%;
+  background-size: 128px 128px, auto;
   background-repeat: repeat, no-repeat;
   background-attachment: fixed, fixed;
   background-blend-mode: multiply, normal;

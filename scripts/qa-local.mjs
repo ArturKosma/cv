@@ -303,6 +303,9 @@ async function assertPage(page, path, viewport) {
     const contactEmailCursor = contactEmailEl
       ? getComputedStyle(contactEmailEl).cursor
       : "";
+    const contactEmailValueCursor = contactValue
+      ? getComputedStyle(contactValue).cursor
+      : "";
     const contactSocialBrandMarks =
       Boolean(contactSocialLinks[0]) &&
       contactSocialLinks.every((a) => a.querySelector("svg")) &&
@@ -436,6 +439,7 @@ async function assertPage(page, path, viewport) {
       contactEmailHasIcon,
       contactEmailSelectable,
       contactEmailCursor,
+      contactEmailValueCursor,
       contactSocialCentered,
       contactSocialBrandMarks,
       hasResumeSheet: Boolean(resumeSheet),
@@ -590,6 +594,8 @@ async function assertPage(page, path, viewport) {
     if (!report.copyEmailScript) fail(`${label}: click-to-copy script must be present`);
     if (report.contactEmailCursor !== "pointer")
       fail(`${label}: email should show a pointer cursor on hover`);
+    if (report.contactEmailValueCursor !== "pointer")
+      fail(`${label}: email address text must also use the pointer cursor`);
     if (report.contactLede !== "Principal Animation Engineer")
       fail(`${label}: contact title should be Principal Animation Engineer`);
     if (!report.contactEmailHasIcon) fail(`${label}: email must show an icon to the left of the address`);

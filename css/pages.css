@@ -176,6 +176,13 @@
   transition: color var(--ease);
   -webkit-user-select: text;
   user-select: text;
+  cursor: pointer;
+}
+
+.contact-email *,
+.contact-email *::before,
+.contact-email *::after {
+  cursor: pointer;
 }
 
 .contact-email:hover .contact-value,

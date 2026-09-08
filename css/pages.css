@@ -195,6 +195,10 @@
   font-weight: 500;
 }
 
+.contact-row--primary.is-copied .contact-value {
+  color: var(--accent);
+}
+
 .contact-row:hover .contact-value,
 .contact-row:focus-visible .contact-value {
   color: var(--accent);

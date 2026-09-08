@@ -586,12 +586,12 @@ async function main() {
     if (
       !experienceCopy.every(
         (i) =>
-          i.projectSize < i.orgSize - 1 &&
           i.roleSize < i.orgSize - 1 &&
-          i.roleSize <= i.projectSize + 0.25
+          i.projectSize < i.orgSize - 1 &&
+          i.projectSize <= i.roleSize + 0.25
       )
     ) {
-      fail("experience: company > game title ≥ role in type size");
+      fail("experience: company > role ≥ project in type size");
     }
     if (
       !experienceCopy.every(
@@ -671,10 +671,10 @@ async function main() {
       };
       const rolesOneLine = roles.every(lineOk);
       const projectsOneLine = projects.every(lineOk);
-      const projectUnderOrg = projects.every((project, i) => {
-        const org = document.querySelectorAll(".timeline-org")[i];
-        if (!org) return false;
-        return project.getBoundingClientRect().top >= org.getBoundingClientRect().bottom - 2;
+      const projectUnderRole = projects.every((project, i) => {
+        const role = roles[i];
+        if (!role) return false;
+        return project.getBoundingClientRect().top >= role.getBoundingClientRect().bottom - 2;
       });
       const requireOneLine = window.innerWidth >= 1200;
 
@@ -688,7 +688,7 @@ async function main() {
           experienceBox.right - pageBox.right < 2 &&
           Math.abs(experienceBox.left - navBox.left) < 3 &&
           Math.abs(timelineBox.top - portraitBox.top) < 4 &&
-          (!requireOneLine || (rolesOneLine && projectsOneLine && projectUnderOrg)) &&
+          (!requireOneLine || (rolesOneLine && projectsOneLine && projectUnderRole)) &&
           dates.every((l) => Math.abs(l - dates[0]) < 1) &&
           orgs.every((l) => Math.abs(l - orgs[0]) < 1),
         pageLeftAligned: Math.abs(identityBox.left - pageBox.left) < 3,
@@ -696,7 +696,7 @@ async function main() {
         topsMatch: Math.abs(timelineBox.top - portraitBox.top) < 4,
         rolesOneLine,
         projectsOneLine,
-        projectUnderOrg,
+        projectUnderRole,
         requireOneLine,
         gap: experienceBox.left - identityBox.right,
         railDelta: navBox ? experienceBox.left - navBox.left : null,
@@ -705,7 +705,7 @@ async function main() {
     });
     if (!identityLayout.ok) {
       fail(
-        `experience: nav-aligned rail, portrait top, stacked game titles (rolesOneLine ${identityLayout.rolesOneLine}, projectsOneLine ${identityLayout.projectsOneLine}, topDelta ${identityLayout.topDelta})`
+        `experience: nav-aligned rail, portrait top, company→role→project (rolesOneLine ${identityLayout.rolesOneLine}, projectsOneLine ${identityLayout.projectsOneLine}, topDelta ${identityLayout.topDelta})`
       );
     }
 

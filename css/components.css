@@ -242,17 +242,17 @@ details[data-project][open]::details-content {
   transition: color var(--ease);
 }
 
-/* Game title under company — own line so role stays clean and uncut */
-.timeline-project {
+/* Role under company (louder); game title quieter underneath */
+.timeline-role {
   display: block;
   margin: 0.12rem 0 0;
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 500;
   line-height: 1.35;
 }
 
-.timeline-role {
+.timeline-project {
   display: block;
   margin: 0.1rem 0 0;
   color: var(--muted-dim);

@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="AK">
   <rect width="32" height="32" fill="#0f1412"/>
   <text
-    x="16"
+    x="15"
     y="22.5"
     text-anchor="middle"
     font-family="ui-sans-serif, system-ui, Segoe UI, Helvetica Neue, Arial, sans-serif"
-    font-size="14"
-    font-weight="600"
-    letter-spacing="-0.06em"
+    font-size="15"
+    font-weight="500"
+    letter-spacing="-0.05em"
     fill="#c4a35a"
   >AK</text>
 </svg>

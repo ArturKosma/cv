@@ -95,6 +95,30 @@
   }
 }
 
+/* Expand rise-in — CSS only (no JS). Replays each time [open] is applied. */
+@keyframes expand-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.4rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+details[open] > .timeline-body,
+details[open] > .project-body {
+  animation: expand-in 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  details[open] > .timeline-body,
+  details[open] > .project-body {
+    animation: none;
+  }
+}
+
 .lede {
   max-width: 32rem;
   color: var(--muted);

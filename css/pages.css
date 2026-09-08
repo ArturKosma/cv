@@ -83,10 +83,15 @@
 }
 
 .contact-card {
+  --contact-icon: 1.125rem;
+  --contact-icon-gap: 0.75rem;
+  --contact-rail: calc(var(--contact-icon) + var(--contact-icon-gap));
   display: grid;
   gap: var(--space-2);
-  max-width: 28rem;
+  max-width: calc(28rem + var(--contact-rail));
   width: 100%;
+  /* Name/lede/values share one left edge; icons hang in the rail. */
+  padding-left: var(--contact-rail);
 }
 
 .contact-avatar {
@@ -100,6 +105,7 @@
 }
 
 .contact-name {
+  margin: 0;
   font-family: var(--font-display);
   font-size: clamp(1.75rem, 3vw, 2.25rem);
   font-weight: 700;
@@ -115,19 +121,19 @@
 
 .contact-list {
   list-style: none;
-  margin: 0;
+  margin: 0 0 0 calc(var(--contact-rail) * -1);
   padding: 0;
   display: grid;
-  gap: 0.1rem;
-  width: 100%;
+  gap: 0;
+  width: calc(100% + var(--contact-rail));
 }
 
 .contact-row {
   display: grid;
-  grid-template-columns: 1.5rem minmax(0, 1fr);
-  gap: var(--space-3);
+  grid-template-columns: var(--contact-icon) minmax(0, 1fr);
+  column-gap: var(--contact-icon-gap);
   align-items: center;
-  padding: 0.7rem 0;
+  padding: 0.65rem 0;
   color: inherit;
   text-decoration: none;
   transition: color var(--ease);
@@ -144,11 +150,18 @@
 }
 
 .contact-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  display: grid;
+  place-items: center;
   color: var(--muted-dim);
   transition: color var(--ease);
+}
+
+.contact-icon svg {
+  display: block;
+  width: 1.125rem;
+  height: 1.125rem;
 }
 
 .contact-row:hover .contact-icon,
@@ -157,7 +170,9 @@
 }
 
 .contact-value {
+  min-width: 0;
   font-size: var(--text-sm);
+  line-height: 1.25;
   color: var(--muted);
   overflow: hidden;
   text-overflow: ellipsis;

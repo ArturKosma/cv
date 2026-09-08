@@ -39,7 +39,7 @@ Meaning for this repo:
 - **Resume** = `resume.html` subpage first (full letter-page preview on-site — PDF page image, not browser PDF chrome), plus a Download PDF action on the same left-edge column. Source for the PDF: `assets/resume/resume-source.html`; regenerate `Artur-Kosma-Resume.png` when the PDF changes
 - **Reel** = `reel.html` subpage with an on-page YouTube facade spanning the full content shell (same width rhythm as Samples; click-to-load iframe; no eager embed). Keep first paint light.
 - **Subpage alignment** = every page shares the `.page` left edge with nav right edge; do not invent arbitrary mid-width caps that drift from Samples / Contact rhythms
-- **Contact** = miniature identity lockup (circular avatar **left of** name + Senior Animation Engineer) + icon + short-handle destination rows (email primary; no uppercase label column; no horizontal rules; avatar is identity only)
+- **Contact** = miniature identity lockup (circular avatar **left of** name + Senior Animation Engineer) + quiet email (click to copy) + icon-only LinkedIn / Facebook / GitHub (no uppercase label column; no horizontal rules; avatar is identity only)
 - Structure / presentation / behavior stay separated and reusable
 - Predictable file layout; easy to add a page or portfolio item without rewriting the base
 - No copy-paste CSS/HTML duplication when a shared class or partial pattern would do

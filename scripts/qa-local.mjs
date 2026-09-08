@@ -248,7 +248,7 @@ async function assertPage(page, path, viewport) {
     const linkedIn = [...document.querySelectorAll(".contact-link, .contact-row, a")].find((a) =>
       (a.getAttribute("href") || "").includes("linkedin.com")
     );
-    const facebook = [...document.querySelectorAll(".contact-link, .contact-row")].find((a) =>
+    const facebook = [...document.querySelectorAll("a")].find((a) =>
       (a.getAttribute("href") || "").includes("facebook.com")
     );
     const primaryRow = document.querySelector(".contact-row--primary");

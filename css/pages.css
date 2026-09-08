@@ -72,8 +72,8 @@
 }
 
 /*
-  Contact — shared media column (avatar width): portrait + icons centered
-  under that column; name, title, and handles share one left text edge.
+  Contact — identity lockup, quiet email (click to copy), then Brittany-style
+  icon-only socials (LinkedIn / Facebook / GitHub).
 */
 .contact-layout {
   display: grid;
@@ -91,8 +91,7 @@
   max-width: 100%;
 }
 
-.contact-identity,
-.contact-row {
+.contact-identity {
   display: grid;
   grid-template-columns: var(--contact-media) minmax(0, 1fr);
   column-gap: var(--contact-gap);
@@ -132,55 +131,26 @@
   font-size: var(--text-sm);
 }
 
-.contact-list {
-  list-style: none;
+.contact-email {
+  display: inline-flex;
+  align-items: center;
+  align-self: start;
   margin: 0;
   padding: 0;
-  display: grid;
-  gap: 0;
-  width: 100%;
-}
-
-.contact-row {
-  padding: 0.4rem 0;
   color: inherit;
   text-decoration: none;
   transition: color var(--ease);
 }
 
-.contact-row:hover,
-.contact-row:focus-visible {
-  color: var(--accent);
-}
-
-.contact-row:focus-visible {
+.contact-email:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 3px;
 }
 
-.contact-icon {
-  width: var(--contact-media);
-  height: 1.125rem;
-  display: grid;
-  place-items: center;
-  color: var(--muted-dim);
-  transition: color var(--ease);
-}
-
-.contact-icon svg {
-  display: block;
-  width: 1.125rem;
-  height: 1.125rem;
-}
-
-.contact-row:hover .contact-icon,
-.contact-row:focus-visible .contact-icon {
-  color: var(--accent);
-}
-
-.contact-value {
+.contact-email .contact-value {
   min-width: 0;
   font-size: var(--text-sm);
+  font-weight: 400;
   line-height: 1.25;
   color: var(--muted);
   text-align: left;
@@ -190,18 +160,43 @@
   transition: color var(--ease);
 }
 
-.contact-row--primary .contact-value {
-  color: var(--fg);
-  font-weight: 500;
-}
-
-.contact-row--primary.is-copied .contact-value {
+.contact-email:hover .contact-value,
+.contact-email:focus-visible .contact-value,
+.contact-email.is-copied .contact-value {
   color: var(--accent);
 }
 
-.contact-row:hover .contact-value,
-.contact-row:focus-visible .contact-value {
+.contact-social {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.contact-social__link {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--muted-dim);
+  text-decoration: none;
+  transition: color var(--ease), transform var(--ease);
+}
+
+.contact-social__link:hover,
+.contact-social__link:focus-visible {
   color: var(--accent);
+}
+
+.contact-social__link:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.contact-social__link svg {
+  display: block;
 }
 
 /*

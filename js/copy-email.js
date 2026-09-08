@@ -3,7 +3,9 @@
  * Drag-select still works for manual copy (click is ignored while text is selected).
  */
 (function () {
-  const link = document.querySelector('a.contact-row[href^="mailto:"]');
+  const link = document.querySelector(
+    "a.contact-email[href^='mailto:'], a.contact-row--primary[href^='mailto:']"
+  );
   if (!link) return;
 
   const label = link.querySelector(".contact-value");

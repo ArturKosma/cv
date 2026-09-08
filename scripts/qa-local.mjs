@@ -590,8 +590,8 @@ async function assertPage(page, path, viewport) {
     if (!report.copyEmailScript) fail(`${label}: click-to-copy script must be present`);
     if (report.contactEmailCursor !== "pointer")
       fail(`${label}: email should show a pointer cursor on hover`);
-    if (report.contactLede !== "Senior Animation Engineer")
-      fail(`${label}: contact title should be Senior Animation Engineer`);
+    if (report.contactLede !== "Principal Animation Engineer")
+      fail(`${label}: contact title should be Principal Animation Engineer`);
     if (!report.contactEmailHasIcon) fail(`${label}: email must show an icon to the left of the address`);
     if (!report.contactEmailAligned)
       fail(`${label}: email row must be horizontally centered under the contact block`);

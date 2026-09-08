@@ -1,12 +1,18 @@
 /**
- * Experience layout: lock identity width to the brand name so the
- * portrait matches. Identity sits left of the centered timeline rail.
+ * Experience layout:
+ * - Lock identity width to the brand name so the portrait matches
+ * - Pin the timeline so its left rail lines up with the left edge of
+ *   the top nav (EXPERIENCE … CONTACT), right edge with the page shell
  */
 (function () {
+  const MQ = window.matchMedia("(min-width: 901px)");
   const identity = document.querySelector(".identity");
   const brand = document.querySelector(".hero-brand");
+  const experience = document.querySelector(".experience");
+  const nav = document.querySelector(".nav-actions");
+  const page = document.querySelector(".page");
   const portrait = identity?.querySelector("img.portrait-frame");
-  if (!identity || !brand) return;
+  if (!identity || !brand || !experience || !nav || !page) return;
 
   function syncBrandWidth() {
     identity.style.width = "";
@@ -22,14 +28,45 @@
     }
   }
 
-  requestAnimationFrame(() => requestAnimationFrame(syncBrandWidth));
-  window.addEventListener("resize", syncBrandWidth);
+  function syncExperienceToNav() {
+    experience.style.width = "";
+    experience.style.maxWidth = "";
+    experience.style.marginLeft = "";
+
+    if (!MQ.matches) return;
+
+    const pageBox = page.getBoundingClientRect();
+    const navBox = nav.getBoundingClientRect();
+    const identityBox = identity.getBoundingClientRect();
+    const width = Math.max(0, Math.round(pageBox.right - navBox.left));
+    if (width <= 0) return;
+
+    experience.style.width = `${width}px`;
+    experience.style.maxWidth = "100%";
+    experience.style.marginLeft = "auto";
+
+    // If identity would collide, fall back to fluid remaining space.
+    const nextLeft = pageBox.right - width;
+    if (nextLeft < identityBox.right + 48) {
+      experience.style.width = "";
+      experience.style.marginLeft = "";
+    }
+  }
+
+  function syncAll() {
+    syncBrandWidth();
+    syncExperienceToNav();
+  }
+
+  requestAnimationFrame(() => requestAnimationFrame(syncAll));
+  window.addEventListener("resize", syncAll);
+  MQ.addEventListener("change", syncAll);
 
   if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(syncBrandWidth);
+    document.fonts.ready.then(syncAll);
   }
 
   if (portrait && !portrait.complete) {
-    portrait.addEventListener("load", syncBrandWidth, { once: true });
+    portrait.addEventListener("load", syncAll, { once: true });
   }
 })();

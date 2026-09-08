@@ -6,26 +6,24 @@
 
 .home-layout {
   /*
-    Identity on the shared page-left edge; timeline hugs the top-right
-    nav shell. Wide gutter between them so the two blocks read apart.
+    Identity on the shared page-left edge. Timeline width is pinned in JS
+    so its rail matches the left edge of the top nav (EXPERIENCE…).
   */
-  display: grid;
-  grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
-  gap: clamp(3.5rem, 9vw, 7.5rem);
+  display: flex;
+  justify-content: space-between;
   align-items: start;
+  gap: clamp(2.5rem, 6vw, 5rem);
 }
 
 .experience {
   min-width: 0;
-  /* Keep the timeline block tied to the right content/nav edge */
-  justify-self: stretch;
-  width: 100%;
+  flex: 0 1 auto;
 }
 
 .identity {
   display: grid;
   justify-items: stretch;
-  justify-self: start;
+  flex: 0 0 auto;
   width: 100%;
   max-width: 20rem;
   min-width: 0;
@@ -411,6 +409,7 @@
 
 @media (max-width: 900px) {
   .home-layout {
+    display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-7);
     align-items: start;
@@ -423,6 +422,12 @@
     margin-left: 0;
     padding-right: 0;
     position: static;
+  }
+
+  .experience {
+    width: auto !important;
+    max-width: none !important;
+    margin-left: 0 !important;
   }
 
   .identity .portrait {

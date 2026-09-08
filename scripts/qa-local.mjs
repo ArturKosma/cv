@@ -629,29 +629,34 @@ async function main() {
         el.getBoundingClientRect().left
       );
 
+      const nav = document.querySelector(".nav-actions");
+      const navBox = nav?.getBoundingClientRect();
+
       return {
         ok:
+          Boolean(navBox) &&
           Math.abs(portraitBox.width - brandBox.width) < 3 &&
           Math.abs(portraitBox.right - brandBox.right) < 3 &&
           Math.abs(timelineBox.top - experienceBox.top) < 4 &&
           Math.abs(identityBox.left - pageBox.left) < 3 &&
           identityBox.right < experienceBox.left &&
           experienceBox.right - pageBox.right < 2 &&
-          experienceBox.left - identityBox.right >= 56 &&
+          Math.abs(experienceBox.left - navBox.left) < 3 &&
           dates.every((l) => Math.abs(l - dates[0]) < 1) &&
           orgs.every((l) => Math.abs(l - orgs[0]) < 1),
         pageLeftAligned: Math.abs(identityBox.left - pageBox.left) < 3,
         identityLeftOfRail: identityBox.right < experienceBox.left,
         timelineRightPinned: experienceBox.right - pageBox.right < 2,
-        generousGap: experienceBox.left - identityBox.right >= 56,
+        railAtNavLeft: Boolean(navBox) && Math.abs(experienceBox.left - navBox.left) < 3,
         datesAligned: dates.every((l) => Math.abs(l - dates[0]) < 1),
         orgsAligned: orgs.every((l) => Math.abs(l - orgs[0]) < 1),
         gap: experienceBox.left - identityBox.right,
+        railDelta: navBox ? experienceBox.left - navBox.left : null,
       };
     });
     if (!identityLayout.ok) {
       fail(
-        `experience: left identity, right-pinned timeline, generous gap (gap ${identityLayout.gap}, rightPinned ${identityLayout.timelineRightPinned})`
+        `experience: timeline rail must match nav left edge (delta ${identityLayout.railDelta}, gap ${identityLayout.gap})`
       );
     }
 

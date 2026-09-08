@@ -71,8 +71,7 @@ async function assertPage(page, path, viewport) {
     }
 
     let portraitMatchesText = true;
-    let ledeSingleLine = true;
-    let ledeIsDisplay = true;
+    let ledeIsBody = true;
     if (portrait && identity && heroBrand && window.innerWidth > 900) {
       const brandBox = heroBrand.getBoundingClientRect();
       const portraitBox = portrait.getBoundingClientRect();
@@ -87,11 +86,10 @@ async function assertPage(page, path, viewport) {
     const ledeFamily = ledeEl ? getComputedStyle(ledeEl).fontFamily.toLowerCase() : "";
     const brandIsDisplay = brandFamily.includes("space grotesk");
     if (ledeEl) {
-      ledeIsDisplay =
-        ledeFamily.includes("space grotesk") &&
+      ledeIsBody =
+        ledeFamily.includes("dm sans") &&
         !ledeFamily.includes("caveat") &&
         !ledeFamily.includes("script");
-      ledeSingleLine = ledeEl.getClientRects().length <= 1;
     }
     const bodyIsDm = getComputedStyle(document.body).fontFamily.toLowerCase().includes("dm sans");
     const portraitIsImage =
@@ -101,21 +99,17 @@ async function assertPage(page, path, viewport) {
 
     let timelineExpandable = true;
     let timelineGrew = true;
-    let timelineLineSpans = true;
     if (timelineItems.length) {
       const first = timelineItems[0];
       const details = first.querySelector("details");
       timelineExpandable = Boolean(details);
       if (details) {
         const beforeH = first.getBoundingClientRect().height;
-        const beforeLineH = timeline ? timeline.getBoundingClientRect().height : 0;
         details.open = true;
         const afterH = first.getBoundingClientRect().height;
-        const afterLineH = timeline ? timeline.getBoundingClientRect().height : 0;
         const body = details.querySelector(".timeline-body");
         const bodyVisible = body && getComputedStyle(body).display !== "none";
         timelineGrew = afterH > beforeH + 16 && bodyVisible;
-        timelineLineSpans = afterLineH >= beforeLineH - 1;
         details.open = false;
       }
     }
@@ -235,13 +229,11 @@ async function assertPage(page, path, viewport) {
       portraitIsImage,
       portraitMatchesText,
       brandIsDisplay,
-      ledeIsDisplay,
-      ledeSingleLine,
+      ledeIsBody,
       bodyIsDm,
       timelineItems: timelineItems.length,
       timelineExpandable,
       timelineGrew,
-      timelineLineSpans,
       projectListTopBorder,
       navPinnedRight,
       projectCount: details.length,
@@ -288,16 +280,11 @@ async function assertPage(page, path, viewport) {
       fail(`${label}: portrait should fill Artur Kosma width and stay right-aligned`);
     }
     if (!report.brandIsDisplay) fail(`${label}: name should use Space Grotesk`);
-    if (!report.ledeIsDisplay) fail(`${label}: lede should use Space Grotesk, not handwritten`);
-    if (viewport.width >= 900 && !report.ledeSingleLine) {
-      fail(`${label}: lede must stay on one line`);
-    }
+    if (!report.ledeIsBody) fail(`${label}: lede should use DM Sans body type`);
     if (!report.bodyIsDm) fail(`${label}: body should use DM Sans`);
     if (report.timelineItems < 4) fail(`${label}: expected 4 timeline items`);
     if (!report.timelineExpandable) fail(`${label}: timeline items must be expandable`);
     if (!report.timelineGrew) fail(`${label}: opening a timeline record must expand it`);
-    if (!report.timelineLineSpans)
-      fail(`${label}: vertical timeline line must continue through expanded records`);
     if (!report.homeSplit) fail(`${label}: experience should sit left of identity on desktop`);
   }
 
@@ -469,11 +456,7 @@ async function main() {
       document.querySelectorAll(".timeline details").forEach((d) => {
         d.open = false;
       });
-      // Drop leftover accordion freezes from prior checks.
-      document.querySelectorAll(".timeline-item").forEach((li) => {
-        li.style.marginTop = "";
-        li.removeAttribute("data-acc-freeze");
-      });
+      document.querySelectorAll("[data-acc-page-pad]").forEach((el) => el.remove());
       window.dispatchEvent(new Event("resize"));
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
       await new Promise((r) => setTimeout(r, 50));

@@ -1,20 +1,29 @@
 /**
  * Accordion: opening one <details> closes the others.
  * The clicked item never changes viewport Y.
+ * Prefer scroll; if scroll cannot compensate, pad the page top
+ * (never invent a gap between list rows).
  */
 (function () {
-  function hostOf(details) {
-    return details.closest("li") || details;
+  const PAD_ATTR = "data-acc-page-pad";
+
+  function clearPagePad() {
+    const pad = document.querySelector(`[${PAD_ATTR}]`);
+    if (pad) pad.remove();
   }
 
-  function clearFreeze(host) {
-    if (!host.hasAttribute("data-acc-freeze")) return;
-    host.style.marginTop = "";
-    host.removeAttribute("data-acc-freeze");
-  }
-
-  function clearFreezes(items) {
-    items.forEach((details) => clearFreeze(hostOf(details)));
+  function ensurePagePad() {
+    let pad = document.querySelector(`[${PAD_ATTR}]`);
+    if (pad) return pad;
+    const main = document.querySelector("main");
+    if (!main) return null;
+    pad = document.createElement("div");
+    pad.setAttribute(PAD_ATTR, "");
+    pad.setAttribute("aria-hidden", "true");
+    pad.style.height = "0px";
+    pad.style.pointerEvents = "none";
+    main.prepend(pad);
+    return pad;
   }
 
   function pinTo(details, anchorTop) {
@@ -26,12 +35,13 @@
     const drift = details.getBoundingClientRect().top - anchorTop;
     if (Math.abs(drift) <= 1) return;
 
-    // Scroll cannot fully compensate (common at scrollY ≈ 0 when content
-    // above collapses). Freeze the row with margin so it stays put.
-    const host = hostOf(details);
-    const current = parseFloat(host.style.marginTop || "0") || 0;
-    host.style.marginTop = `${current - drift}px`;
-    host.setAttribute("data-acc-freeze", "1");
+    // Item drifted up and scrollY cannot go negative — shift the whole
+    // page content down so rows stay contiguous.
+    if (drift >= 0) return;
+    const pad = ensurePagePad();
+    if (!pad) return;
+    const current = parseFloat(pad.style.height || "0") || 0;
+    pad.style.height = `${current - drift}px`;
   }
 
   function bindGroup(nodes) {
@@ -40,15 +50,11 @@
 
     items.forEach((details) => {
       details.addEventListener("toggle", () => {
-        if (!details.open) {
-          clearFreeze(hostOf(details));
-          return;
-        }
+        if (!details.open) return;
 
-        // Lock the pre-toggle viewport Y before any layout mutations.
         const anchorTop = details.getBoundingClientRect().top;
 
-        clearFreezes(items);
+        clearPagePad();
 
         items.forEach((other) => {
           if (other !== details && other.open) other.open = false;

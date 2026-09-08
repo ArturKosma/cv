@@ -22,13 +22,12 @@
   --text-md: 1.05rem;
   --text-lg: 1.25rem;
   --text-xl: clamp(1.75rem, 4vw, 2.5rem);
-  --text-hero: clamp(2.75rem, 8vw, 4.75rem);
+  --text-hero: clamp(2.4rem, 5.5vw, 4rem);
   --measure: 40rem;
   --nav-h: 3.75rem;
   --font: "DM Sans", "Segoe UI", "Helvetica Neue", sans-serif;
   --font-display: "Space Grotesk", "DM Sans", sans-serif;
   --font-mono: "Cascadia Code", "SF Mono", "Consolas", "Liberation Mono", monospace;
   --ease: 160ms ease;
-  --glow: radial-gradient(ellipse 80% 50% at 15% 0%, #1c2a22 0%, transparent 55%),
-    radial-gradient(ellipse 55% 40% at 95% 85%, #1a2228 0%, transparent 50%);
+  --glow: radial-gradient(ellipse 70% 45% at 12% 0%, #18241e 0%, transparent 50%);
 }

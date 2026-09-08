@@ -248,7 +248,7 @@ async function assertPage(page, path, viewport) {
     const primaryRow = document.querySelector(".contact-row--primary");
     const resumeSheet = document.querySelector(".resume-sheet");
     const resumeFrame = document.querySelector(".resume-frame");
-    const resumeEmbed = document.querySelector(".resume-embed");
+    const resumePage = document.querySelector(".resume-page");
     const resumeDownload = document.querySelector(".resume-download");
     const resumeColumn = document.querySelector(".resume-column");
     const ytFacade = document.querySelector(".yt-facade");
@@ -330,8 +330,9 @@ async function assertPage(page, path, viewport) {
       contactLede,
       hasResumeSheet: Boolean(resumeSheet),
       hasResumeFrame: Boolean(resumeFrame),
-      hasResumeEmbed: Boolean(resumeEmbed),
-      resumeEmbedSrc: resumeEmbed?.getAttribute("src") || "",
+      hasResumePage: Boolean(resumePage),
+      resumePageSrc: resumePage?.getAttribute("src") || "",
+      resumePageAlt: resumePage?.getAttribute("alt") || "",
       resumeLetterRatio: frameRatio,
       hasResumeDownload: Boolean(resumeDownload),
       hasResumeColumn: Boolean(resumeColumn),
@@ -437,10 +438,12 @@ async function assertPage(page, path, viewport) {
   }
 
   if (path.includes("resume.html")) {
-    if (!report.hasResumeFrame || !report.hasResumeEmbed)
-      fail(`${label}: resume page must show a full-page PDF embed`);
-    if (!report.resumeEmbedSrc.includes("Artur-Kosma-Resume.pdf"))
-      fail(`${label}: resume embed must point at the PDF`);
+    if (!report.hasResumeFrame || !report.hasResumePage)
+      fail(`${label}: resume page must show a full letter-page preview`);
+    if (!report.resumePageSrc.includes("Artur-Kosma-Resume.png"))
+      fail(`${label}: resume preview must use the letter-page image`);
+    if (!/Artur Kosma/i.test(report.resumePageAlt))
+      fail(`${label}: resume preview needs a descriptive alt text`);
     if (!(report.resumeLetterRatio > 1.2 && report.resumeLetterRatio < 1.4))
       fail(`${label}: resume frame must be letter-page aspect (~8.5×11)`);
     if (!report.hasResumeDownload) fail(`${label}: resume page must offer PDF download`);

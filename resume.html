@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Resume — Artur Kosma." />
     <title>Resume — Artur Kosma</title>
-    <link rel="stylesheet" href="css/tokens.css?v=49" />
-    <link rel="stylesheet" href="css/base.css?v=49" />
-    <link rel="stylesheet" href="css/components.css?v=49" />
-    <link rel="stylesheet" href="css/pages.css?v=49" />
+    <link rel="stylesheet" href="css/tokens.css?v=51" />
+    <link rel="stylesheet" href="css/base.css?v=51" />
+    <link rel="stylesheet" href="css/components.css?v=51" />
+    <link rel="stylesheet" href="css/pages.css?v=51" />
   </head>
   <body class="page-resume">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -25,8 +25,8 @@
 
     <main id="main" class="page resume-layout">
       <!--
-        Full letter-page PDF preview on-site, plus Download.
-        HTML sheet is a fallback when the browser cannot embed PDFs.
+        Full letter-page preview (raster of the PDF) + Download PDF.
+        Avoids browser PDF chrome that cropped the page to a fragment.
       -->
       <div class="resume-column">
         <div class="resume-toolbar">
@@ -38,78 +38,15 @@
           >
         </div>
 
-        <div class="resume-frame">
-          <iframe
-            class="resume-embed"
-            title="Artur Kosma resume"
-            src="assets/resume/Artur-Kosma-Resume.pdf#view=FitH"
-            loading="lazy"
-          ></iframe>
-        </div>
-
-        <article class="resume-sheet resume-sheet--fallback" aria-label="Resume">
-          <header class="resume-sheet__header">
-            <h1>Artur Kosma</h1>
-            <p class="resume-sheet__headline">Senior Animation Engineer — Games</p>
-            <p class="resume-sheet__contact">
-              <span>artur.kosma@example.com</span>
-              <span>linkedin.com/in/arturkosma</span>
-              <span>Poland</span>
-            </p>
-          </header>
-
-          <h2>Experience</h2>
-
-          <div class="resume-role">
-            <div class="resume-role__top">
-              <div>
-                <div class="resume-role__title">Senior Animation Engineer — The Farm 51</div>
-                <div class="resume-role__meta">Rescue Drone Simulator</div>
-              </div>
-              <div class="resume-role__dates">2026–Present</div>
-            </div>
-            <p>Owns animation systems for the rescue drone simulator after returning to pure engineering.</p>
-          </div>
-
-          <div class="resume-role">
-            <div class="resume-role__top">
-              <div>
-                <div class="resume-role__title">Lead Combat Engineer — The Farm 51</div>
-                <div class="resume-role__meta">Chernobylite 2</div>
-              </div>
-              <div class="resume-role__dates">2021–2026</div>
-            </div>
-            <p>Led a multidisciplinary team of 10+; ~50/50 leadership and hands-on combat/animation engineering.</p>
-          </div>
-
-          <div class="resume-role">
-            <div class="resume-role__top">
-              <div>
-                <div class="resume-role__title">Lead Animator &amp; Programmer — The Farm 51</div>
-                <div class="resume-role__meta">Chernobylite 1</div>
-              </div>
-              <div class="resume-role__dates">2019–2021</div>
-            </div>
-            <p>First lead role: planned mocap, managed animators, shipped movement and animation systems.</p>
-          </div>
-
-          <div class="resume-role">
-            <div class="resume-role__top">
-              <div>
-                <div class="resume-role__title">Junior Programmer — The Farm 51</div>
-                <div class="resume-role__meta">Chernobylite 1</div>
-              </div>
-              <div class="resume-role__dates">2017–2019</div>
-            </div>
-            <p>Owned character animation/rigging pipeline while studying; authored character anims and movement/AI code.</p>
-          </div>
-
-          <h2>Focus</h2>
-          <p class="resume-focus">
-            Animation systems · Gameplay engineering · Unreal Engine · Technical animation · Team
-            leadership · Mocap / pipelines
-          </p>
-        </article>
+        <figure class="resume-frame">
+          <img
+            class="resume-page"
+            src="assets/resume/Artur-Kosma-Resume.png?v=51"
+            width="1360"
+            height="1760"
+            alt="Artur Kosma — Senior Animation Engineer, Games. Experience at The Farm 51: Senior Animation Engineer on Rescue Drone Simulator (2026–Present); Lead Combat Engineer on Chernobylite 2 (2021–2026); Lead Animator and Programmer on Chernobylite 1 (2019–2021); Junior Programmer on Chernobylite 1 (2017–2019). Focus: animation systems, gameplay engineering, Unreal Engine, technical animation, team leadership, mocap and pipelines."
+          />
+        </figure>
       </div>
     </main>
   </body>

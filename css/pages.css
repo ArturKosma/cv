@@ -73,7 +73,7 @@
 
 /*
   Contact — shared media column (avatar width): portrait + icons centered
-  under that column; name/title/handles right-aligned with a moderate gutter.
+  under that column; name/title stay right-aligned, link handles read left.
 */
 .contact-layout {
   display: grid;
@@ -183,7 +183,7 @@
   font-size: var(--text-sm);
   line-height: 1.25;
   color: var(--muted);
-  text-align: right;
+  text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

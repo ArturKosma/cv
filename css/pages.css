@@ -465,7 +465,8 @@
   }
 
   .timeline-meta {
-    flex-wrap: wrap;
+    overflow: visible;
+    text-overflow: unset;
     white-space: normal;
   }
 

@@ -177,9 +177,9 @@ details[data-project][open]::details-content {
   grid-template-columns: 6.25rem minmax(0, 1fr);
   column-gap: var(--space-4);
   align-items: baseline;
-  /* Full row width so the chevron parks in a right gutter, not beside the org name */
   width: 100%;
-  padding-right: 1.75rem;
+  /* Reserved control column for the chevron (design-system pattern) */
+  padding-right: 1.85rem;
   position: relative;
   cursor: pointer;
   user-select: none;
@@ -194,13 +194,13 @@ details[data-project][open]::details-content {
 .timeline-summary::after {
   content: "";
   position: absolute;
-  right: 0.15rem;
+  right: 0.2rem;
   top: 0.45rem;
   width: 0.35rem;
   height: 0.35rem;
   border-right: 1.5px solid var(--muted-dim);
   border-bottom: 1.5px solid var(--muted-dim);
-  opacity: 0.45;
+  opacity: 0.85;
   transform: rotate(45deg);
   transition: border-color var(--ease), transform var(--ease), opacity var(--ease);
   pointer-events: none;
@@ -230,6 +230,10 @@ details[data-project][open]::details-content {
   font-variant-numeric: tabular-nums;
 }
 
+.timeline-copy {
+  min-width: 0;
+}
+
 .timeline-org {
   font-size: var(--text-md);
   font-weight: 600;
@@ -239,39 +243,37 @@ details[data-project][open]::details-content {
 }
 
 .timeline-meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.35rem 0.5rem;
+  display: block;
   margin-top: 0.15rem;
   min-width: 0;
-}
-
-.timeline-role,
-.timeline-project {
-  margin: 0;
+  max-width: 100%;
   color: var(--muted-dim);
   font-size: 0.72rem;
   font-weight: 400;
   line-height: 1.45;
 }
 
-@media (min-width: 1200px) {
-  .timeline-meta {
-    flex-wrap: nowrap;
-    white-space: nowrap;
-  }
-
-  .timeline-role,
-  .timeline-project {
-    white-space: nowrap;
-  }
+.timeline-role,
+.timeline-project {
+  display: inline;
+  margin: 0;
+  color: inherit;
+  font: inherit;
 }
 
 .timeline-project::before {
   content: "·";
-  margin-right: 0.5rem;
+  margin: 0 0.45rem 0 0.35rem;
   color: var(--muted-dim);
+}
+
+/* Keep one-liners: long role·project soft-clips before the chevron gutter */
+@media (min-width: 1200px) {
+  .timeline-meta {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .timeline-body {

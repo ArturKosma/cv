@@ -1,8 +1,8 @@
 /* Design tokens — shared across every page */
 /* Charcoal field (quiet undertone) + gold accent */
 :root {
-  --bg: #0e100e;
-  --bg-elevated: #151715;
+  --bg: #0c0e0c;
+  --bg-elevated: #131513;
   --fg: #e8ece9;
   --muted: #9aa89f;
   --muted-dim: #6e7a72;

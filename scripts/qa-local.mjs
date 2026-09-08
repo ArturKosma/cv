@@ -263,6 +263,29 @@ async function assertPage(page, path, viewport) {
     const ytFacade = document.querySelector(".yt-facade");
     const reelTitle = document.querySelector(".reel-title");
     const contactLede = document.querySelector(".contact-lede")?.textContent.trim() || "";
+    const contactName = document.querySelector(".contact-name");
+    const contactValue = document.querySelector(".contact-email .contact-value");
+    const contactEmailIcon = document.querySelector(".contact-email__icon");
+    const contactSocial = document.querySelector(".contact-social");
+    const contactCardBox = contactCard?.getBoundingClientRect();
+    const contactNameBox = contactName?.getBoundingClientRect();
+    const contactValueBox = contactValue?.getBoundingClientRect();
+    const contactEmailIconBox = contactEmailIcon?.getBoundingClientRect();
+    const contactSocialLinks = [...(contactSocial?.querySelectorAll("a") || [])];
+    const socialFirst = contactSocialLinks[0]?.getBoundingClientRect();
+    const socialLast = contactSocialLinks.at(-1)?.getBoundingClientRect();
+    const contactEmailAligned =
+      Boolean(contactNameBox && contactValueBox) &&
+      Math.abs(contactValueBox.left - contactNameBox.left) < 3;
+    const contactEmailHasIcon =
+      Boolean(contactEmailIconBox && contactValueBox) &&
+      contactEmailIconBox.right < contactValueBox.left;
+    const contactSocialCentered =
+      Boolean(contactCardBox && socialFirst && socialLast) &&
+      Math.abs(
+        (socialFirst.left + socialLast.right) / 2 -
+          (contactCardBox.left + contactCardBox.right) / 2
+      ) < 4;
     const resumeActionStyle = resumeOpen
       ? {
           color: getComputedStyle(resumeOpen).color,
@@ -370,6 +393,9 @@ async function assertPage(page, path, viewport) {
       hasFacebook: Boolean(facebook),
       primaryIsMailto: primaryRow?.getAttribute("href")?.startsWith("mailto:") || false,
       contactLede,
+      contactEmailAligned,
+      contactEmailHasIcon,
+      contactSocialCentered,
       hasResumeSheet: Boolean(resumeSheet),
       hasResumeFrame: Boolean(resumeFrame),
       hasResumePage: Boolean(resumePage),
@@ -495,6 +521,11 @@ async function assertPage(page, path, viewport) {
     if (!report.primaryIsMailto) fail(`${label}: email should be the primary contact row`);
     if (report.contactLede !== "Senior Animation Engineer")
       fail(`${label}: contact title should be Senior Animation Engineer`);
+    if (!report.contactEmailHasIcon) fail(`${label}: email must show an icon to the left of the address`);
+    if (!report.contactEmailAligned)
+      fail(`${label}: email text must align with the name column`);
+    if (!report.contactSocialCentered)
+      fail(`${label}: social icons must be horizontally centered under the contact block`);
   }
 
   if (path.includes("resume.html")) {

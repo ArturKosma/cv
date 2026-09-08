@@ -132,9 +132,12 @@
 }
 
 .contact-email {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: var(--contact-media) minmax(0, 1fr);
+  column-gap: var(--contact-gap);
   align-items: center;
-  align-self: start;
+  align-self: stretch;
+  width: 100%;
   margin: 0;
   padding: 0;
   color: inherit;
@@ -145,6 +148,13 @@
 .contact-email:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 3px;
+}
+
+.contact-email__icon {
+  justify-self: end;
+  display: block;
+  color: var(--muted-dim);
+  transition: color var(--ease);
 }
 
 .contact-email .contact-value {
@@ -162,7 +172,10 @@
 
 .contact-email:hover .contact-value,
 .contact-email:focus-visible .contact-value,
-.contact-email.is-copied .contact-value {
+.contact-email.is-copied .contact-value,
+.contact-email:hover .contact-email__icon,
+.contact-email:focus-visible .contact-email__icon,
+.contact-email.is-copied .contact-email__icon {
   color: var(--accent);
 }
 
@@ -172,6 +185,9 @@
   padding: 0;
   display: flex;
   align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  width: 100%;
   gap: 0.15rem;
 }
 

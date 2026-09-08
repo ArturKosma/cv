@@ -458,14 +458,21 @@ async function main() {
       fail("experience: opening one timeline record must close the others");
     }
 
-    const identityCenter = await page.evaluate(async () => {
+    const identityLayout = await page.evaluate(async () => {
       const identity = document.querySelector(".identity");
       const timeline = document.querySelector(".timeline");
       const brand = document.querySelector(".hero-brand");
       const portrait = document.querySelector(".portrait-frame");
-      if (!identity || !timeline || !brand || !portrait) return { ok: false };
+      const experience = document.querySelector(".experience");
+      if (!identity || !timeline || !brand || !portrait || !experience) return { ok: false };
+
       document.querySelectorAll(".timeline details").forEach((d) => {
         d.open = false;
+      });
+      // Drop leftover accordion freezes from prior checks.
+      document.querySelectorAll(".timeline-item").forEach((li) => {
+        li.style.marginTop = "";
+        li.removeAttribute("data-acc-freeze");
       });
       window.dispatchEvent(new Event("resize"));
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
@@ -474,40 +481,41 @@ async function main() {
       const brandBox = brand.getBoundingClientRect();
       const portraitBox = portrait.getBoundingClientRect();
       const timelineBox = timeline.getBoundingClientRect();
-      const mid = (brandBox.top + portraitBox.bottom) / 2;
-      const timelineMid = (timelineBox.top + timelineBox.bottom) / 2;
-      const marginBefore = timeline.style.marginTop;
+      const experienceBox = experience.getBoundingClientRect();
 
-      // Expand first item — margin offset must stay put; only lower content moves.
       const first = timeline.querySelector("details");
-      const secondTopBefore = timeline
-        .querySelectorAll(".timeline-item")[1]
-        ?.getBoundingClientRect().top;
+      const second = timeline.querySelectorAll(".timeline-item")[1];
+      const firstTopBefore = first.getBoundingClientRect().top;
+      const secondTopBefore = second.getBoundingClientRect().top;
+      const marginBefore = timeline.style.marginTop || "";
+
       first.open = true;
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-      const marginAfter = timeline.style.marginTop;
-      const secondTopAfter = timeline
-        .querySelectorAll(".timeline-item")[1]
-        ?.getBoundingClientRect().top;
+
+      const firstTopAfter = first.getBoundingClientRect().top;
+      const secondTopAfter = second.getBoundingClientRect().top;
+      const marginAfter = timeline.style.marginTop || "";
 
       first.open = false;
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
 
       return {
         ok:
-          Math.abs(timelineMid - mid) < 28 &&
           Math.abs(portraitBox.width - brandBox.width) < 3 &&
           Math.abs(portraitBox.right - brandBox.right) < 3 &&
+          Math.abs(timelineBox.top - experienceBox.top) < 4 &&
+          !marginBefore &&
           marginBefore === marginAfter &&
+          Math.abs(firstTopAfter - firstTopBefore) < 2 &&
           secondTopAfter > secondTopBefore + 8,
-        midDelta: Math.abs(timelineMid - mid),
-        marginStable: marginBefore === marginAfter,
+        topLocked: Math.abs(timelineBox.top - experienceBox.top) < 4,
+        clickedStable: Math.abs(firstTopAfter - firstTopBefore) < 2,
         lowerMoved: secondTopAfter > secondTopBefore + 8,
       };
     });
-    if (!identityCenter.ok) {
+    if (!identityLayout.ok) {
       fail(
-        `experience: portrait full-width right-aligned; timeline centered when collapsed and stable on expand (midΔ ${identityCenter.midDelta})`
+        `experience: top-locked timeline, full-width right portrait, clicked row stable (topLocked ${identityLayout.topLocked}, clickedStable ${identityLayout.clickedStable})`
       );
     }
 
@@ -534,9 +542,7 @@ async function main() {
         openCount: items.filter((d) => d.open).length,
         targetOpen: items[2].open,
         previousClosed: !items[0].open,
-        // Either pinned near the prior viewport position, or parked under the header.
-        viewportStable:
-          (afterTop >= 80 && afterTop < 220) || Math.abs(afterTop - beforeTop) < 16,
+        viewportStable: Math.abs(afterTop - beforeTop) < 3,
         beforeTop,
         afterTop,
       };
@@ -550,7 +556,7 @@ async function main() {
     }
     if (!accordionSamples.viewportStable) {
       fail(
-        `samples: opened lower record should stay visible without a large upward jump (before ${accordionSamples.beforeTop}, after ${accordionSamples.afterTop})`
+        `samples: clicked item must not move (before ${accordionSamples.beforeTop}, after ${accordionSamples.afterTop})`
       );
     }
 

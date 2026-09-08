@@ -636,17 +636,22 @@ async function main() {
           Math.abs(timelineBox.top - experienceBox.top) < 4 &&
           Math.abs(identityBox.left - pageBox.left) < 3 &&
           identityBox.right < experienceBox.left &&
+          experienceBox.right - pageBox.right < 2 &&
+          experienceBox.left - identityBox.right >= 56 &&
           dates.every((l) => Math.abs(l - dates[0]) < 1) &&
           orgs.every((l) => Math.abs(l - orgs[0]) < 1),
         pageLeftAligned: Math.abs(identityBox.left - pageBox.left) < 3,
         identityLeftOfRail: identityBox.right < experienceBox.left,
+        timelineRightPinned: experienceBox.right - pageBox.right < 2,
+        generousGap: experienceBox.left - identityBox.right >= 56,
         datesAligned: dates.every((l) => Math.abs(l - dates[0]) < 1),
         orgsAligned: orgs.every((l) => Math.abs(l - orgs[0]) < 1),
+        gap: experienceBox.left - identityBox.right,
       };
     });
     if (!identityLayout.ok) {
       fail(
-        `experience: page-left identity + consistent timeline columns (pageLeft ${identityLayout.pageLeftAligned}, dates ${identityLayout.datesAligned}, orgs ${identityLayout.orgsAligned})`
+        `experience: left identity, right-pinned timeline, generous gap (gap ${identityLayout.gap}, rightPinned ${identityLayout.timelineRightPinned})`
       );
     }
 

@@ -6,18 +6,20 @@
 
 .home-layout {
   /*
-    Align with other pages: share the page-left edge (Samples/Contact),
-    identity left + timeline right with the rail between them — not a
-    viewport-centered orphan that wastes the left shell.
+    Identity on the shared page-left edge; timeline hugs the top-right
+    nav shell. Wide gutter between them so the two blocks read apart.
   */
   display: grid;
   grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
-  gap: clamp(1.75rem, 3.5vw, 3rem);
+  gap: clamp(3.5rem, 9vw, 7.5rem);
   align-items: start;
 }
 
 .experience {
   min-width: 0;
+  /* Keep the timeline block tied to the right content/nav edge */
+  justify-self: stretch;
+  width: 100%;
 }
 
 .identity {
@@ -25,7 +27,7 @@
   justify-items: stretch;
   justify-self: start;
   width: 100%;
-  max-width: 22rem;
+  max-width: 20rem;
   min-width: 0;
   margin-left: 0;
   padding-right: 0;

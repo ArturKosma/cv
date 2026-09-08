@@ -69,7 +69,7 @@ Patterns to follow from that direction:
 - **Portfolio/Samples row hover = accent-only (option A):** title color → accent, chevron brightens; **no background wash / no full-row highlight**
 - **Samples expand copy:** short blurb under the title stays visible; each expand row is **one video + text to the right**, then the next video+text row underneath — never two media side by side
 - **Samples row layout:** collapsed = video thumb + title/blurb; no large page H1 (“Portfolio”/“Samples”) above the list
-- **Experience layout:** identity left on the shared page edge (same as Contact/Samples), timeline right with rail between — do not orphan content at viewport center
+- **Experience layout:** identity on the shared page-left edge; timeline hugs the top-right nav/content edge; keep a generous gutter between the two blocks
 
 When proposing visual or structural changes, check:
 

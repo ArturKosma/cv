@@ -150,8 +150,17 @@
   outline-offset: 3px;
 }
 
+.contact-email__inner {
+  grid-column: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
 .contact-email__icon {
-  justify-self: end;
+  flex: 0 0 auto;
   display: block;
   color: var(--muted-dim);
   transition: color var(--ease);

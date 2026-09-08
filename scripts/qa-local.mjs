@@ -275,8 +275,8 @@ async function assertPage(page, path, viewport) {
     const socialFirst = contactSocialLinks[0]?.getBoundingClientRect();
     const socialLast = contactSocialLinks.at(-1)?.getBoundingClientRect();
     const contactEmailAligned =
-      Boolean(contactNameBox && contactValueBox) &&
-      Math.abs(contactValueBox.left - contactNameBox.left) < 3;
+      Boolean(contactNameBox && contactEmailIconBox) &&
+      Math.abs(contactEmailIconBox.left - contactNameBox.left) < 3;
     const contactEmailHasIcon =
       Boolean(contactEmailIconBox && contactValueBox) &&
       contactEmailIconBox.right < contactValueBox.left;
@@ -523,7 +523,7 @@ async function assertPage(page, path, viewport) {
       fail(`${label}: contact title should be Senior Animation Engineer`);
     if (!report.contactEmailHasIcon) fail(`${label}: email must show an icon to the left of the address`);
     if (!report.contactEmailAligned)
-      fail(`${label}: email text must align with the name column`);
+      fail(`${label}: email row (icon + address) must align with the name column`);
     if (!report.contactSocialCentered)
       fail(`${label}: social icons must be horizontally centered under the contact block`);
   }

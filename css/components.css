@@ -203,12 +203,11 @@
 
 .timeline-meta {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: 0.35rem 0.5rem;
   margin-top: 0.15rem;
   min-width: 0;
-  white-space: nowrap;
 }
 
 .timeline-role,
@@ -218,7 +217,18 @@
   font-size: 0.72rem;
   font-weight: 400;
   line-height: 1.45;
-  white-space: nowrap;
+}
+
+@media (min-width: 1200px) {
+  .timeline-meta {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  .timeline-role,
+  .timeline-project {
+    white-space: nowrap;
+  }
 }
 
 .timeline-project::before {

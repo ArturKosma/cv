@@ -636,6 +636,7 @@ async function main() {
         const roleH = role ? role.getBoundingClientRect().height : h;
         return h <= roleH * 1.35;
       });
+      const requireOneLine = window.innerWidth >= 1200;
 
       return {
         ok:
@@ -648,7 +649,7 @@ async function main() {
           Math.abs(experienceBox.left - navBox.left) < 3 &&
           Math.abs(timelineBox.bottom - portraitBox.bottom) < 8 &&
           experienceBox.top > navBox.bottom + 24 &&
-          metas.every(Boolean) &&
+          (!requireOneLine || metas.every(Boolean)) &&
           dates.every((l) => Math.abs(l - dates[0]) < 1) &&
           orgs.every((l) => Math.abs(l - orgs[0]) < 1),
         pageLeftAligned: Math.abs(identityBox.left - pageBox.left) < 3,
@@ -656,6 +657,7 @@ async function main() {
         bottomsMatch: Math.abs(timelineBox.bottom - portraitBox.bottom) < 8,
         belowNav: experienceBox.top > (navBox?.bottom || 0) + 24,
         metaOneLine: metas.every(Boolean),
+        requireOneLine,
         gap: experienceBox.left - identityBox.right,
         railDelta: navBox ? experienceBox.left - navBox.left : null,
         bottomDelta: timelineBox.bottom - portraitBox.bottom,

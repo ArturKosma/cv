@@ -53,7 +53,8 @@ Patterns to follow from that direction:
 
 - Short copy; every sentence earns its place
 - One accent color for interactive affordances (links, active states, CTAs)
-- Dark, quiet chrome; content louder than decoration
+- Dark, quiet chrome; content louder than decoration — prefer text nav over bordered button chrome
+- Experience list = typography first (dates + role/company); avoid heavy timeline ornaments
 - Clear section hierarchy (About / Experience / Projects style thinking) with calm spacing
 - Accessibility-first: skip link, semantic landmarks, keyboard-friendly, reduced-motion respect
 - Shared design system across the whole site (no per-page style drift)
@@ -62,6 +63,7 @@ Patterns to follow from that direction:
 - **Portfolio/Samples row hover = accent-only (option A):** title color → accent, chevron brightens; **no background wash / no full-row highlight**
 - **Samples expand copy:** short blurb under the title stays visible; each expand row is **one video + text to the right**, then the next video+text row underneath — never two media side by side
 - **Samples row layout:** collapsed = video thumb + title/blurb; no large page H1 (“Portfolio”/“Samples”) above the list
+- **Accordion pin:** keep clicked row viewport-stable via scroll (and page-top pad if needed) — never invent empty gaps between list rows
 
 When proposing visual or structural changes, check:
 

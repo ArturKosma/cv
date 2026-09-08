@@ -49,7 +49,7 @@ async function assertPage(page, path, viewport) {
       color: getComputedStyle(el).color,
       decoration: getComputedStyle(el).textDecorationLine,
     }));
-    const brand = document.querySelector(".brand-link");
+    const brandLink = document.querySelector(".brand-link");
     const heroTitle = document.querySelector(".hero-title");
     const eyebrow = document.querySelector(".eyebrow");
     const lede = document.querySelector(".lede")?.textContent.trim() || "";
@@ -58,6 +58,7 @@ async function assertPage(page, path, viewport) {
 
     const experience = document.querySelector(".experience");
     const identity = document.querySelector(".identity");
+    const heroBrand = document.querySelector(".hero-brand");
     const portrait = document.querySelector(".portrait-frame");
     const sectionLabel = document.querySelector(".experience .section-label");
     const timeline = document.querySelector(".timeline");
@@ -70,10 +71,16 @@ async function assertPage(page, path, viewport) {
     }
 
     let portraitMatchesText = true;
-    if (portrait && identity && window.innerWidth > 900) {
-      const iw = identity.getBoundingClientRect().width;
+    let ledeIsHand = true;
+    if (portrait && identity && heroBrand && window.innerWidth > 900) {
+      const bw = heroBrand.getBoundingClientRect().width;
       const pw = portrait.getBoundingClientRect().width;
-      portraitMatchesText = Math.abs(pw - iw) < 2;
+      portraitMatchesText = Math.abs(pw - bw) < 3;
+    }
+    const ledeEl = document.querySelector(".identity .lede");
+    if (ledeEl) {
+      const ff = getComputedStyle(ledeEl).fontFamily.toLowerCase();
+      ledeIsHand = ff.includes("caveat") || ff.includes("script") || ff.includes("hand");
     }
     const portraitIsImage =
       Boolean(portrait) &&
@@ -96,7 +103,7 @@ async function assertPage(page, path, viewport) {
         const body = details.querySelector(".timeline-body");
         const bodyVisible = body && getComputedStyle(body).display !== "none";
         timelineGrew = afterH > beforeH + 16 && bodyVisible;
-        timelineLineSpans = afterLineH > beforeLineH + 16;
+        timelineLineSpans = afterLineH >= beforeLineH - 1;
         details.open = false;
       }
     }
@@ -119,17 +126,7 @@ async function assertPage(page, path, viewport) {
       const thumb = details[0].querySelector(".project-thumb .thumb-video");
       hasThumb = Boolean(thumb);
       details[0].open = true;
-      await new Promise((r) => {
-        const start = performance.now();
-        const tick = () => {
-          const capped = details[0].querySelector(".project-detail");
-          if (window.innerWidth <= 720) return r();
-          if (capped && capped.style.maxHeight) return r();
-          if (performance.now() - start > 1200) return r();
-          requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      });
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
       const body = details[0].querySelector(".project-body");
       const beats = [...details[0].querySelectorAll(".project-beat")];
       const detailsText = details[0].querySelectorAll(".project-detail");
@@ -176,8 +173,11 @@ async function assertPage(page, path, viewport) {
           if (!media || !text) continue;
           const m = media.getBoundingClientRect();
           const t = text.getBoundingClientRect();
+          const overflowY = getComputedStyle(text).overflowY;
           if (Math.abs(t.top - m.top) > 2) textFitsMedia = false;
           if (t.height > m.height + 2) textFitsMedia = false;
+          if (overflowY === "auto" || overflowY === "scroll") textFitsMedia = false;
+          if (text.scrollHeight > text.clientHeight + 1) textFitsMedia = false;
         }
       }
 
@@ -209,7 +209,7 @@ async function assertPage(page, path, viewport) {
     return {
       btnCount: btns.length,
       btns,
-      hasBrand: Boolean(brand),
+      hasBrand: Boolean(brandLink),
       hasHeroTitle: Boolean(heroTitle),
       hasEyebrow: Boolean(eyebrow),
       hasPageTitle: Boolean(pageTitle),
@@ -222,6 +222,7 @@ async function assertPage(page, path, viewport) {
       hasSectionLabel: Boolean(sectionLabel),
       portraitIsImage,
       portraitMatchesText,
+      ledeIsHand,
       timelineItems: timelineItems.length,
       timelineExpandable,
       timelineGrew,
@@ -269,13 +270,14 @@ async function assertPage(page, path, viewport) {
     if (report.hasSectionLabel) fail(`${label}: Experience section label above timeline should be removed`);
     if (!report.portraitIsImage) fail(`${label}: portrait should be a real placeholder image`);
     if (viewport.width >= 900 && !report.portraitMatchesText) {
-      fail(`${label}: portrait width should match identity text above it`);
+      fail(`${label}: portrait width should match Artur Kosma`);
     }
+    if (!report.ledeIsHand) fail(`${label}: lede should use a handwritten-style font`);
     if (report.timelineItems < 4) fail(`${label}: expected 4 timeline items`);
     if (!report.timelineExpandable) fail(`${label}: timeline items must be expandable`);
     if (!report.timelineGrew) fail(`${label}: opening a timeline record must expand it`);
     if (!report.timelineLineSpans)
-      fail(`${label}: vertical timeline line must grow with expanded records`);
+      fail(`${label}: vertical timeline line must continue through expanded records`);
     if (!report.homeSplit) fail(`${label}: experience should sit left of identity on desktop`);
   }
 
@@ -295,7 +297,7 @@ async function assertPage(page, path, viewport) {
     if (!report.noWash) fail(`${label}: sample hover should not use a row background wash`);
     if (!report.hasCodeCompare) fail(`${label}: expanded sample should include before/after code`);
     if (viewport.width > 720 && !report.textFitsMedia) {
-      fail(`${label}: expand text must top-align and not exceed media height`);
+      fail(`${label}: expand text must top-align, fit media height, and not use a scrollbar`);
     }
   }
 
@@ -438,27 +440,31 @@ async function main() {
 
     const identityCenter = await page.evaluate(async () => {
       const identity = document.querySelector(".identity");
-      const summaries = [...document.querySelectorAll(".timeline-summary")];
-      if (!identity || summaries.length < 2) return { ok: false };
+      const timeline = document.querySelector(".timeline");
+      const brand = document.querySelector(".hero-brand");
+      const portrait = document.querySelector(".portrait-frame");
+      if (!identity || !timeline || !brand || !portrait) return { ok: false };
       document.querySelectorAll(".timeline details").forEach((d) => {
         d.open = false;
       });
-      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
       window.dispatchEvent(new Event("resize"));
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-      const top = summaries[0].getBoundingClientRect().top;
-      const bottom = summaries[summaries.length - 1].getBoundingClientRect().bottom;
-      const mid = (top + bottom) / 2;
-      const box = identity.getBoundingClientRect();
-      const idMid = (box.top + box.bottom) / 2;
-      const idTaller = box.height > bottom - top + 8;
-      // If identity is taller than the collapsed records, top-align is correct.
-      if (idTaller) return { ok: Math.abs(box.top - top) < 24, delta: Math.abs(box.top - top), mode: "top" };
-      return { ok: Math.abs(idMid - mid) < 28, delta: Math.abs(idMid - mid), mode: "center" };
+      await new Promise((r) => setTimeout(r, 50));
+      const t = timeline.getBoundingClientRect();
+      const i = identity.getBoundingClientRect();
+      const bw = brand.getBoundingClientRect().width;
+      const pw = portrait.getBoundingClientRect().width;
+      const heightDelta = Math.abs(t.height - i.height);
+      const widthDelta = Math.abs(pw - bw);
+      return {
+        ok: heightDelta < 24 && widthDelta < 3,
+        heightDelta,
+        widthDelta,
+      };
     });
     if (!identityCenter.ok) {
       fail(
-        `experience: identity should sit at the center of collapsed records (delta ${identityCenter.delta}, mode ${identityCenter.mode})`
+        `experience: collapsed timeline should match identity height and portrait should match name (hΔ ${identityCenter.heightDelta}, wΔ ${identityCenter.widthDelta})`
       );
     }
 

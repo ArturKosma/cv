@@ -2,26 +2,8 @@
  * On-demand media loader for portfolio/experience slots.
  * Heavy media.* files load only after <details> opens.
  * Expand videos autoplay muted in a loop — no player chrome or interaction.
- * Expand text is height-capped to the adjacent media frame.
  */
 (function () {
-  const MOBILE = window.matchMedia("(max-width: 720px)");
-
-  function syncBeatHeights(scope) {
-    const root = scope || document;
-    root.querySelectorAll(".project-beat").forEach((beat) => {
-      const media = beat.querySelector(".media-slot");
-      const detail = beat.querySelector(".project-detail");
-      if (!media || !detail) return;
-      if (MOBILE.matches) {
-        detail.style.maxHeight = "";
-        return;
-      }
-      const mediaHeight = media.getBoundingClientRect().height;
-      if (mediaHeight > 0) detail.style.maxHeight = `${Math.round(mediaHeight)}px`;
-    });
-  }
-
   function loadSlot(slot) {
     if (!slot || slot.dataset.loaded === "true") return;
 
@@ -79,23 +61,12 @@
     const details = event.currentTarget;
     if (!details.open) return;
     details.querySelectorAll("[data-media-slot]").forEach(loadSlot);
-    requestAnimationFrame(() => {
-      syncBeatHeights(details);
-      requestAnimationFrame(() => syncBeatHeights(details));
-    });
   }
 
   document.querySelectorAll("details[data-project]").forEach((details) => {
     details.addEventListener("toggle", onToggle);
     if (details.open) {
       details.querySelectorAll("[data-media-slot]").forEach(loadSlot);
-      syncBeatHeights(details);
     }
-  });
-
-  window.addEventListener("resize", () => {
-    document.querySelectorAll("details[data-project][open]").forEach((details) => {
-      syncBeatHeights(details);
-    });
   });
 })();

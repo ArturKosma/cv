@@ -335,7 +335,7 @@ details[open] .project-body {
 
 .project-beat {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   align-items: start;
   gap: var(--space-5);
 }
@@ -350,13 +350,10 @@ details[open] .project-body {
   margin: 0;
   color: var(--muted);
   font-size: var(--text-sm);
-  line-height: 1.6;
+  line-height: 1.55;
   display: grid;
   align-content: start;
   gap: var(--space-3);
-  overflow: auto;
-  overscroll-behavior: contain;
-  scrollbar-width: thin;
 }
 
 .project-detail > p {
@@ -365,7 +362,7 @@ details[open] .project-body {
 
 .code-compare {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-2);
 }
 
 .code-panel {
@@ -376,7 +373,7 @@ details[open] .project-body {
 }
 
 .code-panel figcaption {
-  padding: 0.4rem 0.7rem;
+  padding: 0.3rem 0.6rem;
   border-bottom: 1px solid var(--line);
   color: var(--muted-dim);
   font-size: var(--text-xs);
@@ -387,14 +384,14 @@ details[open] .project-body {
 
 .code-panel pre {
   margin: 0;
-  padding: 0.7rem 0.75rem;
+  padding: 0.55rem 0.65rem;
   overflow-x: auto;
 }
 
 .code-panel code {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  line-height: 1.5;
+  font-size: 0.68rem;
+  line-height: 1.45;
   color: var(--muted);
   white-space: pre;
 }
@@ -436,10 +433,6 @@ details[open] .project-body {
   .project-beat {
     grid-template-columns: 1fr;
     gap: var(--space-3);
-  }
-
-  .project-detail {
-    max-height: none !important;
   }
 }
 

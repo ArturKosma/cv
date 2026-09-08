@@ -1,65 +1,67 @@
 /**
- * Pin the identity column to the vertical center of collapsed timeline records.
- * Measured once (and on resize) with all rows closed so expand does not shift it.
+ * Experience layout helpers:
+ * - Portrait + lede width lock to the "Artur Kosma" brand width
+ * - Collapsed timeline stretches to match identity (name + lede + portrait) height
  */
 (function () {
   const layout = document.querySelector(".home-layout");
   const identity = document.querySelector(".identity");
+  const brand = document.querySelector(".hero-brand");
   const timeline = document.querySelector(".timeline");
-  if (!layout || !identity || !timeline) return;
+  const experience = document.querySelector(".experience");
+  if (!layout || !identity || !brand || !timeline || !experience) return;
 
   const desktop = window.matchMedia("(min-width: 901px)");
 
-  function clearLock() {
-    identity.style.marginTop = "";
-    identity.style.alignSelf = "";
+  function syncBrandWidth() {
+    identity.style.width = "";
+    const width = Math.ceil(brand.getBoundingClientRect().width);
+    if (width > 0) identity.style.width = `${width}px`;
   }
 
-  function lockToCollapsedRecords() {
+  function syncTimelineHeight() {
     if (!desktop.matches) {
-      clearLock();
+      timeline.style.minHeight = "";
+      layout.classList.remove("timeline-spaced");
       return;
     }
 
-    const details = Array.prototype.slice.call(timeline.querySelectorAll("details"));
-    const wasOpen = details.map((d) => d.open);
-    details.forEach((d) => {
-      d.open = false;
-    });
-
-    const summaries = Array.prototype.slice.call(timeline.querySelectorAll(".timeline-summary"));
-    if (!summaries.length) {
-      wasOpen.forEach((open, i) => {
-        details[i].open = open;
-      });
+    const open = timeline.querySelector("details[open]");
+    if (open) {
+      // Keep the collapsed match as a floor so the spine does not shrink on expand.
+      layout.classList.remove("timeline-spaced");
       return;
     }
 
-    identity.style.alignSelf = "start";
-    identity.style.marginTop = "0px";
-
-    const top = summaries[0].getBoundingClientRect().top;
-    const bottom = summaries[summaries.length - 1].getBoundingClientRect().bottom;
-    const mid = (top + bottom) / 2;
-    const natural = identity.getBoundingClientRect();
-    const desiredTop = mid - natural.height / 2;
-    identity.style.marginTop = `${Math.max(0, desiredTop - natural.top)}px`;
-
-    wasOpen.forEach((open, i) => {
-      details[i].open = open;
-    });
+    timeline.style.minHeight = "";
+    layout.classList.add("timeline-spaced");
+    const identityHeight = identity.getBoundingClientRect().height;
+    if (identityHeight > 0) timeline.style.minHeight = `${Math.round(identityHeight)}px`;
   }
 
-  requestAnimationFrame(() => requestAnimationFrame(lockToCollapsedRecords));
-  desktop.addEventListener("change", lockToCollapsedRecords);
-  window.addEventListener("resize", lockToCollapsedRecords);
+  function sync() {
+    syncBrandWidth();
+    requestAnimationFrame(syncTimelineHeight);
+  }
+
+  function onToggle() {
+    requestAnimationFrame(syncTimelineHeight);
+  }
+
+  timeline.querySelectorAll("details").forEach((details) => {
+    details.addEventListener("toggle", onToggle);
+  });
+
+  requestAnimationFrame(() => requestAnimationFrame(sync));
+  desktop.addEventListener("change", sync);
+  window.addEventListener("resize", sync);
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(sync);
+  }
 
   const portrait = identity.querySelector("img.portrait-frame");
-  if (portrait) {
-    if (portrait.complete) {
-      requestAnimationFrame(lockToCollapsedRecords);
-    } else {
-      portrait.addEventListener("load", lockToCollapsedRecords, { once: true });
-    }
+  if (portrait && !portrait.complete) {
+    portrait.addEventListener("load", sync, { once: true });
   }
 })();

@@ -12,6 +12,10 @@
   animation: rise 0.7s ease-out both;
 }
 
+.experience {
+  min-width: 0;
+}
+
 .identity {
   display: grid;
   justify-items: stretch;
@@ -24,6 +28,12 @@
 
 .identity .lede {
   max-width: none;
+  font-family: var(--font-hand);
+  font-size: clamp(1.55rem, 2.4vw, 2.05rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  color: #d8c49a;
 }
 
 .hero-brand {
@@ -31,6 +41,7 @@
   font-weight: 700;
   letter-spacing: -0.035em;
   line-height: 1.02;
+  white-space: nowrap;
 }
 
 .page-samples .page,
@@ -82,6 +93,16 @@
   .identity {
     position: sticky;
     top: calc(var(--nav-h) + var(--space-6));
+  }
+
+  .home-layout.timeline-spaced .timeline {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .home-layout.timeline-spaced .timeline-item {
+    padding-bottom: 0;
   }
 }
 

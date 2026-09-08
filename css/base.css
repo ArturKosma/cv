@@ -87,7 +87,9 @@ input,
 textarea,
 [contenteditable="true"],
 a[href^="mailto:"],
-a[href^="mailto:"] * {
+a[href^="mailto:"] *,
+.contact-email,
+.contact-email * {
   -webkit-user-select: text;
   user-select: text;
 }

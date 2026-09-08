@@ -72,8 +72,8 @@
 }
 
 /*
-  Contact — identity lockup, quiet email (click to copy), then Brittany-style
-  icon-only socials (LinkedIn / Facebook / GitHub).
+  Contact — identity lockup, centered quiet email (select to copy),
+  then Brittany-style brand-mark socials (LinkedIn / Facebook / GitHub).
 */
 .contact-layout {
   display: grid;
@@ -137,7 +137,7 @@
   justify-content: center;
   align-self: center;
   gap: 0.5rem;
-  margin: 0;
+  margin-block: var(--space-3);
   padding: 0;
   color: inherit;
   text-decoration: none;
@@ -178,10 +178,8 @@
 
 .contact-email:hover .contact-value,
 .contact-email:focus-visible .contact-value,
-.contact-email.is-copied .contact-value,
 .contact-email:hover .contact-email__icon,
-.contact-email:focus-visible .contact-email__icon,
-.contact-email.is-copied .contact-email__icon {
+.contact-email:focus-visible .contact-email__icon {
   color: var(--accent);
 }
 

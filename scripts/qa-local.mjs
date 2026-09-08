@@ -245,6 +245,9 @@ async function assertPage(page, path, viewport) {
     const contactAvatarLink = document.querySelector(".contact-avatar-link");
     const contactLabels = document.querySelectorAll(".contact-label");
     const mailLink = document.querySelector('a[href^="mailto:"]');
+    const contactEmailEl = document.querySelector(".contact-email");
+    const contactEmailText = document.querySelector(".contact-email .contact-value")?.textContent.trim() || "";
+    const copyEmailScript = [...document.scripts].some((s) => (s.src || "").includes("copy-email"));
     const linkedIn = [...document.querySelectorAll(".contact-link, .contact-row, a")].find((a) =>
       (a.getAttribute("href") || "").includes("linkedin.com")
     );
@@ -267,13 +270,21 @@ async function assertPage(page, path, viewport) {
     const contactValue = document.querySelector(".contact-email .contact-value");
     const contactEmailIcon = document.querySelector(".contact-email__icon");
     const contactSocial = document.querySelector(".contact-social");
+    const contactIdentity = document.querySelector(".contact-identity");
     const contactCardBox = contactCard?.getBoundingClientRect();
     const contactNameBox = contactName?.getBoundingClientRect();
     const contactValueBox = contactValue?.getBoundingClientRect();
     const contactEmailIconBox = contactEmailIcon?.getBoundingClientRect();
+    const contactEmailBox = contactEmailEl?.getBoundingClientRect();
+    const contactIdentityBox = contactIdentity?.getBoundingClientRect();
     const contactSocialLinks = [...(contactSocial?.querySelectorAll("a") || [])];
     const socialFirst = contactSocialLinks[0]?.getBoundingClientRect();
     const socialLast = contactSocialLinks.at(-1)?.getBoundingClientRect();
+    const contactSocialBox = contactSocial?.getBoundingClientRect();
+    const contactEmailGapOk =
+      Boolean(contactEmailBox && contactIdentityBox && contactSocialBox) &&
+      contactEmailBox.top - contactIdentityBox.bottom >= 20 &&
+      contactSocialBox.top - contactEmailBox.bottom >= 20;
     const contactEmailAligned =
       Boolean(contactCardBox && contactEmailIconBox && contactValueBox) &&
       Math.abs(
@@ -403,10 +414,14 @@ async function assertPage(page, path, viewport) {
       hasContactAvatar: Boolean(contactAvatar),
       contactAvatarIsLink: Boolean(contactAvatarLink),
       contactLabelCount: contactLabels.length,
-      hasEmailLink: Boolean(mailLink),
+      hasEmailLink: Boolean(mailLink) || /@/.test(contactEmailText),
       hasLinkedIn: Boolean(linkedIn),
       hasFacebook: Boolean(facebook),
       primaryIsMailto: primaryRow?.getAttribute("href")?.startsWith("mailto:") || false,
+      primaryIsEmailRow: Boolean(primaryRow?.classList.contains("contact-email")),
+      contactEmailText,
+      copyEmailScript,
+      contactEmailGapOk,
       contactLede,
       contactEmailAligned,
       contactEmailHasIcon,
@@ -532,10 +547,13 @@ async function assertPage(page, path, viewport) {
     if (report.contactAvatarIsLink) fail(`${label}: avatar should be identity only, not a second Facebook control`);
     if (report.contactLabelCount !== 0)
       fail(`${label}: redundant EMAIL/LINKEDIN label column should be gone`);
-    if (!report.hasEmailLink) fail(`${label}: missing email link`);
+    if (!report.hasEmailLink) fail(`${label}: missing email address`);
     if (!report.hasLinkedIn) fail(`${label}: missing LinkedIn link`);
     if (!report.hasFacebook) fail(`${label}: missing Facebook link`);
-    if (!report.primaryIsMailto) fail(`${label}: email should be the primary contact row`);
+    if (!report.primaryIsEmailRow) fail(`${label}: email should be the primary contact row`);
+    if (!/@gmail\.com$/i.test(report.contactEmailText || ""))
+      fail(`${label}: contact email text missing`);
+    if (report.copyEmailScript) fail(`${label}: click-to-copy script should be removed (select to copy)`);
     if (report.contactLede !== "Senior Animation Engineer")
       fail(`${label}: contact title should be Senior Animation Engineer`);
     if (!report.contactEmailHasIcon) fail(`${label}: email must show an icon to the left of the address`);
@@ -543,6 +561,8 @@ async function assertPage(page, path, viewport) {
       fail(`${label}: email row must be horizontally centered under the contact block`);
     if (!report.contactEmailSelectable)
       fail(`${label}: email address must remain drag-selectable`);
+    if (!report.contactEmailGapOk)
+      fail(`${label}: email needs a little more vertical space above and below`);
     if (!report.contactSocialCentered)
       fail(`${label}: social icons must be horizontally centered under the contact block`);
     if (!report.contactSocialBrandMarks)

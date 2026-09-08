@@ -258,7 +258,26 @@ async function assertPage(page, path, viewport) {
     const resumeDownload = document.querySelector(".resume-download");
     const resumeColumn = document.querySelector(".resume-column");
     const ytFacade = document.querySelector(".yt-facade");
+    const reelTitle = document.querySelector(".reel-title");
     const contactLede = document.querySelector(".contact-lede")?.textContent.trim() || "";
+    const resumeDownloadStyle = resumeDownload
+      ? {
+          color: getComputedStyle(resumeDownload).color,
+          fontWeight: getComputedStyle(resumeDownload).fontWeight,
+          letterSpacing: getComputedStyle(resumeDownload).letterSpacing,
+          fontSize: getComputedStyle(resumeDownload).fontSize,
+          textTransform: getComputedStyle(resumeDownload).textTransform,
+        }
+      : null;
+    const reelTitleStyle = reelTitle
+      ? {
+          color: getComputedStyle(reelTitle).color,
+          fontWeight: getComputedStyle(reelTitle).fontWeight,
+          letterSpacing: getComputedStyle(reelTitle).letterSpacing,
+          fontSize: getComputedStyle(reelTitle).fontSize,
+          textTransform: getComputedStyle(reelTitle).textTransform,
+        }
+      : null;
 
     const previewEl = resumeFrame || resumeSheet;
     const previewBox = previewEl?.getBoundingClientRect();
@@ -346,6 +365,10 @@ async function assertPage(page, path, viewport) {
       hasYtFacade: Boolean(ytFacade),
       ytId: ytFacade?.dataset.youtubeId || "",
       reelFullShell,
+      hasReelTitle: Boolean(reelTitle),
+      reelTitleText: reelTitle?.textContent.trim() || "",
+      resumeDownloadStyle,
+      reelTitleStyle,
       accent: getComputedStyle(document.documentElement).getPropertyValue("--accent").trim(),
       bg: getComputedStyle(document.documentElement).getPropertyValue("--bg").trim(),
       muted: getComputedStyle(document.documentElement).getPropertyValue("--muted").trim(),
@@ -461,6 +484,10 @@ async function assertPage(page, path, viewport) {
       fail(`${label}: resume download must point at the PDF`);
     if (!report.resumeLeftAligned)
       fail(`${label}: resume download+preview must share the page left edge (no mid-float download)`);
+    if (report.resumeDownloadStyle?.color !== "rgb(196, 163, 90)")
+      fail(`${label}: Download PDF must use accent gold`);
+    if (report.resumeDownloadStyle?.fontWeight !== "500")
+      fail(`${label}: Download PDF weight should be 500`);
   }
 
   if (path.includes("reel.html")) {
@@ -468,6 +495,14 @@ async function assertPage(page, path, viewport) {
     if (!report.ytId) fail(`${label}: reel facade missing youtube id`);
     if (!report.reelFullShell)
       fail(`${label}: reel facade must span the full content shell like Samples`);
+    if (!report.hasReelTitle) fail(`${label}: reel must show a quiet year label`);
+    if (report.reelTitleText !== "2026")
+      fail(`${label}: reel year label should be 2026 (got ${report.reelTitleText})`);
+    // Match Resume Download PDF quiet accent recipe (same color/weight/tracking).
+    if (report.reelTitleStyle?.color !== "rgb(196, 163, 90)")
+      fail(`${label}: reel year color must match Resume Download PDF gold`);
+    if (report.reelTitleStyle?.fontWeight !== "500")
+      fail(`${label}: reel year weight must match Resume Download PDF (500)`);
   }
 
   return report;

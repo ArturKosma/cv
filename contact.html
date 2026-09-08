@@ -9,10 +9,10 @@
       content="Contact Artur Kosma — Senior Animation Engineer. Email and professional profiles."
     />
     <title>Contact — Artur Kosma</title>
-    <link rel="stylesheet" href="css/tokens.css?v=77" />
-    <link rel="stylesheet" href="css/base.css?v=77" />
-    <link rel="stylesheet" href="css/components.css?v=77" />
-    <link rel="stylesheet" href="css/pages.css?v=77" />
+    <link rel="stylesheet" href="css/tokens.css?v=78" />
+    <link rel="stylesheet" href="css/base.css?v=78" />
+    <link rel="stylesheet" href="css/components.css?v=78" />
+    <link rel="stylesheet" href="css/pages.css?v=78" />
   </head>
   <body class="page-contact">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -30,21 +30,24 @@
 
     <main id="main" class="page contact-layout">
       <!--
-        Refs (Brittany Chiang v4, similar portfolios): flush-left identity,
-        email as the readable destination, socials as short handles — not
-        full hostnames. Icons + aria-labels carry the channel name.
+        Portrait left of name (LinkedIn / pro identity-card norm). Clarity refs
+        often omit the photo; when kept for hiring recognition, left-of-name
+        beats stacked-above (creator card) or right (fights LTR scan).
       -->
       <section class="contact-card" aria-label="Contact">
-        <img
-          class="contact-avatar"
-          src="assets/experience/portrait-placeholder.svg"
-          width="96"
-          height="96"
-          alt="Portrait of Artur Kosma"
-        />
-
-        <h1 class="contact-name">Artur Kosma</h1>
-        <p class="contact-lede">Senior Animation Engineer</p>
+        <div class="contact-identity">
+          <img
+            class="contact-avatar"
+            src="assets/experience/portrait-placeholder.svg"
+            width="96"
+            height="96"
+            alt="Portrait of Artur Kosma"
+          />
+          <div class="contact-copy">
+            <h1 class="contact-name">Artur Kosma</h1>
+            <p class="contact-lede">Senior Animation Engineer</p>
+          </div>
+        </div>
 
         <ul class="contact-list" aria-label="Contact methods">
           <li>

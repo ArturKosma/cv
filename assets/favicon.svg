@@ -1,14 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="AK">
-  <!-- Solid field; chunky initials sized for 16×16 tabs -->
   <rect width="32" height="32" fill="#0f1412"/>
   <text
     x="16"
-    y="23"
+    y="22.5"
     text-anchor="middle"
     font-family="ui-sans-serif, system-ui, Segoe UI, Helvetica Neue, Arial, sans-serif"
-    font-size="18"
+    font-size="15"
     font-weight="800"
     letter-spacing="-0.08em"
-    fill="#e0c06e"
+    fill="#c4a35a"
   >AK</text>
 </svg>

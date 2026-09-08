@@ -1,14 +1,15 @@
 /* Design tokens — shared across every page */
+/* Slate Trust: decent · intelligent · loyal — cool slate field, one quiet steel accent */
 :root {
-  --bg: #0f1412;
-  --bg-elevated: #151b18;
-  --fg: #e8ece9;
-  --muted: #9aa89f;
-  --muted-dim: #6e7a72;
-  --accent: #c4a35a;
-  --accent-soft: rgba(196, 163, 90, 0.16);
-  --line: rgba(232, 236, 233, 0.12);
-  --focus: #e8ece9;
+  --bg: #0e1419;
+  --bg-elevated: #151c22;
+  --fg: #e7ecef;
+  --muted: #8b98a3;
+  --muted-dim: #5f6d78;
+  --accent: #6f8f9a;
+  --accent-soft: rgba(111, 143, 154, 0.16);
+  --line: rgba(231, 236, 239, 0.12);
+  --focus: #e7ecef;
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -31,5 +32,5 @@
   --ease: 160ms ease;
   --page-max: 68rem;
   --page-gutter: 1.25rem;
-  --glow: radial-gradient(ellipse 70% 45% at 12% 0%, #18241e 0%, transparent 50%);
+  --glow: radial-gradient(ellipse 70% 45% at 12% 0%, #1a2833 0%, transparent 50%);
 }

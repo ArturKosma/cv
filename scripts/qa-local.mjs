@@ -249,7 +249,6 @@ async function assertPage(page, path, viewport) {
     const reelNote = document.querySelector(".reel-note");
     const contactLede = document.querySelector(".contact-lede")?.textContent.trim() || "";
 
-    const pageBox = document.querySelector(".page")?.getBoundingClientRect();
     const sheetBox = resumeSheet?.getBoundingClientRect();
     const downloadBox = resumeDownload?.getBoundingClientRect();
     const columnBox = resumeColumn?.getBoundingClientRect();
@@ -328,6 +327,8 @@ async function assertPage(page, path, viewport) {
       hasYtFacade: Boolean(ytFacade),
       ytId: ytFacade?.dataset.youtubeId || "",
       reelFullShell,
+      accent: style.getPropertyValue("--accent").trim(),
+      bg: style.getPropertyValue("--bg").trim(),
     };
   });
 

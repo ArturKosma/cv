@@ -33,18 +33,10 @@
   --page-max: 68rem;
   --page-gutter: 1.25rem;
   /*
-    Field glow — same forest key as before. Extra near-invisible stops + a tiled
-    micro-noise layer fight 8-bit banding without changing the look.
+    Field glow — original forest key. Black micro-noise (multiply) dithers
+    banding without lightening the field.
   */
-  --glow: radial-gradient(
-    ellipse 70% 45% at 12% 0%,
-    #18241e 0%,
-    color-mix(in srgb, #18241e 82%, transparent) 14%,
-    color-mix(in srgb, #18241e 58%, transparent) 28%,
-    color-mix(in srgb, #18241e 32%, transparent) 38%,
-    color-mix(in srgb, #18241e 12%, transparent) 46%,
-    transparent 55%
-  );
+  --glow: radial-gradient(ellipse 70% 45% at 12% 0%, #18241e 0%, transparent 50%);
   --noise: url("../assets/noise.png");
   --field: var(--noise), var(--glow);
 }

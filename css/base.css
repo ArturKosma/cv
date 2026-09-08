@@ -57,6 +57,8 @@ html {
   background-size: 96px 96px, auto;
   background-repeat: repeat, no-repeat;
   background-attachment: fixed, fixed;
+  /* Noise multiplies into the glow — darkens/dithers, never washes out */
+  background-blend-mode: multiply, normal;
 }
 
 @media (prefers-reduced-motion: reduce) {

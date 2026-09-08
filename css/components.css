@@ -32,6 +32,7 @@
   background-size: 96px 96px, auto;
   background-repeat: repeat, no-repeat;
   background-attachment: fixed, fixed;
+  background-blend-mode: multiply, normal;
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
   pointer-events: none;

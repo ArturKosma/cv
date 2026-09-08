@@ -84,6 +84,9 @@
     const anyOpen = [...timeline.querySelectorAll("details")].some((d) => d.open);
     if (anyOpen) return;
 
+    // Flush cleared paddings before measuring the natural collapsed height.
+    void timeline.offsetHeight;
+
     const portraitBox = portrait.getBoundingClientRect();
     const timelineTop = timeline.getBoundingClientRect().top;
     const lastBottom = items[items.length - 1].getBoundingClientRect().bottom;

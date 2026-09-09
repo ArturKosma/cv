@@ -89,11 +89,14 @@ async function assertPage(page, path, viewport) {
       portraitMatchesText = widthMatch && rightAligned;
     }
     const ledeEl = document.querySelector(".identity .lede");
+    const ledeRoleEl = document.querySelector(".identity .lede-role");
     const brandFamily = heroBrand
       ? getComputedStyle(heroBrand).fontFamily.toLowerCase()
       : "";
     const ledeFamily = ledeEl ? getComputedStyle(ledeEl).fontFamily.toLowerCase() : "";
     const ledeAlign = ledeEl ? getComputedStyle(ledeEl).textAlign : "";
+    const ledeRoleColor = ledeRoleEl ? getComputedStyle(ledeRoleEl).color : "";
+    const ledeRestColor = ledeEl ? getComputedStyle(ledeEl).color : "";
     const brandIsDisplay = brandFamily.includes("space grotesk");
     if (ledeEl) {
       ledeIsBody =
@@ -271,6 +274,9 @@ async function assertPage(page, path, viewport) {
     const ytFacade = document.querySelector(".yt-facade");
     const reelTitle = document.querySelector(".reel-title");
     const contactLede = document.querySelector(".contact-lede")?.textContent.trim() || "";
+    const contactLedeColor = document.querySelector(".contact-lede")
+      ? getComputedStyle(document.querySelector(".contact-lede")).color
+      : "";
     const contactName = document.querySelector(".contact-name");
     const contactValue = document.querySelector(".contact-email .contact-value");
     const contactEmailIcon = document.querySelector(".contact-email__icon");
@@ -391,6 +397,8 @@ async function assertPage(page, path, viewport) {
       hasPageTitle: Boolean(pageTitle),
       lede,
       ledeAlign,
+      ledeRoleColor,
+      ledeRestColor,
       scrollbarGutter,
       overflowX,
       homeSplit,
@@ -438,6 +446,7 @@ async function assertPage(page, path, viewport) {
       copyEmailScript,
       contactEmailGapOk,
       contactLede,
+      contactLedeColor,
       contactEmailAligned,
       contactEmailHasIcon,
       contactEmailSelectable,
@@ -609,6 +618,8 @@ async function assertPage(page, path, viewport) {
       fail(`${label}: email address text must also use the pointer cursor`);
     if (report.contactLede !== "Principal Animation Engineer")
       fail(`${label}: contact title should be Principal Animation Engineer`);
+    if (report.contactLedeColor !== "rgb(196, 163, 90)")
+      fail(`${label}: contact role should be accent gold like the home lede`);
     if (!report.contactEmailHasIcon) fail(`${label}: email must show an icon to the left of the address`);
     if (!report.contactEmailAligned)
       fail(`${label}: email row must be horizontally centered under the contact block`);

@@ -42,7 +42,8 @@
   align-items: center;
   justify-content: flex-end;
   flex-wrap: wrap;
-  gap: var(--space-2) clamp(1.35rem, 2.8vw, 2.35rem);
+  /* Wider gaps keep the 4-item bar near the old 5-item (…Contact) span */
+  gap: var(--space-2) clamp(2rem, 4.2vw, 3.35rem);
   margin-left: auto;
   pointer-events: auto;
   max-width: 100%;

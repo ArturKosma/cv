@@ -297,11 +297,13 @@ async function assertPage(page, path, viewport) {
       Boolean(contactEmailBox && contactIdentityBox && contactSocialBox) &&
       contactEmailBox.top - contactIdentityBox.bottom >= 20 &&
       contactSocialBox.top - contactEmailBox.bottom >= 20;
+    const contactAlignRoot = document.querySelector(".identity-contact") || contactCard;
+    const contactAlignBox = contactAlignRoot?.getBoundingClientRect();
     const contactEmailAligned =
-      Boolean(contactCardBox && contactEmailIconBox && contactValueBox) &&
+      Boolean(contactAlignBox && contactEmailIconBox && contactValueBox) &&
       Math.abs(
         (contactEmailIconBox.left + contactValueBox.right) / 2 -
-          (contactCardBox.left + contactCardBox.right) / 2
+          (contactAlignBox.left + contactAlignBox.right) / 2
       ) < 4;
     const contactEmailSelectable =
       Boolean(contactValue) &&
@@ -324,11 +326,20 @@ async function assertPage(page, path, viewport) {
     const contactEmailHasIcon =
       Boolean(contactEmailIconBox && contactValueBox) &&
       contactEmailIconBox.right < contactValueBox.left;
+
+    const identityContact = document.querySelector(".identity-contact");
+    const identityPortrait = document.querySelector(".identity .portrait");
+    const identityContactBox = identityContact?.getBoundingClientRect();
+    const identityPortraitBox = identityPortrait?.getBoundingClientRect();
+    const aboutContactUnderPortrait =
+      Boolean(identityContactBox && identityPortraitBox) &&
+      identityContactBox.top >= identityPortraitBox.bottom - 2;
+
     const contactSocialCentered =
-      Boolean(contactCardBox && socialFirst && socialLast) &&
+      Boolean(contactAlignBox && socialFirst && socialLast) &&
       Math.abs(
         (socialFirst.left + socialLast.right) / 2 -
-          (contactCardBox.left + contactCardBox.right) / 2
+          (contactAlignBox.left + contactAlignBox.right) / 2
       ) < 4;
     const navChrome = document.querySelector(".nav-actions .btn");
     const navChromeSize = navChrome ? getComputedStyle(navChrome).fontSize : "";
@@ -455,6 +466,7 @@ async function assertPage(page, path, viewport) {
       contactEmailCursor,
       contactEmailValueCursor,
       contactSocialCentered,
+      aboutContactUnderPortrait,
       contactSocialBrandMarks,
       hasResumeSheet: Boolean(resumeSheet),
       hasResumeFrame: Boolean(resumeFrame),
@@ -494,14 +506,13 @@ async function assertPage(page, path, viewport) {
   if (!report.hasSkip) fail(`${label}: missing skip link`);
   if (!report.hasMain) fail(`${label}: missing #main`);
   if (report.hasBrand) fail(`${label}: brand link should be removed`);
-  if (report.btnCount !== 5)
-    fail(`${label}: expected Experience, Samples, Reel, Resume, Contact`);
-  if (report.btns[0].text !== "Experience")
-    fail(`${label}: Experience should be leftmost nav button`);
-  if (report.btns[1].text !== "Samples") fail(`${label}: Samples should follow Experience`);
+  if (report.btnCount !== 4)
+    fail(`${label}: expected About, Samples, Reel, Resume`);
+  if (report.btns[0].text !== "About")
+    fail(`${label}: About should be leftmost nav button`);
+  if (report.btns[1].text !== "Samples") fail(`${label}: Samples should follow About`);
   if (report.btns[2].text !== "Reel") fail(`${label}: Reel should follow Samples`);
   if (report.btns[3].text !== "Resume") fail(`${label}: Resume should follow Reel`);
-  if (report.btns[4].text !== "Contact") fail(`${label}: Contact should be last nav button`);
   if (!report.navPinnedRight) fail(`${label}: nav must align to the content shell (top-right)`);
   if (!report.currentNav) fail(`${label}: current page must be marked aria-current=page`);
   if (report.currentNav.href)
@@ -512,15 +523,13 @@ async function assertPage(page, path, viewport) {
     fail(`${label}: current nav item should not show a pointer cursor`);
   if (report.currentNav.pointerEvents !== "none")
     fail(`${label}: current nav item must ignore clicks`);
-  const expectedCurrent = path.includes("contact")
-    ? "Contact"
-    : path.includes("resume")
+  const expectedCurrent = path.includes("resume")
       ? "Resume"
       : path.includes("reel")
         ? "Reel"
         : path.includes("samples")
           ? "Samples"
-          : "Experience";
+          : "About";
   if (report.currentNav.text !== expectedCurrent)
     fail(`${label}: current nav should be ${expectedCurrent}`);
   for (const btn of report.btns) {
@@ -574,6 +583,26 @@ async function assertPage(page, path, viewport) {
     if (!report.timelineGrew) fail(`${label}: opening a timeline record must expand it`);
     if (!report.timelineChevronOk) fail(`${label}: timeline rows need a quiet chevron, not +/-`);
     if (!report.homeSplit) fail(`${label}: identity must share the page left edge; timeline to the right`);
+    if (!report.hasEmailLink) fail(`${label}: About must show email under the portrait`);
+    if (!report.hasLinkedIn) fail(`${label}: About must show LinkedIn under the portrait`);
+    if (!report.hasFacebook) fail(`${label}: About must show Facebook under the portrait`);
+    if (!report.primaryIsMailto) fail(`${label}: email should be a mailto primary contact row`);
+    if (!/@gmail.com$/i.test(report.contactEmailText || ""))
+      fail(`${label}: contact email text missing`);
+    if (!report.copyEmailScript) fail(`${label}: click-to-copy script must be present`);
+    if (report.contactEmailCursor !== "pointer")
+      fail(`${label}: email should show a pointer cursor on hover`);
+    if (report.contactEmailValueCursor !== "pointer")
+      fail(`${label}: email address text must also use the pointer cursor`);
+    if (!report.contactEmailHasIcon) fail(`${label}: email must show an icon to the left of the address`);
+    if (!report.contactEmailSelectable)
+      fail(`${label}: email address must remain drag-selectable`);
+    if (!report.aboutContactUnderPortrait)
+      fail(`${label}: email/socials must sit under the portrait`);
+    if (!report.contactSocialCentered)
+      fail(`${label}: social icons must be horizontally centered under the portrait`);
+    if (!report.contactSocialBrandMarks)
+      fail(`${label}: social icons should use filled brand marks (LinkedIn square / Facebook circle)`);
   }
 
   if (path.includes("samples")) {
@@ -600,38 +629,8 @@ async function assertPage(page, path, viewport) {
     }
   }
 
-  if (path.includes("contact")) {
-    if (!report.hasContactCard) fail(`${label}: missing contact card`);
-    if (!report.hasContactAvatar) fail(`${label}: missing miniature profile image`);
-    if (report.contactAvatarIsLink) fail(`${label}: avatar should be identity only, not a second Facebook control`);
-    if (report.contactLabelCount !== 0)
-      fail(`${label}: redundant EMAIL/LINKEDIN label column should be gone`);
-    if (!report.hasEmailLink) fail(`${label}: missing email address`);
-    if (!report.hasLinkedIn) fail(`${label}: missing LinkedIn link`);
-    if (!report.hasFacebook) fail(`${label}: missing Facebook link`);
-    if (!report.primaryIsMailto) fail(`${label}: email should be a mailto primary contact row`);
-    if (!/@gmail\.com$/i.test(report.contactEmailText || ""))
-      fail(`${label}: contact email text missing`);
-    if (!report.copyEmailScript) fail(`${label}: click-to-copy script must be present`);
-    if (report.contactEmailCursor !== "pointer")
-      fail(`${label}: email should show a pointer cursor on hover`);
-    if (report.contactEmailValueCursor !== "pointer")
-      fail(`${label}: email address text must also use the pointer cursor`);
-    if (report.contactLede !== "Principal Animation Engineer")
-      fail(`${label}: contact title should be Principal Animation Engineer`);
-    if (report.contactLedeColor !== "rgb(232, 236, 233)")
-      fail(`${label}: contact role should use foreground type (not accent gold)`);
-    if (!report.contactEmailHasIcon) fail(`${label}: email must show an icon to the left of the address`);
-    if (!report.contactEmailAligned)
-      fail(`${label}: email row must be horizontally centered under the contact block`);
-    if (!report.contactEmailSelectable)
-      fail(`${label}: email address must remain drag-selectable`);
-    if (!report.contactEmailGapOk)
-      fail(`${label}: email needs a little more vertical space above and below`);
-    if (!report.contactSocialCentered)
-      fail(`${label}: social icons must be horizontally centered under the contact block`);
-    if (!report.contactSocialBrandMarks)
-      fail(`${label}: social icons should use filled brand marks (LinkedIn square / Facebook circle)`);
+  if (false && path.includes("contact")) {
+    /* removed standalone contact page */
   }
 
   if (path.includes("resume.html")) {
@@ -716,8 +715,17 @@ async function main() {
       await assertPage(page, "/samples.html", viewport);
       await assertPage(page, "/resume.html", viewport);
       await assertPage(page, "/reel.html", viewport);
-      await assertPage(page, "/contact.html", viewport);
     }
+
+    // contact.html is a redirect stub to About
+    await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
+    await page.goto(`${BASE}/contact.html`, { waitUntil: "domcontentloaded", timeout: 15000 });
+    const stubOk = await page.evaluate(() => {
+      const a = document.querySelector('a[href="index.html"]');
+      const refresh = document.querySelector('meta[http-equiv="refresh"]');
+      return Boolean(a) && Boolean(refresh);
+    });
+    if (!stubOk) fail("contact redirect: expected meta refresh + About link");
 
     await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
     await page.goto(`${BASE}/index.html`, { waitUntil: "networkidle0" });
@@ -731,7 +739,7 @@ async function main() {
       page.waitForNavigation({ waitUntil: "networkidle0" }),
       page.click('a.btn[href="index.html"]'),
     ]);
-    if (!page.url().includes("index.html")) fail("nav: Experience click failed");
+    if (!page.url().includes("index.html")) fail("nav: About click failed");
 
     await page.goto(`${BASE}/samples.html`, { waitUntil: "networkidle0" });
     const mediaBehavior = await page.evaluate(async () => {

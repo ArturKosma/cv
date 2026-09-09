@@ -35,11 +35,11 @@ Meaning for this repo:
 
 - **Shared CSS is mandatory** — one design system / stylesheet modules reused across pages
 - **Never** invent different one-off styles per subpage that drift from the system
-- **Identical site chrome on every page** — same header markup and placement (Experience, Samples, Reel, Resume, Contact — top-right only). The active page is a non-link `span` with `aria-current="page"` (no click / no reload). No per-page brand link, no left-nav on one page and right-nav on another. Fixed nav uses a field-matched fade so scrolled content (especially Resume) passes underneath without colliding with the links
+- **Identical site chrome on every page** — same header markup and placement (About, Samples, Reel, Resume — top-right only; no Contact nav item). Wider nav gaps keep the 4-item bar near the old 5-item span. The active page is a non-link `span` with `aria-current="page"` (no click / no reload). No per-page brand link, no left-nav on one page and right-nav on another. Fixed nav uses a field-matched fade so scrolled content (especially Resume) passes underneath without colliding with the links
 - **Resume** = `resume.html` subpage first (full letter-page preview on-site — PDF page image, not browser PDF chrome), plus **Open** (native browser PDF at root `resume.pdf`, Brittany Chiang pattern) and **Download** on the same left-edge column. Source for the PDF: `assets/resume/resume-source.html`; key separator color is site gold `--accent` / `#c4a35a` (same role as Brittany’s blue). Regenerate `Artur-Kosma-Resume.png` and root `resume.pdf` when the PDF changes (`node scripts/render-resume-pdf.mjs`)
 - **Reel** = `reel.html` subpage with an on-page YouTube facade spanning the full content shell (same width rhythm as Samples; click-to-load iframe; no eager embed). Keep first paint light.
-- **Subpage alignment** = every page shares the `.page` left edge with nav right edge; do not invent arbitrary mid-width caps that drift from Samples / Contact rhythms
-- **Contact** = miniature identity lockup (circular avatar **left of** name + loud Principal Animation Engineer in foreground type, not accent gold) + quiet email with envelope icon (centered under the lockup; click to copy, drag-select still works) + Brittany-style filled brand marks for LinkedIn / Facebook / GitHub, centered under the lockup (no uppercase label column; no horizontal rules; avatar is identity only)
+- **Subpage alignment** = every page shares the `.page` left edge with nav right edge; do not invent arbitrary mid-width caps that drift from Samples / Resume rhythms
+- **About contact** = under the portrait on `index.html`: quiet email with envelope icon (click to copy, drag-select still works) + Brittany-style filled brand marks for LinkedIn / Facebook / GitHub, centered under the portrait. No separate Contact page in nav (`contact.html` redirects to About)
 - Structure / presentation / behavior stay separated and reusable
 - Predictable file layout; easy to add a page or portfolio item without rewriting the base
 - No copy-paste CSS/HTML duplication when a shared class or partial pattern would do
@@ -69,7 +69,7 @@ Patterns to follow from that direction:
 - **Portfolio/Samples row hover = accent-only (option A):** title color → accent, chevron brightens; **no background wash / no full-row highlight**
 - **Samples expand copy:** short blurb under the title stays visible; each expand row is **one video + text to the right**, then the next video+text row underneath — never two media side by side
 - **Samples row layout:** collapsed = video thumb + title/blurb; no large page H1 (“Portfolio”/“Samples”) above the list
-- **Experience layout:** identity on the shared page-left edge (name → quiet-loud role title → portrait; Brittany hierarchy — role uses foreground type a step under the name, not accent gold, no cheeky tagline); timeline rail aligned to the left edge of the top nav (EXPERIENCE…CONTACT), right edge to the page shell; timeline top aligns with portrait top (JS; rail stays hidden until the first sync so cold loads do not flash under the nav); collapsed timeline stretches so its bottom meets the portrait bottom; company → role → game title each on their own line on desktop (role louder than project; chevron in a reserved right gutter)
+- **About layout:** identity on the shared page-left edge (name → quiet-loud role title → portrait → email/socials; Brittany hierarchy — role uses foreground type a step under the name, not accent gold, no cheeky tagline); timeline rail aligned to the left edge of the top nav (ABOUT…RESUME), right edge to the page shell; timeline top aligns with portrait top (JS; rail stays hidden until the first sync so cold loads do not flash under the nav); collapsed timeline stretches so its bottom meets the portrait bottom; company → role → game title each on their own line on desktop (role louder than project; chevron in a reserved right gutter)
 
 When proposing visual or structural changes, check:
 
@@ -155,7 +155,7 @@ UI changes require **super extensive** testing. Agent viewport testing is enough
 
 ### Surfaces to verify on each viewport
 - Landing page and every subpage touched
-- Top nav / Experience + Samples — must look like intentional controls, **never** default blue underlined browser links
+- Top nav / About + Samples — must look like intentional controls, **never** default blue underlined browser links
 - Typography hierarchy, spacing rhythm, overflow, wrapping
 - Expand/collapse (portfolio details): open + closed states
 - Focus/keyboard affordances where relevant

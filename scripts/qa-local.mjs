@@ -82,7 +82,6 @@ async function assertPage(page, path, viewport) {
     }
 
     let portraitMatchesText = true;
-    let ledeIsBody = true;
     if (portrait && identity && heroBrand && window.innerWidth > 900) {
       const brandBox = heroBrand.getBoundingClientRect();
       const portraitBox = portrait.getBoundingClientRect();
@@ -90,19 +89,16 @@ async function assertPage(page, path, viewport) {
       const rightAligned = Math.abs(portraitBox.right - brandBox.right) < 3;
       portraitMatchesText = widthMatch && rightAligned;
     }
-    const ledeEl = null;
     const titleEl = document.querySelector(".identity .identity-title");
+    const hasTagline = Boolean(document.querySelector(".identity-tagline"));
     const brandFamily = heroBrand
       ? getComputedStyle(heroBrand).fontFamily.toLowerCase()
       : "";
     const titleFamily = titleEl ? getComputedStyle(titleEl).fontFamily.toLowerCase() : "";
-    const ledeAlign = "";
     const titleAlign = titleEl ? getComputedStyle(titleEl).textAlign : "";
     const titleColor = titleEl ? getComputedStyle(titleEl).color : "";
-    const ledeRestColor = "";
     const brandIsDisplay = brandFamily.includes("space grotesk");
     let titleIsBody = true;
-    const ledeIsBody = true;
     if (titleEl) {
       titleIsBody =
         titleFamily.includes("dm sans") &&
@@ -402,10 +398,9 @@ async function assertPage(page, path, viewport) {
       hasPageTitle: Boolean(pageTitle),
       lede,
       identityTitle,
-      ledeAlign,
+      hasTagline,
       titleAlign,
       titleColor,
-      ledeRestColor,
       scrollbarGutter,
       overflowX,
       homeSplit,
@@ -416,7 +411,6 @@ async function assertPage(page, path, viewport) {
       portraitIsImage,
       portraitMatchesText,
       brandIsDisplay,
-      ledeIsBody,
       titleIsBody,
       bodyIsDm,
       timelineItems: timelineItems.length,
@@ -558,13 +552,12 @@ async function assertPage(page, path, viewport) {
     if (report.hasHeroTitle) fail(`${label}: golden CV label should be gone`);
     if (report.identityTitle !== "Principal Animation Engineer")
       fail(`${label}: home identity title should be Principal Animation Engineer`);
+    if (report.hasTagline)
+      fail(`${label}: home identity should not include a cheeky tagline`);
     if (report.titleAlign !== "left")
       fail(`${label}: home identity title should be left-aligned (got ${report.titleAlign})`);
     if (report.titleColor !== "rgb(232, 236, 233)")
       fail(`${label}: home identity title should use foreground (not accent gold)`);
-    if (documentHasTagline) {
-      /* placeholder removed */
-    }
     if (!report.hasExperience) fail(`${label}: missing experience timeline`);
     if (!report.hasIdentity) fail(`${label}: missing identity block`);
     if (!report.hasPortrait) fail(`${label}: missing photo placeholder`);
@@ -575,7 +568,6 @@ async function assertPage(page, path, viewport) {
     }
     if (!report.brandIsDisplay) fail(`${label}: name should use Space Grotesk`);
     if (!report.titleIsBody) fail(`${label}: identity title should use DM Sans body type`);
-    if (!report.ledeIsBody) fail(`${label}: tagline should use DM Sans body type`);
     if (!report.bodyIsDm) fail(`${label}: body should use DM Sans`);
     if (report.timelineItems < 4) fail(`${label}: expected 4 timeline items`);
     if (!report.timelineExpandable) fail(`${label}: timeline items must be expandable`);

@@ -241,10 +241,22 @@ async function assertPage(page, path, viewport) {
     const nav = document.querySelector(".nav-actions");
     const navBox = nav ? nav.getBoundingClientRect() : null;
     const pageBox = document.querySelector(".page")?.getBoundingClientRect();
-    const navCentered =
+    const navBtns = [...document.querySelectorAll(".nav-actions .btn")];
+    const firstNavBtn = navBtns[0]?.getBoundingClientRect();
+    const lastNavBtn = navBtns[navBtns.length - 1]?.getBoundingClientRect();
+    const navPinnedRight =
       Boolean(navBox) &&
       Boolean(pageBox) &&
-      Math.abs((navBox.left + navBox.right) / 2 - (pageBox.left + pageBox.right) / 2) < 4;
+      Math.abs(navBox.right - pageBox.right) < 4 &&
+      (window.innerWidth < 700 || navBox.left > window.innerWidth * 0.25);
+    const navCenteredInRail =
+      window.innerWidth < 700 ||
+      (Boolean(navBox) &&
+        Boolean(firstNavBtn) &&
+        Boolean(lastNavBtn) &&
+        Math.abs(
+          (firstNavBtn.left + lastNavBtn.right) / 2 - (navBox.left + navBox.right) / 2
+        ) < 4);
     const pageTitle = document.querySelector(".portfolio-title");
 
     const firstDetails = document.querySelector("details[data-project]");
@@ -441,7 +453,8 @@ async function assertPage(page, path, viewport) {
       projectListTopBorder,
       firstItemTopBorder,
       lastItemBottomBorder,
-      navCentered,
+      navPinnedRight,
+      navCenteredInRail,
       projectCount: details.length,
       expandOk,
       layoutOk,
@@ -531,7 +544,9 @@ async function assertPage(page, path, viewport) {
   if (report.btns[1].text !== "Samples") fail(`${label}: Samples should follow About`);
   if (report.btns[2].text !== "Reel") fail(`${label}: Reel should follow Samples`);
   if (report.btns[3].text !== "Resume") fail(`${label}: Resume should follow Reel`);
-  if (!report.navCentered) fail(`${label}: nav must be horizontally centered in the content shell`);
+  if (!report.navPinnedRight) fail(`${label}: nav rail must align to the content shell (top-right)`);
+  if (!report.navCenteredInRail)
+    fail(`${label}: nav labels must be centered within the timeline rail width`);
   if (!report.currentNav) fail(`${label}: current page must be marked aria-current=page`);
   if (report.currentNav.href)
     fail(`${label}: current nav item must not be a clickable link`);

@@ -609,8 +609,9 @@ button.contact-phone {
   }
 
   .nav-actions {
-    justify-content: center;
+    justify-content: flex-end;
     row-gap: var(--space-2);
+    padding-inline: 0;
   }
 
   .btn {

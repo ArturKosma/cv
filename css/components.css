@@ -9,7 +9,7 @@
   z-index: 20;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   width: 100%;
   min-height: var(--nav-h);
   /* Match .page horizontal inset so nav shares the content shell */
@@ -42,9 +42,19 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: var(--space-2) clamp(1.35rem, 2.8vw, 2.35rem);
+  /* Tight gaps between labels; equal inset restores the wider timeline rail
+     and centers About…Resume within that span (not the full page). */
+  gap: var(--space-2) var(--nav-gap-tight);
+  margin-left: auto;
   pointer-events: auto;
   max-width: 100%;
+  --nav-gap-tight: clamp(1.35rem, 2.8vw, 2.35rem);
+  --nav-gap-rail: clamp(2.5rem, 5.5vw, 5rem);
+  /*
+    Old lead-spacer + gap before About = 3×rail − 3×tight.
+    Split that as equal inline padding so the cluster sits in the rail center.
+  */
+  padding-inline: calc((3 * var(--nav-gap-rail) - 3 * var(--nav-gap-tight)) / 2);
 }
 
 .btn {

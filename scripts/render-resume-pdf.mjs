@@ -10,6 +10,19 @@ const browser = await puppeteer.launch({
 });
 const page = await browser.newPage();
 await page.goto(src, { waitUntil: "networkidle0" });
+
+// Section rules are 2 CSS-px; still snap each h2 bottom to a whole
+// CSS pixel so PDF zooms don't reintroduce half-weight hairlines.
+await page.evaluate(() => {
+  for (const h of document.querySelectorAll("h2")) {
+    const bottom = h.getBoundingClientRect().bottom;
+    const delta = Math.round(bottom) - bottom;
+    if (Math.abs(delta) > 0.001) {
+      h.style.transform = `translateY(${delta}px)`;
+    }
+  }
+});
+
 await page.pdf({
   path: outPdf,
   format: "Letter",

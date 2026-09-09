@@ -8,8 +8,8 @@
       /*
         Print/PDF resume — Brittany Chiang structure, our gold key.
         Top: identity + contact. Body: experience | skills/details.
-        Section rules are explicit 1px bars (solid hex) so Chrome PDF
-        does not thicken some underlines via color-mix / 2px backgrounds.
+        Section rules are soft gold 2px bars; render snaps h2 bottoms
+        to whole CSS pixels so Chrome PDF does not thin some rules.
       */
       @page {
         size: Letter;
@@ -123,12 +123,17 @@
         background: none;
       }
 
-      /* True 1 CSS-px hairline under every section title. */
+      /*
+        Soft gold rule under every section title. Use 2 CSS-px (not 1):
+        1px bars round to half weight on some Y positions / PDF zooms
+        (Location & Languages looked thinner). Render script also snaps
+        each h2 bottom to a whole CSS pixel before printing.
+      */
       h2::after {
         content: "";
         display: block;
         width: 100%;
-        height: 1px;
+        height: 2px;
         background: var(--key-line);
       }
 

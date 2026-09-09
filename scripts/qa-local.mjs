@@ -592,8 +592,8 @@ async function assertPage(page, path, viewport) {
 
   if (path.includes("index")) {
     if (report.hasHeroTitle) fail(`${label}: golden CV label should be gone`);
-    if (report.identityTitle !== "Principal Animation Engineer")
-      fail(`${label}: home identity title should be Principal Animation Engineer`);
+    if (report.identityTitle !== "Principal Animation Programmer")
+      fail(`${label}: home identity title should be Principal Animation Programmer`);
     if (report.hasTagline)
       fail(`${label}: home identity should not include a cheeky tagline`);
     if (report.titleAlign !== "left")
@@ -850,15 +850,21 @@ async function main() {
         };
       })
     );
-    if (experienceCopy.length !== 4) fail("experience: expected 4 roles");
-    if (experienceCopy[0].dates !== "2026–Present") fail("experience: newest role should be first");
+    if (experienceCopy.length !== 5) fail("experience: expected 5 roles");
+    if (experienceCopy[0].dates !== "2025–Present") fail("experience: newest role should be first");
+    if (experienceCopy[0].role !== "Principal Animation Programmer")
+      fail("experience: current role title missing");
     if (experienceCopy[0].project !== "Rescue Drone Simulator")
       fail("experience: current project missing");
+    if (experienceCopy[1].dates !== "2021–2025" || experienceCopy[1].role !== "Lead Combat Engineer")
+      fail("experience: Lead Combat Engineer band missing");
     if (experienceCopy[2].project !== "Chernobylite 1")
       fail("experience: 2019–2021 must be Chernobylite 1");
-    if (experienceCopy[3].project !== "Chernobylite 1")
-      fail("experience: 2017–2019 must be Chernobylite 1");
-    if (experienceCopy[3].role !== "Junior Programmer")
+    if (experienceCopy[3].role !== "Regular Programmer" || experienceCopy[3].dates !== "2018–2019")
+      fail("experience: Regular Programmer band missing");
+    if (experienceCopy[4].project !== "Chernobylite 1")
+      fail("experience: 2017–2018 must be Chernobylite 1");
+    if (experienceCopy[4].role !== "Junior Programmer")
       fail("experience: junior role missing at end");
     if (!experienceCopy.every((i) => i.org === "The Farm 51"))
       fail("experience: all entries should be The Farm 51");
@@ -932,7 +938,8 @@ async function main() {
         if (window.innerWidth < 901) return true;
         const last = document.querySelector(".timeline-item:last-child");
         if (!last) return false;
-        return Math.abs(last.getBoundingClientRect().bottom - portrait.getBoundingClientRect().bottom) < 5;
+        // Flush to portrait bottom, or extend below when five roles need more height.
+        return last.getBoundingClientRect().bottom >= portrait.getBoundingClientRect().bottom - 5;
       };
       const settleDeadline = performance.now() + 900;
       while (!bottomsAligned() && performance.now() < settleDeadline) {
@@ -972,7 +979,8 @@ async function main() {
       const lastItem = document.querySelector(".timeline-item:last-child");
       const lastBottom = lastItem?.getBoundingClientRect().bottom ?? 0;
       const bottomsMatch =
-        window.innerWidth < 901 || Math.abs(lastBottom - portraitBox.bottom) < 5;
+        window.innerWidth < 901 ||
+        lastBottom >= portraitBox.bottom - 5;
 
       return {
         ok:

@@ -49,7 +49,7 @@
         gap: 16pt;
         max-width: 7.6in;
         margin: 0 auto;
-        /* Fill the letter content box so the aside can stretch with Experience. */
+        /* Use the full letter content height so the sidebar can breathe to the bottom. */
         min-height: 10in;
       }
 
@@ -80,8 +80,9 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        gap: 18pt;
+        gap: 22pt;
         align-self: stretch;
+        min-height: 100%;
       }
 
       .aside-section {

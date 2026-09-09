@@ -5,22 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Artur Kosma — Resume</title>
     <style>
-      /* Print/PDF resume — light, scannable in ~5 seconds.
-         Key color = site gold (#c4a35a), same role as Brittany Chiang’s blue:
-         separates header / section titles from body type. */
+      /*
+        Print/PDF resume — Brittany Chiang structure, our gold key.
+        Left: name + experience. Right: contact, skills, education,
+        languages, interests. Iterate content with the owner.
+      */
       @page {
         size: Letter;
-        margin: 0.55in 0.65in;
+        margin: 0.5in 0.55in;
       }
 
       :root {
         --ink: #1a1f1c;
         --ink-soft: #3d4741;
         --ink-mute: #5a655e;
-        --ink-faint: #9aa39c;
         --body: #2a322e;
-        --key: #c4a35a; /* website accent — forest site’s gold */
-        --key-line: color-mix(in srgb, var(--key) 55%, #e8e4d4);
+        --key: #c4a35a;
+        --key-line: color-mix(in srgb, var(--key) 50%, #ddd8c8);
+        --rule: color-mix(in srgb, var(--key) 35%, #e6e2d6);
       }
 
       * {
@@ -33,177 +35,289 @@
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         color: var(--ink);
         background: #fff;
-        font-size: 10.5pt;
+        font-size: 9.5pt;
         line-height: 1.35;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
       }
 
       .resume {
-        max-width: 7.5in;
+        display: grid;
+        grid-template-columns: minmax(0, 1.55fr) minmax(0, 0.9fr);
+        column-gap: 28pt;
+        max-width: 7.6in;
         margin: 0 auto;
       }
 
-      header {
-        margin-bottom: 14pt;
-        padding-bottom: 10pt;
-        border-bottom: 1.75pt solid var(--key);
+      .main {
+        min-width: 0;
+      }
+
+      .aside {
+        min-width: 0;
       }
 
       h1 {
         font-size: 26pt;
         font-weight: 700;
         letter-spacing: -0.03em;
-        line-height: 1.05;
+        line-height: 1.02;
         color: var(--ink);
       }
 
       .headline {
-        margin-top: 4pt;
-        font-size: 12pt;
-        font-weight: 500;
+        margin-top: 6pt;
+        max-width: 28em;
+        font-size: 10.5pt;
+        font-weight: 400;
+        line-height: 1.4;
         color: var(--ink-soft);
       }
 
       .contact {
-        margin-top: 6pt;
-        font-size: 9pt;
-        color: var(--ink-mute);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3pt;
+        padding-top: 4pt;
+        font-size: 8.5pt;
+        line-height: 1.35;
       }
 
-      .contact span + span::before {
-        content: "·";
-        margin: 0 0.4em;
-        color: var(--ink-faint);
+      .contact a {
+        color: var(--ink-mute);
+        text-decoration: none;
       }
 
       h2 {
-        margin: 14pt 0 8pt;
-        padding-bottom: 4pt;
-        font-size: 9pt;
+        margin: 0 0 8pt;
+        padding-bottom: 3pt;
+        font-size: 8.5pt;
         font-weight: 700;
-        letter-spacing: 0.14em;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
         color: var(--key);
         border-bottom: 1pt solid var(--key-line);
       }
 
+      .main > h2 {
+        margin-top: 16pt;
+      }
+
+      .aside > h2 {
+        margin-top: 14pt;
+      }
+
+      .aside > h2:first-of-type {
+        margin-top: 18pt;
+      }
+
       .role {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 2pt 12pt;
-        margin-bottom: 8pt;
+        margin-bottom: 11pt;
       }
 
       .role:last-child {
         margin-bottom: 0;
       }
 
-      .role-title {
-        font-weight: 700;
-        font-size: 10.5pt;
+      .role-head {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 2pt 10pt;
+        align-items: baseline;
       }
 
-      .role-meta {
+      .role-title {
+        font-size: 10pt;
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      .role-org {
+        font-weight: 500;
         color: var(--ink-soft);
-        font-size: 9.5pt;
       }
 
       .role-dates {
-        font-size: 9pt;
+        font-size: 8.5pt;
         color: var(--ink-mute);
         white-space: nowrap;
         text-align: right;
       }
 
-      .role p {
-        grid-column: 1 / -1;
+      .role-project {
+        margin-top: 1pt;
+        font-size: 9pt;
+        color: var(--ink-mute);
+      }
+
+      .role ul {
+        margin: 4pt 0 0 1.1em;
+        padding: 0;
+      }
+
+      .role li {
+        margin-bottom: 2.5pt;
+        color: var(--body);
+        font-size: 9pt;
+        line-height: 1.35;
+      }
+
+      .skill-block {
+        margin-bottom: 9pt;
+      }
+
+      .skill-block:last-child {
+        margin-bottom: 0;
+      }
+
+      .skill-label {
+        margin-bottom: 2pt;
+        font-size: 9pt;
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      .skill-body {
+        font-size: 8.5pt;
+        line-height: 1.4;
+        color: var(--body);
+      }
+
+      .edu-school {
+        font-size: 9.5pt;
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      .edu-line {
         margin-top: 2pt;
-        color: var(--body);
-        font-size: 9.5pt;
-      }
-
-      .skills {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 4pt 10pt;
-        font-size: 9.5pt;
+        font-size: 8.5pt;
+        line-height: 1.4;
         color: var(--body);
       }
 
-      .skills span {
-        white-space: nowrap;
-      }
-
-      .skills span + span::before {
-        content: none;
-      }
-
-      .note {
-        margin-top: 14pt;
-        font-size: 8pt;
-        color: #8a938c;
+      .plain {
+        font-size: 8.5pt;
+        line-height: 1.4;
+        color: var(--body);
       }
     </style>
   </head>
   <body>
     <article class="resume">
-      <header>
-        <h1>Artur Kosma</h1>
-        <p class="headline">Principal Animation Engineer — Games</p>
-        <p class="contact">
-          <!-- Replace placeholders -->
-          <span>leq.artur.kosma@gmail.com</span>
-          <span>linkedin.com/in/arturkosma</span>
-          <span>Poland</span>
-        </p>
-      </header>
+      <div class="main">
+        <header>
+          <h1>Artur Kosma</h1>
+          <p class="headline">
+            Principal Animation Engineer focused on gameplay animation systems,
+            combat, and shipping character motion in Unreal.
+          </p>
+        </header>
 
-      <h2>Experience</h2>
+        <h2>Experience</h2>
 
-      <div class="role">
-        <div>
-          <div class="role-title">Principal Animation Engineer — The Farm 51</div>
-          <div class="role-meta">Rescue Drone Simulator</div>
-        </div>
-        <div class="role-dates">2026–Present</div>
-        <p>Owns animation systems for the rescue drone simulator after returning to pure engineering.</p>
+        <section class="role" aria-label="Principal Animation Engineer">
+          <div class="role-head">
+            <div class="role-title">
+              Principal Animation Engineer <span class="role-org">· The Farm 51</span>
+            </div>
+            <div class="role-dates">2026 – Present</div>
+          </div>
+          <p class="role-project">Rescue Drone Simulator</p>
+          <ul>
+            <li>
+              Own animation systems for the rescue drone simulator after returning
+              to a pure engineering focus.
+            </li>
+          </ul>
+        </section>
+
+        <section class="role" aria-label="Lead Combat Engineer">
+          <div class="role-head">
+            <div class="role-title">
+              Lead Combat Engineer <span class="role-org">· The Farm 51</span>
+            </div>
+            <div class="role-dates">2021 – 2026</div>
+          </div>
+          <p class="role-project">Chernobylite 2</p>
+          <ul>
+            <li>
+              Led a multidisciplinary team of 10+, splitting time roughly evenly
+              between leadership and hands-on combat / animation engineering.
+            </li>
+          </ul>
+        </section>
+
+        <section class="role" aria-label="Lead Animator and Programmer">
+          <div class="role-head">
+            <div class="role-title">
+              Lead Animator &amp; Programmer <span class="role-org">· The Farm 51</span>
+            </div>
+            <div class="role-dates">2019 – 2021</div>
+          </div>
+          <p class="role-project">Chernobylite 1</p>
+          <ul>
+            <li>
+              First lead role: planned mocap, managed animators, and shipped
+              movement and animation systems while still writing the code.
+            </li>
+          </ul>
+        </section>
+
+        <section class="role" aria-label="Junior Programmer">
+          <div class="role-head">
+            <div class="role-title">
+              Junior Programmer <span class="role-org">· The Farm 51</span>
+            </div>
+            <div class="role-dates">2017 – 2019</div>
+          </div>
+          <p class="role-project">Chernobylite 1</p>
+          <ul>
+            <li>
+              Owned the character animation and rigging pipeline while studying;
+              authored character animation and movement / AI-related code.
+            </li>
+          </ul>
+        </section>
       </div>
 
-      <div class="role">
-        <div>
-          <div class="role-title">Lead Combat Engineer — The Farm 51</div>
-          <div class="role-meta">Chernobylite 2</div>
+      <aside class="aside" aria-label="Contact and details">
+        <div class="contact">
+          <a href="mailto:leq.artur.kosma@gmail.com">leq.artur.kosma@gmail.com</a>
+          <a href="tel:+48667003707">(+48) 667 003 707</a>
+          <a href="https://github.com/ArturKosma">github.com/ArturKosma</a>
+          <a href="https://www.linkedin.com/in/arturkosma">linkedin.com/in/arturkosma</a>
         </div>
-        <div class="role-dates">2021–2026</div>
-        <p>Led a multidisciplinary team of 10+; ~50/50 leadership and hands-on combat/animation engineering.</p>
-      </div>
 
-      <div class="role">
-        <div>
-          <div class="role-title">Lead Animator &amp; Programmer — The Farm 51</div>
-          <div class="role-meta">Chernobylite 1</div>
+        <h2>Skills</h2>
+        <div class="skill-block">
+          <div class="skill-label">Focus</div>
+          <p class="skill-body">
+            Animation systems, technical animation, gameplay engineering, combat,
+            mocap pipelines, team leadership
+          </p>
         </div>
-        <div class="role-dates">2019–2021</div>
-        <p>First lead role: planned mocap, managed animators, shipped movement and animation systems.</p>
-      </div>
-
-      <div class="role">
-        <div>
-          <div class="role-title">Junior Programmer — The Farm 51</div>
-          <div class="role-meta">Chernobylite 1</div>
+        <div class="skill-block">
+          <div class="skill-label">Engines &amp; Tools</div>
+          <p class="skill-body">Unreal Engine, animation / rigging pipelines, mocap</p>
         </div>
-        <div class="role-dates">2017–2019</div>
-        <p>Owned character animation/rigging pipeline while studying; authored character anims and movement/AI code.</p>
-      </div>
+        <div class="skill-block">
+          <div class="skill-label">Engineering</div>
+          <p class="skill-body">Gameplay systems, character movement, combat systems</p>
+        </div>
 
-      <h2>Focus</h2>
-      <p class="skills">
-        <span>Animation systems</span>
-        <span>Gameplay engineering</span>
-        <span>Unreal Engine</span>
-        <span>Technical animation</span>
-        <span>Team leadership</span>
-        <span>Mocap / pipelines</span>
-      </p>
+        <h2>Education</h2>
+        <p class="edu-school">University of Silesia</p>
+        <p class="edu-line">Computer Science</p>
+        <p class="edu-line">Specialization: Computer Game Programmer</p>
+
+        <h2>Languages</h2>
+        <p class="plain">Polish, English</p>
+
+        <h2>Interests</h2>
+        <p class="plain">Martial arts, metal music</p>
+      </aside>
     </article>
   </body>
 </html>

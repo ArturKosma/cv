@@ -592,8 +592,8 @@ async function assertPage(page, path, viewport) {
 
   if (path.includes("index")) {
     if (report.hasHeroTitle) fail(`${label}: golden CV label should be gone`);
-    if (report.identityTitle !== "Principal Animation Programmer")
-      fail(`${label}: home identity title should be Principal Animation Programmer`);
+    if (report.identityTitle !== "Principal Animation Engineer")
+      fail(`${label}: home identity title should be Principal Animation Engineer`);
     if (report.hasTagline)
       fail(`${label}: home identity should not include a cheeky tagline`);
     if (report.titleAlign !== "left")
@@ -852,7 +852,7 @@ async function main() {
     );
     if (experienceCopy.length !== 5) fail("experience: expected 5 roles");
     if (experienceCopy[0].dates !== "2025–Present") fail("experience: newest role should be first");
-    if (experienceCopy[0].role !== "Principal Animation Programmer")
+    if (experienceCopy[0].role !== "Principal Animation Engineer")
       fail("experience: current role title missing");
     if (experienceCopy[0].project !== "Rescue Drone Simulator")
       fail("experience: current project missing");

@@ -91,23 +91,22 @@
 
       h2 {
         margin: 0 0 8pt;
-        padding-bottom: 0;
+        padding-bottom: 5pt;
         font-size: 8.5pt;
         font-weight: 700;
         letter-spacing: 0.12em;
         text-transform: uppercase;
         color: var(--key);
-        /* Fixed 1px rule — Chrome PDF snaps 1pt borders unevenly by Y. */
+        /*
+          Drawn as a background bar (not border/::after height).
+          Chrome PDF snaps 1pt/1px borders to 1 or 2 device pixels by Y;
+          a 2px background rule stays even across every section.
+        */
         border-bottom: none;
-      }
-
-      h2::after {
-        content: "";
-        display: block;
-        width: 100%;
-        height: 1px;
-        margin-top: 3pt;
-        background: var(--key-line);
+        background-image: linear-gradient(var(--key-line), var(--key-line));
+        background-repeat: no-repeat;
+        background-position: left bottom;
+        background-size: 100% 2px;
       }
 
       .main > h2 {

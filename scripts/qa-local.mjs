@@ -614,6 +614,11 @@ async function assertPage(page, path, viewport) {
       fail(`${label}: email/socials must sit under the portrait`);
     if (!report.phoneUnderEmail)
       fail(`${label}: phone must sit under the email`);
+    if (!report.hasPhoneLink) fail(`${label}: About must show phone under the email`);
+    if (report.contactPhoneText !== "(+48) 667 003 707")
+      fail(`${label}: phone should read (+48) 667 003 707`);
+    if (report.contactPhoneHref)
+      fail(`${label}: phone must be display-only (no tel: link)`);
     if (!report.socialUnderPhone)
       fail(`${label}: socials must sit under the phone`);
     if (!report.contactSocialCentered)

@@ -256,6 +256,9 @@ async function assertPage(page, path, viewport) {
     const mailLink = document.querySelector('a[href^="mailto:"]');
     const contactEmailEl = document.querySelector(".contact-email");
     const contactEmailText = document.querySelector(".contact-email .contact-value")?.textContent.trim() || "";
+    const contactPhoneEl = document.querySelector(".contact-phone");
+    const contactPhoneText = document.querySelector(".contact-phone .contact-value")?.textContent.trim() || "";
+    const contactPhoneHref = contactPhoneEl?.getAttribute("href") || "";
     const copyEmailScript = [...document.scripts].some((s) => (s.src || "").includes("copy-email"));
     const linkedIn = [...document.querySelectorAll(".contact-link, .contact-row, a")].find((a) =>
       (a.getAttribute("href") || "").includes("linkedin.com")
@@ -280,7 +283,7 @@ async function assertPage(page, path, viewport) {
       : "";
     const contactName = document.querySelector(".contact-name");
     const contactValue = document.querySelector(".contact-email .contact-value");
-    const contactEmailIcon = document.querySelector(".contact-email__icon");
+    const contactEmailIcon = document.querySelector(".contact-email .contact-line__icon, .contact-email__icon");
     const contactSocial = document.querySelector(".contact-social");
     const contactIdentity = document.querySelector(".contact-identity");
     const contactCardBox = contactCard?.getBoundingClientRect();
@@ -331,6 +334,11 @@ async function assertPage(page, path, viewport) {
     const identityPortrait = document.querySelector(".identity .portrait");
     const identityContactBox = identityContact?.getBoundingClientRect();
     const identityPortraitBox = identityPortrait?.getBoundingClientRect();
+    const phoneBox = contactPhoneEl?.getBoundingClientRect();
+    const phoneUnderEmail =
+      Boolean(contactEmailBox && phoneBox) && phoneBox.top >= contactEmailBox.bottom - 2;
+    const socialUnderPhone =
+      Boolean(phoneBox && contactSocialBox) && contactSocialBox.top >= phoneBox.bottom - 2;
     const aboutContactUnderPortrait =
       Boolean(identityContactBox && identityPortraitBox) &&
       identityContactBox.top >= identityPortraitBox.bottom - 2;
@@ -456,6 +464,9 @@ async function assertPage(page, path, viewport) {
       primaryIsMailto: primaryRow?.getAttribute("href")?.startsWith("mailto:") || false,
       primaryIsEmailRow: Boolean(primaryRow?.classList.contains("contact-email")),
       contactEmailText,
+      contactPhoneText,
+      contactPhoneHref,
+      hasPhoneLink: Boolean(contactPhoneEl),
       copyEmailScript,
       contactEmailGapOk,
       contactLede,
@@ -467,6 +478,8 @@ async function assertPage(page, path, viewport) {
       contactEmailValueCursor,
       contactSocialCentered,
       aboutContactUnderPortrait,
+      phoneUnderEmail,
+      socialUnderPhone,
       contactSocialBrandMarks,
       hasResumeSheet: Boolean(resumeSheet),
       hasResumeFrame: Boolean(resumeFrame),
@@ -599,6 +612,10 @@ async function assertPage(page, path, viewport) {
       fail(`${label}: email address must remain drag-selectable`);
     if (!report.aboutContactUnderPortrait)
       fail(`${label}: email/socials must sit under the portrait`);
+    if (!report.phoneUnderEmail)
+      fail(`${label}: phone must sit under the email`);
+    if (!report.socialUnderPhone)
+      fail(`${label}: socials must sit under the phone`);
     if (!report.contactSocialCentered)
       fail(`${label}: social icons must be horizontally centered under the portrait`);
     if (!report.contactSocialBrandMarks)

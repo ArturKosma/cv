@@ -77,7 +77,15 @@
   margin-top: var(--space-4);
 }
 
-.identity-contact .contact-email {
+.identity-contact .contact-lines {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.identity-contact .contact-line {
   margin-block: 0;
   max-width: 100%;
 }
@@ -110,10 +118,11 @@
 }
 
 /*
-  Shared contact chrome — used under the About portrait (and kept for
-  any future lockup). Quiet email (click to copy) + filled brand marks.
+  Shared contact chrome — under the About portrait.
+  Quiet email (click to copy) + phone + filled brand marks.
 */
 
+.contact-line,
 .contact-email {
   display: inline-flex;
   align-items: center;
@@ -131,11 +140,13 @@
   cursor: pointer;
 }
 
+.contact-line:focus-visible,
 .contact-email:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 3px;
 }
 
+.contact-line__icon,
 .contact-email__icon {
   flex: 0 0 auto;
   display: block;
@@ -146,6 +157,7 @@
   pointer-events: none;
 }
 
+.contact-line .contact-value,
 .contact-email .contact-value {
   min-width: 0;
   font-size: var(--text-sm);
@@ -162,18 +174,28 @@
   cursor: pointer;
 }
 
+.contact-line *,
+.contact-line *::before,
+.contact-line *::after,
 .contact-email *,
 .contact-email *::before,
 .contact-email *::after {
   cursor: pointer;
 }
 
+.contact-line:hover .contact-value,
+.contact-line:focus-visible .contact-value,
 .contact-email:hover .contact-value,
 .contact-email:focus-visible .contact-value,
 .contact-email.is-copied .contact-value,
+.contact-line:hover .contact-line__icon,
+.contact-line:focus-visible .contact-line__icon,
 .contact-email:hover .contact-email__icon,
 .contact-email:focus-visible .contact-email__icon,
-.contact-email.is-copied .contact-email__icon {
+.contact-email:hover .contact-line__icon,
+.contact-email:focus-visible .contact-line__icon,
+.contact-email.is-copied .contact-email__icon,
+.contact-email.is-copied .contact-line__icon {
   color: var(--accent);
 }
 

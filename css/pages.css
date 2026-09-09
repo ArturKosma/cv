@@ -50,6 +50,10 @@
   text-align: right;
 }
 
+.identity .lede-role {
+  color: var(--accent);
+}
+
 .hero-brand {
   font-family: var(--font-display);
   font-size: var(--text-hero);

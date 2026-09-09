@@ -542,6 +542,12 @@ async function assertPage(page, path, viewport) {
     if (!report.lede.includes("Animation Engineer")) fail(`${label}: wrong home lede`);
     if (report.ledeAlign !== "right")
       fail(`${label}: home lede should be right-aligned (got ${report.ledeAlign})`);
+    if (path.endsWith("index.html") || path === "/" || path.endsWith("/")) {
+      if (report.ledeRoleColor !== "rgb(196, 163, 90)")
+        fail(`${label}: home lede role should be accent gold for recruiters`);
+      if (report.ledeRestColor === report.ledeRoleColor)
+        fail(`${label}: only the role phrase should be gold in the home lede`);
+    }
     if (!report.hasExperience) fail(`${label}: missing experience timeline`);
     if (!report.hasIdentity) fail(`${label}: missing identity block`);
     if (!report.hasPortrait) fail(`${label}: missing photo placeholder`);

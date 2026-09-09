@@ -49,8 +49,6 @@
         gap: 16pt;
         max-width: 7.6in;
         margin: 0 auto;
-        /* Use the full letter content height so the sidebar can breathe to the bottom. */
-        min-height: 10in;
       }
 
       .top,
@@ -61,28 +59,17 @@
         align-items: start;
       }
 
-      .body {
-        flex: 1 1 auto;
-        align-items: stretch;
-      }
-
       .identity,
       .main,
       .aside {
         min-width: 0;
       }
 
-      .main {
-        align-self: start;
-      }
-
       .aside {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        gap: 22pt;
-        align-self: stretch;
-        min-height: 100%;
+        /* Steady Brittany-like section rhythm — not stretched to page bottom. */
+        gap: 16pt;
       }
 
       .aside-section {

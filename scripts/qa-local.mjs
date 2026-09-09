@@ -57,7 +57,9 @@ async function assertPage(page, path, viewport) {
     const brandLink = document.querySelector(".brand-link");
     const heroTitle = document.querySelector(".hero-title");
     const eyebrow = document.querySelector(".eyebrow");
-    const lede = document.querySelector(".lede")?.textContent.trim() || "";
+    const lede = document.querySelector(".identity-tagline")?.textContent.trim() || "";
+    const identityTitle =
+      document.querySelector(".identity-title")?.textContent.trim() || "";
     const overflowX =
       document.documentElement.scrollWidth > document.documentElement.clientWidth + 1;
 
@@ -88,21 +90,30 @@ async function assertPage(page, path, viewport) {
       const rightAligned = Math.abs(portraitBox.right - brandBox.right) < 3;
       portraitMatchesText = widthMatch && rightAligned;
     }
-    const ledeEl = document.querySelector(".identity .lede");
-    const ledeRoleEl = document.querySelector(".identity .lede-role");
+    const ledeEl = document.querySelector(".identity .identity-tagline");
+    const titleEl = document.querySelector(".identity .identity-title");
     const brandFamily = heroBrand
       ? getComputedStyle(heroBrand).fontFamily.toLowerCase()
       : "";
     const ledeFamily = ledeEl ? getComputedStyle(ledeEl).fontFamily.toLowerCase() : "";
+    const titleFamily = titleEl ? getComputedStyle(titleEl).fontFamily.toLowerCase() : "";
     const ledeAlign = ledeEl ? getComputedStyle(ledeEl).textAlign : "";
-    const ledeRoleColor = ledeRoleEl ? getComputedStyle(ledeRoleEl).color : "";
+    const titleAlign = titleEl ? getComputedStyle(titleEl).textAlign : "";
+    const titleColor = titleEl ? getComputedStyle(titleEl).color : "";
     const ledeRestColor = ledeEl ? getComputedStyle(ledeEl).color : "";
     const brandIsDisplay = brandFamily.includes("space grotesk");
+    let titleIsBody = true;
     if (ledeEl) {
       ledeIsBody =
         ledeFamily.includes("dm sans") &&
         !ledeFamily.includes("caveat") &&
         !ledeFamily.includes("script");
+    }
+    if (titleEl) {
+      titleIsBody =
+        titleFamily.includes("dm sans") &&
+        !titleFamily.includes("caveat") &&
+        !titleFamily.includes("script");
     }
     const bodyIsDm = getComputedStyle(document.body).fontFamily.toLowerCase().includes("dm sans");
     const portraitIsImage =
@@ -396,8 +407,10 @@ async function assertPage(page, path, viewport) {
       hasEyebrow: Boolean(eyebrow),
       hasPageTitle: Boolean(pageTitle),
       lede,
+      identityTitle,
       ledeAlign,
-      ledeRoleColor,
+      titleAlign,
+      titleColor,
       ledeRestColor,
       scrollbarGutter,
       overflowX,
@@ -410,6 +423,7 @@ async function assertPage(page, path, viewport) {
       portraitMatchesText,
       brandIsDisplay,
       ledeIsBody,
+      titleIsBody,
       bodyIsDm,
       timelineItems: timelineItems.length,
       timelineExpandable,
@@ -548,15 +562,18 @@ async function assertPage(page, path, viewport) {
 
   if (path.includes("index")) {
     if (report.hasHeroTitle) fail(`${label}: golden CV label should be gone`);
-    if (!report.lede.includes("Animation Engineer")) fail(`${label}: wrong home lede`);
-    if (report.ledeAlign !== "right")
-      fail(`${label}: home lede should be right-aligned (got ${report.ledeAlign})`);
-    if (path.endsWith("index.html") || path === "/" || path.endsWith("/")) {
-      if (report.ledeRoleColor !== "rgb(196, 163, 90)")
-        fail(`${label}: home lede role should be accent gold for recruiters`);
-      if (report.ledeRestColor === report.ledeRoleColor)
-        fail(`${label}: only the role phrase should be gold in the home lede`);
-    }
+    if (report.identityTitle !== "Principal Animation Engineer")
+      fail(`${label}: home identity title should be Principal Animation Engineer`);
+    if (!report.lede.toLowerCase().includes("animation systems"))
+      fail(`${label}: home tagline should mention animation systems`);
+    if (report.titleAlign !== "left")
+      fail(`${label}: home identity title should be left-aligned (got ${report.titleAlign})`);
+    if (report.ledeAlign !== "left")
+      fail(`${label}: home tagline should be left-aligned (got ${report.ledeAlign})`);
+    if (report.titleColor !== "rgb(232, 236, 233)")
+      fail(`${label}: home identity title should use foreground (not accent gold)`);
+    if (report.ledeRestColor === report.titleColor)
+      fail(`${label}: tagline should stay quieter than the identity title`);
     if (!report.hasExperience) fail(`${label}: missing experience timeline`);
     if (!report.hasIdentity) fail(`${label}: missing identity block`);
     if (!report.hasPortrait) fail(`${label}: missing photo placeholder`);
@@ -566,7 +583,8 @@ async function assertPage(page, path, viewport) {
       fail(`${label}: portrait should fill Artur Kosma width and stay right-aligned`);
     }
     if (!report.brandIsDisplay) fail(`${label}: name should use Space Grotesk`);
-    if (!report.ledeIsBody) fail(`${label}: lede should use DM Sans body type`);
+    if (!report.titleIsBody) fail(`${label}: identity title should use DM Sans body type`);
+    if (!report.ledeIsBody) fail(`${label}: tagline should use DM Sans body type`);
     if (!report.bodyIsDm) fail(`${label}: body should use DM Sans`);
     if (report.timelineItems < 4) fail(`${label}: expected 4 timeline items`);
     if (!report.timelineExpandable) fail(`${label}: timeline items must be expandable`);
@@ -618,8 +636,8 @@ async function assertPage(page, path, viewport) {
       fail(`${label}: email address text must also use the pointer cursor`);
     if (report.contactLede !== "Principal Animation Engineer")
       fail(`${label}: contact title should be Principal Animation Engineer`);
-    if (report.contactLedeColor !== "rgb(196, 163, 90)")
-      fail(`${label}: contact role should be accent gold like the home lede`);
+    if (report.contactLedeColor !== "rgb(232, 236, 233)")
+      fail(`${label}: contact role should use foreground type (not accent gold)`);
     if (!report.contactEmailHasIcon) fail(`${label}: email must show an icon to the left of the address`);
     if (!report.contactEmailAligned)
       fail(`${label}: email row must be horizontally centered under the contact block`);

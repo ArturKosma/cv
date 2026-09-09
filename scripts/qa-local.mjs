@@ -323,6 +323,9 @@ async function assertPage(page, path, viewport) {
         (socialFirst.left + socialLast.right) / 2 -
           (contactCardBox.left + contactCardBox.right) / 2
       ) < 4;
+    const navChrome = document.querySelector(".nav-actions .btn");
+    const navChromeSize = navChrome ? getComputedStyle(navChrome).fontSize : "";
+    const navChromeTracking = navChrome ? getComputedStyle(navChrome).letterSpacing : "";
     const resumeActionStyle = resumeOpen
       ? {
           color: getComputedStyle(resumeOpen).color,
@@ -462,6 +465,8 @@ async function assertPage(page, path, viewport) {
       resumeOpenLeftOfDownload,
       resumeActionStyle,
       resumeDownloadStyle,
+      navChromeSize,
+      navChromeTracking,
       hasYtFacade: Boolean(ytFacade),
       ytId: ytFacade?.dataset.youtubeId || "",
       reelFullShell,
@@ -647,6 +652,14 @@ async function assertPage(page, path, viewport) {
       fail(`${label}: Download weight should be 500`);
     if (report.resumeActionStyle?.color !== report.resumeDownloadStyle?.color)
       fail(`${label}: Open and Download must share the same accent color`);
+    if (report.resumeActionStyle?.fontSize !== report.navChromeSize)
+      fail(`${label}: Open size must match nav chrome`);
+    if (report.resumeActionStyle?.letterSpacing !== report.navChromeTracking)
+      fail(`${label}: Open tracking must match nav chrome`);
+    if (report.resumeDownloadStyle?.fontSize !== report.navChromeSize)
+      fail(`${label}: Download size must match nav chrome`);
+    if (report.resumeDownloadStyle?.letterSpacing !== report.navChromeTracking)
+      fail(`${label}: Download tracking must match nav chrome`);
   }
 
   if (path.includes("reel.html")) {
@@ -657,11 +670,15 @@ async function assertPage(page, path, viewport) {
     if (!report.hasReelTitle) fail(`${label}: reel must show a quiet year label`);
     if (report.reelTitleText !== "2026")
       fail(`${label}: reel year label should be 2026 (got ${report.reelTitleText})`);
-    // Match Resume Open / Download quiet accent recipe (same color/weight/tracking).
+    // Match Resume Open / Download quiet accent recipe (same color/weight/tracking/size as nav chrome).
     if (report.reelTitleStyle?.color !== "rgb(196, 163, 90)")
       fail(`${label}: reel year color must match Resume Open/Download gold`);
     if (report.reelTitleStyle?.fontWeight !== "500")
       fail(`${label}: reel year weight must match Resume Open/Download (500)`);
+    if (report.reelTitleStyle?.fontSize !== report.navChromeSize)
+      fail(`${label}: reel year size must match nav chrome`);
+    if (report.reelTitleStyle?.letterSpacing !== report.navChromeTracking)
+      fail(`${label}: reel year tracking must match nav chrome`);
   }
 
   return report;

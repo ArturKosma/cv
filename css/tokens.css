@@ -29,6 +29,10 @@
   --font: "DM Sans", "Segoe UI", "Helvetica Neue", sans-serif;
   --font-display: "Space Grotesk", "DM Sans", sans-serif;
   --font-mono: "Cascadia Code", "SF Mono", "Consolas", "Liberation Mono", monospace;
+  /* Shared by nav, Reel year, Resume Open/Download — keep in lockstep */
+  --chrome-size: 0.68rem;
+  --chrome-weight: 500;
+  --chrome-tracking: 0.08em;
   --ease: 160ms ease;
   --page-max: 68rem;
   --page-gutter: 1.25rem;

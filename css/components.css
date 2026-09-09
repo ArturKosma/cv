@@ -58,9 +58,9 @@
   background: transparent;
   color: var(--muted);
   font: inherit;
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-size: var(--chrome-size);
+  font-weight: var(--chrome-weight);
+  letter-spacing: var(--chrome-tracking);
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;

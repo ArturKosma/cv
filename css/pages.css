@@ -267,9 +267,9 @@
 
 .resume-action {
   color: var(--accent);
-  font-size: var(--text-xs);
-  font-weight: 500;
-  letter-spacing: 0.1em;
+  font-size: var(--chrome-size);
+  font-weight: var(--chrome-weight);
+  letter-spacing: var(--chrome-tracking);
   text-transform: uppercase;
   text-decoration: none;
   transition: color var(--ease);
@@ -406,13 +406,13 @@
 }
 
 .reel-title {
-  /* Match Resume Open / Download quiet accent label */
+  /* Same chrome recipe as nav + Resume Open / Download */
   justify-self: start;
   margin: 0;
   color: var(--accent);
-  font-size: var(--text-xs);
-  font-weight: 500;
-  letter-spacing: 0.1em;
+  font-size: var(--chrome-size);
+  font-weight: var(--chrome-weight);
+  letter-spacing: var(--chrome-tracking);
   text-transform: uppercase;
 }
 
@@ -580,7 +580,7 @@
 
   .btn {
     min-height: 2rem;
-    letter-spacing: 0.08em;
+    letter-spacing: var(--chrome-tracking);
   }
 }
 

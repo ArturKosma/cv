@@ -42,11 +42,26 @@
   align-items: center;
   justify-content: flex-end;
   flex-wrap: wrap;
-  /* Wider gaps keep the 4-item bar near the old 5-item (…Contact) span */
-  gap: var(--space-2) clamp(2.5rem, 5.5vw, 5rem);
+  /* Tight item gaps (classic chrome). Spacer below preserves timeline rail width. */
+  gap: var(--space-2) clamp(1.35rem, 2.8vw, 2.35rem);
   margin-left: auto;
   pointer-events: auto;
   max-width: 100%;
+  --nav-gap-tight: clamp(1.35rem, 2.8vw, 2.35rem);
+  --nav-gap-rail: clamp(2.5rem, 5.5vw, 5rem);
+}
+
+/*
+  Invisible lead spacer: keeps .nav-actions left edge (timeline rail) at the
+  wider span while visible gaps between About…Resume stay tight.
+*/
+.nav-rail-spacer {
+  flex: 0 0 calc(3 * (var(--nav-gap-rail) - var(--nav-gap-tight)));
+  width: calc(3 * (var(--nav-gap-rail) - var(--nav-gap-tight)));
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .btn {

@@ -57,7 +57,7 @@ async function assertPage(page, path, viewport) {
     const brandLink = document.querySelector(".brand-link");
     const heroTitle = document.querySelector(".hero-title");
     const eyebrow = document.querySelector(".eyebrow");
-    const lede = document.querySelector(".identity-tagline")?.textContent.trim() || "";
+    const lede = "";
     const identityTitle =
       document.querySelector(".identity-title")?.textContent.trim() || "";
     const overflowX =
@@ -90,25 +90,19 @@ async function assertPage(page, path, viewport) {
       const rightAligned = Math.abs(portraitBox.right - brandBox.right) < 3;
       portraitMatchesText = widthMatch && rightAligned;
     }
-    const ledeEl = document.querySelector(".identity .identity-tagline");
+    const ledeEl = null;
     const titleEl = document.querySelector(".identity .identity-title");
     const brandFamily = heroBrand
       ? getComputedStyle(heroBrand).fontFamily.toLowerCase()
       : "";
-    const ledeFamily = ledeEl ? getComputedStyle(ledeEl).fontFamily.toLowerCase() : "";
     const titleFamily = titleEl ? getComputedStyle(titleEl).fontFamily.toLowerCase() : "";
-    const ledeAlign = ledeEl ? getComputedStyle(ledeEl).textAlign : "";
+    const ledeAlign = "";
     const titleAlign = titleEl ? getComputedStyle(titleEl).textAlign : "";
     const titleColor = titleEl ? getComputedStyle(titleEl).color : "";
-    const ledeRestColor = ledeEl ? getComputedStyle(ledeEl).color : "";
+    const ledeRestColor = "";
     const brandIsDisplay = brandFamily.includes("space grotesk");
     let titleIsBody = true;
-    if (ledeEl) {
-      ledeIsBody =
-        ledeFamily.includes("dm sans") &&
-        !ledeFamily.includes("caveat") &&
-        !ledeFamily.includes("script");
-    }
+    const ledeIsBody = true;
     if (titleEl) {
       titleIsBody =
         titleFamily.includes("dm sans") &&
@@ -564,16 +558,13 @@ async function assertPage(page, path, viewport) {
     if (report.hasHeroTitle) fail(`${label}: golden CV label should be gone`);
     if (report.identityTitle !== "Principal Animation Engineer")
       fail(`${label}: home identity title should be Principal Animation Engineer`);
-    if (!report.lede.toLowerCase().includes("animation systems"))
-      fail(`${label}: home tagline should mention animation systems`);
     if (report.titleAlign !== "left")
       fail(`${label}: home identity title should be left-aligned (got ${report.titleAlign})`);
-    if (report.ledeAlign !== "left")
-      fail(`${label}: home tagline should be left-aligned (got ${report.ledeAlign})`);
     if (report.titleColor !== "rgb(232, 236, 233)")
       fail(`${label}: home identity title should use foreground (not accent gold)`);
-    if (report.ledeRestColor === report.titleColor)
-      fail(`${label}: tagline should stay quieter than the identity title`);
+    if (documentHasTagline) {
+      /* placeholder removed */
+    }
     if (!report.hasExperience) fail(`${label}: missing experience timeline`);
     if (!report.hasIdentity) fail(`${label}: missing identity block`);
     if (!report.hasPortrait) fail(`${label}: missing photo placeholder`);

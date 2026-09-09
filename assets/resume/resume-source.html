@@ -214,10 +214,24 @@
         color: var(--body);
       }
 
+      .edu-head {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 2pt 8pt;
+        align-items: baseline;
+      }
+
       .edu-school {
         font-size: 8.5pt;
         font-weight: 700;
         color: var(--ink);
+      }
+
+      .edu-dates {
+        font-size: 8.5pt;
+        color: var(--ink-mute);
+        white-space: nowrap;
+        text-align: right;
       }
 
       .edu-line {
@@ -372,8 +386,11 @@
 
           <section class="aside-section">
             <h2>Education</h2>
-            <p class="edu-school">University of Silesia</p>
-            <p class="edu-line">Engineer, Computer Science · 2014 – 2017</p>
+            <div class="edu-head">
+              <p class="edu-school">University of Silesia</p>
+              <p class="edu-dates">2014 – 2017</p>
+            </div>
+            <p class="edu-line">Engineer, Computer Science</p>
             <p class="edu-line">Specialization: Game Programmer</p>
           </section>
 

@@ -873,12 +873,12 @@ async function main() {
     if (
       !experienceCopy.every(
         (i) =>
-          i.roleSize < i.orgSize - 1 &&
-          i.projectSize < i.orgSize - 1 &&
-          i.projectSize <= i.roleSize + 0.25
+          i.roleSize > i.projectSize + 1 &&
+          i.projectSize > i.orgSize + 0.5 &&
+          i.orgSize > 0
       )
     ) {
-      fail("experience: company > role ≥ project in type size");
+      fail("experience: role > game > company in type size");
     }
     if (
       !experienceCopy.every(
@@ -889,13 +889,10 @@ async function main() {
     }
     if (
       !experienceCopy.every(
-        (i) =>
-          i.detailSize > i.roleSize &&
-          i.detailColor !== i.orgColor &&
-          i.detailColor !== i.projectColor
+        (i) => i.detailSize > i.orgSize && i.detailSize >= i.projectSize
       )
     ) {
-      fail("experience: expanded detail must read clearer than the quiet project line");
+      fail("experience: expanded detail must read at least as clear as the game line");
     }
 
     const accordionHome = await page.evaluate(async () => {

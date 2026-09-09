@@ -227,7 +227,7 @@ details[data-project][open]::details-content {
   transform: rotate(225deg);
 }
 
-.timeline-summary:hover .timeline-org {
+.timeline-summary:hover .timeline-role {
   color: var(--accent);
 }
 
@@ -244,16 +244,18 @@ details[data-project][open]::details-content {
   min-width: 0;
 }
 
-.timeline-org {
+/* Growth-at-one-studio: position loudest, then game, company quiet. */
+.timeline-role {
+  margin: 0;
   font-size: var(--text-md);
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.35;
+  color: var(--fg);
   transition: color var(--ease);
 }
 
-/* Role under company (louder); game title quieter underneath */
-.timeline-role {
+.timeline-project {
   display: block;
   margin: 0.12rem 0 0;
   color: var(--muted);
@@ -262,13 +264,14 @@ details[data-project][open]::details-content {
   line-height: 1.35;
 }
 
-.timeline-project {
+.timeline-org {
   display: block;
   margin: 0.1rem 0 0;
-  color: var(--muted-dim);
   font-size: 0.72rem;
   font-weight: 400;
+  letter-spacing: 0;
   line-height: 1.45;
+  color: var(--muted-dim);
 }
 
 @media (min-width: 1200px) {

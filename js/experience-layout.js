@@ -2,7 +2,7 @@
  * Experience layout:
  * - Lock identity width to the brand name so the portrait matches
  * - Pin the timeline so its left rail lines up with the left edge of
- *   the top nav chrome (ABOUT … RESUME rail span), right edge with the page shell
+ *   the centered top nav (ABOUT … RESUME), right edge with the page shell
  * - Match timeline top to the portrait top
  * - When all rows are collapsed, add static inter-item padding so the
  *   last row meets the portrait bottom. Those gaps stay frozen while

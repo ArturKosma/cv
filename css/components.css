@@ -9,7 +9,7 @@
   z-index: 20;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   width: 100%;
   min-height: var(--nav-h);
   /* Match .page horizontal inset so nav shares the content shell */
@@ -40,30 +40,11 @@
 .nav-actions {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   flex-wrap: wrap;
-  /* Tight item gaps (classic chrome). Spacer below preserves timeline rail width. */
   gap: var(--space-2) clamp(1.35rem, 2.8vw, 2.35rem);
-  margin-left: auto;
   pointer-events: auto;
   max-width: 100%;
-  --nav-gap-tight: clamp(1.35rem, 2.8vw, 2.35rem);
-  --nav-gap-rail: clamp(2.5rem, 5.5vw, 5rem);
-}
-
-/*
-  Invisible lead spacer: keeps .nav-actions left edge (timeline rail) at the
-  wider span while visible gaps between About…Resume stay tight.
-  Flex `gap` also applies between spacer and About, so:
-  spacer + 4×tight = 3×rail  →  spacer = 3×rail − 4×tight
-*/
-.nav-rail-spacer {
-  flex: 0 0 calc(3 * var(--nav-gap-rail) - 4 * var(--nav-gap-tight));
-  width: calc(3 * var(--nav-gap-rail) - 4 * var(--nav-gap-tight));
-  height: 0;
-  overflow: hidden;
-  visibility: hidden;
-  pointer-events: none;
 }
 
 .btn {

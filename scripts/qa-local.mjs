@@ -734,15 +734,16 @@ async function main() {
       await assertPage(page, "/reel.html", viewport);
     }
 
-    // contact.html is a redirect stub to About
-    await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
-    await page.goto(`${BASE}/contact.html`, { waitUntil: "domcontentloaded", timeout: 15000 });
-    const stubOk = await page.evaluate(() => {
-      const a = document.querySelector('a[href="index.html"]');
-      const refresh = document.querySelector('meta[http-equiv="refresh"]');
-      return Boolean(a) && Boolean(refresh);
-    });
-    if (!stubOk) fail("contact redirect: expected meta refresh + About link");
+    // contact.html is a redirect stub to About (avoid loading it in-browser —
+    // meta refresh races Puppeteer evaluate and destroys the execution context).
+    const contactHtml = await fetch(`${BASE}/contact.html`).then((r) => r.text());
+    if (
+      !/http-equiv=["']refresh["']/i.test(contactHtml) ||
+      !/url=index\.html/i.test(contactHtml) ||
+      !/href=["']index\.html["']/.test(contactHtml)
+    ) {
+      fail("contact redirect: expected meta refresh + About link stub");
+    }
 
     await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
     await page.goto(`${BASE}/index.html`, { waitUntil: "networkidle0" });

@@ -49,6 +49,8 @@
         gap: 16pt;
         max-width: 7.6in;
         margin: 0 auto;
+        /* Fill the letter content box so the aside can stretch with Experience. */
+        min-height: 10in;
       }
 
       .top,
@@ -59,9 +61,30 @@
         align-items: start;
       }
 
+      .body {
+        flex: 1 1 auto;
+        align-items: stretch;
+      }
+
       .identity,
       .main,
       .aside {
+        min-width: 0;
+      }
+
+      .main {
+        align-self: start;
+      }
+
+      .aside {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 18pt;
+        align-self: stretch;
+      }
+
+      .aside-section {
         min-width: 0;
       }
 
@@ -120,11 +143,13 @@
         background: var(--key-line);
       }
 
-      .aside > h2 {
-        margin-top: 14pt;
+      .aside > h2,
+      .aside-section > h2 {
+        margin-top: 0;
       }
 
-      .aside > h2:first-of-type {
+      .aside > h2:first-of-type,
+      .aside-section:first-child > h2 {
         margin-top: 0;
       }
 
@@ -327,37 +352,47 @@
         </div>
 
         <aside class="aside" aria-label="Details">
-          <h2>Skills</h2>
-          <div class="skill-block">
-            <div class="skill-label">Stack</div>
-            <p class="skill-body">C++, Unreal Engine, Maya, MotionBuilder</p>
-          </div>
-          <div class="skill-block">
-            <div class="skill-label">Focus</div>
-            <p class="skill-body">
-              Animation systems, procedural animation, 3C &amp; gameplay
-              programming, combat design, animator pipelines, motion capture
-              direction, team leadership
+          <section class="aside-section">
+            <h2>Skills</h2>
+            <div class="skill-block">
+              <div class="skill-label">Stack</div>
+              <p class="skill-body">C++, Unreal Engine, Maya, MotionBuilder</p>
+            </div>
+            <div class="skill-block">
+              <div class="skill-label">Focus</div>
+              <p class="skill-body">
+                Animation systems, procedural animation, 3C &amp; gameplay
+                programming, combat design, animator pipelines, motion capture
+                direction, team leadership
+              </p>
+            </div>
+          </section>
+
+          <section class="aside-section">
+            <h2>Location</h2>
+            <p class="plain">Silesia, Poland</p>
+          </section>
+
+          <section class="aside-section">
+            <h2>Education</h2>
+            <p class="edu-school">University of Silesia</p>
+            <p class="edu-line">Engineer, Computer Science</p>
+            <p class="edu-line">Specialization: Game Programmer</p>
+          </section>
+
+          <section class="aside-section">
+            <h2>Languages</h2>
+            <p class="plain">Polish, English</p>
+          </section>
+
+          <section class="aside-section">
+            <h2>Interests</h2>
+            <p class="plain">
+              Martial arts (Polish National Amateur Muay Thai champion), metal
+              music, MMORPGs, Star Wars, Dungeons &amp; Dragons, Chornobyl
+              Exclusion Zone
             </p>
-          </div>
-
-          <h2>Location</h2>
-          <p class="plain">Silesia, Poland</p>
-
-          <h2>Education</h2>
-          <p class="edu-school">University of Silesia</p>
-          <p class="edu-line">Engineer, Computer Science</p>
-          <p class="edu-line">Specialization: Game Programmer</p>
-
-          <h2>Languages</h2>
-          <p class="plain">Polish, English</p>
-
-          <h2>Interests</h2>
-          <p class="plain">
-            Martial arts (Polish National Amateur Muay Thai champion), metal
-            music, MMORPGs, Star Wars, Dungeons &amp; Dragons, Chornobyl
-            Exclusion Zone
-          </p>
+          </section>
         </aside>
       </div>
     </article>

@@ -7,8 +7,9 @@
     <style>
       /*
         Print/PDF resume — Brittany Chiang structure, our gold key.
-        Left: name + experience. Right: contact, skills, education,
-        languages, interests. Iterate content with the owner.
+        Top: identity + contact. Body: experience | skills/details.
+        Section rules are explicit 1px bars (solid hex) so Chrome PDF
+        does not thicken some underlines via color-mix / 2px backgrounds.
       */
       @page {
         size: Letter;
@@ -21,8 +22,8 @@
         --ink-mute: #5a655e;
         --body: #2a322e;
         --key: #c4a35a;
-        --key-line: color-mix(in srgb, var(--key) 50%, #ddd8c8);
-        --rule: color-mix(in srgb, var(--key) 35%, #e6e2d6);
+        /* Solid hex — color-mix soft edges read as thicker lines in PDF. */
+        --key-line: #d4c19a;
       }
 
       * {
@@ -42,17 +43,23 @@
       }
 
       .resume {
-        display: grid;
-        grid-template-columns: minmax(0, 1.55fr) minmax(0, 0.9fr);
-        column-gap: 28pt;
+        display: flex;
+        flex-direction: column;
+        gap: 16pt;
         max-width: 7.6in;
         margin: 0 auto;
       }
 
-      .main {
-        min-width: 0;
+      .top,
+      .body {
+        display: grid;
+        grid-template-columns: minmax(0, 1.55fr) minmax(0, 0.9fr);
+        column-gap: 28pt;
+        align-items: start;
       }
 
+      .identity,
+      .main,
       .aside {
         min-width: 0;
       }
@@ -90,27 +97,26 @@
       }
 
       h2 {
+        display: flex;
+        flex-direction: column;
+        gap: 3pt;
         margin: 0 0 8pt;
-        padding-bottom: 5pt;
         font-size: 8.5pt;
         font-weight: 700;
         letter-spacing: 0.12em;
         text-transform: uppercase;
         color: var(--key);
-        /*
-          Drawn as a background bar (not border/::after height).
-          Chrome PDF snaps 1pt/1px borders to 1 or 2 device pixels by Y;
-          a 2px background rule stays even across every section.
-        */
-        border-bottom: none;
-        background-image: linear-gradient(var(--key-line), var(--key-line));
-        background-repeat: no-repeat;
-        background-position: left bottom;
-        background-size: 100% 2px;
+        border: 0;
+        background: none;
       }
 
-      .main > h2 {
-        margin-top: 16pt;
+      /* True 1 CSS-px hairline under every section title. */
+      h2::after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 1px;
+        background: var(--key-line);
       }
 
       .aside > h2 {
@@ -118,7 +124,7 @@
       }
 
       .aside > h2:first-of-type {
-        margin-top: 18pt;
+        margin-top: 0;
       }
 
       .role {
@@ -215,120 +221,128 @@
   </head>
   <body>
     <article class="resume">
-      <div class="main">
-        <header>
+      <header class="top">
+        <div class="identity">
           <h1>Artur Kosma</h1>
           <p class="headline">
             Principal Animation Engineer with 9 years of experience creating AAA
             gameplay animation systems.
           </p>
-        </header>
-
-        <h2>Experience</h2>
-
-        <section class="role" aria-label="Principal Animation Engineer">
-          <div class="role-head">
-            <div class="role-title">
-              Principal Animation Engineer <span class="role-org">· The Farm 51</span>
-            </div>
-            <div class="role-dates">2026 – Present</div>
-          </div>
-          <p class="role-project">Rescue Drone Simulator</p>
-          <ul>
-            <li>
-              Own animation systems for the rescue drone simulator after returning
-              to a pure engineering focus.
-            </li>
-          </ul>
-        </section>
-
-        <section class="role" aria-label="Lead Combat Engineer">
-          <div class="role-head">
-            <div class="role-title">
-              Lead Combat Engineer <span class="role-org">· The Farm 51</span>
-            </div>
-            <div class="role-dates">2021 – 2026</div>
-          </div>
-          <p class="role-project">Chernobylite 2</p>
-          <ul>
-            <li>
-              Led a multidisciplinary team of 10+, splitting time roughly evenly
-              between leadership and hands-on combat / animation engineering.
-            </li>
-          </ul>
-        </section>
-
-        <section class="role" aria-label="Lead Animator and Programmer">
-          <div class="role-head">
-            <div class="role-title">
-              Lead Animator &amp; Programmer <span class="role-org">· The Farm 51</span>
-            </div>
-            <div class="role-dates">2019 – 2021</div>
-          </div>
-          <p class="role-project">Chernobylite 1</p>
-          <ul>
-            <li>
-              First lead role: planned mocap, managed animators, and shipped
-              movement and animation systems while still writing the code.
-            </li>
-          </ul>
-        </section>
-
-        <section class="role" aria-label="Junior Programmer">
-          <div class="role-head">
-            <div class="role-title">
-              Junior Programmer <span class="role-org">· The Farm 51</span>
-            </div>
-            <div class="role-dates">2017 – 2019</div>
-          </div>
-          <p class="role-project">Chernobylite 1</p>
-          <ul>
-            <li>
-              Owned the character animation and rigging pipeline while studying;
-              authored character animation and movement / AI-related code.
-            </li>
-          </ul>
-        </section>
-      </div>
-
-      <aside class="aside" aria-label="Contact and details">
+        </div>
         <div class="contact">
           <a href="mailto:leq.artur.kosma@gmail.com">leq.artur.kosma@gmail.com</a>
           <a href="tel:+48667003707">(+48) 667 003 707</a>
           <a href="https://github.com/ArturKosma">github.com/ArturKosma</a>
           <a href="https://www.linkedin.com/in/arturkosma">linkedin.com/in/arturkosma</a>
         </div>
+      </header>
 
-        <h2>Skills</h2>
-        <div class="skill-block">
-          <div class="skill-label">Stack</div>
-          <p class="skill-body">C++, Unreal Engine, Maya, MotionBuilder</p>
+      <div class="body">
+        <div class="main">
+          <h2>Experience</h2>
+
+          <section class="role" aria-label="Principal Animation Engineer">
+            <div class="role-head">
+              <div class="role-title">
+                Principal Animation Engineer
+                <span class="role-org">· The Farm 51</span>
+              </div>
+              <div class="role-dates">2026 – Present</div>
+            </div>
+            <p class="role-project">Rescue Drone Simulator</p>
+            <ul>
+              <li>
+                Own animation systems for the rescue drone simulator after
+                returning to a pure engineering focus.
+              </li>
+            </ul>
+          </section>
+
+          <section class="role" aria-label="Lead Combat Engineer">
+            <div class="role-head">
+              <div class="role-title">
+                Lead Combat Engineer <span class="role-org">· The Farm 51</span>
+              </div>
+              <div class="role-dates">2021 – 2026</div>
+            </div>
+            <p class="role-project">Chernobylite 2</p>
+            <ul>
+              <li>
+                Led a multidisciplinary team of 10+, splitting time roughly
+                evenly between leadership and hands-on combat / animation
+                engineering.
+              </li>
+            </ul>
+          </section>
+
+          <section class="role" aria-label="Lead Animator and Programmer">
+            <div class="role-head">
+              <div class="role-title">
+                Lead Animator &amp; Programmer
+                <span class="role-org">· The Farm 51</span>
+              </div>
+              <div class="role-dates">2019 – 2021</div>
+            </div>
+            <p class="role-project">Chernobylite 1</p>
+            <ul>
+              <li>
+                First lead role: planned mocap, managed animators, and shipped
+                movement and animation systems while still writing the code.
+              </li>
+            </ul>
+          </section>
+
+          <section class="role" aria-label="Junior Programmer">
+            <div class="role-head">
+              <div class="role-title">
+                Junior Programmer <span class="role-org">· The Farm 51</span>
+              </div>
+              <div class="role-dates">2017 – 2019</div>
+            </div>
+            <p class="role-project">Chernobylite 1</p>
+            <ul>
+              <li>
+                Owned the character animation and rigging pipeline while
+                studying; authored character animation and movement / AI-related
+                code.
+              </li>
+            </ul>
+          </section>
         </div>
-        <div class="skill-block">
-          <div class="skill-label">Focus</div>
-          <p class="skill-body">
-            Animation systems, procedural animation, character movement, combat
-            design, animator pipelines, motion capture direction, team leadership
+
+        <aside class="aside" aria-label="Details">
+          <h2>Skills</h2>
+          <div class="skill-block">
+            <div class="skill-label">Stack</div>
+            <p class="skill-body">C++, Unreal Engine, Maya, MotionBuilder</p>
+          </div>
+          <div class="skill-block">
+            <div class="skill-label">Focus</div>
+            <p class="skill-body">
+              Animation systems, procedural animation, character movement,
+              combat design, animator pipelines, motion capture direction, team
+              leadership
+            </p>
+          </div>
+
+          <h2>Education</h2>
+          <p class="edu-school">University of Silesia</p>
+          <p class="edu-line">Engineer, Computer Science</p>
+          <p class="edu-line">Specialization: Game Programmer</p>
+
+          <h2>Languages</h2>
+          <p class="plain">Polish, English</p>
+
+          <h2>Location</h2>
+          <p class="plain">Tychy, Poland</p>
+
+          <h2>Interests</h2>
+          <p class="plain">
+            Martial arts (Polish National Amateur Muay Thai champion), metal
+            music, MMORPGs, Star Wars
           </p>
-        </div>
-
-        <h2>Education</h2>
-        <p class="edu-school">University of Silesia</p>
-        <p class="edu-line">Engineer, Computer Science</p>
-        <p class="edu-line">Specialization: Game Programmer</p>
-
-        <h2>Languages</h2>
-        <p class="plain">Polish, English</p>
-
-        <h2>Location</h2>
-        <p class="plain">Tychy, Poland</p>
-
-        <h2>Interests</h2>
-        <p class="plain">
-          Martial arts (Polish National Amateur Muay Thai champion), metal music,
-          MMORPGs, Star Wars
-        </p>
-      </aside>
+        </aside>
+      </div>
     </article>
   </body>
 </html>

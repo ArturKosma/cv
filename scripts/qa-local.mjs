@@ -259,6 +259,9 @@ async function assertPage(page, path, viewport) {
     const contactPhoneEl = document.querySelector(".contact-phone");
     const contactPhoneText = document.querySelector(".contact-phone .contact-value")?.textContent.trim() || "";
     const contactPhoneHref = contactPhoneEl?.getAttribute("href") || "";
+    const contactPhoneCopy = contactPhoneEl?.getAttribute("data-copy") || "";
+    const contactPhoneTag = contactPhoneEl?.tagName.toLowerCase() || "";
+    const contactPhoneCursor = contactPhoneEl ? getComputedStyle(contactPhoneEl).cursor : "";
     const copyEmailScript = [...document.scripts].some((s) => (s.src || "").includes("copy-email"));
     const linkedIn = [...document.querySelectorAll(".contact-link, .contact-row, a")].find((a) =>
       (a.getAttribute("href") || "").includes("linkedin.com")
@@ -466,6 +469,9 @@ async function assertPage(page, path, viewport) {
       contactEmailText,
       contactPhoneText,
       contactPhoneHref,
+      contactPhoneCopy,
+      contactPhoneTag,
+      contactPhoneCursor,
       hasPhoneLink: Boolean(contactPhoneEl),
       copyEmailScript,
       contactEmailGapOk,
@@ -612,13 +618,17 @@ async function assertPage(page, path, viewport) {
       fail(`${label}: email address must remain drag-selectable`);
     if (!report.aboutContactUnderPortrait)
       fail(`${label}: email/socials must sit under the portrait`);
-    if (!report.phoneUnderEmail)
-      fail(`${label}: phone must sit under the email`);
     if (!report.hasPhoneLink) fail(`${label}: About must show phone under the email`);
     if (report.contactPhoneText !== "(+48) 667 003 707")
       fail(`${label}: phone should read (+48) 667 003 707`);
     if (report.contactPhoneHref)
-      fail(`${label}: phone must be display-only (no tel: link)`);
+      fail(`${label}: phone must not use a tel: link`);
+    if (report.contactPhoneCopy !== "+48667003707")
+      fail(`${label}: phone must expose data-copy=+48667003707 for clipboard`);
+    if (report.contactPhoneTag !== "button")
+      fail(`${label}: phone should be a button for click-to-copy`);
+    if (report.contactPhoneCursor !== "pointer")
+      fail(`${label}: phone should show a pointer cursor on hover`);
     if (!report.socialUnderPhone)
       fail(`${label}: socials must sit under the phone`);
     if (!report.contactSocialCentered)

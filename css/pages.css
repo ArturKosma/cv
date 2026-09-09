@@ -199,7 +199,14 @@
   color: var(--accent);
 }
 
-/* Phone: display-only — not a link, not selectable, no hover wash */
+/* Phone: click-to-copy like email; not text-selectable; accent hover */
+button.contact-phone {
+  border: 0;
+  background: transparent;
+  font: inherit;
+  margin-block: 0;
+}
+
 .contact-phone,
 .contact-phone .contact-value,
 .contact-phone .contact-line__icon,
@@ -208,12 +215,7 @@
   user-select: none;
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
-  cursor: default;
-  pointer-events: none;
-}
-
-.contact-phone {
-  margin-block: 0;
+  cursor: pointer;
 }
 
 .contact-phone .contact-value {
@@ -222,6 +224,20 @@
 
 .contact-phone .contact-line__icon {
   color: var(--muted-dim);
+}
+
+.contact-phone:hover .contact-value,
+.contact-phone:focus-visible .contact-value,
+.contact-phone.is-copied .contact-value,
+.contact-phone:hover .contact-line__icon,
+.contact-phone:focus-visible .contact-line__icon,
+.contact-phone.is-copied .contact-line__icon {
+  color: var(--accent);
+}
+
+.contact-phone:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
 }
 
 .contact-social {

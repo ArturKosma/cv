@@ -105,6 +105,11 @@
 
       .contact a {
         color: var(--ink-mute);
+        text-decoration: none;
+      }
+
+      /* Only web profiles read as links — not email/phone. */
+      .contact a[href^="http"] {
         text-decoration: underline;
         text-underline-offset: 1.5pt;
       }

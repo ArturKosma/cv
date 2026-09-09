@@ -88,10 +88,6 @@ textarea,
 [contenteditable="true"],
 a[href^="mailto:"],
 a[href^="mailto:"] *,
-a[href^="tel:"],
-a[href^="tel:"] *,
-.contact-line,
-.contact-line *,
 .contact-email,
 .contact-email * {
   -webkit-user-select: text;

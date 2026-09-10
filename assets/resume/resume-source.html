@@ -162,25 +162,13 @@
         min-width: 0;
       }
 
-      .employer-head {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 2pt 10pt;
-        align-items: baseline;
-        margin-bottom: 10pt;
-      }
-
       .employer-name {
-        font-size: 8.5pt;
-        font-weight: 700;
-        color: var(--ink);
-      }
-
-      .employer-dates {
+        margin-bottom: 10pt;
         font-size: 8pt;
-        color: #7d8780;
-        white-space: nowrap;
-        text-align: right;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-mute);
       }
 
       .role {
@@ -307,10 +295,7 @@
           <h2>Experience</h2>
 
           <section class="employer" aria-label="The Farm 51">
-            <div class="employer-head">
-              <div class="employer-name">The Farm 51</div>
-              <div class="employer-dates">2017 – Present</div>
-            </div>
+            <div class="employer-name">The Farm 51</div>
 
             <section class="role" aria-label="Principal Animation Engineer">
               <div class="role-head">

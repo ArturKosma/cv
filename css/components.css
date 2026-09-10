@@ -157,12 +157,11 @@ details[data-project][open]::details-content {
 
 .timeline-employer {
   margin: 0 0 var(--space-4);
-  /* Sit above the date column, same inset as timeline rows. */
-  padding-left: var(--space-5);
+  padding-right: 1.85rem; /* line up with chevron column */
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.1em;
-  text-align: left;
+  text-align: right;
   text-transform: uppercase;
   color: var(--muted-dim);
 }

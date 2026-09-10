@@ -111,7 +111,21 @@
     const identityBox = identity.getBoundingClientRect();
     const portraitBox = portrait.getBoundingClientRect();
     const offset = Math.max(0, Math.round(portraitBox.top - identityBox.top));
-    experience.style.marginTop = `${offset}px`;
+
+    // Employer stamp sits above the rail — pull experience up so the
+    // timeline (not the stamp) shares the portrait's top edge.
+    const employer = experience.querySelector(".timeline-employer");
+    let employerBlock = 0;
+    if (employer) {
+      const style = getComputedStyle(employer);
+      employerBlock = Math.round(
+        employer.getBoundingClientRect().height +
+          (parseFloat(style.marginTop) || 0) +
+          (parseFloat(style.marginBottom) || 0)
+      );
+    }
+
+    experience.style.marginTop = `${Math.max(0, offset - employerBlock)}px`;
   }
 
   function syncTimelineStretchToPortrait() {
@@ -136,7 +150,12 @@
     });
 
     const natural = contentSum + (items.length - 1) * base;
-    const target = portrait.getBoundingClientRect().height;
+    // Match timeline bottom to portrait bottom (top already pinned).
+    const timelineTop = timeline.getBoundingClientRect().top;
+    const target = Math.max(
+      0,
+      Math.round(portrait.getBoundingClientRect().bottom - timelineTop)
+    );
     const extra = Math.round(target - natural);
     const gapCount = items.length - 1;
 

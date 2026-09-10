@@ -158,8 +158,33 @@
         margin-top: 0;
       }
 
+      .employer {
+        min-width: 0;
+      }
+
+      .employer-head {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 2pt 10pt;
+        align-items: baseline;
+        margin-bottom: 10pt;
+      }
+
+      .employer-name {
+        font-size: 8.5pt;
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      .employer-dates {
+        font-size: 8pt;
+        color: #7d8780;
+        white-space: nowrap;
+        text-align: right;
+      }
+
       .role {
-        margin-bottom: 13pt;
+        margin-bottom: 11pt;
       }
 
       .role:last-child {
@@ -177,11 +202,6 @@
         font-size: 8.5pt;
         font-weight: 700;
         color: var(--ink);
-      }
-
-      .role-org {
-        font-weight: 400;
-        color: var(--ink-mute);
       }
 
       .role-dates {
@@ -286,130 +306,125 @@
         <div class="main">
           <h2>Experience</h2>
 
-          <section class="role" aria-label="Principal Animation Engineer">
-            <div class="role-head">
-              <div class="role-title">
-                Principal Animation Engineer
-                <span class="role-org">· The Farm 51</span>
-              </div>
-              <div class="role-dates">2025 – Present</div>
+          <section class="employer" aria-label="The Farm 51">
+            <div class="employer-head">
+              <div class="employer-name">The Farm 51</div>
+              <div class="employer-dates">2017 – Present</div>
             </div>
-            <p class="role-project">Rescue Drone Simulator</p>
-            <ul>
-              <li>
-                Own networked animation, movement, and input systems for Rescue
-                Drone Simulator — built fully for multiplayer.
-              </li>
-              <li>
-                Shape player/drone handling feel — camera, response curves, and
-                control weight.
-              </li>
-              <li>
-                Own the game’s CPU budget — profile and enforce frame costs in
-                Unreal Insights.
-              </li>
-              <li>
-                Created AnimFlex — an AI plugin for automatic mocap cleanup of
-                character gestures and locomotion.
-              </li>
-            </ul>
-          </section>
 
-          <section class="role" aria-label="Lead Combat Engineer">
-            <div class="role-head">
-              <div class="role-title">
-                Lead Combat Engineer <span class="role-org">· The Farm 51</span>
+            <section class="role" aria-label="Principal Animation Engineer">
+              <div class="role-head">
+                <div class="role-title">Principal Animation Engineer</div>
+                <div class="role-dates">2025 – Present</div>
               </div>
-              <div class="role-dates">2021 – 2025</div>
-            </div>
-            <p class="role-project">Chernobylite 2: Exclusion Zone</p>
-            <ul>
-              <li>
-                Built and led a team of 10+ animators, programmers, and
-                character artists from day one — hiring, reviews, and production
-                planning.
-              </li>
-              <li>
-                Owned mocap production end to end — planning, direction, and
-                delivery.
-              </li>
-              <li>Designed the full combat loop and owned player 3C.</li>
-              <li>
-                Authored a custom C++ Gameplay Ability System and shipped Motion
-                Matching for the main hero.
-              </li>
-              <li>
-                Built Chernobylite 2’s dialogue system and scaled animation
-                pipeline tools for the full team.
-              </li>
-            </ul>
-          </section>
+              <p class="role-project">Rescue Drone Simulator</p>
+              <ul>
+                <li>
+                  Own networked animation, movement, and input systems for
+                  Rescue Drone Simulator, built fully for multiplayer.
+                </li>
+                <li>
+                  Shape player/drone handling feel: camera, response curves, and
+                  control weight.
+                </li>
+                <li>
+                  Own the game’s CPU budget: profile and enforce frame costs in
+                  Unreal Insights.
+                </li>
+                <li>
+                  Created AnimFlex, an AI plugin for automatic mocap cleanup of
+                  character gestures and locomotion.
+                </li>
+              </ul>
+            </section>
 
-          <section class="role" aria-label="Lead Animator and Programmer">
-            <div class="role-head">
-              <div class="role-title">
-                Lead Animator &amp; Programmer
-                <span class="role-org">· The Farm 51</span>
+            <section class="role" aria-label="Lead Combat Engineer">
+              <div class="role-head">
+                <div class="role-title">Lead Combat Engineer</div>
+                <div class="role-dates">2021 – 2025</div>
               </div>
-              <div class="role-dates">2019 – 2021</div>
-            </div>
-            <p class="role-project">Chernobylite 1</p>
-            <ul>
-              <li>
-                Led three animators: gave feedback and built DataTable-driven
-                procedural animation tools and MotionBuilder UX plugins.
-              </li>
-              <li>Implemented every cutscene in the game.</li>
-              <li>
-                Owned the animation production schedule and quality bar through
-                Chernobylite 1’s release.
-              </li>
-              <li>
-                Optimized animation CPU cost for console frame budgets on Sony
-                devkits.
-              </li>
-            </ul>
-          </section>
+              <p class="role-project">Chernobylite 2: Exclusion Zone</p>
+              <ul>
+                <li>
+                  Built and led a team of 10+ animators, programmers, and
+                  character artists from day one: hiring, reviews, and
+                  production planning.
+                </li>
+                <li>
+                  Owned mocap production across planning, direction, and
+                  delivery.
+                </li>
+                <li>Designed the full combat loop and owned player 3C.</li>
+                <li>
+                  Authored a custom C++ Gameplay Ability System and shipped
+                  Motion Matching for the main hero.
+                </li>
+                <li>
+                  Built Chernobylite 2’s dialogue system and scaled animation
+                  pipeline tools for the full team.
+                </li>
+              </ul>
+            </section>
 
-          <section class="role" aria-label="Programmer">
-            <div class="role-head">
-              <div class="role-title">
-                Programmer <span class="role-org">· The Farm 51</span>
+            <section class="role" aria-label="Lead Animator and Programmer">
+              <div class="role-head">
+                <div class="role-title">Lead Animator &amp; Programmer</div>
+                <div class="role-dates">2019 – 2021</div>
               </div>
-              <div class="role-dates">2018 – 2019</div>
-            </div>
-            <p class="role-project">Chernobylite 1</p>
-            <ul>
-              <li>
-                Grew early prototypes into production movement, animation, and
-                combat systems.
-              </li>
-              <li>Built the dialogue system — logic and animations.</li>
-              <li>
-                Directed motion capture sessions for all character animations in
-                the game.
-              </li>
-            </ul>
-          </section>
+              <p class="role-project">Chernobylite 1</p>
+              <ul>
+                <li>
+                  Led three animators: gave feedback and built DataTable-driven
+                  procedural animation tools and MotionBuilder UX plugins.
+                </li>
+                <li>Implemented every cutscene in the game.</li>
+                <li>
+                  Owned the animation production schedule and quality bar
+                  through Chernobylite 1’s release.
+                </li>
+                <li>
+                  Optimized animation CPU cost for console frame budgets on Sony
+                  devkits.
+                </li>
+              </ul>
+            </section>
 
-          <section class="role" aria-label="Junior Programmer">
-            <div class="role-head">
-              <div class="role-title">
-                Junior Programmer <span class="role-org">· The Farm 51</span>
+            <section class="role" aria-label="Programmer">
+              <div class="role-head">
+                <div class="role-title">Programmer</div>
+                <div class="role-dates">2018 – 2019</div>
               </div>
-              <div class="role-dates">2017 – 2018</div>
-            </div>
-            <p class="role-project">Chernobylite 1</p>
-            <ul>
-              <li>Prototyped main-character game input.</li>
-              <li>
-                Animated locomotion prototypes for every enemy in the game.
-              </li>
-              <li>Built gunplay prototypes in code and animation.</li>
-              <li>
-                Owned the early character animation and rigging pipeline.
-              </li>
-            </ul>
+              <p class="role-project">Chernobylite 1</p>
+              <ul>
+                <li>
+                  Grew early prototypes into production movement, animation, and
+                  combat systems.
+                </li>
+                <li>Built the dialogue system (logic and animations).</li>
+                <li>
+                  Directed motion capture sessions for all character animations
+                  in the game.
+                </li>
+              </ul>
+            </section>
+
+            <section class="role" aria-label="Junior Programmer">
+              <div class="role-head">
+                <div class="role-title">Junior Programmer</div>
+                <div class="role-dates">2017 – 2018</div>
+              </div>
+              <p class="role-project">Chernobylite 1</p>
+              <ul>
+                <li>Prototyped main-character game input.</li>
+                <li>
+                  Animated locomotion prototypes for every enemy in the game.
+                </li>
+                <li>Built gunplay prototypes in code and animation.</li>
+                <li>
+                  Owned the early character animation and rigging pipeline.
+                </li>
+              </ul>
+            </section>
           </section>
         </div>
 

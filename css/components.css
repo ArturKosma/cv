@@ -157,7 +157,8 @@ details[data-project][open]::details-content {
 
 .timeline-employer {
   margin: 0 0 var(--space-4);
-  padding-right: 1.85rem; /* line up with chevron column */
+  /* Match timeline chevron: summary::after { right: 0.2rem } */
+  padding-right: 0.2rem;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.1em;

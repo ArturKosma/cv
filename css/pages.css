@@ -570,10 +570,6 @@ button.contact-phone {
     column-gap: var(--space-3);
   }
 
-  .timeline-employer {
-    padding-left: calc(var(--space-5) + 6rem + var(--space-3));
-  }
-
   .timeline-body {
     margin-left: calc(6rem + var(--space-3));
   }

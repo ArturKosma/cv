@@ -157,8 +157,8 @@ details[data-project][open]::details-content {
 
 .timeline-employer {
   margin: 0 0 var(--space-4);
-  /* Align with role titles (past the date column). */
-  padding-left: calc(var(--space-5) + 6.25rem + var(--space-4));
+  /* Sit above the date column, same inset as timeline rows. */
+  padding-left: var(--space-5);
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -178,24 +178,11 @@ details[data-project][open]::details-content {
 }
 
 .timeline-bullets li {
-  position: relative;
   margin-bottom: 0.4em;
-  padding-left: 0.95em;
 }
 
 .timeline-bullets li:last-child {
   margin-bottom: 0;
-}
-
-.timeline-bullets li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.65em;
-  width: 0.35em;
-  height: 1px;
-  background: var(--accent);
-  opacity: 0.75;
 }
 
 .timeline-item {

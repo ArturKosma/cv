@@ -181,13 +181,13 @@
         fill: currentColor;
       }
 
-      /* Map tile: grey sea + white land (not currentColor) */
+      /* Globe map: round sea = same grey as other icons; land white */
       .contact-line-icon--map {
         fill: none;
       }
 
       .contact-line-icon--map .map-sea {
-        fill: #8a928c;
+        fill: currentColor;
       }
 
       .contact-line-icon--map .map-land {
@@ -362,13 +362,20 @@
             aria-label="Portfolio samples"
             target="_top"
           >
-            <svg
+                        <svg
               class="contact-line-icon contact-line-icon--map"
               viewBox="0 0 24 24"
               aria-hidden="true"
             >
-              <rect class="map-sea" width="24" height="24" />
-              <path class="map-land" d="M5.9 15.2L7.8 15.2L7.6 14.5L13.9 12.1L14.2 9.9L15.5 9.5L15.1 11.5L17.7 12.0L19.9 11.3L23.2 11.6L22.1 10.1L24.0 9.9L23.4 23.0L22.5 22.7L21.1 19.5L17.1 17.1L16.8 18.1L20.5 20.6L19.5 20.4L19.0 22.0L18.6 20.7L14.4 17.9L10.8 18.7L7.5 22.8L3.2 22.7L2.9 18.8L7.9 18.2L8.1 16.9ZM13.3 9.3L12.2 8.3L12.5 6.4L20.9 1.8L24.0 1.3L24.0 4.3L19.6 7.2L20.7 8.0L17.7 11.0L17.0 11.0L15.4 8.4ZM9.9 12.6L9.7 13.6L5.2 14.3L6.6 13.5L5.5 13.1L6.9 11.9L5.3 11.0L5.1 9.4L6.9 8.9L6.2 9.6L7.6 9.5L6.8 10.6Z" />
+              <defs>
+                <clipPath id="europe-globe-clip">
+                  <circle cx="12" cy="12" r="12" />
+                </clipPath>
+              </defs>
+              <circle class="map-sea" cx="12" cy="12" r="12" />
+              <g clip-path="url(#europe-globe-clip)">
+                <path class="map-land" d="M5.7 15.1L7.5 15.1L7.3 14.4L13.4 12.1L13.7 9.9L14.9 9.6L14.5 11.5L17.1 12.0L19.2 11.3L22.3 11.6L21.3 10.1L23.1 10.0L22.6 22.6L21.7 22.3L20.3 19.2L16.5 16.9L16.2 17.9L19.7 20.3L18.8 20.1L18.3 21.6L17.9 20.4L13.9 17.7L10.4 18.5L7.2 22.4L3.0 22.3L2.7 18.5L7.6 17.9L7.7 16.7ZM12.8 9.4L11.7 8.4L12.1 6.6L20.2 2.2L23.1 1.6L23.1 4.5L18.9 7.4L19.9 8.1L17.1 11.0L16.4 11.0L14.8 8.5ZM9.5 12.6L9.4 13.5L4.9 14.2L6.4 13.4L5.3 13.1L6.7 11.9L5.1 11.0L4.9 9.5L6.6 9.0L6.0 9.7L7.3 9.6L6.6 10.6Z" />
+              </g>
             </svg>
             arturkosma.com
           </a>

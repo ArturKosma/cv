@@ -320,18 +320,32 @@ button.contact-phone {
   outline-offset: 3px;
 }
 
-/* Full US-letter page preview (exact PDF page image — no browser PDF chrome). */
+/*
+  Full US-letter preview — live HTML resume (text select + contact links),
+  not a PNG and not browser PDF chrome.
+*/
 .resume-frame {
   width: 100%;
   margin: 0;
-  background: #f7f6f2;
+  aspect-ratio: 8.5 / 11;
+  background: #fff;
   border: 1px solid color-mix(in srgb, var(--fg) 12%, transparent);
+  overflow: hidden;
 }
 
 .resume-page {
   display: block;
   width: 100%;
   height: auto;
+}
+
+.resume-page--live {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+  /* Allow selecting resume text inside the iframe */
+  color-scheme: light;
 }
 
 .resume-sheet {

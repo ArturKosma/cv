@@ -4,13 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0f1412" />
-    <link rel="icon" href="assets/favicon.svg?v=305" type="image/svg+xml" />
+    <link rel="icon" href="assets/favicon.svg?v=306" type="image/svg+xml" />
     <meta name="description" content="Resume — Artur Kosma." />
     <title>Resume — Artur Kosma</title>
-    <link rel="stylesheet" href="css/tokens.css?v=305" />
-    <link rel="stylesheet" href="css/base.css?v=305" />
-    <link rel="stylesheet" href="css/components.css?v=305" />
-    <link rel="stylesheet" href="css/pages.css?v=305" />
+    <link rel="stylesheet" href="css/tokens.css?v=306" />
+    <link rel="stylesheet" href="css/base.css?v=306" />
+    <link rel="stylesheet" href="css/components.css?v=306" />
+    <link rel="stylesheet" href="css/pages.css?v=306" />
   </head>
   <body class="page-resume">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -26,8 +26,9 @@
 
     <main id="main" class="page resume-layout">
       <!--
-        Full letter-page preview (raster of the PDF) + Open / Download.
-        Open = native browser PDF view (Brittany Chiang pattern); Download saves the file.
+        Letter-page preview = live resume HTML (select text, click site /
+        LinkedIn) — not a PNG and not browser PDF chrome. Open / Download
+        still use the real PDF (Brittany Chiang pattern).
       -->
       <div class="resume-column">
         <div class="resume-toolbar">
@@ -46,15 +47,14 @@
           >
         </div>
 
-        <figure class="resume-frame">
-          <img
-            class="resume-page"
-            src="assets/resume/Artur-Kosma-Resume.png?v=305"
-            width="1632"
-            height="2112"
-            alt="Artur Kosma — Principal Animation Engineer. Contact top-right. Experience growth at The Farm 51 from Junior Programmer to Principal Animation Engineer on Chernobylite and Rescue Drone Simulator. Skills, education, languages, location, interests."
-          />
-        </figure>
+        <div class="resume-frame">
+          <iframe
+            class="resume-page resume-page--live"
+            src="assets/resume/resume-source.html?v=306"
+            title="Artur Kosma resume — selectable text; site and LinkedIn are links"
+            loading="lazy"
+          ></iframe>
+        </div>
       </div>
     </main>
   </body>

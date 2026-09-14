@@ -120,24 +120,19 @@
         text-decoration: none !important;
       }
 
-      .contact-pair {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 4pt;
+      /* Plain email row: no <a> so PDF text selection is not blocked by link hit-targets */
+      .contact-plain {
+        display: block;
         line-height: 1.15;
         color: var(--ink-mute);
+        -webkit-user-select: text;
+        user-select: text;
       }
 
-      .contact-pair-icon {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        line-height: 0;
-      }
-
-      .contact-pair-text {
-        color: var(--ink-mute);
+      .contact-plain .contact-line-icon {
+        display: inline-block;
+        vertical-align: -1.5pt;
+        margin-right: 4pt;
       }
 
       .contact-line-icon {
@@ -339,19 +334,13 @@
             </svg>
             (+48) 667 003 707
           </a>
-          <span class="contact-pair">
-            <a
-              class="contact-pair-icon"
-              href="mailto:leq.artur.kosma@gmail.com"
-              aria-label="Email Artur Kosma"
-            >
-              <svg class="contact-line-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"
-                />
-              </svg>
-            </a>
-            <span class="contact-pair-text">leq.artur.kosma@gmail.com</span>
+          <span class="contact-plain">
+            <svg class="contact-line-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"
+              />
+            </svg>
+            leq.artur.kosma@gmail.com
           </span>
           <a href="https://www.linkedin.com/in/arturkosma">
             <svg class="contact-line-icon" viewBox="0 0 24 24" aria-hidden="true">

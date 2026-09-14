@@ -11,6 +11,14 @@ const browser = await puppeteer.launch({
 const page = await browser.newPage();
 await page.goto(src, { waitUntil: "networkidle0" });
 
+// PDF link clicks should open a new tab (same as the on-page resume).
+await page.evaluate(() => {
+  for (const a of document.querySelectorAll("a[href]")) {
+    a.setAttribute("target", "_blank");
+    a.setAttribute("rel", "noopener noreferrer");
+  }
+});
+
 // Section rules are 2 CSS-px; snap each h2 bottom to a whole CSS pixel
 // so Chrome PDF does not thin some gold bars.
 await page.evaluate(() => {

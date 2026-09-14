@@ -112,40 +112,12 @@
 
       .contact a {
         display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0;
+        flex-direction: row;
+        align-items: center;
+        gap: 4pt;
         line-height: 1.15;
         color: var(--ink-mute);
         text-decoration: none !important;
-      }
-
-      /* Explicit 2px bars — same PDF strategy as h2 section rules.
-         Solid color (no opacity) so Chrome PDF does not thicken AA.
-         Width follows each link’s own text (Brittany-style contact). */
-      .contact-rule {
-        display: block;
-        width: 100%;
-        height: 2px;
-        margin-top: 0;
-        background: var(--ink-mute);
-        opacity: 1;
-      }
-
-      .contact a[href^="tel"] .contact-rule {
-        display: none;
-      }
-
-      .contact-line {
-        flex-direction: row;
-        align-items: center;
-        gap: 4pt;
-      }
-
-      .contact a.contact-line {
-        flex-direction: row;
-        align-items: center;
-        gap: 4pt;
       }
 
       .contact-line-icon {
@@ -156,40 +128,19 @@
         fill: currentColor;
       }
 
-      .contact-line-text {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        min-width: 0;
+      /* Site stands out without an underline: domain reads as a link,
+         gold weight matches section key (Brittany-style URL, no bar). */
+      .contact-site {
+        font-weight: 600;
+        color: var(--key);
+      }
+
+      .contact-site .contact-line-icon {
+        fill: var(--key);
       }
 
       .contact-gap {
         height: 8px;
-      }
-
-      .contact-icons {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 7pt;
-        margin-top: 1pt;
-        /* Sit under phone/email text, not under their leading icons. */
-        padding-left: calc(9pt + 4pt);
-      }
-
-      .contact-icons a {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--ink-mute);
-        line-height: 0;
-      }
-
-      .contact-icons svg {
-        width: 11pt;
-        height: 11pt;
-        display: block;
-        fill: currentColor;
       }
 
       h2 {
@@ -355,45 +306,43 @@
           </p>
         </div>
         <div class="contact">
-          <a href="https://arturkosma.github.io/cv/"
-            >arturkosma.com<span class="contact-rule" aria-hidden="true"></span
-          ></a>
+          <a
+            class="contact-site"
+            href="https://arturkosma.github.io/cv/"
+            aria-label="Portfolio website"
+          >
+            <svg class="contact-line-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"
+              />
+            </svg>
+            arturkosma.com
+          </a>
           <div class="contact-gap" aria-hidden="true"></div>
-          <a class="contact-line" href="tel:+48667003707">
+          <a href="tel:+48667003707">
             <svg class="contact-line-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M6.62 10.79a15.15 15.15 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.57.57a1 1 0 011 1V20a1 1 0 01-1 1C10.4 21 3 13.6 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1.02l-2.2 2.2z"
               />
             </svg>
-            <span class="contact-line-text">(+48) 667 003 707</span>
+            (+48) 667 003 707
           </a>
-          <a class="contact-line" href="mailto:leq.artur.kosma@gmail.com">
+          <a href="mailto:leq.artur.kosma@gmail.com">
             <svg class="contact-line-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"
               />
             </svg>
-            <span class="contact-line-text">leq.artur.kosma@gmail.com</span>
+            leq.artur.kosma@gmail.com
           </a>
-          <div class="contact-icons" aria-label="Profiles">
-            <a
-              href="https://www.linkedin.com/in/arturkosma"
-              aria-label="LinkedIn"
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"
-                />
-              </svg>
-            </a>
-            <a href="https://github.com/ArturKosma" aria-label="GitHub">
-              <svg viewBox="0 0 16 16" aria-hidden="true">
-                <path
-                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
-                />
-              </svg>
-            </a>
-          </div>
+          <a href="https://www.linkedin.com/in/arturkosma">
+            <svg class="contact-line-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"
+              />
+            </svg>
+            linkedin.com/in/arturkosma
+          </a>
         </div>
       </header>
 

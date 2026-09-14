@@ -11,24 +11,14 @@ const browser = await puppeteer.launch({
 const page = await browser.newPage();
 await page.goto(src, { waitUntil: "networkidle0" });
 
-// Section / contact rules are 2 CSS-px; snap each bar bottom to a whole
-// CSS pixel so Chrome PDF does not thicken one underline vs another.
+// Section rules are 2 CSS-px; snap each h2 bottom to a whole CSS pixel
+// so Chrome PDF does not thin some gold bars.
 await page.evaluate(() => {
-  for (const el of document.querySelectorAll("h2, .contact-rule")) {
-    const rect = el.getBoundingClientRect();
-    const delta = Math.round(rect.bottom) - rect.bottom;
+  for (const el of document.querySelectorAll("h2")) {
+    const bottom = el.getBoundingClientRect().bottom;
+    const delta = Math.round(bottom) - bottom;
     if (Math.abs(delta) > 0.001) {
       el.style.transform = `translateY(${delta}px)`;
-    }
-  }
-  // Second pass after transforms settle, so contact rules match each other.
-  for (const el of document.querySelectorAll(".contact-rule")) {
-    const rect = el.getBoundingClientRect();
-    const delta = Math.round(rect.top) - rect.top;
-    if (Math.abs(delta) > 0.001) {
-      const cur = new DOMMatrixReadOnly(getComputedStyle(el).transform);
-      const y = (cur.isIdentity ? 0 : cur.m42) + delta;
-      el.style.transform = `translateY(${y}px)`;
     }
   }
 });

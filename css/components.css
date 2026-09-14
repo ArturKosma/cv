@@ -86,6 +86,21 @@
   transition: color var(--ease);
 }
 
+/*
+  Nav labels are short uppercase chrome — give each a slightly wider
+  hit target so CV (and the others) are easy to catch with a mouse.
+  Extra hit area via ::after so the timeline rail width stays put.
+*/
+.nav-actions .btn {
+  position: relative;
+}
+
+.nav-actions .btn::after {
+  content: "";
+  position: absolute;
+  inset: -0.35rem -0.7rem;
+}
+
 .btn:hover {
   color: var(--fg);
 }

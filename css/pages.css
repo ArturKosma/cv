@@ -348,6 +348,8 @@ button.contact-phone {
   background: #fff;
   overflow: hidden;
   color-scheme: light;
+  /* Soften toward PDF-viewer glyph feel (HTML ClearType reads harsher). */
+  filter: contrast(0.96);
 }
 
 .resume-sheet {

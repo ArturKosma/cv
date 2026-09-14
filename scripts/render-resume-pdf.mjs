@@ -15,10 +15,20 @@ await page.goto(src, { waitUntil: "networkidle0" });
 // CSS pixel so Chrome PDF does not thicken one underline vs another.
 await page.evaluate(() => {
   for (const el of document.querySelectorAll("h2, .contact-rule")) {
-    const bottom = el.getBoundingClientRect().bottom;
-    const delta = Math.round(bottom) - bottom;
+    const rect = el.getBoundingClientRect();
+    const delta = Math.round(rect.bottom) - rect.bottom;
     if (Math.abs(delta) > 0.001) {
       el.style.transform = `translateY(${delta}px)`;
+    }
+  }
+  // Second pass after transforms settle, so contact rules match each other.
+  for (const el of document.querySelectorAll(".contact-rule")) {
+    const rect = el.getBoundingClientRect();
+    const delta = Math.round(rect.top) - rect.top;
+    if (Math.abs(delta) > 0.001) {
+      const cur = new DOMMatrixReadOnly(getComputedStyle(el).transform);
+      const y = (cur.isIdentity ? 0 : cur.m42) + delta;
+      el.style.transform = `translateY(${y}px)`;
     }
   }
 });

@@ -1,7 +1,7 @@
 /**
  * About contact lines: click copies email / phone.
- * Email still allows drag-select (copy skipped after a drag or when text is
- * selected). Phone is not selectable — click always copies.
+ * Email text is not a mailto link so drag-select works; copy is skipped
+ * after a drag or when text is selected. Phone is not selectable.
  */
 (function () {
   async function writeClipboard(text) {
@@ -57,23 +57,36 @@
 
     el.addEventListener("pointermove", (event) => {
       if (event.buttons === 0) return;
-      if (Math.abs(event.clientX - pointerX) > 3 || Math.abs(event.clientY - pointerY) > 3) {
+      if (
+        Math.abs(event.clientX - pointerX) > 3 ||
+        Math.abs(event.clientY - pointerY) > 3
+      ) {
         dragMoved = true;
       }
     });
 
-    el.addEventListener("click", (event) => {
-      event.preventDefault();
+    function onActivate(event) {
+      if (
+        event.type === "keydown" &&
+        event.key !== "Enter" &&
+        event.key !== " "
+      ) {
+        return;
+      }
+      if (event.type === "keydown") event.preventDefault();
       if (dragMoved || hasSelection()) return;
       writeClipboard(text).then(flashCopied);
-    });
+    }
+
+    el.addEventListener("click", onActivate);
+    el.addEventListener("keydown", onActivate);
   }
 
-  const email = document.querySelector(
-    "a.contact-email[href^='mailto:'], a.contact-row--primary[href^='mailto:']"
-  );
+  const email = document.querySelector(".contact-email");
   if (email) {
-    const address = (email.getAttribute("href") || "").replace(/^mailto:/i, "").split("?")[0];
+    const address =
+      email.getAttribute("data-copy") ||
+      (email.querySelector(".contact-value")?.textContent || "").trim();
     bindCopy(email, {
       text: address,
       ariaLabel: `Copy email ${address}`,
@@ -85,10 +98,15 @@
   if (phone) {
     const raw =
       phone.getAttribute("data-copy") ||
-      (phone.querySelector(".contact-value")?.textContent || "").replace(/[^\d+]/g, "");
+      (phone.querySelector(".contact-value")?.textContent || "").replace(
+        /[^\d+]/g,
+        ""
+      );
     bindCopy(phone, {
       text: raw,
-      ariaLabel: `Copy phone ${phone.querySelector(".contact-value")?.textContent.trim() || raw}`,
+      ariaLabel: `Copy phone ${
+        phone.querySelector(".contact-value")?.textContent.trim() || raw
+      }`,
       allowSelect: false,
     });
   }

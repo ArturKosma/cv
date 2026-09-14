@@ -43,7 +43,7 @@
   justify-content: center;
   flex-wrap: wrap;
   /* Tight gaps between labels; equal inset restores the wider timeline rail
-     and centers About…Resume within that span (not the full page). */
+     and centers About…CV within that span (not the full page). */
   gap: var(--space-2) var(--nav-gap-tight);
   margin-left: auto;
   pointer-events: auto;
@@ -55,6 +55,16 @@
     Split that as equal inline padding so the cluster sits in the rail center.
   */
   padding-inline: calc((3 * var(--nav-gap-rail) - 3 * var(--nav-gap-tight)) / 2);
+}
+
+/*
+  CV is shorter than the former RESUME label. Size the last slot so the
+  timeline rail (pinned to nav left) stays wide enough for
+  “Principal Animation Engineer” without ellipsis on desktop.
+  .btn already centers the visible CV label in the slot.
+*/
+.nav-actions > :last-child {
+  min-width: 5rem;
 }
 
 .btn {

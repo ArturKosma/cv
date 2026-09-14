@@ -103,7 +103,8 @@
       .contact {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
+        width: max-content;
         gap: 4px;
         font-size: 8.5pt;
         line-height: 1.35;
@@ -120,9 +121,11 @@
       }
 
       /* Explicit 2px bars — same PDF strategy as h2 section rules.
-         Solid color (no opacity) so Chrome PDF does not thicken AA. */
+         Solid color (no opacity) so Chrome PDF does not thicken AA.
+         width 100% of the contact column (email sets the width). */
       .contact-rule {
         display: block;
+        align-self: stretch;
         width: 100%;
         height: 2px;
         margin-top: -1px;

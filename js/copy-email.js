@@ -30,7 +30,10 @@
     let pointerY = 0;
 
     el.setAttribute("aria-label", ariaLabel);
-    el.setAttribute("title", "Click to copy");
+    el.setAttribute(
+      "title",
+      allowSelect ? "Drag to select, or click to copy" : "Click to copy"
+    )
 
     function flashCopied() {
       window.clearTimeout(resetTimer);

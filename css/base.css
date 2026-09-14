@@ -92,7 +92,7 @@ a[href^="mailto:"] *,
 .contact-email * {
   -webkit-user-select: text;
   user-select: text;
-  cursor: pointer;
+  cursor: text;
 }
 
 img,

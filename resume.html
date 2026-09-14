@@ -4,13 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0f1412" />
-    <link rel="icon" href="assets/favicon.svg?v=308" type="image/svg+xml" />
+    <link rel="icon" href="assets/favicon.svg?v=309" type="image/svg+xml" />
     <meta name="description" content="Resume — Artur Kosma." />
     <title>Resume — Artur Kosma</title>
-    <link rel="stylesheet" href="css/tokens.css?v=308" />
-    <link rel="stylesheet" href="css/base.css?v=308" />
-    <link rel="stylesheet" href="css/components.css?v=308" />
-    <link rel="stylesheet" href="css/pages.css?v=308" />
+    <link rel="stylesheet" href="css/tokens.css?v=309" />
+    <link rel="stylesheet" href="css/base.css?v=309" />
+    <link rel="stylesheet" href="css/components.css?v=309" />
+    <link rel="stylesheet" href="css/pages.css?v=309" />
   </head>
   <body class="page-resume">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -50,12 +50,44 @@
         <div class="resume-frame">
           <iframe
             class="resume-page resume-page--live"
-            src="assets/resume/resume-source.html?v=308"
+            src="assets/resume/resume-source.html?v=309"
             title="Artur Kosma resume — selectable text; site and LinkedIn are links"
             loading="lazy"
+            scrolling="no"
           ></iframe>
         </div>
       </div>
     </main>
+    <script>
+      /* Size the live resume iframe to its content so only the site scrolls. */
+      (function () {
+        const frame = document.querySelector(".resume-page--live");
+        if (!frame) return;
+
+        function fit() {
+          try {
+            const doc = frame.contentDocument;
+            if (!doc || !doc.body) return;
+            const h = Math.ceil(
+              Math.max(
+                doc.body.scrollHeight,
+                doc.documentElement.scrollHeight,
+                doc.body.offsetHeight,
+                doc.documentElement.offsetHeight
+              )
+            );
+            if (h > 0) frame.style.height = h + "px";
+          } catch (_) {
+            /* ignore cross-origin / unload */
+          }
+        }
+
+        frame.addEventListener("load", fit);
+        window.addEventListener("resize", fit);
+        if (frame.contentDocument && frame.contentDocument.readyState === "complete") {
+          fit();
+        }
+      })();
+    </script>
   </body>
 </html>

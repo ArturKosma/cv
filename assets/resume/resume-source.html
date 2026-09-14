@@ -32,6 +32,10 @@
         padding: 0;
       }
 
+      html {
+        overflow: hidden;
+      }
+
       body {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         color: var(--ink);
@@ -45,10 +49,13 @@
            letter frame looks like the printed page. Print uses @page /
            Puppeteer margins instead — drop body padding there. */
         padding: 0.55in 0.65in;
+        overflow: hidden;
       }
 
       @media print {
+        html,
         body {
+          overflow: visible;
           padding: 0;
         }
       }

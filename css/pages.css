@@ -321,13 +321,13 @@ button.contact-phone {
 }
 
 /*
-  Full US-letter preview — live HTML resume (text select + contact links),
-  not a PNG and not browser PDF chrome.
+  Live HTML resume preview (text select + contact links).
+  Height is set to content via resume.html so only the site scrolls —
+  no nested iframe scrollbar.
 */
 .resume-frame {
   width: 100%;
   margin: 0;
-  aspect-ratio: 8.5 / 11;
   background: #fff;
   border: 1px solid color-mix(in srgb, var(--fg) 12%, transparent);
   overflow: hidden;
@@ -340,11 +340,13 @@ button.contact-phone {
 }
 
 .resume-page--live {
+  display: block;
   width: 100%;
-  height: 100%;
+  /* Placeholder until JS measures content; then exact content height */
+  height: 0;
   border: 0;
   background: #fff;
-  /* Allow selecting resume text inside the iframe */
+  overflow: hidden;
   color-scheme: light;
 }
 

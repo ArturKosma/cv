@@ -137,7 +137,7 @@
   transition: color var(--ease);
   -webkit-user-select: text;
   user-select: text;
-  cursor: text;
+  cursor: pointer;
 }
 
 .contact-line:focus-visible,
@@ -171,20 +171,15 @@
   transition: color var(--ease);
   -webkit-user-select: text;
   user-select: text;
-  cursor: text;
+  cursor: pointer;
 }
 
-.contact-email,
+.contact-line *,
+.contact-line *::before,
+.contact-line *::after,
 .contact-email *,
 .contact-email *::before,
 .contact-email *::after {
-  cursor: text;
-}
-
-.contact-line:not(.contact-email):not(.contact-phone),
-.contact-line:not(.contact-email):not(.contact-phone) *,
-.contact-line:not(.contact-email):not(.contact-phone) *::before,
-.contact-line:not(.contact-email):not(.contact-phone) *::after {
   cursor: pointer;
 }
 

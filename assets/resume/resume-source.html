@@ -150,6 +150,27 @@
         text-decoration: none !important;
       }
 
+      .contact-link-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 4pt;
+        margin-left: 1pt;
+        color: #6f7771;
+        font-size: 6pt;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        line-height: 1;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .contact-link-label::before {
+        content: "";
+        width: 7pt;
+        height: 1px;
+        background: var(--key-line);
+      }
+
       /* Plain email row: same flex rhythm as .contact a; no link = selectable text */
       .contact-plain {
         display: flex;
@@ -358,6 +379,7 @@
               />
             </svg>
             arturkosma.com
+            <span class="contact-link-label" aria-hidden="true">Portfolio</span>
           </a>
           <span class="contact-plain">
             <svg class="contact-line-icon" viewBox="0 0 24 24" aria-hidden="true">

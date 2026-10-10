@@ -9,7 +9,7 @@
     <title>Samples — Artur Kosma</title>
     <link rel="stylesheet" href="css/tokens.css?v=328" />
     <link rel="stylesheet" href="css/base.css?v=328" />
-    <link rel="stylesheet" href="css/components.css?v=328" />
+    <link rel="stylesheet" href="css/components.css?v=331" />
     <link rel="stylesheet" href="css/pages.css?v=328" />
   </head>
   <body class="page-samples">
@@ -71,16 +71,43 @@
                   class="media-slot"
                   data-media-slot
                   data-type="video"
-                  data-src="assets/portfolio/locomotor/media-2.mp4?v=328"
+                  data-src="assets/portfolio/locomotor/media-2.mp4?v=330"
+                  data-poster="assets/portfolio/locomotor/poster-2.webp?v=330"
                   data-alt="Locomotor sample 2"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
                   </div>
                 </div>
-                <p class="project-detail">
-                  Placeholder: short note on setup and result.
-                </p>
+                <div class="project-detail">
+                  <p>
+                    Epic’s original Locomotor ground probes were hardcoded to world Z, limiting foot placement on walls and ceilings.
+                    I removed that limitation in the source code, making the probes follow the rig’s orientation.
+                    The spider now adapts to any surface angle, including a full 180° inversion.
+                  </p>
+                  <p>
+                    <code>Offset</code> sets the direction and reach of the sphere probe used to find each foot’s contact point.
+                  </p>
+                  <div class="code-compare" aria-label="Ground probe offset before and after, simplified">
+                    <figure class="code-panel">
+                      <figcaption>
+                        <span>Before</span>
+                        <span class="code-panel__file">LocomotorCore.cpp</span>
+                      </figcaption>
+                      <pre><code>const FVector Offset = FVector(0, 0, MaxHeight);</code></pre>
+                    </figure>
+                    <figure class="code-panel">
+                      <figcaption>
+                        <span>After</span>
+                        <span class="code-panel__file">MyLocomotorCore.cpp</span>
+                      </figcaption>
+                      <pre><code>const FVector LocalUp = Foot.ReferenceWorld
+    .GetRotation().GetUpVector();
+
+const FVector Offset = LocalUp * MaxHeight;</code></pre>
+                    </figure>
+                  </div>
+                </div>
               </div>
             </div>
           </details>

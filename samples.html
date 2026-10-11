@@ -9,7 +9,7 @@
     <title>Samples — Artur Kosma</title>
     <link rel="stylesheet" href="css/tokens.css?v=328" />
     <link rel="stylesheet" href="css/base.css?v=328" />
-    <link rel="stylesheet" href="css/components.css?v=342" />
+    <link rel="stylesheet" href="css/components.css?v=343" />
     <link rel="stylesheet" href="css/pages.css?v=328" />
   </head>
   <body class="page-samples">
@@ -43,7 +43,7 @@
                 ></video>
               </div>
               <div class="project-copy">
-                <span class="project-name">Procedural Spider Locomotion</span>
+                <span class="project-name" role="heading" aria-level="2">Procedural Spider Locomotion</span>
                 <span class="project-blurb">Epic’s Locomotor extended with custom foot placement and physics.</span>
               </div>
             </summary>
@@ -62,9 +62,10 @@
                   </div>
                 </div>
                 <div class="project-detail">
+                  <h3 class="project-detail__title">Uneven terrain</h3>
                   <p>
-                    I used Epic’s <a href="https://dev.epicgames.com/community/learning/tutorials/EkxO/unreal-engine-procedural-animation-with-a-locomotor" target="_blank" rel="noopener">Locomotor</a> plugin as the foundation for procedural spider locomotion.
-                    The Control Rig setup generates steps at runtime and adapts foot placement to uneven terrain.
+                    I built the spider’s gait on Epic’s <a href="https://dev.epicgames.com/community/learning/tutorials/EkxO/unreal-engine-procedural-animation-with-a-locomotor" target="_blank" rel="noopener">Locomotor</a>,
+                    with runtime stepping and foot placement that adapts to uneven terrain.
                   </p>
                   <figure class="project-illustration">
                     <img
@@ -77,8 +78,7 @@
                       decoding="async"
                     />
                     <figcaption>
-                      The Locomotor node generates target transforms for each foot.
-                      I feed these into Full Body IK to solve the spider’s leg poses.
+                      Locomotor provides foot targets; Full Body IK solves the leg poses.
                     </figcaption>
                   </figure>
                 </div>
@@ -97,9 +97,10 @@
                   </div>
                 </div>
                 <div class="project-detail">
+                  <h3 class="project-detail__title">Any orientation</h3>
                   <p>
-                    Epic’s ground probes were locked to world Z. I fixed the source to follow the rig’s orientation,
-                    so the spider adapts to any angle, including a full 180° inversion.
+                    Epic’s probes assumed world Z. I fixed them to follow the rig’s orientation,
+                    including full 180° inversions.
                   </p>
                   <p>
                     <code>Offset</code> sets the ground probe’s direction and reach.
@@ -134,9 +135,10 @@ const FVector Offset = LocalUp * MaxHeight;</code></pre>
                   </div>
                 </div>
                 <div class="project-detail">
+                  <h3 class="project-detail__title">Narrow supports</h3>
                   <p>
-                    The spider adapts its footing as the support widens or narrows. I added inward sphere casts
-                    to Epic’s Locomotor to find side contacts when the ground probe misses.
+                    I added inward sphere casts to find side contacts
+                    when Epic’s ground probes miss narrow supports.
                   </p>
                   <div class="code-compare" aria-label="Added inward probe direction and endpoint, excerpt">
                     <figure class="code-panel">
@@ -165,9 +167,9 @@ const FVector End = RefLocation
                   </div>
                 </div>
                 <div class="project-detail">
+                  <h3 class="project-detail__title">Automatic surface alignment</h3>
                   <p>
-                    The spider’s reference automatically adjusts pitch and roll to nearby geometry.
-                    I derive its tilt from <code>PlantNormal</code>, the combined normal of surrounding sphere probes.
+                    I use the combined normal of surrounding sphere probes to align the rig’s pitch and roll.
                   </p>
                   <div class="code-compare" aria-label="Plant normal calculation and reference tilt, pseudocode">
                     <figure class="code-panel">
@@ -202,6 +204,7 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                   </div>
                 </div>
                 <div class="project-detail">
+                  <h3 class="project-detail__title">Physical response</h3>
                   <p>
                     I integrated <a href="https://dev.epicgames.com/community/learning/tutorials/rpYD/unreal-engine-control-rig-physics" target="_blank" rel="noopener">Control Rig Physics</a> after Locomotor and Full Body IK.
                     Spring-damped bodies add inertia and world-collision response, while kinematic anchors preserve procedural control.

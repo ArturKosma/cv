@@ -120,6 +120,38 @@ const FVector Offset = LocalUp * MaxHeight;</code></pre>
                   </div>
                 </div>
               </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/locomotor/media-3.mp4?v=336"
+                  data-poster="assets/portfolio/locomotor/poster-3.webp?v=336"
+                  data-alt="Spider adapting its footing to changing support widths"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <p>
+                    The spider adapts its footing as the support widens or narrows. I added inward sphere casts
+                    to Epic’s Locomotor to find side contacts when the ground probe misses.
+                  </p>
+                  <div class="code-compare" aria-label="Added inward probe direction and endpoint, excerpt">
+                    <span class="code-compare__file">MyLocomotorCore.cpp</span>
+                    <figure class="code-panel">
+                      <figcaption>Added inward probe</figcaption>
+                      <pre><code>FVector TowardBody = BodyLocation - RefLocation;
+TowardBody.Normalize();
+
+const FVector End = RefLocation
+    + LocalDown * InwardProbeDistanceDown
+    + TowardBody * InwardProbeDistance;</code></pre>
+                    </figure>
+                  </div>
+                </div>
+              </div>
             </div>
           </details>
         </li>

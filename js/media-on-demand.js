@@ -50,6 +50,14 @@
       if (poster) video.poster = poster;
       if (preview) {
         frame.appendChild(preview);
+        if (poster) {
+          // Upgrade the tiny inline frame without blanking it during the fetch.
+          const fullPreview = new Image();
+          fullPreview.src = poster;
+          fullPreview.decode().then(() => {
+            if (preview.isConnected) preview.src = poster;
+          }).catch(() => {});
+        }
         // Autoplay can hide the native poster before the first frame is ready.
         const revealVideo = () => preview.remove();
         if (typeof video.requestVideoFrameCallback === "function") {

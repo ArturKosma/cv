@@ -537,8 +537,10 @@ details[data-project][open]::details-content {
 
 .code-panel pre {
   margin: 0;
-  padding: 0.55rem 0.65rem;
+  padding: 0.4rem 0.65rem;
   overflow-x: auto;
+  font-size: 0.68rem;
+  line-height: 1.45;
 }
 
 .code-panel code {
@@ -574,14 +576,16 @@ details[data-project][open]::details-content {
   background: rgba(10, 14, 12, 0.35);
 }
 
+@media (max-width: 1024px) {
+  .project-beat {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+}
+
 @media (max-width: 720px) {
   .project-list summary {
     grid-template-columns: minmax(6rem, 8rem) minmax(0, 1fr);
-    gap: var(--space-3);
-  }
-
-  .project-beat {
-    grid-template-columns: 1fr;
     gap: var(--space-3);
   }
 }

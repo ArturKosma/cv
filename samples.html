@@ -9,7 +9,7 @@
     <title>Samples — Artur Kosma</title>
     <link rel="stylesheet" href="css/tokens.css?v=328" />
     <link rel="stylesheet" href="css/base.css?v=328" />
-    <link rel="stylesheet" href="css/components.css?v=332" />
+    <link rel="stylesheet" href="css/components.css?v=334" />
     <link rel="stylesheet" href="css/pages.css?v=328" />
   </head>
   <body class="page-samples">
@@ -81,12 +81,11 @@
                 </div>
                 <div class="project-detail">
                   <p>
-                    Epic’s original Locomotor ground probes were hardcoded to world Z, limiting foot placement on walls and ceilings.
-                    I removed that limitation in the source code, making the probes follow the rig’s orientation.
-                    The spider now adapts to any surface angle, including a full 180° inversion.
+                    Epic’s ground probes were locked to world Z. I fixed the source to follow the rig’s orientation,
+                    so the spider adapts to any angle, including a full 180° inversion.
                   </p>
                   <p>
-                    <code>Offset</code> sets the direction and reach of the sphere probe used to find each foot’s contact point.
+                    <code>Offset</code> sets the ground probe’s direction and reach.
                   </p>
                   <div class="code-compare" aria-label="Ground probe offset before and after, simplified">
                     <span class="code-compare__file">LocomotorCore.cpp</span>

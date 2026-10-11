@@ -431,6 +431,7 @@ details[data-project][open]::details-content {
 }
 
 .project-thumb {
+  position: relative;
   min-width: 0;
 }
 
@@ -587,7 +588,7 @@ details[data-project][open]::details-content {
   position: relative;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  background: rgba(232, 236, 233, 0.04);
+  background: var(--bg);
 }
 
 .media-slot__frame img,
@@ -602,43 +603,22 @@ details[data-project][open]::details-content {
   display: block;
 }
 
-.media-slot__loading {
+.media-slot__poster {
   position: absolute;
   inset: 0;
   z-index: 1;
-  display: grid;
-  place-items: center;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   background: var(--bg);
   pointer-events: none;
-}
-
-.media-slot__loading[hidden] {
-  display: none;
-}
-
-.media-slot__loading-label {
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: 0.12em;
-  animation: media-loading-pulse 1.6s ease-in-out infinite;
-}
-
-@keyframes media-loading-pulse {
-  0%, 100% { opacity: 0.55; }
-  50% { opacity: 0.9; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .media-slot__loading-label {
-    animation: none;
-  }
 }
 
 .media-slot__placeholder {
   width: 100%;
   height: 100%;
-  background: rgba(10, 14, 12, 0.35);
+  background: var(--bg);
 }
 
 @media (max-width: 1024px) {

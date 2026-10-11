@@ -684,6 +684,92 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
           </details>
         </li>
 
+        <li>
+          <details data-project data-project-id="motionmatching-locomotion">
+            <summary>
+              <div class="project-thumb">
+                <video
+                  class="thumb-video"
+                  src="assets/portfolio/motionmatching-locomotion/thumb.mp4?v=355"
+                  data-poster="assets/portfolio/motionmatching-locomotion/thumb.webp?v=355"
+                  muted
+                  playsinline
+                  loop
+                  autoplay
+                  preload="auto"
+                  aria-hidden="true"
+                ></video>
+              </div>
+              <div class="project-copy">
+                <span class="project-name" role="heading" aria-level="2">Motionmatching Locomotion</span>
+                <span class="project-blurb">Chernobylite 2: Unreal motion matching with procedural weapon posing.</span>
+              </div>
+            </summary>
+            <div class="project-body">
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/motionmatching-locomotion/media-1.mp4?v=355"
+                  data-poster="assets/portfolio/motionmatching-locomotion/poster.webp?v=355"
+                  data-alt="Chernobylite 2's main hero running, changing direction and moving while crouched"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Main Hero Locomotion</h3>
+                  <p>
+                    I integrated Unreal Engine’s motion matching for the main hero in Chernobylite 2.
+                    The same unarmed locomotion set drives running, turns and crouching,
+                    with weapon poses layered over the movement.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/motionmatching-locomotion/media-2.mp4?v=355"
+                  data-poster="assets/portfolio/motionmatching-locomotion/poster-2.webp?v=355"
+                  data-alt="The hero carrying a launcher, rifle and two-handed weapon, followed by unarmed movement"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Procedural Weapon Posing</h3>
+                  <p>
+                    I author one holding pose per weapon and reuse unarmed locomotion.
+                    The Animation Blueprint converts whole-character movement into an additive
+                    relative to neutral idle, then applies it over the weapon pose.
+                  </p>
+                  <p>
+                    Per-weapon data sets additive alphas for each clavicle, upper arm and forearm.
+                    The arms carry the hands procedurally while preserving the authored grip.
+                  </p>
+                  <figure class="project-diagram">
+                    <img
+                      class="project-diagram__image"
+                      src="assets/portfolio/motionmatching-locomotion/additive-flow.svg?v=355"
+                      width="400"
+                      height="104"
+                      alt="Unarmed locomotion and neutral idle feed Make Dynamic Additive to produce additive motion."
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <figcaption>Animation Blueprint flow, simplified.</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+          </details>
+        </li>
+
       </ul>
     </main>
     <script src="js/media-on-demand.js?v=348" defer></script>

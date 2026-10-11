@@ -765,6 +765,115 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
           </details>
         </li>
 
+        <li>
+          <details data-project data-project-id="animflex" id="animflex">
+            <summary>
+              <div class="project-thumb">
+                <video
+                  class="thumb-video"
+                  src="assets/portfolio/animflex/thumb.mp4?v=357"
+                  data-poster="assets/portfolio/animflex/thumb.webp?v=357"
+                  muted
+                  playsinline
+                  loop
+                  autoplay
+                  preload="auto"
+                  aria-hidden="true"
+                ></video>
+              </div>
+              <div class="project-copy">
+                <span class="project-name" role="heading" aria-level="2">OpenGL Locomotion &amp; Animation Graph</span>
+                <span class="project-blurb">animFlex: a C++ renderer, runtime animation graph, and custom CCD IK.</span>
+              </div>
+            </summary>
+            <div class="project-body">
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/animflex/media-1.mp4?v=357"
+                  data-poster="assets/portfolio/animflex/poster.webp?v=357"
+                  data-alt="The orange animFlex character running, turning and crouching in my custom OpenGL renderer"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Rendering From Scratch</h3>
+                  <p>
+                    I built animFlex in C++, writing the OpenGL renderer and locomotion
+                    system from scratch, without a game engine or animation plugins.
+                    The renderer uses dual-quaternion skinning.
+                  </p>
+                  <p>
+                    Emscripten compiles the C++ code to WebAssembly, so the same project
+                    runs in the browser with WebGL.
+                  </p>
+                  <p>
+                    <a href="https://github.com/ArturKosma/Learning/tree/main/animFlex/source" target="_blank" rel="noopener">C++ source</a>
+                    &middot; <a href="https://arturkosma.github.io/Learning/" target="_blank" rel="noopener">Try the live demo</a>
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/animflex/media-2.mp4?v=357"
+                  data-poster="assets/portfolio/animflex/poster-2.webp?v=357"
+                  data-alt="My adapted Rete.js editor adding and connecting an animation state while the graph is running"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Live Animation Graph</h3>
+                  <p>
+                    I adapted Rete.js to build the node editor and connected it to my
+                    C++ animation runtime. Nodes, connections and parameters update
+                    the running graph immediately, without a graph compilation step.
+                  </p>
+                  <p>
+                    <a href="https://github.com/ArturKosma/Learning/tree/main/animFlex/graph" target="_blank" rel="noopener">Graph editor source</a>
+                    &middot; <a href="https://github.com/ArturKosma/Learning/blob/main/animFlex/source/AFAnimGraph.cpp" target="_blank" rel="noopener">C++ graph runtime</a>
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/animflex/media-3.mp4?v=357"
+                  data-poster="assets/portfolio/animflex/poster-3.webp?v=357"
+                  data-alt="My CCD IK solver moving the character's foot as target values change in the inset animation node"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Custom CCD IK</h3>
+                  <p>
+                    I implemented cyclic coordinate descent IK in C++, with knee hinge
+                    limits and smooth blending into the animated pose. Changing the
+                    target moves the foot in real time; the inset shows the CCD IK
+                    node driving the solve.
+                  </p>
+                  <p>
+                    <a href="https://github.com/ArturKosma/Learning/blob/main/animFlex/source/AFUtility.cpp#L166" target="_blank" rel="noopener">CCD IK source</a>
+                    &middot; <a href="https://github.com/ArturKosma/Learning/blob/main/animFlex/source/AFGraphNode_CCDIK.cpp" target="_blank" rel="noopener">Animation graph node</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </details>
+        </li>
+
       </ul>
     </main>
     <script src="js/media-on-demand.js?v=348" defer></script>

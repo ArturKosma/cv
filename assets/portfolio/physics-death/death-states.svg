@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="216" viewBox="0 0 400 216" role="img" aria-labelledby="title desc">
+  <title id="title">Death-reaction state machine</title>
+  <desc id="desc">Normal progresses to Stumbling after a lethal hit, then Falling, Grounded, and Dead. Losing a leg skips Stumbling and transitions directly from Normal to Falling.</desc>
+  <defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="#c4a35a"/></marker></defs>
+  <g fill="none" stroke="#c4a35a" stroke-width="1.5" marker-end="url(#arrow)">
+    <path d="M190 36v12"/><path d="M190 78v12"/><path d="M190 120v12"/><path d="M190 162v12"/>
+    <path d="M128 22H90v84h36" stroke-dasharray="4 4"/>
+  </g>
+  <g fill="#151d18" stroke="#69756d" stroke-width="1">
+    <rect x="128" y="8" width="124" height="28" rx="3"/><rect x="128" y="50" width="124" height="28" rx="3"/>
+    <rect x="128" y="92" width="124" height="28" rx="3"/><rect x="128" y="134" width="124" height="28" rx="3"/>
+    <rect x="128" y="176" width="124" height="28" rx="3" stroke="#c4a35a"/>
+  </g>
+  <g fill="#e8ece9" font-family="Segoe UI, sans-serif" font-size="15" text-anchor="middle">
+    <text x="190" y="27">Normal</text><text x="190" y="69">Stumbling</text><text x="190" y="111">Falling</text>
+    <text x="190" y="153">Grounded</text><text x="190" y="195">Dead</text>
+  </g>
+  <g fill="#a9b3ac" font-family="Segoe UI, sans-serif" font-size="13">
+    <text x="266" y="47">Lethal hit</text><text x="266" y="89">Ready to fall</text>
+    <text x="266" y="131">On ground</text><text x="266" y="173">Timer / hit</text>
+    <text x="28" y="58">Leg loss</text>
+  </g>
+</svg>

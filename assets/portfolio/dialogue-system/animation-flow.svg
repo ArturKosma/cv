@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="352" viewBox="0 0 400 352" role="img" aria-labelledby="title desc">
+  <title id="title">How the dialogue animation layers combine</title>
+  <desc id="desc">The numbers refer to the four sample videos. One: iPhone-recorded emotion loops have their mouth curves muted while speaking. Two: FaceFX lip sync generated from voice audio has brow and eye curves filtered out. These two facial layers blend by taking the maximum value of each curve. Three: procedural head and eye tracking supplies attention to the dialogue partner. Four: the combined result powers every dialogue in Chernobylite 2.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0 0L6 3L0 6" fill="#c4a35a"/>
+    </marker>
+  </defs>
+  <g fill="none" stroke="#c4a35a" stroke-width="1.5" stroke-linejoin="round">
+    <path d="M100 108v20h200"/>
+    <path d="M300 108v46" marker-end="url(#arrow)"/>
+    <path d="M300 246v18H200"/>
+    <path d="M100 246v18h100v16" marker-end="url(#arrow)"/>
+  </g>
+  <g fill="#c4a35a">
+    <circle cx="300" cy="128" r="2.5"/>
+    <circle cx="200" cy="264" r="2.5"/>
+  </g>
+  <g fill="#151d18" stroke="#69756d" stroke-width="1">
+    <rect x="8" y="8" width="184" height="100" rx="3"/>
+    <rect x="208" y="8" width="184" height="100" rx="3"/>
+    <rect x="8" y="154" width="184" height="92" rx="3"/>
+    <rect x="208" y="154" width="184" height="92" rx="3" stroke="#c4a35a"/>
+    <rect x="60" y="280" width="280" height="64" rx="3" stroke="#c4a35a"/>
+  </g>
+  <g fill="#e8ece9" font-family="Segoe UI, sans-serif" font-size="16" font-weight="600" text-anchor="middle">
+    <text x="100" y="34">1 · Emotion loops</text>
+    <text x="300" y="34">2 · FaceFX lip sync</text>
+    <text x="100" y="180">3 · Head + eyes</text>
+    <text x="300" y="180">Curve blend · MAX</text>
+    <text x="200" y="306">4 · Every dialogue</text>
+  </g>
+  <g fill="#a9b3ac" font-family="Segoe UI, sans-serif" font-size="14" text-anchor="middle">
+    <text x="100" y="60">iPhone capture</text>
+    <text x="100" y="83">Mute mouth in speech</text>
+    <text x="300" y="60">Voice audio</text>
+    <text x="300" y="83">Filter brow + eye curves</text>
+    <text x="100" y="205">Procedural tracking</text>
+    <text x="100" y="227">Follow dialogue partner</text>
+    <text x="300" y="205">Higher value</text>
+    <text x="300" y="227">for each facial curve</text>
+    <text x="200" y="330">Emotion + lip sync + attention</text>
+  </g>
+</svg>

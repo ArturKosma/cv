@@ -9,7 +9,7 @@
     <title>Samples — Artur Kosma</title>
     <link rel="stylesheet" href="css/tokens.css?v=328" />
     <link rel="stylesheet" href="css/base.css?v=328" />
-    <link rel="stylesheet" href="css/components.css?v=340" />
+    <link rel="stylesheet" href="css/components.css?v=342" />
     <link rel="stylesheet" href="css/pages.css?v=328" />
   </head>
   <body class="page-samples">
@@ -206,22 +206,17 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                     I layered Epic’s <a href="https://dev.epicgames.com/documentation/unreal-engine/API/Plugins/ControlRigPhysics" target="_blank" rel="noopener">Control Rig Physics</a> over the procedural pose.
                     Spring dampers drive procedurally generated bodies toward their targets, adding inertia and natural follow-through. The bodies also collide with world geometry.
                   </p>
-                  <figure class="project-illustration project-illustration--wide">
-                    <a href="assets/portfolio/locomotor/physics-components.png?v=340" target="_blank" rel="noopener" aria-label="View the physics component graph at full size">
-                      <span class="project-illustration__crop" style="--image-width: 1066; --crop-width: 975; --crop-height: 309; --crop-left: 40; --crop-top: 43;">
-                        <img
-                          class="project-illustration__image"
-                          src="assets/portfolio/locomotor/physics-components.png?v=340"
-                          width="1066"
-                          height="372"
-                          alt="Control Rig graph spawning a physics solver, then physics bodies and controls for the PhysicsBones array."
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      </span>
-                    </a>
+                  <figure class="project-diagram">
+                    <ol class="flow-diagram" aria-label="Physics component setup">
+                      <li class="flow-diagram__step">Create physics solver</li>
+                      <li class="flow-diagram__step"><span>For each bone in <code>PhysicsBones</code></span></li>
+                      <li class="flow-diagram__step">
+                        <span>Spawn body + simulation-space control</span>
+                        <span class="flow-diagram__note">Add joint unless the bone is the root.</span>
+                      </li>
+                    </ol>
                     <figcaption>
-                      Physics bodies and controls are spawned for each selected bone.
+                      <a class="project-diagram__link" href="assets/portfolio/locomotor/physics-components.png?v=342" data-image-viewer="physics-graph" aria-haspopup="dialog" aria-controls="physics-graph">View Control Rig graph</a>
                     </figcaption>
                   </figure>
                 </div>
@@ -402,6 +397,26 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
         </li>
       </ul>
     </main>
+    <dialog class="image-viewer" id="physics-graph" data-image-viewer-dialog aria-labelledby="physics-graph-title">
+      <div class="image-viewer__header">
+        <h2 class="image-viewer__title" id="physics-graph-title">Control Rig physics graph</h2>
+        <div class="image-viewer__controls">
+          <button class="image-viewer__button" type="button" data-image-viewer-fit>Fit graph</button>
+          <button class="image-viewer__button" type="button" data-image-viewer-zoom-out aria-label="Zoom out">−</button>
+          <button class="image-viewer__button" type="button" data-image-viewer-zoom-in aria-label="Zoom in">+</button>
+          <output class="image-viewer__scale" data-image-viewer-scale aria-live="polite">100%</output>
+          <form method="dialog">
+            <button class="image-viewer__button" autofocus>Close</button>
+          </form>
+        </div>
+      </div>
+      <div class="image-viewer__viewport" data-image-viewer-viewport tabindex="0" role="region" aria-label="Scrollable Control Rig graph">
+        <div class="image-viewer__crop" data-image-viewer-crop data-width="1420" style="--image-width: 1561; --crop-width: 1420; --crop-height: 452; --crop-left: 80; --crop-top: 68;">
+          <img class="image-viewer__image" data-image-viewer-image width="1561" height="571" alt="Original Control Rig graph creating a physics solver and spawning bodies, controls, and joints for selected bones." decoding="async" />
+        </div>
+      </div>
+    </dialog>
     <script src="js/media-on-demand.js?v=328" defer></script>
+    <script src="js/image-viewer.js?v=342" defer></script>
   </body>
 </html>

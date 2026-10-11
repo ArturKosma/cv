@@ -602,11 +602,37 @@ details[data-project][open]::details-content {
   display: block;
 }
 
-.media-slot__poster {
+.media-slot__loading {
   position: absolute;
   inset: 0;
   z-index: 1;
-  display: block;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  pointer-events: none;
+}
+
+.media-slot__loading[hidden] {
+  display: none;
+}
+
+.media-slot__loading-label {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+  animation: media-loading-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes media-loading-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.9; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media-slot__loading-label {
+    animation: none;
+  }
 }
 
 .media-slot__placeholder {

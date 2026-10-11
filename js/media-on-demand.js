@@ -1,20 +1,28 @@
 /**
  * On-demand media loader for portfolio/experience slots.
- * Heavy media.* files load only after <details> opens.
- * Expand videos autoplay muted in a loop — no player chrome or interaction.
+ * Expanded videos stream immediately; only actual buffering shows LOADING.
  */
 (function () {
+  function createLoading() {
+    const loading = document.createElement("div");
+    loading.className = "media-slot__loading";
+    loading.setAttribute("role", "status");
+    const label = document.createElement("span");
+    label.className = "media-slot__loading-label";
+    label.textContent = "LOADING";
+    loading.appendChild(label);
+    return loading;
+  }
+
   function loadSlot(slot) {
     if (!slot || slot.dataset.loaded === "true") return;
 
     const frame = slot.querySelector("[data-media-frame]");
     if (!frame) return;
 
-    const poster = slot.dataset.poster;
     const src = slot.dataset.src;
     const type = slot.dataset.type || "video";
-
-    const preview = frame.querySelector(".media-slot__poster");
+    const loading = frame.querySelector(".media-slot__loading");
     frame.replaceChildren();
 
     if (!src) {
@@ -40,37 +48,26 @@
       video.loop = true;
       video.autoplay = true;
       video.playsInline = true;
-      video.preload = "metadata";
+      video.preload = "auto";
       video.setAttribute("muted", "");
       video.setAttribute("playsinline", "");
       video.setAttribute("aria-hidden", "true");
       video.tabIndex = -1;
       video.disablePictureInPicture = true;
       video.disableRemotePlayback = true;
-      if (poster) video.poster = poster;
-      if (preview) {
-        frame.appendChild(preview);
-        if (poster) {
-          // Upgrade the tiny inline frame without blanking it during the fetch.
-          const fullPreview = new Image();
-          fullPreview.src = poster;
-          fullPreview.decode().then(() => {
-            if (preview.isConnected) preview.src = poster;
-          }).catch(() => {});
-        }
-        // Autoplay can hide the native poster before the first frame is ready.
-        const revealVideo = () => preview.remove();
-        if (typeof video.requestVideoFrameCallback === "function") {
-          video.requestVideoFrameCallback(revealVideo);
-        } else {
-          video.addEventListener("loadeddata", revealVideo, { once: true });
-        }
-      }
+
+      const indicator = loading || createLoading();
+      const showLoading = () => { indicator.hidden = false; };
+      video.addEventListener("playing", () => { indicator.hidden = true; });
+      video.addEventListener("waiting", showLoading);
+      video.addEventListener("emptied", showLoading);
+      video.addEventListener("error", showLoading);
+      video.addEventListener("contextmenu", (event) => event.preventDefault());
       video.src = src;
-      video.addEventListener("contextmenu", (e) => e.preventDefault());
-      frame.appendChild(video);
+      frame.append(video, indicator);
+      // Request playback now; do not wait for the whole file or canplaythrough.
       const play = video.play();
-      if (play && typeof play.catch === "function") play.catch(() => {});
+      if (play && typeof play.catch === "function") play.catch(showLoading);
     }
 
     slot.dataset.loaded = "true";

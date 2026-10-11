@@ -9,7 +9,7 @@
     <title>Samples — Artur Kosma</title>
     <link rel="stylesheet" href="css/tokens.css?v=328" />
     <link rel="stylesheet" href="css/base.css?v=328" />
-    <link rel="stylesheet" href="css/components.css?v=334" />
+    <link rel="stylesheet" href="css/components.css?v=335" />
     <link rel="stylesheet" href="css/pages.css?v=328" />
   </head>
   <body class="page-samples">
@@ -61,10 +61,27 @@
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
                   </div>
                 </div>
-                <p class="project-detail">
-                  I used Epic’s Locomotor plugin as the foundation for procedural spider locomotion.
-                  The Control Rig setup generates steps at runtime and adapts foot placement to uneven terrain.
-                </p>
+                <div class="project-detail">
+                  <p>
+                    I used Epic’s Locomotor plugin as the foundation for procedural spider locomotion.
+                    The Control Rig setup generates steps at runtime and adapts foot placement to uneven terrain.
+                  </p>
+                  <div class="project-illustration">
+                    <img
+                      class="project-illustration__image"
+                      src="assets/portfolio/locomotor/locomotor-node.png"
+                      width="407"
+                      height="367"
+                      alt="My Locomotor Control Rig node with a Feet Transforms output."
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <p>
+                      The Locomotor node generates target transforms for each foot.
+                      I feed these into Full Body IK to solve the spider’s leg poses.
+                    </p>
+                  </div>
+                </div>
               </div>
               <div class="project-beat">
                 <div

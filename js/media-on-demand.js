@@ -14,6 +14,7 @@
     const src = slot.dataset.src;
     const type = slot.dataset.type || "video";
 
+    const preview = frame.querySelector(".media-slot__poster");
     frame.replaceChildren();
 
     if (!src) {
@@ -47,6 +48,16 @@
       video.disablePictureInPicture = true;
       video.disableRemotePlayback = true;
       if (poster) video.poster = poster;
+      if (preview) {
+        frame.appendChild(preview);
+        // Autoplay can hide the native poster before the first frame is ready.
+        const revealVideo = () => preview.remove();
+        if (typeof video.requestVideoFrameCallback === "function") {
+          video.requestVideoFrameCallback(revealVideo);
+        } else {
+          video.addEventListener("loadeddata", revealVideo, { once: true });
+        }
+      }
       video.src = src;
       video.addEventListener("contextmenu", (e) => e.preventDefault());
       frame.appendChild(video);

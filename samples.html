@@ -203,8 +203,8 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                 </div>
                 <div class="project-detail">
                   <p>
-                    I layered Epic’s <a href="https://dev.epicgames.com/documentation/unreal-engine/API/Plugins/ControlRigPhysics" target="_blank" rel="noopener">Control Rig Physics</a> over the procedural pose.
-                    Spring dampers drive procedurally generated bodies toward their targets, adding inertia and natural follow-through. The bodies also collide with world geometry.
+                    I integrated <a href="https://dev.epicgames.com/documentation/unreal-engine/API/Plugins/ControlRigPhysics" target="_blank" rel="noopener">Control Rig Physics</a> after Locomotor and Full Body IK.
+                    Spring-damped bodies add inertia and world-collision response, while kinematic anchors preserve procedural control.
                   </p>
                   <figure class="project-diagram">
                     <ol class="flow-diagram" aria-label="Physics component setup">

@@ -1,6 +1,6 @@
 /**
- * First-frame posters warm in the background after the page loads and paints.
- * Full videos stream only when their sample expands, and play as soon as possible.
+ * Miniature videos start immediately, ahead of their first-frame posters.
+ * Full-size posters warm in the background; full videos stream on expansion.
  */
 (function () {
   function loadPoster(slot, priority = "low") {
@@ -39,28 +39,27 @@
     return preview;
   }
 
+  function revealVideo(video, preview) {
+    if (!preview) return;
+    // Keep the first frame visible until the video can display its own frame.
+    const reveal = () => preview.remove();
+    if (typeof video.requestVideoFrameCallback === "function") {
+      video.requestVideoFrameCallback(reveal);
+    } else if (video.readyState >= 2) {
+      reveal();
+    } else {
+      video.addEventListener("loadeddata", reveal, { once: true });
+    }
+  }
+
   function startVideo(video, src, preview) {
     video.preload = "auto";
-    video.src = src;
-    if (preview) {
-      // Keep the cached first frame visible until a video frame is displayed.
-      const revealVideo = () => preview.remove();
-      if (typeof video.requestVideoFrameCallback === "function") {
-        video.requestVideoFrameCallback(revealVideo);
-      } else {
-        video.addEventListener("loadeddata", revealVideo, { once: true });
-      }
-    }
+    // Thumbnails already have an HTML src so the browser can fetch them early.
+    if (src) video.src = src;
+    revealVideo(video, preview);
     // Request playback now; do not wait for the whole file or canplaythrough.
     const play = video.play();
     if (play && typeof play.catch === "function") play.catch(() => {});
-  }
-
-  function loadThumbnail(video) {
-    if (video.dataset.loaded === "true") return;
-    const preview = loadThumbnailPoster(video, "high");
-    startVideo(video, video.dataset.src, preview);
-    video.dataset.loaded = "true";
   }
 
   function loadSlot(slot) {
@@ -107,8 +106,26 @@
     slot.dataset.loaded = "true";
   }
 
+  const thumbnails = [...document.querySelectorAll(".thumb-video")];
+  // Start every miniature before requesting any poster images.
+  thumbnails.forEach((video) => startVideo(video));
+  thumbnails.forEach((video) => {
+    const preview = loadThumbnailPoster(video, "low");
+    revealVideo(video, preview);
+    video.dataset.loaded = "true";
+  });
+  const thumbnailsReady = Promise.all(thumbnails.map((video) => new Promise((resolve) => {
+    if (video.readyState >= 2 || video.error) { resolve(); return; }
+    const ready = () => {
+      video.removeEventListener("loadeddata", ready);
+      video.removeEventListener("error", ready);
+      resolve();
+    };
+    video.addEventListener("loadeddata", ready, { once: true });
+    video.addEventListener("error", ready, { once: true });
+  })));
+
   function loadSample(details) {
-    details.querySelectorAll(".thumb-video[data-src]").forEach(loadThumbnail);
     details.querySelectorAll("[data-media-slot]").forEach(loadSlot);
   }
   document.querySelectorAll("details[data-project]").forEach((details) => {
@@ -120,11 +137,11 @@
 
   function warmPosters() {
     document.querySelectorAll("[data-media-slot][data-poster]").forEach((slot) => loadPoster(slot));
-    document.querySelectorAll(".thumb-video[data-poster]").forEach((video) => loadThumbnailPoster(video));
   }
   function schedulePosters() {
-    // Finish navigation and give the page a paint before starting image requests.
-    requestAnimationFrame(() => requestAnimationFrame(warmPosters));
+    // Let the page paint and the miniatures get their first frames before
+    // spending bandwidth on the larger background posters.
+    requestAnimationFrame(() => requestAnimationFrame(() => thumbnailsReady.then(warmPosters)));
   }
   if (document.readyState === "complete") schedulePosters();
   else window.addEventListener("load", schedulePosters, { once: true });

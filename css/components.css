@@ -513,11 +513,6 @@ details[data-project][open]::details-content {
 }
 
 .code-panel figcaption {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--space-2);
   padding: 0.3rem 0.6rem;
   border-bottom: 1px solid var(--line);
   color: var(--muted);
@@ -527,8 +522,9 @@ details[data-project][open]::details-content {
   text-transform: uppercase;
 }
 
-.code-panel__file {
-  margin-left: auto;
+.code-compare__file {
+  justify-self: end;
+  color: var(--muted);
   min-width: 0;
   font-family: var(--font-mono);
   font-size: 0.68rem;

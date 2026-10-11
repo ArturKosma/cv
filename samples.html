@@ -9,7 +9,7 @@
     <title>Samples — Artur Kosma</title>
     <link rel="stylesheet" href="css/tokens.css?v=328" />
     <link rel="stylesheet" href="css/base.css?v=328" />
-    <link rel="stylesheet" href="css/components.css?v=331" />
+    <link rel="stylesheet" href="css/components.css?v=332" />
     <link rel="stylesheet" href="css/pages.css?v=328" />
   </head>
   <body class="page-samples">
@@ -89,18 +89,13 @@
                     <code>Offset</code> sets the direction and reach of the sphere probe used to find each foot’s contact point.
                   </p>
                   <div class="code-compare" aria-label="Ground probe offset before and after, simplified">
+                    <span class="code-compare__file">LocomotorCore.cpp</span>
                     <figure class="code-panel">
-                      <figcaption>
-                        <span>Before</span>
-                        <span class="code-panel__file">LocomotorCore.cpp</span>
-                      </figcaption>
+                      <figcaption>Before</figcaption>
                       <pre><code>const FVector Offset = FVector(0, 0, MaxHeight);</code></pre>
                     </figure>
                     <figure class="code-panel">
-                      <figcaption>
-                        <span>After</span>
-                        <span class="code-panel__file">MyLocomotorCore.cpp</span>
-                      </figcaption>
+                      <figcaption>After</figcaption>
                       <pre><code>const FVector LocalUp = Foot.ReferenceWorld
     .GetRotation().GetUpVector();
 

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="112" viewBox="0 0 400 112" role="img" aria-labelledby="title desc">
+  <title id="title">DataTable-driven FPS weapon setup</title>
+  <desc id="desc">Per-weapon DataTables feed three parts of the shared runtime system: ADS offsets and arm IK, recoil curves and camera kick, and shot spread, fire mode and projectiles.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0 0L5 2.5L0 5" fill="#c4a35a"/></marker>
+  </defs>
+  <g fill="#151c18" stroke="#39453b" stroke-width="1">
+    <rect x="116" y="1" width="168" height="34" rx="5"/>
+    <rect x="1" y="63" width="121" height="48" rx="5"/>
+    <rect x="139" y="63" width="122" height="48" rx="5"/>
+    <rect x="278" y="63" width="121" height="48" rx="5"/>
+  </g>
+  <g fill="none" stroke="#c4a35a" stroke-width="1.5" marker-end="url(#arrow)">
+    <path d="M200 35V48H61V61"/>
+    <path d="M200 35V61"/>
+    <path d="M200 48H338V61"/>
+  </g>
+  <g fill="#e8ece6" font-family="Arial, sans-serif" font-size="13" text-anchor="middle">
+    <text x="200" y="23">Per-weapon DataTables</text>
+    <text x="61" y="82">ADS offsets</text>
+    <text x="61" y="101" fill="#a3ada3">Arm IK</text>
+    <text x="200" y="82">Recoil curves</text>
+    <text x="200" y="101" fill="#a3ada3">Camera kick</text>
+    <text x="338" y="82">Spread / fire mode</text>
+    <text x="338" y="101" fill="#a3ada3">Projectiles</text>
+  </g>
+</svg>

@@ -727,6 +727,81 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
         </li>
 
         <li>
+          <details data-project data-project-id="fps-shooting" id="fps-shooting">
+            <summary>
+              <div class="project-thumb">
+                <video class="thumb-video"
+                  src="assets/portfolio/fps-shooting/thumb.mp4?v=359"
+                  data-poster="assets/portfolio/fps-shooting/thumb.webp?v=359"
+                  muted playsinline loop autoplay preload="auto" aria-hidden="true"></video>
+              </div>
+              <div class="project-copy">
+                <span class="project-name" role="heading" aria-level="2">Procedural FPS Shooting</span>
+                <span class="project-blurb">Chernobylite 2: procedural ADS and recoil, driven by per-weapon DataTables.</span>
+              </div>
+            </summary>
+            <div class="project-body">
+              <div class="project-beat">
+                <div class="media-slot" data-media-slot data-type="video"
+                  data-src="assets/portfolio/fps-shooting/media-1.mp4?v=359"
+                  data-poster="assets/portfolio/fps-shooting/poster.webp?v=359"
+                  data-alt="A rifle moving between hip-fire and aim-down-sights poses in Chernobylite 2">
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Procedural Aiming</h3>
+                  <p>
+                    I built the first-person aiming system for Chernobylite 2. The weapon aligns to the camera from its sight sockets at runtime, with per-weapon offsets and arm IK for hip-fire and aim-down-sights poses.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div class="media-slot" data-media-slot data-type="video"
+                  data-src="assets/portfolio/fps-shooting/media-2.mp4?v=359"
+                  data-poster="assets/portfolio/fps-shooting/poster-2.webp?v=359"
+                  data-alt="Automatic rifle fire and individual shotgun shots showing weapon kickback and recovery">
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Procedural Recoil</h3>
+                  <p>
+                    I drive weapon kickback from motion curves, with small per-shot variation, and interpolate the camera kick. Each weapon’s DataTable row selects its recoil curve and response settings.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div class="media-slot" data-media-slot data-type="video"
+                  data-src="assets/portfolio/fps-shooting/media-3.mp4?v=359"
+                  data-poster="assets/portfolio/fps-shooting/poster-3.webp?v=359"
+                  data-alt="An energy weapon and an explosive launcher using the same first-person aiming and shooting system">
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">DataTable-Driven Weapons</h3>
+                  <p>
+                    I expose weapon setup through DataTables: hip-fire and ADS offsets, recoil, spread, fire mode and projectile properties. The same runtime system supports conventional firearms, energy weapons and explosive launchers.
+                  </p>
+                  <figure class="project-diagram">
+                    <img class="project-diagram__image"
+                      src="assets/portfolio/fps-shooting/weapon-data-flow.svg?v=359"
+                      width="400" height="112"
+                      alt="Per-weapon DataTables supply ADS offsets and arm IK, recoil curves and camera kick, and spread, fire mode and projectile properties."
+                      loading="lazy" decoding="async" />
+                    <figcaption>Per-weapon setup feeds the shared runtime system.</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+          </details>
+        </li>
+
+        <li>
           <details data-project data-project-id="motionmatching-locomotion">
             <summary>
               <div class="project-thumb">

@@ -534,7 +534,7 @@ details[data-project][open]::details-content {
 .code-panel figcaption {
   padding: 0.3rem 0.6rem;
   border-bottom: 1px solid var(--line);
-  color: var(--muted);
+  color: var(--accent);
   font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: 0.08em;

@@ -525,6 +525,27 @@ details[data-project][open]::details-content {
   text-align: left;
 }
 
+.project-illustration--wide {
+  grid-template-columns: 1fr;
+  gap: var(--space-2);
+}
+
+.project-illustration__crop {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: var(--crop-width) / var(--crop-height);
+}
+
+.project-illustration__crop > .project-illustration__image {
+  position: absolute;
+  width: calc(100% * var(--image-width) / var(--crop-width));
+  max-width: none;
+  height: auto;
+  left: calc(-100% * var(--crop-left) / var(--crop-width));
+  top: calc(-100% * var(--crop-top) / var(--crop-height));
+}
+
 .code-compare {
   display: grid;
   gap: var(--space-2);

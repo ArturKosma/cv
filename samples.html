@@ -9,7 +9,7 @@
     <title>Samples — Artur Kosma</title>
     <link rel="stylesheet" href="css/tokens.css?v=328" />
     <link rel="stylesheet" href="css/base.css?v=328" />
-    <link rel="stylesheet" href="css/components.css?v=338" />
+    <link rel="stylesheet" href="css/components.css?v=340" />
     <link rel="stylesheet" href="css/pages.css?v=328" />
   </head>
   <body class="page-samples">
@@ -186,6 +186,44 @@ tilt = axisAngle(axis, angle)
 reference.rotation = tilt * MAIN.rotation</code></pre>
                     </figure>
                   </div>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/locomotor/media-5.mp4?v=340"
+                  data-poster="assets/portfolio/locomotor/poster-5.webp?v=340"
+                  data-alt="Spring dampers adding inertia and secondary motion to the spider’s procedural pose"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <p>
+                    I layered Epic’s <a href="https://dev.epicgames.com/documentation/unreal-engine/API/Plugins/ControlRigPhysics" target="_blank" rel="noopener">Control Rig Physics</a> over the procedural pose.
+                    Spring dampers drive procedurally generated bodies toward their targets, adding inertia and natural follow-through.
+                  </p>
+                  <figure class="project-illustration project-illustration--wide">
+                    <a href="assets/portfolio/locomotor/physics-components.png?v=340" target="_blank" rel="noopener" aria-label="View the physics component graph at full size">
+                      <span class="project-illustration__crop" style="--image-width: 1066; --crop-width: 975; --crop-height: 309; --crop-left: 40; --crop-top: 43;">
+                        <img
+                          class="project-illustration__image"
+                          src="assets/portfolio/locomotor/physics-components.png?v=340"
+                          width="1066"
+                          height="372"
+                          alt="Control Rig graph spawning a physics solver, then physics bodies and controls for the PhysicsBones array."
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </span>
+                    </a>
+                    <figcaption>
+                      Physics bodies and controls are spawned for each selected bone.
+                    </figcaption>
+                  </figure>
                 </div>
               </div>
             </div>

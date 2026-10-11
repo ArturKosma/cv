@@ -216,6 +216,53 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
         </li>
 
         <li>
+          <details data-project data-project-id="keyframe-animation" id="keyframe-animation">
+            <summary>
+              <div class="project-thumb">
+                <video
+                  class="thumb-video"
+                  src="assets/portfolio/keyframe-animation/thumb.mp4?v=358"
+                  data-poster="assets/portfolio/keyframe-animation/thumb.webp?v=358"
+                  muted
+                  playsinline
+                  loop
+                  autoplay
+                  preload="auto"
+                  aria-hidden="true"
+                ></video>
+              </div>
+              <div class="project-copy">
+                <span class="project-name" role="heading" aria-level="2">First-Person Keyframe Animation</span>
+                <span class="project-blurb">Hand-keyframed melee attacks and teleporter handling.</span>
+              </div>
+            </summary>
+            <div class="project-body">
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/keyframe-animation/media-1.mp4?v=358"
+                  data-poster="assets/portfolio/keyframe-animation/poster.webp?v=358"
+                  data-alt="Hand-keyframed first-person shotgun strike, three knife attacks, heavy weapon strike, and teleporter activation"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Melee Attacks And Teleporter</h3>
+                  <p>
+                    I hand-keyframed these first-person animations, from shotgun and
+                    heavy weapon strikes to knife attacks and teleporter handling.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </details>
+        </li>
+
+        <li>
           <details data-project data-project-id="physics-death">
             <summary>
               <div class="project-thumb">
@@ -867,6 +914,144 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                   <p>
                     <a href="https://github.com/ArturKosma/Learning/blob/main/animFlex/source/AFUtility.cpp#L166" target="_blank" rel="noopener">CCD IK source</a>
                     &middot; <a href="https://github.com/ArturKosma/Learning/blob/main/animFlex/source/AFGraphNode_CCDIK.cpp" target="_blank" rel="noopener">Animation graph node</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </details>
+        </li>
+
+        <li>
+          <details data-project data-project-id="humanoid-rigging" id="humanoid-rigging">
+            <summary>
+              <div class="project-thumb">
+                <video
+                  class="thumb-video"
+                  src="assets/portfolio/humanoid-rigging/thumb.mp4?v=358"
+                  data-poster="assets/portfolio/humanoid-rigging/thumb.webp?v=358"
+                  muted
+                  playsinline
+                  loop
+                  autoplay
+                  preload="auto"
+                  aria-hidden="true"
+                ></video>
+              </div>
+              <div class="project-copy">
+                <span class="project-name" role="heading" aria-level="2">Humanoid Rigging</span>
+                <span class="project-blurb">Maya rigging with helper bones and RBF deformation carried into Unreal.</span>
+              </div>
+            </summary>
+            <div class="project-body">
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/humanoid-rigging/media-1.mp4?v=358"
+                  data-poster="assets/portfolio/humanoid-rigging/poster.webp?v=358"
+                  data-alt="My humanoid rig tested in motion, with its deformation skeleton visible in Maya"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Rig In Motion</h3>
+                  <p>
+                    I built this humanoid rig in Maya, from animator controls to deformation helpers.
+                    I test the skinned skeleton in motion to check how the shoulders, elbows and hips
+                    hold up through changing poses.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/humanoid-rigging/media-2.mp4?v=358"
+                  data-poster="assets/portfolio/humanoid-rigging/poster-2.webp?v=358"
+                  data-alt="Switching the arm from IK to FK and posing it with my Maya rig controls"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">IK/FK Controls</h3>
+                  <p>
+                    I built switchable IK/FK arm controls, pole vectors and individual finger controls.
+                    The hand can be positioned directly in IK or the arm posed joint by joint in FK.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/humanoid-rigging/media-3.mp4?v=358"
+                  data-poster="assets/portfolio/humanoid-rigging/poster-3.webp?v=358"
+                  data-alt="Corrective helper bones following elbow bends, with the skinned mesh shown in wireframe"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Helper Bones And Quaternion Math</h3>
+                  <p>
+                    I use corrective and roll bones to support joint volume and distribute limb twist.
+                    Custom Python nodes in Maya use quaternion operations to calculate the helper-bone rotations.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/humanoid-rigging/media-4.mp4?v=358"
+                  data-poster="assets/portfolio/humanoid-rigging/poster-4.webp?v=358"
+                  data-alt="The shoulder mesh deforming as the arm is raised and lowered in Maya"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">RBF Pose-Space Deformation</h3>
+                  <p>
+                    I author RBF (radial basis function) setups with Epic’s
+                    <a href="https://www.fab.com/listings/745c5017-d248-4aab-8e11-2e00f57aaca0" target="_blank" rel="noopener">Pose Wrangler</a>.
+                    The solvers blend corrective helper-bone poses as the driving joints rotate,
+                    preserving the shoulder shape across raised and lowered arm poses.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/humanoid-rigging/media-5.mp4?v=358"
+                  data-poster="assets/portfolio/humanoid-rigging/poster-5.webp?v=358"
+                  data-alt="Shoulder and hip corrective bones tested in Unreal, including switching the post-process Animation Blueprint off"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Unreal Post-Process AnimBP</h3>
+                  <p>
+                    I export the Pose Wrangler RBF setup to Unreal and evaluate the corrections
+                    in a post-process Animation Blueprint, after the main animation pose.
+                  </p>
+                  <p>
+                    The shoulder test toggles postprocessing on and off;
+                    the hip test checks the helper bones under large leg rotations.
                   </p>
                 </div>
               </div>

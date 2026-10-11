@@ -378,13 +378,13 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
         </li>
 
         <li>
-          <details data-project>
+          <details data-project data-project-id="custom-gas">
             <summary>
               <div class="project-thumb">
                 <video
                   class="thumb-video"
-                  src="assets/portfolio/metahuman-export/thumb.mp4?v=328"
-                  data-poster="assets/portfolio/metahuman-export/thumb.webp?v=347"
+                  src="assets/portfolio/custom-gas/thumb.mp4?v=350"
+                  data-poster="assets/portfolio/custom-gas/thumb.webp?v=350"
                   muted
                   playsinline
                   loop
@@ -394,8 +394,8 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                 ></video>
               </div>
               <div class="project-copy">
-                <span class="project-name">MetaHuman export pipeline</span>
-                <span class="project-blurb">Character export from Maya into Unreal with consistent naming and LODs.</span>
+                <span class="project-name" role="heading" aria-level="2">Custom Gameplay Ability System</span>
+                <span class="project-blurb">Chernobylite 2: custom abilities, motion correction and enemy attacks.</span>
               </div>
             </summary>
             <div class="project-body">
@@ -404,34 +404,90 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                   class="media-slot"
                   data-media-slot
                   data-type="video"
-                  data-src="assets/portfolio/metahuman-export/media-1.mp4?v=328"
-                  data-poster="assets/portfolio/metahuman-export/poster.webp?v=347"
-                  data-alt="MetaHuman sample 1"
+                  data-src="assets/portfolio/custom-gas/media-1.mp4?v=350"
+                  data-poster="assets/portfolio/custom-gas/poster.webp?v=350"
+                  data-alt="Crane boss firing a beam attack through the custom gameplay ability system"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
                   </div>
                 </div>
-                <p class="project-detail">
-                  Placeholder: what it is + what I changed (scripts, naming, LOD rules, export steps).
-                </p>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Custom ability system</h3>
+                  <p>
+                    I wrote my own gameplay ability system for Chernobylite 2 to avoid
+                    the boilerplate of Epic’s GAS. My <code>UCG2AbilitySystemComponent</code>
+                    handles ability activation, resource checks, cooldowns, input and replication,
+                    with attacks authored as Blueprint ability actors.
+                  </p>
+                </div>
               </div>
               <div class="project-beat">
                 <div
                   class="media-slot"
                   data-media-slot
                   data-type="video"
-                  data-src="assets/portfolio/metahuman-export/media-2.mp4?v=328"
-                  data-poster="assets/portfolio/metahuman-export/poster-2.webp?v=347"
-                  data-alt="MetaHuman sample 2"
+                  data-src="assets/portfolio/custom-gas/media-2.mp4?v=350"
+                  data-poster="assets/portfolio/custom-gas/poster-2.webp?v=350"
+                  data-alt="Crane boss rotating its whole body around a selected foot"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
                   </div>
                 </div>
-                <p class="project-detail">
-                  Placeholder: extra notes on pipeline impact or before/after go here.
-                </p>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Rotation around a planted foot</h3>
+                  <p>
+                    I built rotation around a chosen pivot for large enemies. A notify selects
+                    a bone—here, a planted foot—and my system rotates the whole actor
+                    around that foot, keeping the turn grounded.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/custom-gas/media-3.mp4?v=350"
+                  data-poster="assets/portfolio/custom-gas/poster-3.webp?v=350"
+                  data-alt="Crane boss adjusting its position and facing during an attack"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">MotionFix root correction</h3>
+                  <p>
+                    I built MotionFix, my own root-motion correction system. Notify states
+                    in animation montages control when an enemy turns, tracks a target
+                    or adjusts its movement, letting me tune each attack without rebaking
+                    the animation.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/custom-gas/media-4.mp4?v=350"
+                  data-poster="assets/portfolio/custom-gas/poster-4.webp?v=350"
+                  data-alt="A collection of attacks by the Crane boss, Cannon Fodder and a rooftop creature"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Hundreds of enemy attacks</h3>
+                  <p>
+                    I designed, oversaw and implemented hundreds of enemy attacks for
+                    Chernobylite 2. This collection shows the range of attacks built
+                    on the same custom ability framework, from regular enemies to bosses.
+                  </p>
+                </div>
               </div>
             </div>
           </details>

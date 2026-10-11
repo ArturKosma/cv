@@ -173,10 +173,13 @@ const FVector End = RefLocation
                   <div class="code-compare" aria-label="Plant normal calculation and reference tilt, pseudocode">
                     <figure class="code-panel">
                       <figcaption>Reference tilt · pseudocode</figcaption>
-                      <pre><code>P = MAIN.position; normalSum = (0, 0, 0)
+                      <pre><code>P = MAIN.position
+normalSum = (0, 0, 0)
 for d in grid3D(0, ±0.5, ±1) except zero:
     hit = sphereCast(P, P + unit(d) * 500, 50)
-    if hit: normalSum += hit.normal
+    if hit:
+        normalSum += hit.normal
+
 PlantNormal = unit(normalSum)
 axis = unit(cross((0, 0, 1), PlantNormal))
 angle = acos(dot((0, 0, 1), PlantNormal))

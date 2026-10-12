@@ -622,6 +622,16 @@ details[data-project][open]::details-content {
   display: block;
 }
 
+#rescue-drone .media-slot--image .media-slot__frame {
+  aspect-ratio: auto;
+}
+
+#rescue-drone .media-slot--image .media-slot__frame img {
+  display: block;
+  height: auto;
+  object-fit: contain;
+}
+
 .media-slot__poster {
   position: absolute;
   inset: 0;

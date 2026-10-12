@@ -9,7 +9,7 @@
     <title>Samples — Artur Kosma</title>
     <link rel="stylesheet" href="css/tokens.css?v=328" />
     <link rel="stylesheet" href="css/base.css?v=328" />
-    <link rel="stylesheet" href="css/components.css?v=348" />
+    <link rel="stylesheet" href="css/components.css?v=362" />
     <link rel="stylesheet" href="css/pages.css?v=328" />
   </head>
   <body class="page-samples">
@@ -221,8 +221,8 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
               <div class="project-thumb">
                 <video
                   class="thumb-video"
-                  src="assets/portfolio/rescue-drone/thumb.mp4?v=359"
-                  data-poster="assets/portfolio/rescue-drone/thumb.webp?v=359"
+                  src="assets/portfolio/rescue-drone/thumb.mp4?v=362"
+                  data-poster="assets/portfolio/rescue-drone/thumb.webp?v=362"
                   muted
                   playsinline
                   loop
@@ -233,7 +233,7 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
               </div>
               <div class="project-copy">
                 <span class="project-name" role="heading" aria-level="2">Replicated Drone Flight</span>
-                <span class="project-blurb">Rescue Drone Simulator: Second Chance — drone steering built on Unreal’s Mover.</span>
+                <span class="project-blurb">Rescue Drone Simulator: Second Chance — custom drone steering with Mover and Enhanced Input.</span>
               </div>
             </summary>
             <div class="project-body">
@@ -242,55 +242,67 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                   class="media-slot"
                   data-media-slot
                   data-type="video"
-                  data-src="assets/portfolio/rescue-drone/media-1.mp4?v=359"
-                  data-poster="assets/portfolio/rescue-drone/poster.webp?v=359"
-                  data-alt="Drone climbing and banking around buildings in Rescue Drone Simulator: Second Chance"
+                  data-src="assets/portfolio/rescue-drone/flight-montage.mp4?v=362"
+                  data-poster="assets/portfolio/rescue-drone/flight-poster.webp?v=362"
+                  data-alt="Edited drone flight montage alternating climbs, banking turns, roof passes and close container-yard steering"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
                   </div>
                 </div>
                 <div class="project-detail">
-                  <h3 class="project-detail__title">Replicated Mover Integration</h3>
+                  <h3 class="project-detail__title">Angle And Acro Flight</h3>
                   <p>
-                    I use Unreal Engine’s <a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/mover-in-unreal-engine" target="_blank" rel="noopener">Mover</a>
-                    to drive replicated drone flight in <em>Rescue Drone Simulator: Second Chance</em>,
-                    the game I’m developing.
+                    I built Angle and Acro steering simulations for replicated drone flight with
+                    Unreal’s <a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/mover-in-unreal-engine" target="_blank" rel="noopener">Mover</a>.
+                    Angle automatically levels the drone; Acro integrates local-axis rotations as quaternions.
+                    I keep Acro’s commanded attitude separate from wind and vibration offsets,
+                    so disturbances do not accumulate into steering drift.
                   </p>
-                  <p>
-                    Steering input feeds Mover’s movement simulation, which handles the drone’s replicated motion.
-                  </p>
-                  <figure class="project-diagram">
-                    <img
-                      class="project-diagram__image"
-                      src="assets/portfolio/rescue-drone/mover-flow.svg?v=359"
-                      width="400"
-                      height="104"
-                      alt="Steering input feeds the Mover simulation, which drives replicated drone movement."
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </figure>
                 </div>
               </div>
               <div class="project-beat">
                 <div
-                  class="media-slot"
+                  class="media-slot media-slot--image"
                   data-media-slot
-                  data-type="video"
-                  data-src="assets/portfolio/rescue-drone/media-2.mp4?v=359"
-                  data-poster="assets/portfolio/rescue-drone/poster-2.webp?v=359"
-                  data-alt="Drone banking between shipping containers and changing altitude around obstacles"
+                  data-type="image"
+                  data-src="assets/portfolio/rescue-drone/workshop.png?v=362"
+                  data-alt="Drone crafting workshop with interchangeable components and flight stats including speed, thrust, aerodynamics and handling"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
                   </div>
                 </div>
                 <div class="project-detail">
-                  <h3 class="project-detail__title">Close-Quarters Steering</h3>
+                  <h3 class="project-detail__title">Crafting Changes Flight</h3>
                   <p>
-                    The flight controls combine changes of heading and altitude with banking turns.
-                    This run through the container yard shows the drone steering around obstacles in tight spaces.
+                    I derive flight tuning from the assembled drone’s component stats.
+                    Thrust and max speed set acceleration and the speed limit; handling and aerodynamics
+                    shape braking, yaw, and tilt response. Changing the build changes how the drone flies.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot media-slot--image"
+                  data-media-slot
+                  data-type="image"
+                  data-src="assets/portfolio/rescue-drone/input-architecture.svg?v=362"
+                  data-alt="My TFMovementInput plugin connects Enhanced Input and tagged action profiles to a control-state and input-layer stack, then to the drone flight layer and Angle or Acro steering. Layers manage mapping contexts."
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">My Enhanced Input Plugin</h3>
+                  <p>
+                    I built TFMovementInput around Enhanced Input, with gameplay-tagged actions and stacked
+                    control states/input layers shared by drones, characters, and UI.
+                  </p>
+                  <p>
+                    Layers own their mapping-context lifecycle. The flight layer clears held axes on handover,
+                    so opening a menu cannot leave the drone steering on stale input.
                   </p>
                 </div>
               </div>

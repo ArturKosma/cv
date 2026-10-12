@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="350" viewBox="0 0 512 350" role="img" aria-labelledby="title desc">
+  <title id="title">Enhanced Input and my TFMovementInput architecture</title>
+  <desc id="desc">An input profile defines action bindings and gameplay tags for Enhanced Input. My TFMovementInput plugin dispatches tagged actions through a control-state and input-layer stack. Layers manage mapping contexts. The drone flight layer shapes the axes before passing thrust, yaw and tilt to Angle or Acro steering.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7" fill="#c4a35a"/></marker>
+    <marker id="muted-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7" fill="#9aa89f"/></marker>
+  </defs>
+  <rect width="512" height="350" fill="#0f1412"/>
+  <g fill="#151b18" stroke="#6e7a72" stroke-width="1">
+    <rect x="24" y="16" width="224" height="58" rx="4"/>
+    <rect x="300" y="16" width="188" height="58" rx="4"/>
+    <rect x="16" y="108" width="480" height="126" rx="4" stroke="#c4a35a"/>
+    <rect x="34" y="150" width="214" height="64" rx="3"/>
+    <rect x="298" y="150" width="180" height="64" rx="3"/>
+    <rect x="24" y="268" width="224" height="64" rx="4"/>
+    <rect x="298" y="268" width="190" height="64" rx="4" stroke="#c4a35a"/>
+  </g>
+  <g fill="none" stroke="#c4a35a" stroke-width="1.5" marker-end="url(#arrow)">
+    <path d="M297 45H254"/>
+    <path d="M90 76v26"/>
+    <path d="M251 182h41"/>
+    <path d="M388 216v30H136v16"/>
+    <path d="M251 300h41"/>
+  </g>
+  <path d="M480 182h25V86H216v-8" fill="none" stroke="#9aa89f" stroke-width="1.25" stroke-dasharray="4 3" marker-end="url(#muted-arrow)"/>
+  <g font-family="Segoe UI, sans-serif" fill="#e8ece9" text-anchor="middle">
+    <text x="136" y="40" font-size="21">Enhanced Input</text>
+    <text x="136" y="61" font-size="16" fill="#9aa89f">Actions + trigger events</text>
+    <text x="394" y="40" font-size="20">Input profile</text>
+    <text x="394" y="61" font-size="16" fill="#9aa89f">Bindings + action tags</text>
+    <text x="141" y="176" font-size="19">Tagged dispatch</text>
+    <text x="141" y="199" font-size="16" fill="#9aa89f">Trigger + value + tag</text>
+    <text x="388" y="176" font-size="18">Control-state stack</text>
+    <text x="388" y="199" font-size="17" fill="#9aa89f">Input layers</text>
+    <text x="136" y="294" font-size="20">Drone flight layer</text>
+    <text x="136" y="317" font-size="16" fill="#9aa89f">Dead zones + inversion</text>
+    <text x="393" y="294" font-size="20">Flight steering</text>
+    <text x="393" y="317" font-size="18" fill="#c4a35a">Angle / Acro</text>
+  </g>
+  <g font-family="Segoe UI, sans-serif" font-size="14" fill="#9aa89f">
+    <text x="262" y="32">bind</text>
+    <text x="268" y="102">Mapping-context lifecycle</text>
+    <text x="268" y="260">Active flight layer</text>
+  </g>
+  <text x="34" y="133" font-family="Segoe UI, sans-serif" font-size="18" fill="#c4a35a">TFMovementInput · my plugin</text>
+</svg>

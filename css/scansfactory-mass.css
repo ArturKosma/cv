@@ -1,0 +1,25 @@
+#scansfactory-mass .wardrobe-convert .media-slot__frame {
+  aspect-ratio: 640 / 271;
+}
+
+#scansfactory-mass .wardrobe-convert img {
+  object-fit: contain;
+}
+
+#scansfactory-mass .wardrobe-assets {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 0;
+}
+
+#scansfactory-mass .wardrobe-assets img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+#scansfactory-mass .wardrobe-assets figcaption {
+  color: var(--muted-dim);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}

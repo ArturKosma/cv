@@ -1,33 +1,36 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-labelledby="title desc">
-  <title id="title">Body-specific ASTP tooling</title>
-  <desc id="desc">The compatible body's DNA and an optional post-process animation bake feed body-specific animation sequences. The body and outfit Animation Sequence Transform Providers share those sequences. GPU cache refreshes are queued after compression.</desc>
+  <title id="title">Target-body ASTP post-process bake</title>
+  <desc id="desc">Source animations are evaluated on the target body using its DNA and post-process animation blueprint. Corrected bone tracks are baked into body-specific Animation Sequence Transform Provider data shared by the matching body and outfit. Instanced Skeletal Meshes play this data on the GPU with Nanite rendering and seamless geometry LOD transitions.</desc>
   <defs>
     <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 8 4 0 8" fill="none" stroke="#c4a35a" stroke-width="1.4"/></marker>
   </defs>
   <rect width="960" height="600" fill="#0f1412"/>
-  <g font-family="Segoe UI, sans-serif">
-    <text x="48" y="62" fill="#c4a35a" font-size="34" letter-spacing="1">BODY-SPECIFIC ASTP TOOLING</text>
+  <g font-family="Segoe UI, sans-serif" text-anchor="middle">
+    <text x="480" y="57" fill="#c4a35a" font-size="34" letter-spacing="1">TARGET-BODY ASTP BAKE</text>
     <g fill="#151b18" stroke="#455047" stroke-width="1.5">
-      <rect x="48" y="115" width="864" height="126" rx="4"/>
-      <rect x="48" y="288" width="864" height="112" rx="4" stroke="#c4a35a"/>
-      <rect x="48" y="451" width="400" height="88" rx="4"/>
-      <rect x="512" y="451" width="400" height="88" rx="4"/>
+      <rect x="48" y="100" width="416" height="80" rx="4"/>
+      <rect x="496" y="100" width="416" height="80" rx="4"/>
+      <rect x="48" y="228" width="864" height="90" rx="4" stroke="#c4a35a"/>
+      <rect x="48" y="366" width="864" height="90" rx="4" stroke="#c4a35a"/>
+      <rect x="48" y="504" width="864" height="76" rx="4"/>
     </g>
-    <g fill="#e8ece9" font-size="40" font-weight="600">
-      <text x="80" y="167">Compatible body</text>
-      <text x="80" y="334">Matching baked sequences</text>
-      <text x="80" y="507">Body ASTP</text>
-      <text x="544" y="507">Outfit ASTP</text>
+    <g fill="#e8ece9" font-size="36" font-weight="600">
+      <text x="256" y="152">Source animations</text>
+      <text x="704" y="152">Target body + DNA</text>
+      <text x="480" y="266">Target-body Post-Process AnimBP</text>
+      <text x="480" y="404">Bake corrected tracks into ASTP</text>
+      <text x="480" y="536" font-size="35">Instanced Skeletal Meshes + Nanite</text>
     </g>
-    <g fill="#9aa89f" font-size="32">
-      <text x="80" y="211">DNA + optional post-process corrective bake</text>
-      <text x="80" y="378">Root provider matched to this body</text>
-      <text x="48" y="584">Queued GPU refresh after compression</text>
+    <g fill="#9aa89f" font-size="28">
+      <text x="480" y="302">Evaluate pose + body correctives</text>
+      <text x="480" y="440">Matching body and outfit providers</text>
+      <text x="480" y="568">GPU animation · seamless geometry LODs</text>
     </g>
     <g fill="none" stroke="#c4a35a" stroke-width="2" marker-end="url(#arrow)">
-      <path d="M480 241 V274"/>
-      <path d="M480 400 V425 H248 V437"/>
-      <path d="M480 425 H712 V437"/>
+      <path d="M256 180 V202 H480 V214"/>
+      <path d="M704 180 V202 H480" marker-end="none"/>
+      <path d="M480 318 V352"/>
+      <path d="M480 456 V490"/>
     </g>
   </g>
 </svg>

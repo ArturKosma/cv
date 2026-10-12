@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/components.css?v=363" />
     <link rel="stylesheet" href="css/pages.css?v=328" />
     <link rel="stylesheet" href="css/custom-gas.css?v=gas-evidence-2" />
+    <link rel="stylesheet" href="css/scansfactory-mass.css?v=target-body-1" />
   </head>
   <body class="page-samples">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -317,7 +318,7 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
               </div>
               <div class="project-copy">
                 <span class="project-name" role="heading" aria-level="2">MetaHuman Crowds &amp; Traffic</span>
-                <span class="project-blurb">My ScansFactoryMass plugin: UE 5.8 MetaHuman crowds, animation tooling, and coordinated traffic.</span>
+                <span class="project-blurb">I’m the author of the ScansFactoryMass plugin for <a href="https://www.scansfactory.com/" target="_blank" rel="noopener">Scans Factory</a>: UE 5.8 MetaHuman crowds, animation tooling, and coordinated traffic.</span>
               </div>
             </summary>
             <div class="project-body">
@@ -341,19 +342,20 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                     with custom C++ traits and processors for pedestrian locomotion.
                   </p>
                   <p>
-                    A per-character movement-style catalog maps each MetaHuman to its walk animation.
-                    My animation processor blends idle and walk states for instanced characters.
+                    I extended Epic’s animation processor with per-entity walk modes.
+                    A movement-style catalog assigns each MetaHuman its own walk animation.
                   </p>
                 </div>
               </div>
               <div class="project-beat">
                 <div
-                  class="media-slot"
+                  class="media-slot media-slot--image wardrobe-convert"
                   data-media-slot
-                  data-type="video"
-                  data-src="assets/portfolio/scansfactory-mass/media-2.mp4?v=363"
-                  data-poster="assets/portfolio/scansfactory-mass/poster-2.webp?v=363"
-                  data-alt="Different MetaHuman bodies, outfits and hairstyles animated together"
+                  data-type="image"
+                  data-src="assets/portfolio/scansfactory-mass/convert-to-wardrobe.png?v=target-body-1"
+                  data-poster="assets/portfolio/scansfactory-mass/convert-to-wardrobe.png?v=target-body-1"
+                  data-enlarge="Convert to Wardrobe editor action"
+                  data-alt="Unreal Editor’s Scripted Asset Actions menu with Convert to Wardrobe selected"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
@@ -362,13 +364,20 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                 <div class="project-detail">
                   <h3 class="project-detail__title">MetaHuman Collection &amp; Wardrobe</h3>
                   <p>
-                    I built C++ and Python tools to convert clothing and grooms into wardrobe items
-                    for the MetaHuman Collection pipeline, including body-specific outfit assets.
+                    I built C++ and Python tools for the MetaHuman Collection pipeline.
+                    We used my Convert to Wardrobe tool to reuse outfits from Epic’s Matrix Sample,
+                    turning their meshes into cloth assets and wardrobe outfit assets.
                   </p>
                   <p>
-                    Generated hidden-face maps remove covered skin and reduce clothing intersections.
-                    Dataflow assets regenerate through a queued editor workflow.
+                    Body-specific outfit assets and generated hidden-face maps keep clothing compatible
+                    with its target body.
                   </p>
+                  <figure class="wardrobe-assets">
+                    <img src="assets/portfolio/scansfactory-mass/matrix-wardrobe-assets.png?v=target-body-1"
+                      width="520" height="220" loading="lazy" decoding="async"
+                      alt="Four generated OutfitAsset items from Matrix Sample shirts and blazers" />
+                    <figcaption>Generated outfit assets from Matrix Sample clothing.</figcaption>
+                  </figure>
                 </div>
               </div>
               <div class="project-beat">
@@ -376,9 +385,9 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                   class="media-slot media-slot--image"
                   data-media-slot
                   data-type="image"
-                  data-src="assets/portfolio/scansfactory-mass/astp-pipeline.svg?v=363"
-                  data-poster="assets/portfolio/scansfactory-mass/astp-pipeline.svg?v=363"
-                  data-alt="Custom ASTP tooling: compatible body DNA and an optional corrective bake feed matching body and outfit animation providers, followed by queued GPU cache refreshes"
+                  data-src="assets/portfolio/scansfactory-mass/astp-pipeline.svg?v=target-body-1"
+                  data-poster="assets/portfolio/scansfactory-mass/astp-pipeline.svg?v=target-body-1"
+                  data-alt="Target-body ASTP bake: source animation and target body DNA feed the body’s post-process AnimBP; corrected tracks are baked into matching body and outfit providers for Instanced Skeletal Meshes and Nanite rendering"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
@@ -387,12 +396,13 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                 <div class="project-detail">
                   <h3 class="project-detail__title">ASTP &amp; Body Correctives</h3>
                   <p>
-                    I added Animation Sequence Transform Provider (ASTP) tooling to route each body
-                    and outfit to animation sequences baked for the matching compatible body.
+                    I use Animation Sequence Transform Providers (ASTP) to animate Instanced Skeletal Meshes
+                    with Nanite rendering, reducing CPU animation work and keeping geometry LOD transitions seamless.
                   </p>
                   <p>
-                    An optional post-process AnimBP bake preserves body correctives while leaving face tracks untouched.
-                    GPU cache refreshes are queued after animation compression.
+                    My bake evaluates animations on the target body through its post-process AnimBP,
+                    baking its DNA-driven body correctives into the ASTP data.
+                    This frees animation authoring from Epic’s default single-skeletal-mesh requirement.
                   </p>
                 </div>
               </div>
@@ -401,9 +411,9 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                   class="media-slot"
                   data-media-slot
                   data-type="video"
-                  data-src="assets/portfolio/scansfactory-mass/media-4.mp4?v=363"
-                  data-poster="assets/portfolio/scansfactory-mass/poster-4.webp?v=363"
-                  data-alt="Editing idle-anchor positions and orientations, followed by MetaHuman idle animations at runtime"
+                  data-src="assets/portfolio/scansfactory-mass/media-4.mp4?v=idle-selection-1"
+                  data-poster="assets/portfolio/scansfactory-mass/poster-4.webp?v=idle-selection-1"
+                  data-alt="Selecting different named idle animations for editor anchors, updating the preview pose, then showing MetaHuman idles at runtime"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
@@ -417,7 +427,7 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                   </p>
                   <p>
                     A custom spawn generator transfers the authored transform and animation index to Mass entities.
-                    The clip shows editor placement followed by runtime playback.
+                    The clip shows animation selection, live anchor previews and runtime playback.
                   </p>
                 </div>
               </div>

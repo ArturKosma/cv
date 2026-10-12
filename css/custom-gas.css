@@ -22,7 +22,8 @@
 }
 
 .gas-ability-table .media-slot__frame {
-  aspect-ratio: 2 / 1;
+  box-sizing: content-box;
+  aspect-ratio: 884 / 330;
   border: 1px solid var(--line);
   border-radius: 4px;
 }

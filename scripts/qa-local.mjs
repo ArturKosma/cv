@@ -854,7 +854,7 @@ async function main() {
     if (experienceCopy[0].dates !== "2025–Present") fail("experience: newest role should be first");
     if (experienceCopy[0].role !== "Principal Animation Engineer")
       fail("experience: current role title missing");
-    if (experienceCopy[0].project !== "Rescue Drone Simulator")
+    if (experienceCopy[0].project !== "Rescue Drone Simulator: Second Chance")
       fail("experience: current project missing");
     if (experienceCopy[1].dates !== "2021–2025" || experienceCopy[1].role !== "Lead Combat Engineer")
       fail("experience: Lead Combat Engineer band missing");

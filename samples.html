@@ -216,6 +216,157 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
         </li>
 
         <li>
+          <details data-project data-project-id="scansfactory-mass" id="scansfactory-mass">
+            <summary>
+              <div class="project-thumb">
+                <video
+                  class="thumb-video"
+                  src="assets/portfolio/scansfactory-mass/thumb.mp4?v=363"
+                  data-poster="assets/portfolio/scansfactory-mass/thumb.webp?v=363"
+                  muted
+                  playsinline
+                  loop
+                  autoplay
+                  preload="auto"
+                  aria-hidden="true"
+                ></video>
+              </div>
+              <div class="project-copy">
+                <span class="project-name" role="heading" aria-level="2">MetaHuman Crowds &amp; Traffic</span>
+                <span class="project-blurb">My ScansFactoryMass plugin: UE 5.8 MetaHuman crowds, animation tooling, and coordinated traffic.</span>
+              </div>
+            </summary>
+            <div class="project-body">
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/scansfactory-mass/media-1.mp4?v=363"
+                  data-poster="assets/portfolio/scansfactory-mass/poster-1.webp?v=363"
+                  data-alt="MetaHuman pedestrians walking through the ScansFactoryMass test scene"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">MetaHuman Crowds On UE 5.8</h3>
+                  <p>
+                    I built ScansFactoryMass on Unreal’s Mass and MetaHuman Crowd systems,
+                    with custom C++ traits and processors for pedestrian locomotion.
+                  </p>
+                  <p>
+                    A per-character movement-style catalog maps each MetaHuman to its walk animation.
+                    My animation processor blends idle and walk states for instanced characters.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/scansfactory-mass/media-2.mp4?v=363"
+                  data-poster="assets/portfolio/scansfactory-mass/poster-2.webp?v=363"
+                  data-alt="Different MetaHuman bodies, outfits and hairstyles animated together"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">MetaHuman Collection &amp; Wardrobe</h3>
+                  <p>
+                    I built C++ and Python tools to convert clothing and grooms into wardrobe items
+                    for the MetaHuman Collection pipeline, including body-specific outfit assets.
+                  </p>
+                  <p>
+                    Generated hidden-face maps remove covered skin and reduce clothing intersections.
+                    Dataflow assets regenerate through a queued editor workflow.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot media-slot--image"
+                  data-media-slot
+                  data-type="image"
+                  data-src="assets/portfolio/scansfactory-mass/astp-pipeline.svg?v=363"
+                  data-poster="assets/portfolio/scansfactory-mass/astp-pipeline.svg?v=363"
+                  data-alt="Custom ASTP tooling: compatible body DNA and an optional corrective bake feed matching body and outfit animation providers, followed by queued GPU cache refreshes"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">ASTP &amp; Body Correctives</h3>
+                  <p>
+                    I added Animation Sequence Transform Provider (ASTP) tooling to route each body
+                    and outfit to animation sequences baked for the matching compatible body.
+                  </p>
+                  <p>
+                    An optional post-process AnimBP bake preserves body correctives while leaving face tracks untouched.
+                    GPU cache refreshes are queued after animation compression.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/scansfactory-mass/media-4.mp4?v=363"
+                  data-poster="assets/portfolio/scansfactory-mass/poster-4.webp?v=363"
+                  data-alt="Editing idle-anchor positions and orientations, followed by MetaHuman idle animations at runtime"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Designer-Authored Idle Behavior</h3>
+                  <p>
+                    My idle anchors let designers place, orient and preview background characters in the editor.
+                    Each marker selects a named animation from the crowd’s bake configuration.
+                  </p>
+                  <p>
+                    A custom spawn generator transfers the authored transform and animation index to Mass entities.
+                    The clip shows editor placement followed by runtime playback.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/scansfactory-mass/media-5.mp4?v=363"
+                  data-poster="assets/portfolio/scansfactory-mass/poster-5.webp?v=363"
+                  data-alt="ScansFactoryMass pedestrians and vehicles navigating crossings in a detailed Paris street scene"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Pedestrians &amp; Traffic In Paris</h3>
+                  <p>
+                    I extended ZoneGraph and StateTree behavior with signal-aware path selection,
+                    vehicle queues and crossing occupancy shared by cars and pedestrians.
+                  </p>
+                  <p>
+                    Here the plugin runs in a detailed Scans Factory environment,
+                    with pedestrians using crossings alongside moving traffic.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </details>
+        </li>
+
+        <li>
           <details data-project data-project-id="rescue-drone" id="rescue-drone">
             <summary>
               <div class="project-thumb">

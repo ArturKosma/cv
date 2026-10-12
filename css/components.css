@@ -474,6 +474,11 @@ details[data-project][open]::details-content {
   white-space: nowrap;
 }
 
+#keyframe-animation .project-blurb {
+  max-width: none;
+  white-space: nowrap;
+}
+
 .project-body {
   display: grid;
   gap: var(--space-5);
@@ -782,7 +787,21 @@ details[data-project][open]::details-content {
   }
 }
 
+@media (max-width: 520px) {
+  #keyframe-animation > summary {
+    grid-template-columns: 1fr;
+  }
+
+  #keyframe-animation .project-thumb {
+    max-width: 12rem;
+  }
+}
+
 @media (max-width: 480px) {
+  #keyframe-animation .project-blurb {
+    font-size: clamp(var(--text-xs), 3.85vw, var(--text-sm));
+  }
+
   .project-illustration {
     grid-template-columns: 1fr;
     gap: var(--space-3);

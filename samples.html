@@ -300,6 +300,10 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                   <p>
                     I use predictive steering, world sweeps and separation between nearby birds to navigate obstacles. These are spatial queries; the bird actors need no collision components.
                   </p>
+                  <h4 class="project-detail__title">Flock Optimization</h4>
+                  <p>
+                    I use shared 10 Hz awareness sampling and a spatial grid for neighbor searches. Distant, offscreen birds suspend movement and StateTree ticks, while animation uses lower update rates at distant LODs and pose interpolation nearby.
+                  </p>
                 </div>
               </div>
             </div>

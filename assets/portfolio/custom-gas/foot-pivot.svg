@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="440" height="284" viewBox="0 0 440 284" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="236" viewBox="0 0 440 236" role="img" aria-labelledby="title desc">
   <title id="title">Correcting a turn around a planted foot</title>
   <desc id="desc">The actor moves along an arc around a stationary foot. In Unreal transform composition order: Actor prime equals Actor times inverse Foot times correction rotation times Foot. First express the actor relative to the foot, apply the correction, then compose back into world space.</desc>
   <defs>
     <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="#c4a35a"/></marker>
   </defs>
-  <rect x="0.5" y="0.5" width="439" height="283" rx="6" fill="#151b18" stroke="#39453b"/>
+  <rect x="0.5" y="0.5" width="439" height="235" rx="6" fill="#151b18" stroke="#39453b"/>
   <g fill="none" stroke="#6e7a72" stroke-width="1.5" stroke-dasharray="5 4">
     <rect x="106" y="39" width="48" height="64" rx="9"/>
     <path d="M130 72V136"/>
@@ -22,16 +22,10 @@
     <text x="173" y="48">Actor before</text>
     <text x="252" y="118" fill="#e8ece9">Actor after correction</text>
     <text x="22" y="162" fill="#e8ece9">Planted foot stays fixed</text>
-    <text x="201" y="78" fill="#c4a35a">Δ yaw</text>
+    <text x="247" y="74" fill="#c4a35a">Δ yaw</text>
   </g>
   <path d="M124 147L112 154M158 48H166M234 117H246" fill="none" stroke="#6e7a72"/>
   <path d="M16 177H424" stroke="#39453b"/>
   <text x="220" y="198" fill="#9aa89f" font-family="Arial, sans-serif" font-size="12" text-anchor="middle">TRANSFORM COMPOSITION · UNREAL ORDER</text>
   <text x="220" y="224" fill="#e8ece9" font-family="Consolas, monospace" font-size="18" text-anchor="middle">Actor′ = Actor × Foot⁻¹ × ΔYaw × Foot</text>
-  <g fill="#9aa89f" font-family="Arial, sans-serif" font-size="12" text-anchor="middle">
-    <text x="80" y="260">1. Relative to foot</text>
-    <text x="220" y="260">2. Correct the turn</text>
-    <text x="366" y="260">3. Back to world</text>
-  </g>
-  <g fill="none" stroke="#c4a35a" stroke-width="1.2" marker-end="url(#arrow)"><path d="M143 256H154"/><path d="M290 256H302"/></g>
 </svg>

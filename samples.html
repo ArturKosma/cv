@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/base.css?v=328" />
     <link rel="stylesheet" href="css/components.css?v=363" />
     <link rel="stylesheet" href="css/pages.css?v=328" />
-    <link rel="stylesheet" href="css/custom-gas.css?v=gas-evidence-1" />
+    <link rel="stylesheet" href="css/custom-gas.css?v=gas-evidence-2" />
   </head>
   <body class="page-samples">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -837,19 +837,15 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                 <div class="project-detail">
                   <h3 class="project-detail__title">Rotation Around A Planted Foot</h3>
                   <p>
-                    I built rotation around a chosen pivot for large enemies. A notify selects
-                    a bone—here, a planted foot—and my system rotates the whole actor
-                    around that foot, keeping the turn grounded. This corrects root motion
-                    when a baked 45°, 90° or 135° turn rotates too far or not far enough.
-                    The animation supplies the turn; the pivot correction adjusts it to
-                    the target angle.
+                    A notify selects a planted foot as the pivot. I rotate the actor around
+                    it to correct baked 45°, 90° or 135° root-motion turns that rotate
+                    too far or not far enough.
                   </p>
-                  <figure class="project-diagram gas-evidence">
+                  <figure class="project-diagram gas-evidence gas-pivot-evidence">
                     <img class="project-diagram__image gas-pivot-diagram"
-                      src="assets/portfolio/custom-gas/foot-pivot.svg?v=gas-evidence-1"
+                      src="assets/portfolio/custom-gas/foot-pivot.svg?v=gas-evidence-2"
                       alt="Actor transform × inverse foot transform × correction rotation × foot transform, composed in Unreal order"
-                      width="440" height="284" loading="lazy" />
-                    <figcaption>Move into the foot’s space, apply the corrective rotation, then move back to world space.</figcaption>
+                      width="440" height="236" loading="lazy" />
                   </figure>
                 </div>
               </div>
@@ -903,20 +899,14 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                     Chernobylite 2. This collection shows the range of attacks built
                     on the same custom ability framework, from regular enemies to bosses.
                   </p>
-                  <figure class="project-diagram gas-evidence gas-ability-table" data-paused="false">
-                    <div class="gas-ability-table__window" id="gas-ability-table-window">
-                      <img class="gas-ability-table__image"
-                        src="assets/portfolio/custom-gas/ability-table.png?v=gas-evidence-1"
-                        alt="Ability DataTable screenshot showing numbered rows 499 through 518"
-                        width="450" height="532" loading="lazy" />
+                  <div class="media-slot gas-ability-table" data-media-slot data-type="video"
+                    data-src="assets/portfolio/custom-gas/ability-table-scroll.mp4?v=gas-evidence-2"
+                    data-poster="assets/portfolio/custom-gas/ability-table-poster.webp?v=gas-evidence-2"
+                    data-alt="Continuous downward scroll through the full width of the enemy ability DataTable">
+                    <div class="media-slot__frame" data-media-frame>
+                      <div class="media-slot__placeholder" aria-hidden="true"></div>
                     </div>
-                    <figcaption class="gas-ability-table__caption">
-                      <span>Ability DataTable · rows 499–518</span>
-                      <button class="gas-ability-table__toggle" type="button"
-                        data-table-pan-toggle aria-controls="gas-ability-table-window"
-                        aria-pressed="false">Pause scroll</button>
-                    </figcaption>
-                  </figure>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1586,6 +1576,5 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
       </ul>
     </main>
     <script src="js/media-on-demand.js?v=363" defer></script>
-    <script src="js/custom-gas.js?v=gas-evidence-1" defer></script>
   </body>
 </html>

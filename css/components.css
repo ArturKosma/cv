@@ -545,6 +545,11 @@ details[data-project][open]::details-content {
   margin: 0;
 }
 
+.project-diagram--centered {
+  justify-items: center;
+  text-align: center;
+}
+
 .project-diagram__image {
   display: block;
   width: 100%;

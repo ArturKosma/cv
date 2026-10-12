@@ -244,7 +244,10 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                 <div class="project-detail">
                   <h3 class="project-detail__title">Player-Aware Behavior</h3>
                   <p>
-                    I built birds that react to player proximity: they wander, move away and take flight as threat builds. StateTree selects the behavior; my C++ Mover modes execute it.
+                    I built birds that wander, move away and take flight as player threat builds. The bird actors have no collision and use no NavMesh.
+                  </p>
+                  <p>
+                    I use StateTrees purely to select intentions; the behavior itself lives in my C++ Mover states.
                   </p>
                 </div>
               </div>
@@ -260,7 +263,10 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                 <div class="project-detail">
                   <h3 class="project-detail__title">Takeoff &amp; Landing</h3>
                   <p>
-                    I drive takeoff and landing with authored motion curves, keeping movement and animation in sync. Landing checks the approach and ground support before committing to touchdown.
+                    I treat the motion curves like baked root motion, storing velocities over time instead of position offsets.
+                  </p>
+                  <p>
+                    For landing, I integrate those velocities to calculate the displacement, then work backward from the landing target to find the starting position for clearance queries.
                   </p>
                 </div>
               </div>
@@ -292,7 +298,7 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                 <div class="project-detail">
                   <h3 class="project-detail__title">Obstacle-Aware Flight</h3>
                   <p>
-                    I added predictive obstacle steering and swept collision to flight, with separation between nearby birds. Birds steer around geometry while their movement remains collision-aware.
+                    I use predictive steering, world sweeps and separation between nearby birds to navigate obstacles. These are spatial queries; the bird actors need no collision components.
                   </p>
                 </div>
               </div>

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="350" viewBox="0 0 512 350" role="img" aria-labelledby="title desc">
-  <title id="title">Enhanced Input and my TFMovementInput architecture</title>
-  <desc id="desc">An input profile defines action bindings and gameplay tags for Enhanced Input. My TFMovementInput plugin dispatches tagged actions through a control-state and input-layer stack. Layers manage mapping contexts. The drone flight layer shapes the axes before passing thrust, yaw and tilt to Angle or Acro steering.</desc>
+  <title id="title">Enhanced Input and my custom input plugin</title>
+  <desc id="desc">An input profile defines action bindings and gameplay tags for Enhanced Input. My custom plugin dispatches actions from the top control-state layer down until handled. Layers manage mapping contexts. Unhandled flight input reaches the drone layer, which shapes the axes for Angle or Acro steering.</desc>
   <defs>
     <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7" fill="#c4a35a"/></marker>
     <marker id="muted-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7" fill="#9aa89f"/></marker>
@@ -31,7 +31,7 @@
     <text x="141" y="176" font-size="19">Tagged dispatch</text>
     <text x="141" y="199" font-size="16" fill="#9aa89f">Trigger + value + tag</text>
     <text x="388" y="176" font-size="18">Control-state stack</text>
-    <text x="388" y="199" font-size="17" fill="#9aa89f">Input layers</text>
+    <text x="388" y="199" font-size="16" fill="#9aa89f">Top down until handled</text>
     <text x="136" y="294" font-size="20">Drone flight layer</text>
     <text x="136" y="317" font-size="16" fill="#9aa89f">Dead zones + inversion</text>
     <text x="393" y="294" font-size="20">Flight steering</text>
@@ -40,7 +40,7 @@
   <g font-family="Segoe UI, sans-serif" font-size="14" fill="#9aa89f">
     <text x="262" y="32">bind</text>
     <text x="268" y="102">Mapping-context lifecycle</text>
-    <text x="268" y="260">Active flight layer</text>
+    <text x="268" y="260">Unhandled flight input</text>
   </g>
-  <text x="34" y="133" font-family="Segoe UI, sans-serif" font-size="18" fill="#c4a35a">TFMovementInput · my plugin</text>
+  <text x="34" y="133" font-family="Segoe UI, sans-serif" font-size="18" fill="#c4a35a">My custom input plugin</text>
 </svg>

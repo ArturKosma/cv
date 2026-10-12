@@ -9,7 +9,7 @@
     <title>Samples — Artur Kosma</title>
     <link rel="stylesheet" href="css/tokens.css?v=328" />
     <link rel="stylesheet" href="css/base.css?v=328" />
-    <link rel="stylesheet" href="css/components.css?v=362" />
+    <link rel="stylesheet" href="css/components.css?v=363" />
     <link rel="stylesheet" href="css/pages.css?v=328" />
   </head>
   <body class="page-samples">
@@ -233,7 +233,7 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
               </div>
               <div class="project-copy">
                 <span class="project-name" role="heading" aria-level="2">Replicated Drone Flight</span>
-                <span class="project-blurb">Rescue Drone Simulator: Second Chance — custom drone steering with Mover and Enhanced Input.</span>
+                <span class="project-blurb">Mover + Enhanced Input drone steering.</span>
               </div>
             </summary>
             <div class="project-body">
@@ -253,11 +253,9 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                 <div class="project-detail">
                   <h3 class="project-detail__title">Angle And Acro Flight</h3>
                   <p>
-                    I built Angle and Acro steering simulations for replicated drone flight with
+                    I built Angle and Acro steering for Rescue Drone Simulator: Second Chance, using
                     Unreal’s <a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/mover-in-unreal-engine" target="_blank" rel="noopener">Mover</a>.
                     Angle automatically levels the drone; Acro integrates local-axis rotations as quaternions.
-                    I keep Acro’s commanded attitude separate from wind and vibration offsets,
-                    so disturbances do not accumulate into steering drift.
                   </p>
                 </div>
               </div>
@@ -267,6 +265,7 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                   data-media-slot
                   data-type="image"
                   data-src="assets/portfolio/rescue-drone/workshop.png?v=362"
+                  data-enlarge="Drone workshop"
                   data-alt="Drone crafting workshop with interchangeable components and flight stats including speed, thrust, aerodynamics and handling"
                 >
                   <div class="media-slot__frame" data-media-frame>
@@ -276,9 +275,9 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                 <div class="project-detail">
                   <h3 class="project-detail__title">Crafting Changes Flight</h3>
                   <p>
-                    I derive flight tuning from the assembled drone’s component stats.
-                    Thrust and max speed set acceleration and the speed limit; handling and aerodynamics
-                    shape braking, yaw, and tilt response. Changing the build changes how the drone flies.
+                    I made crafting designer-friendly with DataTable-driven component definitions,
+                    compatibility rules, and stat modifiers. Designers can balance parts without changing code;
+                    the assembled drone’s stats feed flight tuning, from thrust and speed to braking and tilt response.
                   </p>
                 </div>
               </div>
@@ -287,8 +286,8 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                   class="media-slot media-slot--image"
                   data-media-slot
                   data-type="image"
-                  data-src="assets/portfolio/rescue-drone/input-architecture.svg?v=362"
-                  data-alt="My TFMovementInput plugin connects Enhanced Input and tagged action profiles to a control-state and input-layer stack, then to the drone flight layer and Angle or Acro steering. Layers manage mapping contexts."
+                  data-src="assets/portfolio/rescue-drone/input-architecture.svg?v=363"
+                  data-alt="My custom input plugin connects Enhanced Input and tagged action profiles to stacked control states. Each layer handles its own actions and passes unhandled input to lower layers, including drone flight and Angle or Acro steering."
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
@@ -297,12 +296,13 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                 <div class="project-detail">
                   <h3 class="project-detail__title">My Enhanced Input Plugin</h3>
                   <p>
-                    I built TFMovementInput around Enhanced Input, with gameplay-tagged actions and stacked
-                    control states/input layers shared by drones, characters, and UI.
+                    I built a custom plugin around Enhanced Input, using gameplay-tagged actions and
+                    stacked control states to share input handling across drones, characters, and UI.
                   </p>
                   <p>
-                    Layers own their mapping-context lifecycle. The flight layer clears held axes on handover,
-                    so opening a menu cannot leave the drone steering on stale input.
+                    Input travels from the top layer down until a layer handles it. For example, a tutorial
+                    overlay can consume confirm and dismiss keys while steering still reaches the flight layer
+                    below. This lets UI take only the controls it needs while gameplay continues underneath.
                   </p>
                 </div>
               </div>
@@ -1318,6 +1318,6 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
 
       </ul>
     </main>
-    <script src="js/media-on-demand.js?v=348" defer></script>
+    <script src="js/media-on-demand.js?v=363" defer></script>
   </body>
 </html>

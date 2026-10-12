@@ -3,6 +3,54 @@
  * Full-size posters warm in the background; full videos stream on expansion.
  */
 (function () {
+  let imageViewer;
+  let viewerOpener;
+
+  function openImageViewer(image, opener, title) {
+    if (!imageViewer) {
+      imageViewer = document.createElement("dialog");
+      imageViewer.className = "image-viewer";
+      imageViewer.setAttribute("aria-labelledby", "image-viewer-title");
+      imageViewer.innerHTML = `
+        <div class="image-viewer__toolbar">
+          <h2 id="image-viewer-title"></h2>
+          <button type="button" data-viewer-zoom>Actual size</button>
+          <button type="button" data-viewer-close autofocus>Back to sample</button>
+        </div>
+        <div class="image-viewer__stage" tabindex="0" aria-label="Enlarged image; scroll to explore at actual size">
+          <img alt="" />
+        </div>`;
+      document.body.appendChild(imageViewer);
+      imageViewer.querySelector("[data-viewer-close]").addEventListener("click", () => imageViewer.close());
+      imageViewer.querySelector("[data-viewer-zoom]").addEventListener("click", (event) => {
+        const actualSize = imageViewer.classList.toggle("image-viewer--actual-size");
+        event.currentTarget.textContent = actualSize ? "Fit to screen" : "Actual size";
+        const stage = imageViewer.querySelector(".image-viewer__stage");
+        stage.scrollTo(0, 0);
+      });
+      imageViewer.addEventListener("click", (event) => {
+        if (event.target !== imageViewer) return;
+        const bounds = imageViewer.getBoundingClientRect();
+        if (event.clientX < bounds.left || event.clientX > bounds.right ||
+            event.clientY < bounds.top || event.clientY > bounds.bottom) imageViewer.close();
+      });
+      imageViewer.addEventListener("close", () => {
+        document.body.classList.remove("has-image-viewer");
+        if (viewerOpener && viewerOpener.isConnected) viewerOpener.focus({ preventScroll: true });
+      });
+    }
+    viewerOpener = opener;
+    imageViewer.querySelector("h2").textContent = title;
+    const enlargedImage = imageViewer.querySelector("img");
+    enlargedImage.src = image.src;
+    enlargedImage.alt = image.alt;
+    imageViewer.classList.remove("image-viewer--actual-size");
+    imageViewer.querySelector("[data-viewer-zoom]").textContent = "Actual size";
+    imageViewer.querySelector(".image-viewer__stage").scrollTo(0, 0);
+    document.body.classList.add("has-image-viewer");
+    imageViewer.showModal();
+  }
+
   function loadPoster(slot, priority = "low") {
     const frame = slot.querySelector("[data-media-frame]");
     const src = slot.dataset.poster;
@@ -82,7 +130,22 @@
       image.alt = slot.dataset.alt || "";
       image.loading = "lazy";
       image.decoding = "async";
-      frame.appendChild(image);
+      if (slot.hasAttribute("data-enlarge")) {
+        const opener = document.createElement("button");
+        opener.type = "button";
+        opener.className = "media-slot__enlarge";
+        opener.setAttribute("aria-label", `Enlarge ${slot.dataset.enlarge}`);
+        opener.setAttribute("aria-haspopup", "dialog");
+        const hint = document.createElement("span");
+        hint.className = "media-slot__enlarge-hint";
+        hint.textContent = "Expand image";
+        hint.setAttribute("aria-hidden", "true");
+        opener.append(image, hint);
+        opener.addEventListener("click", () => openImageViewer(image, opener, slot.dataset.enlarge));
+        frame.appendChild(opener);
+      } else {
+        frame.appendChild(image);
+      }
     } else {
       const video = document.createElement("video");
       video.controls = false;

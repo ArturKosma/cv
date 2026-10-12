@@ -349,8 +349,9 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                 <div class="project-detail">
                   <h3 class="project-detail__title">MetaHuman Crowds On UE 5.8</h3>
                   <p>
-                    I built ScansFactoryMass for <a href="https://www.scansfactory.com/" target="_blank" rel="noopener">Scans Factory</a> on Unreal’s Mass and MetaHuman Crowd systems,
-                    with custom C++ traits and processors for pedestrian locomotion.
+                    I built ScansFactoryMass for <a href="https://www.scansfactory.com/" target="_blank" rel="noopener">Scans Factory</a> on Unreal’s Mass ECS (Entity Component System)
+                    and MetaHuman Crowd systems. My C++ processors batch locomotion updates over contiguous fragment data
+                    for CPU cache locality.
                   </p>
                   <p>
                     I extended Epic’s animation processor with per-entity walk modes.

@@ -1,9 +1,7 @@
-#scansfactory-mass .wardrobe-convert .media-slot__frame {
-  aspect-ratio: 640 / 271;
-}
-
 #scansfactory-mass .wardrobe-convert img {
+  display: block;
   object-fit: contain;
+  object-position: center;
 }
 
 #scansfactory-mass .wardrobe-assets {

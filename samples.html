@@ -994,6 +994,29 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                   </p>
                 </div>
               </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="image"
+                  data-src="assets/portfolio/procedural-hit-reactions/hit-accumulation.svg?v=hit-decay-1"
+                  data-alt="Shots enter an array with location, direction and a 0.15-second lifetime. The Animation Blueprint counts down lifetimes and removes expired hits. The Control Rig combines the surviving hits into additive rotations, then damped springs produce overlapping shakes and recovery."
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Hit Accumulation And Recovery</h3>
+                  <p>
+                    I collect each shot’s location and direction in an array, with a
+                    0.15-second lifetime. Each animation update counts down the lifetimes
+                    and rebuilds the array from unexpired hits. The Control Rig combines
+                    their additive rotations, and damped springs produce overlapping shakes
+                    that settle back to the base pose.
+                  </p>
+                </div>
+              </div>
             </div>
           </details>
         </li>

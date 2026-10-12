@@ -271,7 +271,7 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                     I treat the motion curves like baked root motion, storing velocities over time instead of position offsets.
                   </p>
                   <p>
-                    For landing, I integrate those velocities to calculate the displacement, then work backward from the landing target to find the starting position for clearance queries.
+                    For landing, I integrate those velocities to calculate the displacement, then work backward from the landing target to find the starting position for clearance queries. This keeps in-place animation on worker threads in sync with actor movement on the game thread.
                   </p>
                 </div>
               </div>

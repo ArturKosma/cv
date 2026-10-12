@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/tokens.css?v=328" />
     <link rel="stylesheet" href="css/base.css?v=328" />
     <link rel="stylesheet" href="css/components.css?v=keyframe-copy-2" />
+    <link rel="stylesheet" href="css/humanoid-rigging.css?v=365" />
     <link rel="stylesheet" href="css/pages.css?v=328" />
     <link rel="stylesheet" href="css/custom-gas.css?v=gas-evidence-3" />
     <link rel="stylesheet" href="css/scansfactory-mass.css?v=wardrobe-frame-2" />
@@ -1412,7 +1413,7 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
               </div>
               <div class="project-copy">
                 <span class="project-name" role="heading" aria-level="2">Humanoid Rigging</span>
-                <span class="project-blurb">Maya rigging with helper bones and RBF deformation carried into Unreal.</span>
+                <span class="project-blurb">Humanoid rigs from animator controls and quaternion-driven helpers to RBF corrections in Unreal.</span>
               </div>
             </summary>
             <div class="project-body">
@@ -1432,9 +1433,9 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                 <div class="project-detail">
                   <h3 class="project-detail__title">Rig In Motion</h3>
                   <p>
-                    I built this humanoid rig in Maya, from animator controls to deformation helpers.
-                    I test the skinned skeleton in motion to check how the shoulders, elbows and hips
-                    hold up through changing poses.
+                    I develop humanoid rigs for animation and real-time use, with animator controls,
+                    skinning and deformation helpers. Motion tests and extreme poses guide how I
+                    refine shoulders, elbows and hips.
                   </p>
                 </div>
               </div>
@@ -1454,29 +1455,9 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                 <div class="project-detail">
                   <h3 class="project-detail__title">IK/FK Controls</h3>
                   <p>
-                    I built switchable IK/FK arm controls, pole vectors and individual finger controls.
-                    The hand can be positioned directly in IK or the arm posed joint by joint in FK.
-                  </p>
-                </div>
-              </div>
-              <div class="project-beat">
-                <div
-                  class="media-slot"
-                  data-media-slot
-                  data-type="video"
-                  data-src="assets/portfolio/humanoid-rigging/media-3.mp4?v=358"
-                  data-poster="assets/portfolio/humanoid-rigging/poster-3.webp?v=358"
-                  data-alt="Corrective helper bones following elbow bends, with the skinned mesh shown in wireframe"
-                >
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Helper Bones And Quaternion Math</h3>
-                  <p>
-                    I use corrective and roll bones to support joint volume and distribute limb twist.
-                    Custom Python nodes in Maya use quaternion operations to calculate the helper-bone rotations.
+                    My rigging workflow combines IK/FK limb controls, pole vectors and individual
+                    finger controls. I give animators direct hand placement in IK and joint-by-joint
+                    posing in FK.
                   </p>
                 </div>
               </div>
@@ -1487,7 +1468,38 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                   data-type="video"
                   data-src="assets/portfolio/humanoid-rigging/media-4.mp4?v=358"
                   data-poster="assets/portfolio/humanoid-rigging/poster-4.webp?v=358"
-                  data-alt="The shoulder mesh deforming as the arm is raised and lowered in Maya"
+                  data-alt="The shoulder helper bones and wireframe mesh following a raised and lowered arm in Maya"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Helper Bones And Quaternion Math</h3>
+                  <p>
+                    I use corrective and roll bones to preserve joint volume and distribute twist.
+                    My custom Maya Python nodes separate quaternion rotation into twist and swing
+                    to drive those helpers.
+                  </p>
+                  <figure class="rig-evidence rig-evidence--code">
+                    <div class="media-slot media-slot--image" data-media-slot data-type="image"
+                      data-src="assets/portfolio/humanoid-rigging/quaternion-code.webp?v=365"
+                      data-alt="My quat_twist_swing Python function in VS Code, projecting the quaternion vector onto the twist axis and calculating swing as q times the inverse twist"
+                      data-enlarge="Quaternion twist and swing — Maya Python node">
+                      <div class="media-slot__frame" data-media-frame></div>
+                    </div>
+                    <figcaption>Twist/swing decomposition · My Maya Python node in VS Code.</figcaption>
+                  </figure>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/humanoid-rigging/media-3.mp4?v=358"
+                  data-poster="assets/portfolio/humanoid-rigging/poster-3.webp?v=358"
+                  data-alt="RBF-driven corrective helper bones following elbow bends, with the skinned mesh shown in wireframe"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
@@ -1496,11 +1508,20 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                 <div class="project-detail">
                   <h3 class="project-detail__title">RBF Pose-Space Deformation</h3>
                   <p>
-                    I author RBF (radial basis function) setups with Epic’s
-                    <a href="https://www.fab.com/listings/745c5017-d248-4aab-8e11-2e00f57aaca0" target="_blank" rel="noopener">Pose Wrangler</a>.
-                    The solvers blend corrective helper-bone poses as the driving joints rotate,
-                    preserving the shoulder shape across raised and lowered arm poses.
+                    I author RBF (radial basis function) corrections in Epic’s
+                    <a href="https://www.fab.com/listings/745c5017-d248-4aab-8e11-2e00f57aaca0" target="_blank" rel="noopener">Pose Wrangler</a>,
+                    sampling joint rotations and shaping the driven helper bones. The solvers
+                    interpolate between those poses to support deformation throughout the joint’s range.
                   </p>
+                  <figure class="rig-evidence">
+                    <div class="media-slot media-slot--image" data-media-slot data-type="image"
+                      data-src="assets/portfolio/humanoid-rigging/pose-wrangler.webp?v=365"
+                      data-alt="My LeftArm_UERBFSolver in Pose Wrangler, showing the authored poses, LeftArm driver and four corrective helper bones"
+                      data-enlarge="Pose Wrangler — left-arm RBF solver">
+                      <div class="media-slot__frame" data-media-frame></div>
+                    </div>
+                    <figcaption>Pose Wrangler · Authored poses, driver joint and corrective bones.</figcaption>
+                  </figure>
                 </div>
               </div>
               <div class="project-beat">
@@ -1519,13 +1540,23 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                 <div class="project-detail">
                   <h3 class="project-detail__title">Unreal Post-Process AnimBP</h3>
                   <p>
-                    I export the Pose Wrangler RBF setup to Unreal and evaluate the corrections
-                    in a post-process Animation Blueprint, after the main animation pose.
+                    I carry Maya-authored RBF corrections into Unreal as <strong>Pose Driver</strong>
+                    nodes in a post-process Animation Blueprint. They evaluate after the main
+                    animation pose, keeping deformation corrections reusable across animations.
                   </p>
                   <p>
-                    The shoulder test toggles postprocessing on and off;
-                    the hip test checks the helper bones under large leg rotations.
+                    I validate the result with corrections enabled and disabled, then stress-test
+                    shoulder and hip rotation.
                   </p>
+                  <figure class="rig-evidence rig-evidence--node">
+                    <div class="media-slot media-slot--image" data-media-slot data-type="image"
+                      data-src="assets/portfolio/humanoid-rigging/pose-driver.webp?v=365"
+                      data-alt="Unreal Pose Driver animation node with LeftArm as its source bone and LeftArm_UERBFSolver as its corrective pose asset"
+                      data-enlarge="Unreal Pose Driver — LeftArm RBF correction">
+                      <div class="media-slot__frame" data-media-frame></div>
+                    </div>
+                    <figcaption>Pose Driver · LeftArm RBF correction in the Animation Blueprint.</figcaption>
+                  </figure>
                 </div>
               </div>
             </div>

@@ -9,7 +9,7 @@
     <title>Samples — Artur Kosma</title>
     <link rel="stylesheet" href="css/tokens.css?v=328" />
     <link rel="stylesheet" href="css/base.css?v=328" />
-    <link rel="stylesheet" href="css/components.css?v=sole-debug-1" />
+    <link rel="stylesheet" href="css/components.css?v=contact-solve-1" />
     <link rel="stylesheet" href="css/humanoid-rigging.css?v=code-loop-1" />
     <link rel="stylesheet" href="css/pages.css?v=328" />
     <link rel="stylesheet" href="css/custom-gas.css?v=gas-evidence-3" />
@@ -643,9 +643,9 @@
                   class="media-slot"
                   data-media-slot
                   data-type="video"
-                  data-src="assets/portfolio/animflex-plugin/media-2.mp4?v=plain-1"
-                  data-poster="assets/portfolio/animflex-plugin/poster-2.webp?v=plain-1"
-                  data-alt="Foot trajectories and plant anchors during a jogging cycle"
+                  data-src="assets/portfolio/animflex-plugin/media-2.mp4?v=fixmovement-1"
+                  data-poster="assets/portfolio/animflex-plugin/poster-2.webp?v=fixmovement-1"
+                  data-alt="Uncorrected foot contact, the Fix Movement command, and corrected planted feet"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
@@ -655,12 +655,38 @@
                   <h3 class="project-detail__title">Contact-Aware Motion Cleanup</h3>
                   <p>
                     I infer plant and swing intervals from foot trajectories, lock planted contact transforms
-                    to the calibrated floor, and blend translation and quaternion corrections through each swing.
+                    to the calibrated floor, and blend translation and quaternion corrections using an arc-length swing phase.
                   </p>
                   <p>
                     Sliding cleanup combines a hidden semi-Markov model for contact-state inference,
                     PELT change-point segmentation, and adaptive One Euro filtering.
                   </p>
+                  <figure class="contact-solve-diagram">
+                    <svg viewBox="0 0 400 170" role="img"
+                      aria-labelledby="contact-solve-title contact-solve-description">
+                      <title id="contact-solve-title">Planted contacts and swing correction</title>
+                      <desc id="contact-solve-description">
+                        A schematic swing arc connects two fixed contact anchors on the floor.
+                        The solve locks each plant and smoothly blends corrections between them.
+                      </desc>
+                      <path class="contact-solve-diagram__floor" d="M20 116H380" />
+                      <path class="contact-solve-diagram__swing" d="M75 110C115 18 285 18 325 110" />
+                      <path class="contact-solve-diagram__plant" d="M45 116H105M295 116H355M75 116V130M325 116V130" />
+                      <rect class="contact-solve-diagram__anchor" x="70" y="105" width="10" height="10" rx="1" />
+                      <rect class="contact-solve-diagram__anchor" x="320" y="105" width="10" height="10" rx="1" />
+                      <g class="contact-solve-diagram__phase" text-anchor="middle">
+                        <text x="75" y="30">Plant</text>
+                        <text x="200" y="30">Swing</text>
+                        <text x="325" y="30">Plant</text>
+                      </g>
+                      <g class="contact-solve-diagram__label" text-anchor="middle">
+                        <text x="75" y="157">Lock contact</text>
+                        <text x="200" y="157">Blend corrections</text>
+                        <text x="325" y="157">Lock contact</text>
+                      </g>
+                    </svg>
+                    <figcaption>Arc-length phase · smoothstep weights · quaternion slerp</figcaption>
+                  </figure>
                 </div>
               </div>
               <div class="project-beat">

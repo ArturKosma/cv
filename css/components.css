@@ -829,3 +829,57 @@ details[data-project][open]::details-content {
   height: auto;
   object-fit: contain;
 }
+
+/* Foot contact anchors and the correction blend between plants. */
+.contact-solve-diagram {
+  margin: var(--space-3) 0 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line);
+}
+
+.contact-solve-diagram svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: var(--font);
+}
+
+.contact-solve-diagram__floor {
+  fill: none;
+  stroke: var(--muted-dim);
+  stroke-width: 1;
+}
+
+.contact-solve-diagram__swing {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 2;
+}
+
+.contact-solve-diagram__plant {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+
+.contact-solve-diagram__anchor {
+  fill: var(--accent);
+}
+
+.contact-solve-diagram__phase {
+  fill: var(--fg);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.contact-solve-diagram__label {
+  fill: var(--muted);
+  font-size: 13px;
+}
+
+.contact-solve-diagram figcaption {
+  margin-top: var(--space-2);
+  color: var(--muted);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}

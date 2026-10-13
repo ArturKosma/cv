@@ -203,12 +203,9 @@
     const active = !pageSuspended && !document.hidden && !(imageViewer && imageViewer.open);
     const visible = (record) => active && record.visible &&
       (record.thumbnail || !record.details || record.details.open);
-    // Give full-size clips the decoder budget while the visitor watches them.
-    const watchingSample = [...records.values()].some((record) => !record.thumbnail && visible(record));
-    const playable = (record) => visible(record) && !(record.thumbnail && watchingSample);
     // Stop old streams before starting new ones during scroll/expand changes.
-    records.forEach((record) => { if (!playable(record)) releaseVideo(record); });
-    records.forEach((record) => { if (playable(record)) startVideo(record); });
+    records.forEach((record) => { if (!visible(record)) releaseVideo(record); });
+    records.forEach((record) => { if (visible(record)) startVideo(record); });
   }
 
   if ("IntersectionObserver" in window) {

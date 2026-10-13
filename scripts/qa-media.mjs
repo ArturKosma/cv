@@ -91,8 +91,29 @@ try {
       };
     });
     assert.deepEqual(report.invalid, [], `${label}: invisible videos retained sources`);
-    assert.ok(!report.full || !report.thumbs, `${label}: thumbnails compete with full-size playback`);
     return report;
+  };
+  const thumbnailsKeepPlaying = async label => {
+    try {
+      await page.waitForFunction(() => {
+        const thumbnails = [...document.querySelectorAll('.thumb-video')].filter(video => {
+          const box = video.getBoundingClientRect();
+          return box.bottom > 0 && box.top < innerHeight && box.width > 0 && box.height > 0;
+        });
+        return thumbnails.length > 0 && thumbnails.every(video => video.hasAttribute('src') && !video.paused && video.readyState >= 2);
+      }, { timeout: 5000 });
+      const count = await page.evaluate(() => {
+        window.__qaThumbnailPlayback = [...document.querySelectorAll('.thumb-video[src]')].map(video => ({ video, time: video.currentTime }));
+        return window.__qaThumbnailPlayback.length;
+      });
+      await page.waitForFunction(() => window.__qaThumbnailPlayback.every(({ video, time }) =>
+        video.hasAttribute('src') && !video.paused && video.currentTime !== time), { timeout: 5000 });
+      await page.evaluate(() => { delete window.__qaThumbnailPlayback; });
+      assert.ok((await invariant(label)).full > 0, `${label}: a full-size clip must also be visible`);
+      console.log(`PASS ${label}: ${count} visible miniature(s) keep advancing during full-size playback`);
+    } catch (error) {
+      throw new Error(`${label}: visible miniature playback stopped while a sample was open (${error.message})`);
+    }
   };
 
   for (const viewport of viewports) {
@@ -120,11 +141,30 @@ try {
     assert.ok([...videoRequests].every(url => initialSources.includes(url)), `${viewport.name}: offscreen video downloaded on first load`);
     assert.equal(await page.$('[data-media-slot] video[src]'), null, 'Closed samples must not load full videos');
     await invariant(`${viewport.name}: initial`);
+    // Match the reported regression: list miniatures above a partly visible large clip.
+    await page.evaluate(() => {
+      document.querySelector('.thumb-video[data-src*="/procedural-hit-reactions/"]').closest('details').open = true;
+    });
+    await pause(450);
+    await page.evaluate(() => {
+      const slot = document.querySelector('.thumb-video[data-src*="/procedural-hit-reactions/"]').closest('details').querySelector('[data-type="video"]');
+      window.scrollTo(0, scrollY + slot.getBoundingClientRect().top - innerHeight + 100);
+    });
+    await playing('[data-src*="/procedural-hit-reactions/media-1.mp4"] video');
+    await thumbnailsKeepPlaying(`${viewport.name}: expanded hit reactions`);
+    await shot(`${viewport.name}-miniatures-with-expanded-sample`);
+    await page.evaluate(() => {
+      document.querySelector('.thumb-video[data-src*="/procedural-hit-reactions/"]').closest('details').open = false;
+      window.scrollTo(0, 0);
+    });
+    await pause(500);
     // Native summary keyboard interaction, then all expanded layouts.
     await page.focus('details[data-project] > summary');
     await page.keyboard.press('Enter');
     await page.waitForSelector('details[data-project][open]');
     await pause(500);
+    await playing('[data-media-slot] video');
+    await thumbnailsKeepPlaying(`${viewport.name}: first sample`);
     await shot(`${viewport.name}-samples-open`);
     await page.evaluate(() => document.querySelectorAll('details[data-project]').forEach(d => { d.open = true; }));
     await pause(500);
@@ -150,6 +190,7 @@ try {
   await page.goto(`${base}/samples.html`, { waitUntil: 'networkidle0' });
   const slots = await page.$$eval('[data-media-slot][data-type="video"]', slots => slots.map((s, i) => { s.dataset.qaSlot = i; return i; }));
   let maximumLoaded = 0;
+  let maximumFull = 0;
   for (const id of slots) {
     await page.evaluate(id => {
       window.__oldVideos = [...document.querySelectorAll('[data-media-slot] video')];
@@ -162,11 +203,12 @@ try {
     await pause(100);
     const report = await invariant(`clip ${id}`);
     maximumLoaded = Math.max(maximumLoaded, report.loaded);
-    assert.ok(report.loaded <= 3, `clip ${id}: unexpected simultaneous streams: ${report.loaded}`);
+    maximumFull = Math.max(maximumFull, report.full);
+    assert.ok(report.full <= 3, `clip ${id}: unexpected simultaneous full-size streams: ${report.full}`);
     assert.ok(await page.evaluate(() => window.__oldVideos.filter(v => !v.isConnected).every(v => !v.hasAttribute('src') && v.readyState === 0 && v.buffered.length === 0)), 'Detached videos must release their buffers');
     if (id === slots[0] || id === slots.at(-1)) await shot(`iphone-12-mini-clip-${id}`);
   }
-  console.log(`PASS browsing all ${slots.length} clips; maximum ${maximumLoaded} loaded streams`);
+  console.log(`PASS browsing all ${slots.length} clips; maximum ${maximumFull} full-size streams, ${maximumLoaded} total streams including visible miniatures`);
 
   // Scroll back: clips must reload and play again, and page lifecycle must release them.
   await page.evaluate(() => document.querySelector('[data-qa-slot="0"]').scrollIntoView({ block: 'center' }));

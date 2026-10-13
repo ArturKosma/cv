@@ -1,6 +1,6 @@
 /**
- * Miniature videos start immediately, ahead of their first-frame posters.
- * Full-size posters warm in the background; full videos stream on expansion.
+ * Play only visible media. Release hidden videos' streams and decoder buffers
+ * so browsing more samples does not accumulate background playback.
  */
 (function () {
   let imageViewer;
@@ -36,7 +36,10 @@
       });
       imageViewer.addEventListener("close", () => {
         document.body.classList.remove("has-image-viewer");
+        imageViewer.querySelector("img").removeAttribute("src");
         if (viewerOpener && viewerOpener.isConnected) viewerOpener.focus({ preventScroll: true });
+        viewerOpener = null;
+        syncMedia();
       });
     }
     viewerOpener = opener;
@@ -49,6 +52,7 @@
     imageViewer.querySelector(".image-viewer__stage").scrollTo(0, 0);
     document.body.classList.add("has-image-viewer");
     imageViewer.showModal();
+    syncMedia();
   }
 
   function loadPoster(slot, priority = "low") {
@@ -63,51 +67,80 @@
       preview.className = "media-slot__poster";
       preview.alt = "";
       preview.decoding = "async";
-      preview.loading = "eager";
       frame.replaceChildren(preview);
     }
+    preview.loading = priority === "high" ? "eager" : "lazy";
     preview.fetchPriority = priority;
     if (!preview.hasAttribute("src")) preview.src = src;
     return preview;
   }
 
-  function loadThumbnailPoster(video, priority = "low") {
-    let preview = video.parentElement.querySelector(".media-slot__poster");
-    if (video.dataset.loaded === "true") return preview;
-    if (!preview) {
-      preview = document.createElement("img");
-      preview.className = "media-slot__poster";
-      preview.alt = "";
-      preview.decoding = "async";
-      preview.addEventListener("load", () => { video.poster = video.dataset.poster; }, { once: true });
-      video.parentElement.appendChild(preview);
-    }
-    preview.fetchPriority = priority;
-    if (!preview.hasAttribute("src")) preview.src = video.dataset.poster;
-    return preview;
-  }
-
   function revealVideo(video, preview) {
-    if (!preview) return;
+    if (!preview) return () => {};
     // Keep the first frame visible until the video can display its own frame.
     const reveal = () => preview.remove();
     if (typeof video.requestVideoFrameCallback === "function") {
-      video.requestVideoFrameCallback(reveal);
+      const callback = video.requestVideoFrameCallback(reveal);
+      return () => video.cancelVideoFrameCallback(callback);
     } else if (video.readyState >= 2) {
       reveal();
     } else {
       video.addEventListener("loadeddata", reveal, { once: true });
+      return () => video.removeEventListener("loadeddata", reveal);
     }
+    return () => {};
   }
 
-  function startVideo(video, src, preview) {
+  function startVideo(record) {
+    if (record.video && record.video.hasAttribute("src")) return;
+    let video = record.video;
+    let preview;
+    if (!record.thumbnail) {
+      const slot = record.target;
+      const frame = slot.querySelector("[data-media-frame]");
+      if (!frame || !slot.dataset.src) return;
+      preview = loadPoster(slot, "high");
+      video = document.createElement("video");
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.setAttribute("muted", "");
+      video.setAttribute("playsinline", "");
+      video.setAttribute("aria-hidden", "true");
+      video.tabIndex = -1;
+      video.disablePictureInPicture = true;
+      video.disableRemotePlayback = true;
+      if (slot.dataset.poster) video.poster = slot.dataset.poster;
+      video.addEventListener("contextmenu", (event) => event.preventDefault());
+      frame.replaceChildren(...(preview ? [preview, video] : [video]));
+      record.video = video;
+    }
     video.preload = "auto";
-    // Thumbnails already have an HTML src so the browser can fetch them early.
-    if (src) video.src = src;
-    revealVideo(video, preview);
+    video.src = record.target.dataset.src;
+    record.cancelReveal = revealVideo(video, preview);
+    record.target.dataset.loaded = "true";
     // Request playback now; do not wait for the whole file or canplaythrough.
     const play = video.play();
     if (play && typeof play.catch === "function") play.catch(() => {});
+  }
+
+  function releaseVideo(record) {
+    const video = record.video;
+    if (!video || !video.hasAttribute("src")) return;
+    record.cancelReveal();
+    record.cancelReveal = null;
+    video.pause();
+    video.removeAttribute("src");
+    video.preload = "none";
+    // pause() alone keeps the media resource alive. Reset source selection to
+    // abort downloads and let the browser release buffers, including on iOS.
+    video.load();
+    delete record.target.dataset.loaded;
+    if (!record.thumbnail) {
+      video.remove();
+      record.video = null;
+      loadPoster(record.target);
+    }
   }
 
   function loadSlot(slot) {
@@ -116,7 +149,8 @@
     if (!frame) return;
     const src = slot.dataset.src;
     const type = slot.dataset.type || "video";
-    const preview = src && type === "video" ? loadPoster(slot, "high") : null;
+    // The viewport observer owns videos; expansion only initializes images.
+    if (type === "video" && src) return;
     frame.replaceChildren();
 
     if (!src) {
@@ -146,47 +180,67 @@
       } else {
         frame.appendChild(image);
       }
-    } else {
-      const video = document.createElement("video");
-      video.controls = false;
-      video.muted = true;
-      video.loop = true;
-      video.autoplay = true;
-      video.playsInline = true;
-      video.preload = "auto";
-      video.setAttribute("muted", "");
-      video.setAttribute("playsinline", "");
-      video.setAttribute("aria-hidden", "true");
-      video.tabIndex = -1;
-      video.disablePictureInPicture = true;
-      video.disableRemotePlayback = true;
-      if (slot.dataset.poster) video.poster = slot.dataset.poster;
-      if (preview) frame.appendChild(preview);
-      video.addEventListener("contextmenu", (event) => event.preventDefault());
-      frame.appendChild(video);
-      startVideo(video, src, preview);
     }
     slot.dataset.loaded = "true";
   }
 
-  const thumbnails = [...document.querySelectorAll(".thumb-video")];
-  // Start every miniature before requesting any poster images.
-  thumbnails.forEach((video) => startVideo(video));
-  thumbnails.forEach((video) => {
-    const preview = loadThumbnailPoster(video, "low");
-    revealVideo(video, preview);
-    video.dataset.loaded = "true";
+  const records = new Map();
+  document.querySelectorAll(".thumb-video, [data-media-slot]").forEach((target) => {
+    const thumbnail = target.matches(".thumb-video");
+    if (!thumbnail && (target.dataset.type || "video") !== "video") return;
+    if (!target.dataset.src) return;
+    records.set(target, {
+      target,
+      thumbnail,
+      details: target.closest("details[data-project]"),
+      video: thumbnail ? target : null,
+      visible: false,
+    });
   });
-  const thumbnailsReady = Promise.all(thumbnails.map((video) => new Promise((resolve) => {
-    if (video.readyState >= 2 || video.error) { resolve(); return; }
-    const ready = () => {
-      video.removeEventListener("loadeddata", ready);
-      video.removeEventListener("error", ready);
-      resolve();
+  let pageSuspended = false;
+
+  function syncMedia() {
+    const active = !pageSuspended && !document.hidden && !(imageViewer && imageViewer.open);
+    const visible = (record) => active && record.visible &&
+      (record.thumbnail || !record.details || record.details.open);
+    // Give full-size clips the decoder budget while the visitor watches them.
+    const watchingSample = [...records.values()].some((record) => !record.thumbnail && visible(record));
+    const playable = (record) => visible(record) && !(record.thumbnail && watchingSample);
+    // Stop old streams before starting new ones during scroll/expand changes.
+    records.forEach((record) => { if (!playable(record)) releaseVideo(record); });
+    records.forEach((record) => { if (playable(record)) startVideo(record); });
+  }
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        records.get(entry.target).visible = entry.isIntersecting && entry.intersectionRatio > 0;
+      });
+      syncMedia();
+    });
+    records.forEach((record) => observer.observe(record.target));
+  } else {
+    // Older browsers keep the same lifecycle with a frame-throttled fallback.
+    let scheduled = false;
+    const updateVisibility = () => {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(() => {
+        scheduled = false;
+        records.forEach((record) => {
+          const rect = record.target.getBoundingClientRect();
+          record.visible = rect.width > 0 && rect.height > 0 && rect.bottom > 0 &&
+            rect.top < window.innerHeight && rect.right > 0 && rect.left < window.innerWidth;
+        });
+        syncMedia();
+      });
     };
-    video.addEventListener("loadeddata", ready, { once: true });
-    video.addEventListener("error", ready, { once: true });
-  })));
+    window.addEventListener("scroll", updateVisibility, { passive: true });
+    window.addEventListener("resize", updateVisibility);
+    document.addEventListener("toggle", updateVisibility, true);
+    window.addEventListener("pageshow", updateVisibility);
+    updateVisibility();
+  }
 
   function loadSample(details) {
     details.querySelectorAll("[data-media-slot]").forEach(loadSlot);
@@ -194,18 +248,12 @@
   document.querySelectorAll("details[data-project]").forEach((details) => {
     details.addEventListener("toggle", () => {
       if (details.open) loadSample(details);
+      syncMedia();
     });
     if (details.open) loadSample(details);
   });
 
-  function warmPosters() {
-    document.querySelectorAll("[data-media-slot][data-poster]").forEach((slot) => loadPoster(slot));
-  }
-  function schedulePosters() {
-    // Let the page paint and the miniatures get their first frames before
-    // spending bandwidth on the larger background posters.
-    requestAnimationFrame(() => requestAnimationFrame(() => thumbnailsReady.then(warmPosters)));
-  }
-  if (document.readyState === "complete") schedulePosters();
-  else window.addEventListener("load", schedulePosters, { once: true });
+  document.addEventListener("visibilitychange", syncMedia);
+  window.addEventListener("pagehide", () => { pageSuspended = true; syncMedia(); });
+  window.addEventListener("pageshow", () => { pageSuspended = false; syncMedia(); });
 })();

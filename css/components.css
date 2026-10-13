@@ -819,3 +819,13 @@ details[data-project][open]::details-content {
     max-width: 12rem;
   }
 }
+
+#animflex-plugin .sole-debug .media-slot__frame {
+  aspect-ratio: auto;
+}
+
+#animflex-plugin .sole-debug img {
+  display: block;
+  height: auto;
+  object-fit: contain;
+}

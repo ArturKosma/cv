@@ -9,7 +9,7 @@
     <title>Samples — Artur Kosma</title>
     <link rel="stylesheet" href="css/tokens.css?v=328" />
     <link rel="stylesheet" href="css/base.css?v=328" />
-    <link rel="stylesheet" href="css/components.css?v=keyframe-copy-2" />
+    <link rel="stylesheet" href="css/components.css?v=sole-debug-1" />
     <link rel="stylesheet" href="css/humanoid-rigging.css?v=code-loop-1" />
     <link rel="stylesheet" href="css/pages.css?v=328" />
     <link rel="stylesheet" href="css/custom-gas.css?v=gas-evidence-3" />
@@ -607,8 +607,8 @@
                   class="media-slot"
                   data-media-slot
                   data-type="video"
-                  data-src="assets/portfolio/animflex-plugin/media-1.mp4?v=capture-1"
-                  data-poster="assets/portfolio/animflex-plugin/poster.webp?v=capture-1"
+                  data-src="assets/portfolio/animflex-plugin/media-1.mp4?v=plain-1"
+                  data-poster="assets/portfolio/animflex-plugin/poster.webp?v=plain-1"
                   data-alt="Close-up of a MetaHuman shoe as its additive sole correction is toggled in Sequencer"
                 >
                   <div class="media-slot__frame" data-media-frame>
@@ -618,14 +618,24 @@
                 <div class="project-detail">
                   <h3 class="project-detail__title">Geometry-Aware Foot Contact</h3>
                   <p>
-                    I built AnimFlex to take mocap from import through animation cleanup inside Unreal.
-                    My foot calibration fits a contact plane to the actual shoe geometry,
-                    then solves foot IK and pelvis offsets against the floor.
+                    I estimate the contact plane from skinned shoe geometry with RANSAC, refine it with PCA,
+                    and use median absolute deviation filtering to isolate the lowest contact cluster
+                    along the foot's local down axis.
                   </p>
                   <p>
-                    The close-up toggles the additive correction to show its effect on sole alignment and height.
-                    Calibration can use a shared pose, separate left and right plant frames, or automatic plant selection.
+                    Ground traces estimate the floor plane; foot IK and pelvis offsets align the sole to it.
+                    Calibration supports a shared pose, separate plant frames per foot, or automatic plant selection.
                   </p>
+                  <div
+                    class="media-slot media-slot--image sole-debug"
+                    data-media-slot
+                    data-type="image"
+                    data-src="assets/portfolio/animflex-plugin/sole-debug.png?v=plain-1"
+                    data-alt="Shoe sole debug with the fitted contact plane, candidate points, contact samples and ground traces"
+                    data-enlarge="Sole contact plane debug"
+                  >
+                    <div class="media-slot__frame" data-media-frame></div>
+                  </div>
                 </div>
               </div>
               <div class="project-beat">
@@ -633,9 +643,9 @@
                   class="media-slot"
                   data-media-slot
                   data-type="video"
-                  data-src="assets/portfolio/animflex-plugin/media-2.mp4?v=capture-1"
-                  data-poster="assets/portfolio/animflex-plugin/poster-2.webp?v=capture-1"
-                  data-alt="Jogging foot trajectories and contact anchors in the viewport, with editable cleanup layer weights beside them"
+                  data-src="assets/portfolio/animflex-plugin/media-2.mp4?v=plain-1"
+                  data-poster="assets/portfolio/animflex-plugin/poster-2.webp?v=plain-1"
+                  data-alt="Foot trajectories and plant anchors during a jogging cycle"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
@@ -644,13 +654,12 @@
                 <div class="project-detail">
                   <h3 class="project-detail__title">Contact-Aware Motion Cleanup</h3>
                   <p>
-                    I detect planted intervals from foot trajectories, lock contact transforms to the calibrated floor,
-                    and blend translation and quaternion corrections through each swing.
-                    Trajectory and anchor overlays make the solve inspectable.
+                    I infer plant and swing intervals from foot trajectories, lock planted contact transforms
+                    to the calibrated floor, and blend translation and quaternion corrections through each swing.
                   </p>
                   <p>
-                    A separate sliding pass uses a hidden semi-Markov model to infer contact states,
-                    followed by change-point segmentation and adaptive One Euro filtering.
+                    Sliding cleanup combines a hidden semi-Markov model for contact-state inference,
+                    PELT change-point segmentation, and adaptive One Euro filtering.
                   </p>
                 </div>
               </div>
@@ -659,8 +668,8 @@
                   class="media-slot"
                   data-media-slot
                   data-type="video"
-                  data-src="assets/portfolio/animflex-plugin/media-3.mp4?v=capture-1"
-                  data-poster="assets/portfolio/animflex-plugin/poster-3.webp?v=capture-1"
+                  data-src="assets/portfolio/animflex-plugin/media-3.mp4?v=plain-1"
+                  data-poster="assets/portfolio/animflex-plugin/poster-3.webp?v=plain-1"
                   data-alt="A MetaHuman gesture playing alongside named pose, grounding, reach correction, finger posing and loop layers in Sequencer"
                 >
                   <div class="media-slot__frame" data-media-frame>
@@ -685,9 +694,9 @@
                   class="media-slot"
                   data-media-slot
                   data-type="video"
-                  data-src="assets/portfolio/animflex-plugin/media-5.mp4?v=fingers-1"
-                  data-poster="assets/portfolio/animflex-plugin/poster-5.webp?v=fingers-1"
-                  data-alt="Close-up of a MetaHuman hand with baked finger springs and micromovement, the bake settings and separate additive animation layers"
+                  data-src="assets/portfolio/animflex-plugin/media-5.mp4?v=plain-1"
+                  data-poster="assets/portfolio/animflex-plugin/poster-5.webp?v=plain-1"
+                  data-alt="MetaHuman finger spring interpolation and micromovement with bake settings"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
@@ -712,8 +721,8 @@
                   class="media-slot"
                   data-media-slot
                   data-type="video"
-                  data-src="assets/portfolio/animflex-plugin/media-6.mp4?v=fingers-1"
-                  data-poster="assets/portfolio/animflex-plugin/poster-6.webp?v=fingers-1"
+                  data-src="assets/portfolio/animflex-plugin/media-6.mp4?v=plain-1"
+                  data-poster="assets/portfolio/animflex-plugin/poster-6.webp?v=plain-1"
                   data-alt="Choosing the target hand and saved finger poses, followed by the keyed hand animation without rig overlays"
                 >
                   <div class="media-slot__frame" data-media-frame>
@@ -723,13 +732,13 @@
                 <div class="project-detail">
                   <h3 class="project-detail__title">Pose Pasting Without Selecting Controls</h3>
                   <p>
-                    I choose a saved pose and a target hand; AnimFlex finds the finger controls and keys the pose
-                    at the playhead. It reuses the FingersPosing layer and can mirror poses between hands,
-                    avoiding manual control selection.
+                    Pose assets resolve the relevant Control Rig controls automatically, then paste and key at the playhead.
+                    Finger posing supports either hand, mirroring and adjustable pose strength,
+                    with no manual control selection.
                   </p>
                   <p>
-                    Those keys become anchors for the spring pass. The full-body paste command also selects
-                    controls from the pose asset and can preserve the character's existing placement.
+                    Finger keys become anchors for spring interpolation. Full-body pasting can preserve
+                    the character's existing placement.
                   </p>
                 </div>
               </div>
@@ -738,9 +747,9 @@
                   class="media-slot"
                   data-media-slot
                   data-type="video"
-                  data-src="assets/portfolio/animflex-plugin/media-4.mp4?v=capture-1"
-                  data-poster="assets/portfolio/animflex-plugin/poster-4.webp?v=capture-1"
-                  data-alt="AnimFlex's HumanIK to MetaHuman Interchange pipeline followed by the imported performance playing in Sequencer"
+                  data-src="assets/portfolio/animflex-plugin/media-4.mp4?v=plain-1"
+                  data-poster="assets/portfolio/animflex-plugin/poster-4.webp?v=plain-1"
+                  data-alt="HumanIK to MetaHuman Interchange pipeline followed by the imported performance playing in Sequencer"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>

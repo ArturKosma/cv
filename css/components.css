@@ -832,8 +832,8 @@ details[data-project][open]::details-content {
 
 /* Foot contact anchors and the correction blend between plants. */
 .contact-solve-diagram {
-  margin: var(--space-3) 0 0;
-  padding-top: var(--space-3);
+  margin: 0;
+  padding-top: var(--space-2);
   border-top: 1px solid var(--line);
 }
 
@@ -882,4 +882,68 @@ details[data-project][open]::details-content {
   color: var(--muted);
   font-size: var(--text-xs);
   line-height: 1.5;
+}
+
+/* Keep Unreal explanations and illustrations beside their comparison videos. */
+#animflex-plugin .sole-debug {
+  width: min(100%, 22rem);
+}
+
+.contact-solve-diagram,
+.finger-spring-diagram {
+  width: min(100%, 25rem);
+  margin: 0;
+}
+
+.finger-spring-diagram {
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--line);
+}
+
+.finger-spring-diagram svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: var(--font);
+}
+
+.finger-spring-diagram__guide {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.finger-spring-diagram__basic {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+}
+
+.finger-spring-diagram__spring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+}
+
+.finger-spring-diagram figcaption {
+  margin-top: var(--space-2);
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+
+.finger-spring-diagram__key--spring {
+  color: var(--accent);
+}
+
+@media (min-width: 1025px) {
+  #animflex-plugin .project-detail--unreal {
+    /* The neighbouring video is 1.15 times wider, with a 16:10 aspect ratio. */
+    aspect-ratio: 32 / 23;
+  }
+
+  #animflex-plugin .contact-solve-diagram,
+  #animflex-plugin .finger-spring-diagram {
+    max-width: 22rem;
+  }
 }

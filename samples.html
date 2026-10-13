@@ -9,7 +9,7 @@
     <title>Samples — Artur Kosma</title>
     <link rel="stylesheet" href="css/tokens.css?v=328" />
     <link rel="stylesheet" href="css/base.css?v=328" />
-    <link rel="stylesheet" href="css/components.css?v=contact-solve-1" />
+    <link rel="stylesheet" href="css/components.css?v=unreal-comparisons-2" />
     <link rel="stylesheet" href="css/humanoid-rigging.css?v=code-loop-1" />
     <link rel="stylesheet" href="css/pages.css?v=328" />
     <link rel="stylesheet" href="css/custom-gas.css?v=gas-evidence-3" />
@@ -607,24 +607,22 @@
                   class="media-slot"
                   data-media-slot
                   data-type="video"
-                  data-src="assets/portfolio/animflex-plugin/media-1.mp4?v=plain-1"
-                  data-poster="assets/portfolio/animflex-plugin/poster.webp?v=plain-1"
-                  data-alt="Close-up of a MetaHuman shoe as its additive sole correction is toggled in Sequencer"
+                  data-src="assets/portfolio/animflex-plugin/media-1.mp4?v=comparison-2"
+                  data-poster="assets/portfolio/animflex-plugin/poster.webp?v=comparison-2"
+                  data-alt="Unfitted shoe sole, a corner inset of Fix Feet, and the fitted sole aligned to the floor"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
                   </div>
                 </div>
-                <div class="project-detail">
+                <div class="project-detail project-detail--unreal">
                   <h3 class="project-detail__title">Geometry-Aware Foot Contact</h3>
                   <p>
-                    I estimate the contact plane from skinned shoe geometry with RANSAC, refine it with PCA,
-                    and use median absolute deviation filtering to isolate the lowest contact cluster
-                    along the foot's local down axis.
-                  </p>
-                  <p>
-                    Ground traces estimate the floor plane; foot IK and pelvis offsets align the sole to it.
-                    Calibration supports a shared pose, separate plant frames per foot, or automatic plant selection.
+                    I fit the sole plane to skinned shoe geometry using
+                    <a href="https://www.mathworks.com/discovery/ransac.html" target="_blank" rel="noopener">RANSAC</a>,
+                    <a href="https://setosa.io/ev/principal-component-analysis/" target="_blank" rel="noopener">PCA</a>
+                    and <a href="https://www.itl.nist.gov/div898/handbook/eda/section3/eda356.htm" target="_blank" rel="noopener">median absolute deviation</a>
+                    filtering. Foot IK and pelvis offsets align it to the floor.
                   </p>
                   <div
                     class="media-slot media-slot--image sole-debug"
@@ -643,23 +641,27 @@
                   class="media-slot"
                   data-media-slot
                   data-type="video"
-                  data-src="assets/portfolio/animflex-plugin/media-2.mp4?v=fixmovement-1"
-                  data-poster="assets/portfolio/animflex-plugin/poster-2.webp?v=fixmovement-1"
+                  data-src="assets/portfolio/animflex-plugin/media-2.mp4?v=comparison-2"
+                  data-poster="assets/portfolio/animflex-plugin/poster-2.webp?v=comparison-2"
                   data-alt="Uncorrected foot contact, the Fix Movement command, and corrected planted feet"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
                   </div>
                 </div>
-                <div class="project-detail">
+                <div class="project-detail project-detail--unreal">
                   <h3 class="project-detail__title">Contact-Aware Motion Cleanup</h3>
                   <p>
-                    I infer plant and swing intervals from foot trajectories, lock planted contact transforms
-                    to the calibrated floor, and blend translation and quaternion corrections using an arc-length swing phase.
+                    I lock planted feet to floor anchors and smoothly blend position
+                    and rotation corrections through each swing.
                   </p>
                   <p>
-                    Sliding cleanup combines a hidden semi-Markov model for contact-state inference,
-                    PELT change-point segmentation, and adaptive One Euro filtering.
+                    Sliding cleanup combines
+                    <a href="https://lasy.github.io/HiddenSemiMarkov/articles/HiddenSemiMarkov.html" title="Hidden semi-Markov models: states with explicit durations" target="_blank" rel="noopener">HSMM</a>
+                    contact detection,
+                    <a href="https://centre-borelli.github.io/ruptures-docs/user-guide/detection/pelt/" target="_blank" rel="noopener">PELT</a>
+                    segmentation and adaptive
+                    <a href="https://gery.casiez.net/1euro/" target="_blank" rel="noopener">One Euro</a> smoothing.
                   </p>
                   <figure class="contact-solve-diagram">
                     <svg viewBox="0 0 400 170" role="img"
@@ -685,7 +687,6 @@
                         <text x="325" y="157">Lock contact</text>
                       </g>
                     </svg>
-                    <figcaption>Arc-length phase · smoothstep weights · quaternion slerp</figcaption>
                   </figure>
                 </div>
               </div>
@@ -694,23 +695,22 @@
                   class="media-slot"
                   data-media-slot
                   data-type="video"
-                  data-src="assets/portfolio/animflex-plugin/media-3.mp4?v=gesture-1"
-                  data-poster="assets/portfolio/animflex-plugin/poster-3.webp?v=gesture-1"
+                  data-src="assets/portfolio/animflex-plugin/media-3.mp4?v=comparison-2"
+                  data-poster="assets/portfolio/animflex-plugin/poster-3.webp?v=comparison-2"
                   data-alt="Raw mocap, the gesture setup command and target pose selection, followed by a looping gesture fitted to that pose"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
                   </div>
                 </div>
-                <div class="project-detail">
+                <div class="project-detail project-detail--unreal">
                   <h3 class="project-detail__title">Gesture Loops From Raw Mocap</h3>
                   <p>
-                    I use raw mocap and my C++ Unreal plugin to quickly create a looping gesture
-                    that fits a chosen pose.
+                    I turn raw mocap into a looping gesture that fits a chosen pose.
+                    The setup corrects grounding and limb reach, then matches the loop endpoints.
                   </p>
                   <p>
-                    Gesture setup adapts the motion to that pose, corrects grounding and limb reach,
-                    and matches the loop endpoints. The result stays editable in separate Control Rig layers.
+                    Each correction stays editable in separate Control Rig layers.
                   </p>
                 </div>
               </div>
@@ -719,25 +719,47 @@
                   class="media-slot"
                   data-media-slot
                   data-type="video"
-                  data-src="assets/portfolio/animflex-plugin/media-5.mp4?v=finger-compare-1"
-                  data-poster="assets/portfolio/animflex-plugin/poster-5.webp?v=finger-compare-1"
-                  data-alt="Original finger pose blend followed by spring interpolation and subtle micromovement"
+                  data-src="assets/portfolio/animflex-plugin/media-5.mp4?v=comparison-2"
+                  data-poster="assets/portfolio/animflex-plugin/poster-5.webp?v=comparison-2"
+                  data-alt="Basic finger pose blend, a corner inset of Enhance Fingers, then spring settling and micromovement"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
                   </div>
                 </div>
-                <div class="project-detail">
+                <div class="project-detail project-detail--unreal">
                   <h3 class="project-detail__title">Finger Springs &amp; Micromovement</h3>
                   <p>
-                    My finger tools add per-finger lag, damped overshoot and settling to basic pose blends.
-                    Procedural micromovement keeps held poses alive with subtle, independent finger motion.
+                    Per-finger lag, damped overshoot and settling soften basic pose blends.
+                    Procedural micromovement adds subtle variation to held poses.
                   </p>
                   <p>
-                    Spring and micromovement passes bake to separate additive Control Rig layers, with editable keys
-                    and blend weights. Deterministic per-control seeds and parallel curve generation
-                    make the variation repeatable.
+                    Both passes bake to editable additive Control Rig layers.
+                    Seeded, parallel curve generation keeps the variation repeatable.
                   </p>
+                  <figure class="finger-spring-diagram">
+                    <svg viewBox="0 0 400 140" role="img"
+                      aria-labelledby="finger-spring-title finger-spring-description">
+                      <title id="finger-spring-title">From a basic blend to spring settling and micromovement</title>
+                      <desc id="finger-spring-description">
+                        A straight blend connects two pose anchors. The enhanced curve arrives
+                        with lag and overshoot, settles, then adds small variations to the held pose.
+                        These curves illustrate the effect schematically.
+                      </desc>
+                      <path class="finger-spring-diagram__guide" d="M18 105H382M18 40H382" />
+                      <path class="finger-spring-diagram__basic" d="M20 105H65L150 40H380" />
+                      <path class="finger-spring-diagram__spring"
+                        d="M20 105H85C110 105 123 9 155 18S180 58 200 51S218 30 235 35S252 44 265 40S277 36 286 40S298 44 308 40S320 37 330 40S342 43 352 40S368 37 380 40" />
+                      <circle class="contact-solve-diagram__anchor" cx="65" cy="105" r="4" />
+                      <circle class="contact-solve-diagram__anchor" cx="150" cy="40" r="4" />
+                      <g class="contact-solve-diagram__phase" text-anchor="middle">
+                        <text x="60" y="133">Pose keys</text>
+                        <text x="185" y="133">Spring settling</text>
+                        <text x="325" y="133">Micromovement</text>
+                      </g>
+                    </svg>
+                    <figcaption><span class="finger-spring-diagram__key">Basic blend</span> · <span class="finger-spring-diagram__key finger-spring-diagram__key--spring">Enhanced</span></figcaption>
+                  </figure>
                 </div>
               </div>
             </div>

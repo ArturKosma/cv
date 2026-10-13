@@ -694,24 +694,23 @@
                   class="media-slot"
                   data-media-slot
                   data-type="video"
-                  data-src="assets/portfolio/animflex-plugin/media-3.mp4?v=plain-1"
-                  data-poster="assets/portfolio/animflex-plugin/poster-3.webp?v=plain-1"
-                  data-alt="A MetaHuman gesture playing alongside named pose, grounding, reach correction, finger posing and loop layers in Sequencer"
+                  data-src="assets/portfolio/animflex-plugin/media-3.mp4?v=gesture-1"
+                  data-poster="assets/portfolio/animflex-plugin/poster-3.webp?v=gesture-1"
+                  data-alt="Raw mocap, the gesture setup command and target pose selection, followed by a looping gesture fitted to that pose"
                 >
                   <div class="media-slot__frame" data-media-frame>
                     <div class="media-slot__placeholder" aria-hidden="true"></div>
                   </div>
                 </div>
                 <div class="project-detail">
-                  <h3 class="project-detail__title">Editable Cleanup &amp; Looping</h3>
+                  <h3 class="project-detail__title">Gesture Loops From Raw Mocap</h3>
                   <p>
-                    My gesture setup builds separate layers for pose, grounding, arm and leg reach limits,
-                    finger posing and matching loop endpoints. Animators can blend each correction
-                    and continue editing the Control Rig keys.
+                    I use raw mocap and my C++ Unreal plugin to quickly create a looping gesture
+                    that fits a chosen pose.
                   </p>
                   <p>
-                    For noisy capture, I provide adaptive One Euro filtering and a periodic,
-                    zero-phase denoiser for walk cycles that preserves motion range and extrema.
+                    Gesture setup adapts the motion to that pose, corrects grounding and limb reach,
+                    and matches the loop endpoints. The result stays editable in separate Control Rig layers.
                   </p>
                 </div>
               </div>

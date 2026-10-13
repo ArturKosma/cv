@@ -897,407 +897,6 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
         </li>
 
         <li>
-          <details data-project data-project-id="physics-death">
-            <summary>
-              <div class="project-thumb">
-                <video class="thumb-video"
-                  data-src="assets/portfolio/physics-death/thumb.mp4?v=350"
-                  poster="assets/portfolio/physics-death/thumb.webp?v=350"
-                  muted playsinline loop autoplay preload="none" aria-hidden="true"></video>
-              </div>
-              <div class="project-copy">
-                <span class="project-name" role="heading" aria-level="2">Physics-Driven Death Reactions</span>
-                <span class="project-blurb">Epic’s Physics Control integrated with directional stumbles, gore, and ragdolls.</span>
-              </div>
-            </summary>
-            <div class="project-body">
-              <div class="project-beat">
-                <div class="media-slot" data-media-slot data-type="video"
-                  data-src="assets/portfolio/physics-death/media-1.mp4?v=348"
-                  data-poster="assets/portfolio/physics-death/poster.webp?v=348"
-                  data-alt="Death animation driven by Physics Control, with animated steps and a simulated body">
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Physics Control Integration</h3>
-                  <p>
-                    I integrated Epic’s <a href="https://dev.epicgames.com/community/learning/tutorials/vrWZ/unreal-engine-physics-control-component-let-s-build-a-character-interactive-raft-in-the-water-subtitle" target="_blank" rel="noopener">Physics Control</a> with the death animations.
-                    Kinematic feet preserve the stepping motion, while spring-damped controls give the body a physical response.
-                  </p>
-                </div>
-              </div>
-              <div class="project-beat">
-                <div class="media-slot" data-media-slot data-type="video"
-                  data-src="assets/portfolio/physics-death/media-2.mp4?v=348"
-                  data-poster="assets/portfolio/physics-death/poster-2.webp?v=348"
-                  data-alt="A character stumbling away from a directional hit before physically collapsing">
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Directional Stumbling</h3>
-                  <p>
-                    I select the stumble animation from the hit direction, then blend it into the physical collapse.
-                  </p>
-                  <figure class="project-diagram">
-                    <img class="project-diagram__image"
-                      src="assets/portfolio/physics-death/death-states.svg?v=348"
-                      width="400" height="216"
-                      alt="My state machine: Normal, Stumbling, Falling, Grounded, then Dead. Leg loss transitions directly from Normal to Falling."
-                      loading="lazy" decoding="async" />
-                    <figcaption>My death-reaction state machine. Leg loss skips Stumbling.</figcaption>
-                  </figure>
-                </div>
-              </div>
-              <div class="project-beat">
-                <div class="media-slot" data-media-slot data-type="video"
-                  data-src="assets/portfolio/physics-death/media-3.mp4?v=348"
-                  data-poster="assets/portfolio/physics-death/poster-3.webp?v=348"
-                  data-alt="Dismemberment affecting a character’s physical death reaction">
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Gore System Support</h3>
-                  <p>
-                    I integrated the reactions with Chernobylite 2’s gore system. Dismemberment changes the state transitions and timing, including a faster collapse after head loss.
-                  </p>
-                </div>
-              </div>
-              <div class="project-beat">
-                <div class="media-slot" data-media-slot data-type="video"
-                  data-src="assets/portfolio/physics-death/media-4.mp4?v=348"
-                  data-poster="assets/portfolio/physics-death/poster-4.webp?v=348"
-                  data-alt="A simulated character struggling on the floor as limbs react to ground contact">
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Ground Interaction</h3>
-                  <p>
-                    I use animation poses as targets for the simulated body. Physics Control drives the limbs toward those poses, while collisions with the floor shape the final movement.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </details>
-        </li>
-
-        <li>
-          <details data-project data-project-id="fps-shooting" id="fps-shooting">
-            <summary>
-              <div class="project-thumb">
-                <video class="thumb-video"
-                  data-src="assets/portfolio/fps-shooting/thumb.mp4?v=359"
-                  poster="assets/portfolio/fps-shooting/thumb.webp?v=359"
-                  muted playsinline loop autoplay preload="none" aria-hidden="true"></video>
-              </div>
-              <div class="project-copy">
-                <span class="project-name" role="heading" aria-level="2">Procedural FPS Shooting</span>
-                <span class="project-blurb">Chernobylite 2: procedural ADS and recoil, driven by per-weapon DataTables.</span>
-              </div>
-            </summary>
-            <div class="project-body">
-              <div class="project-beat">
-                <div class="media-slot" data-media-slot data-type="video"
-                  data-src="assets/portfolio/fps-shooting/media-1.mp4?v=365"
-                  data-poster="assets/portfolio/fps-shooting/poster.webp?v=359"
-                  data-alt="Procedural aiming transitions followed by rifle and shotgun recoil in Chernobylite 2">
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Procedural Aiming &amp; Recoil</h3>
-                  <p>
-                    I built Chernobylite 2’s procedural first-person aiming and recoil. Sight sockets and arm IK control the aiming pose at runtime; motion curves drive weapon kickback with per-shot variation, while camera kick is interpolated.
-                  </p>
-                </div>
-              </div>
-              <div class="project-beat">
-                <div class="media-slot" data-media-slot data-type="video"
-                  data-src="assets/portfolio/fps-shooting/media-3.mp4?v=359"
-                  data-poster="assets/portfolio/fps-shooting/poster-3.webp?v=359"
-                  data-alt="An energy weapon and an explosive launcher using the same first-person aiming and shooting system">
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">DataTable-Driven Weapons</h3>
-                  <p>
-                    I expose weapon setup through DataTables: hip-fire and ADS offsets, recoil, spread, fire mode and projectile properties.
-                  </p>
-                  <figure class="project-diagram project-diagram--centered">
-                    <img class="project-diagram__image"
-                      src="assets/portfolio/fps-shooting/weapon-data-flow.svg?v=359"
-                      width="400" height="112"
-                      alt="Per-weapon DataTables supply ADS offsets and arm IK, recoil curves and camera kick, and spread, fire mode and projectile properties."
-                      loading="lazy" decoding="async" />
-                    <figcaption>Per-weapon setup feeds the shared runtime system.</figcaption>
-                  </figure>
-                </div>
-              </div>
-            </div>
-          </details>
-        </li>
-        <li>
-          <details data-project data-project-id="procedural-hit-reactions">
-            <summary>
-              <div class="project-thumb">
-                <video
-                  class="thumb-video"
-                  data-src="assets/portfolio/procedural-hit-reactions/thumb.mp4?v=354"
-                  poster="assets/portfolio/procedural-hit-reactions/thumb.webp?v=354"
-                  muted
-                  playsinline
-                  loop
-                  preload="none"
-                  aria-hidden="true"
-                ></video>
-              </div>
-              <div class="project-copy">
-                <span class="project-name" role="heading" aria-level="2">Procedural Hit Reactions</span>
-                <span class="project-blurb">Additive reactions from hit location and direction across different skeletons.</span>
-              </div>
-            </summary>
-            <div class="project-body">
-              <div class="project-beat">
-                <div
-                  class="media-slot"
-                  data-media-slot
-                  data-type="video"
-                  data-src="assets/portfolio/procedural-hit-reactions/media-1.mp4?v=354"
-                  data-poster="assets/portfolio/procedural-hit-reactions/poster.webp?v=354"
-                  data-alt="A humanoid reacting additively to shots at different body locations"
-                >
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Hit Location And Direction</h3>
-                  <p>
-                    I built these hit reactions entirely in Control Rig, with <strong>zero baked hit-reaction animation</strong>. The rig calculates additive rotations from hit location and direction. The struck area responds most strongly, with rotation falling off along the skeletal hierarchy.
-                  </p>
-                </div>
-              </div>
-              <div class="project-beat">
-                <div
-                  class="media-slot"
-                  data-media-slot
-                  data-type="video"
-                  data-src="assets/portfolio/procedural-hit-reactions/media-2.mp4?v=352"
-                  data-poster="assets/portfolio/procedural-hit-reactions/poster-2.webp?v=352"
-                  data-alt="The same procedural hit-reaction system on humanoid and spider creature skeletons"
-                >
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">One Control Rig, Multiple Skeletons</h3>
-                  <p>
-                    I reused one Control Rig across humanoid and creature skeletons. It imports each character’s skeleton and calculates reactions from its hierarchy, so the same hit-reaction logic works across different body shapes.
-                  </p>
-                </div>
-              </div>
-              <div class="project-beat">
-                <div
-                  class="media-slot"
-                  data-media-slot
-                  data-type="image"
-                  data-src="assets/portfolio/procedural-hit-reactions/hit-accumulation.svg?v=hit-decay-1"
-                  data-alt="Shots enter an array with location, direction and a 0.15-second lifetime. The Animation Blueprint counts down lifetimes and removes expired hits. The Control Rig combines the surviving hits into additive rotations, then damped springs produce overlapping shakes and recovery."
-                >
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Hit Accumulation And Recovery</h3>
-                  <p>
-                    I collect each shot’s location and direction in an array, with a
-                    0.15-second lifetime. Each animation update counts down the lifetimes
-                    and rebuilds the array from unexpired hits. The Control Rig combines
-                    their additive rotations, and damped springs produce overlapping shakes
-                    that settle back to the base pose.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </details>
-        </li>
-
-        <li>
-          <details data-project>
-            <summary>
-              <div class="project-thumb">
-                <video
-                  class="thumb-video"
-                  data-src="assets/portfolio/procedural-bosses/thumb.mp4?v=351"
-                  poster="assets/portfolio/procedural-bosses/thumb.webp?v=351"
-                  muted
-                  playsinline
-                  loop
-                  preload="none"
-                  aria-hidden="true"
-                ></video>
-              </div>
-              <div class="project-copy">
-                <span class="project-name" role="heading" aria-level="2">Procedural Boss Animation</span>
-                <span class="project-blurb">Believable boss-fight motion with minimal baked animation.</span>
-              </div>
-            </summary>
-            <div class="project-body">
-              <div class="project-beat">
-                <div
-                  class="media-slot"
-                  data-media-slot
-                  data-type="video"
-                  data-src="assets/portfolio/procedural-bosses/media-1.mp4?v=349"
-                  data-poster="assets/portfolio/procedural-bosses/poster.webp?v=349"
-                  data-alt="Boss rig demonstrating secondary motion in the scythe, cape and limbs"
-                >
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Secondary Motion</h3>
-                  <p>
-                    I combined Unreal’s <a href="https://dev.epicgames.com/community/learning/tutorials/vrWZ/unreal-engine-physics-control-component-let-s-build-a-character-interactive-raft-in-the-water-subtitle" target="_blank" rel="noopener">Physical Animation</a>
-                    with world-space spring interpolation of bone positions and rotations.
-                    Sinusoidal time functions generate bone targets for the cape and feet.
-                    The cape and limbs gain believable secondary motion with no baked animation.
-                  </p>
-                </div>
-              </div>
-              <div class="project-beat">
-                <div
-                  class="media-slot"
-                  data-media-slot
-                  data-type="video"
-                  data-src="assets/portfolio/procedural-bosses/media-2.mp4?v=349"
-                  data-poster="assets/portfolio/procedural-bosses/poster-2.webp?v=349"
-                  data-alt="Boss attacking in gameplay with procedural whole-character motion"
-                >
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Whole-Character Control</h3>
-                  <p>
-                    I drove the whole character procedurally, using minimal baked animation
-                    for the scythe. This keeps animation authoring inexpensive while
-                    producing effective boss attacks.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </details>
-        </li>
-
-        <li>
-          <details data-project data-project-id="bird-ai" id="bird-ai">
-            <summary>
-              <div class="project-thumb">
-                <video class="thumb-video"
-                  data-src="assets/portfolio/bird-ai/thumb.mp4?v=birds-flock-4"
-                  poster="assets/portfolio/bird-ai/thumb.webp?v=birds-flock-4"
-                  muted playsinline loop autoplay preload="none" aria-hidden="true"></video>
-              </div>
-              <div class="project-copy">
-                <span class="project-name" role="heading" aria-level="2">Bird AI &amp; Locomotion</span>
-                <span class="project-blurb">Custom C++ bird behavior and movement in Unreal, built on StateTree and Mover.</span>
-              </div>
-            </summary>
-            <div class="project-body">
-              <div class="project-beat">
-                <div class="media-slot" data-media-slot data-type="video"
-                  data-src="assets/portfolio/bird-ai/media-1.mp4?v=birds-1"
-                  data-poster="assets/portfolio/bird-ai/poster.webp?v=birds-1"
-                  data-alt="Pigeons react to the player approaching, moving away and taking flight in a confined test area">
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Player-Aware Behavior</h3>
-                  <p>
-                    I built birds that wander, move away and take flight as player threat builds. The bird actors have no collision and use no NavMesh.
-                  </p>
-                  <p>
-                    I use StateTrees purely to select intentions; the behavior itself lives in my C++ Mover states.
-                  </p>
-                  <h4 class="project-detail__title">Flock Optimization</h4>
-                  <p>
-                    I use shared 10 Hz awareness sampling and a spatial grid for neighbor searches. Distant, offscreen birds suspend movement and StateTree ticks, while animation uses lower update rates at distant LODs and pose interpolation nearby.
-                  </p>
-                </div>
-              </div>
-              <div class="project-beat">
-                <div class="media-slot" data-media-slot data-type="video"
-                  data-src="assets/portfolio/bird-ai/media-2.mp4?v=birds-1"
-                  data-poster="assets/portfolio/bird-ai/poster-2.webp?v=birds-1"
-                  data-alt="A pigeon takes off from the ground, followed by a bird descending and settling at its landing destination">
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Takeoff &amp; Landing</h3>
-                  <p>
-                    I treat the motion curves like baked root motion, storing velocities over time instead of position offsets.
-                  </p>
-                  <p>
-                    For landing, I integrate those velocities to calculate the displacement, then work backward from the landing target to find the starting position for clearance queries. This keeps in-place animation on worker threads in sync with actor movement on the game thread.
-                  </p>
-                </div>
-              </div>
-              <div class="project-beat">
-                <div class="media-slot" data-media-slot data-type="video"
-                  data-src="assets/portfolio/bird-ai/media-3.mp4?v=birds-1"
-                  data-poster="assets/portfolio/bird-ai/poster-3.webp?v=birds-1"
-                  data-alt="A pigeon climbs a spiral spline and follows a closed flight loop, with the route visible in cyan">
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Designer-Authored Routes</h3>
-                  <p>
-                    I support both free roaming and spline-guided walking and flight. Designers can shape routes in the level and choose each bird’s ground and flight modes independently.
-                  </p>
-                </div>
-              </div>
-              <div class="project-beat">
-                <div class="media-slot" data-media-slot data-type="video"
-                  data-src="assets/portfolio/bird-ai/media-4.mp4?v=birds-1"
-                  data-poster="assets/portfolio/bird-ai/poster-4.webp?v=birds-1"
-                  data-alt="Several pigeons fly around tall walls and pillars in the obstacle test area">
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Obstacle-Aware Flight</h3>
-                  <p>
-                    I use predictive steering, world sweeps and separation between nearby birds to navigate obstacles. These are spatial queries; the bird actors need no collision components.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </details>
-        </li>
-
-        <li>
           <details data-project data-project-id="humanoid-rigging" id="humanoid-rigging">
             <summary>
               <div class="project-thumb">
@@ -1457,6 +1056,407 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                     </div>
                     <figcaption>Pose Driver · LeftArm RBF correction in the Animation Blueprint.</figcaption>
                   </figure>
+                </div>
+              </div>
+            </div>
+          </details>
+        </li>
+
+        <li>
+          <details data-project data-project-id="bird-ai" id="bird-ai">
+            <summary>
+              <div class="project-thumb">
+                <video class="thumb-video"
+                  data-src="assets/portfolio/bird-ai/thumb.mp4?v=birds-flock-4"
+                  poster="assets/portfolio/bird-ai/thumb.webp?v=birds-flock-4"
+                  muted playsinline loop autoplay preload="none" aria-hidden="true"></video>
+              </div>
+              <div class="project-copy">
+                <span class="project-name" role="heading" aria-level="2">Bird AI &amp; Locomotion</span>
+                <span class="project-blurb">Custom C++ bird behavior and movement in Unreal, built on StateTree and Mover.</span>
+              </div>
+            </summary>
+            <div class="project-body">
+              <div class="project-beat">
+                <div class="media-slot" data-media-slot data-type="video"
+                  data-src="assets/portfolio/bird-ai/media-1.mp4?v=birds-1"
+                  data-poster="assets/portfolio/bird-ai/poster.webp?v=birds-1"
+                  data-alt="Pigeons react to the player approaching, moving away and taking flight in a confined test area">
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Player-Aware Behavior</h3>
+                  <p>
+                    I built birds that wander, move away and take flight as player threat builds. The bird actors have no collision and use no NavMesh.
+                  </p>
+                  <p>
+                    I use StateTrees purely to select intentions; the behavior itself lives in my C++ Mover states.
+                  </p>
+                  <h4 class="project-detail__title">Flock Optimization</h4>
+                  <p>
+                    I use shared 10 Hz awareness sampling and a spatial grid for neighbor searches. Distant, offscreen birds suspend movement and StateTree ticks, while animation uses lower update rates at distant LODs and pose interpolation nearby.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div class="media-slot" data-media-slot data-type="video"
+                  data-src="assets/portfolio/bird-ai/media-2.mp4?v=birds-1"
+                  data-poster="assets/portfolio/bird-ai/poster-2.webp?v=birds-1"
+                  data-alt="A pigeon takes off from the ground, followed by a bird descending and settling at its landing destination">
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Takeoff &amp; Landing</h3>
+                  <p>
+                    I treat the motion curves like baked root motion, storing velocities over time instead of position offsets.
+                  </p>
+                  <p>
+                    For landing, I integrate those velocities to calculate the displacement, then work backward from the landing target to find the starting position for clearance queries. This keeps in-place animation on worker threads in sync with actor movement on the game thread.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div class="media-slot" data-media-slot data-type="video"
+                  data-src="assets/portfolio/bird-ai/media-3.mp4?v=birds-1"
+                  data-poster="assets/portfolio/bird-ai/poster-3.webp?v=birds-1"
+                  data-alt="A pigeon climbs a spiral spline and follows a closed flight loop, with the route visible in cyan">
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Designer-Authored Routes</h3>
+                  <p>
+                    I support both free roaming and spline-guided walking and flight. Designers can shape routes in the level and choose each bird’s ground and flight modes independently.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div class="media-slot" data-media-slot data-type="video"
+                  data-src="assets/portfolio/bird-ai/media-4.mp4?v=birds-1"
+                  data-poster="assets/portfolio/bird-ai/poster-4.webp?v=birds-1"
+                  data-alt="Several pigeons fly around tall walls and pillars in the obstacle test area">
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Obstacle-Aware Flight</h3>
+                  <p>
+                    I use predictive steering, world sweeps and separation between nearby birds to navigate obstacles. These are spatial queries; the bird actors need no collision components.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </details>
+        </li>
+        <li>
+          <details data-project data-project-id="physics-death">
+            <summary>
+              <div class="project-thumb">
+                <video class="thumb-video"
+                  data-src="assets/portfolio/physics-death/thumb.mp4?v=350"
+                  poster="assets/portfolio/physics-death/thumb.webp?v=350"
+                  muted playsinline loop autoplay preload="none" aria-hidden="true"></video>
+              </div>
+              <div class="project-copy">
+                <span class="project-name" role="heading" aria-level="2">Physics-Driven Death Reactions</span>
+                <span class="project-blurb">Epic’s Physics Control integrated with directional stumbles, gore, and ragdolls.</span>
+              </div>
+            </summary>
+            <div class="project-body">
+              <div class="project-beat">
+                <div class="media-slot" data-media-slot data-type="video"
+                  data-src="assets/portfolio/physics-death/media-1.mp4?v=348"
+                  data-poster="assets/portfolio/physics-death/poster.webp?v=348"
+                  data-alt="Death animation driven by Physics Control, with animated steps and a simulated body">
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Physics Control Integration</h3>
+                  <p>
+                    I integrated Epic’s <a href="https://dev.epicgames.com/community/learning/tutorials/vrWZ/unreal-engine-physics-control-component-let-s-build-a-character-interactive-raft-in-the-water-subtitle" target="_blank" rel="noopener">Physics Control</a> with the death animations.
+                    Kinematic feet preserve the stepping motion, while spring-damped controls give the body a physical response.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div class="media-slot" data-media-slot data-type="video"
+                  data-src="assets/portfolio/physics-death/media-2.mp4?v=348"
+                  data-poster="assets/portfolio/physics-death/poster-2.webp?v=348"
+                  data-alt="A character stumbling away from a directional hit before physically collapsing">
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Directional Stumbling</h3>
+                  <p>
+                    I select the stumble animation from the hit direction, then blend it into the physical collapse.
+                  </p>
+                  <figure class="project-diagram">
+                    <img class="project-diagram__image"
+                      src="assets/portfolio/physics-death/death-states.svg?v=348"
+                      width="400" height="216"
+                      alt="My state machine: Normal, Stumbling, Falling, Grounded, then Dead. Leg loss transitions directly from Normal to Falling."
+                      loading="lazy" decoding="async" />
+                    <figcaption>My death-reaction state machine. Leg loss skips Stumbling.</figcaption>
+                  </figure>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div class="media-slot" data-media-slot data-type="video"
+                  data-src="assets/portfolio/physics-death/media-3.mp4?v=348"
+                  data-poster="assets/portfolio/physics-death/poster-3.webp?v=348"
+                  data-alt="Dismemberment affecting a character’s physical death reaction">
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Gore System Support</h3>
+                  <p>
+                    I integrated the reactions with Chernobylite 2’s gore system. Dismemberment changes the state transitions and timing, including a faster collapse after head loss.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div class="media-slot" data-media-slot data-type="video"
+                  data-src="assets/portfolio/physics-death/media-4.mp4?v=348"
+                  data-poster="assets/portfolio/physics-death/poster-4.webp?v=348"
+                  data-alt="A simulated character struggling on the floor as limbs react to ground contact">
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Ground Interaction</h3>
+                  <p>
+                    I use animation poses as targets for the simulated body. Physics Control drives the limbs toward those poses, while collisions with the floor shape the final movement.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </details>
+        </li>
+
+        <li>
+          <details data-project data-project-id="fps-shooting" id="fps-shooting">
+            <summary>
+              <div class="project-thumb">
+                <video class="thumb-video"
+                  data-src="assets/portfolio/fps-shooting/thumb.mp4?v=359"
+                  poster="assets/portfolio/fps-shooting/thumb.webp?v=359"
+                  muted playsinline loop autoplay preload="none" aria-hidden="true"></video>
+              </div>
+              <div class="project-copy">
+                <span class="project-name" role="heading" aria-level="2">Procedural FPS Shooting</span>
+                <span class="project-blurb">Chernobylite 2: procedural ADS and recoil, driven by per-weapon DataTables.</span>
+              </div>
+            </summary>
+            <div class="project-body">
+              <div class="project-beat">
+                <div class="media-slot" data-media-slot data-type="video"
+                  data-src="assets/portfolio/fps-shooting/media-1.mp4?v=365"
+                  data-poster="assets/portfolio/fps-shooting/poster.webp?v=359"
+                  data-alt="Procedural aiming transitions followed by rifle and shotgun recoil in Chernobylite 2">
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Procedural Aiming &amp; Recoil</h3>
+                  <p>
+                    I built Chernobylite 2’s procedural first-person aiming and recoil. Sight sockets and arm IK control the aiming pose at runtime; motion curves drive weapon kickback with per-shot variation, while camera kick is interpolated.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div class="media-slot" data-media-slot data-type="video"
+                  data-src="assets/portfolio/fps-shooting/media-3.mp4?v=359"
+                  data-poster="assets/portfolio/fps-shooting/poster-3.webp?v=359"
+                  data-alt="An energy weapon and an explosive launcher using the same first-person aiming and shooting system">
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">DataTable-Driven Weapons</h3>
+                  <p>
+                    I expose weapon setup through DataTables: hip-fire and ADS offsets, recoil, spread, fire mode and projectile properties.
+                  </p>
+                  <figure class="project-diagram project-diagram--centered">
+                    <img class="project-diagram__image"
+                      src="assets/portfolio/fps-shooting/weapon-data-flow.svg?v=359"
+                      width="400" height="112"
+                      alt="Per-weapon DataTables supply ADS offsets and arm IK, recoil curves and camera kick, and spread, fire mode and projectile properties."
+                      loading="lazy" decoding="async" />
+                    <figcaption>Per-weapon setup feeds the shared runtime system.</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+          </details>
+        </li>
+
+        <li>
+          <details data-project data-project-id="procedural-hit-reactions">
+            <summary>
+              <div class="project-thumb">
+                <video
+                  class="thumb-video"
+                  data-src="assets/portfolio/procedural-hit-reactions/thumb.mp4?v=354"
+                  poster="assets/portfolio/procedural-hit-reactions/thumb.webp?v=354"
+                  muted
+                  playsinline
+                  loop
+                  preload="none"
+                  aria-hidden="true"
+                ></video>
+              </div>
+              <div class="project-copy">
+                <span class="project-name" role="heading" aria-level="2">Procedural Hit Reactions</span>
+                <span class="project-blurb">Additive reactions from hit location and direction across different skeletons.</span>
+              </div>
+            </summary>
+            <div class="project-body">
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/procedural-hit-reactions/media-1.mp4?v=354"
+                  data-poster="assets/portfolio/procedural-hit-reactions/poster.webp?v=354"
+                  data-alt="A humanoid reacting additively to shots at different body locations"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Hit Location And Direction</h3>
+                  <p>
+                    I built these hit reactions entirely in Control Rig, with <strong>zero baked hit-reaction animation</strong>. The rig calculates additive rotations from hit location and direction. The struck area responds most strongly, with rotation falling off along the skeletal hierarchy.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/procedural-hit-reactions/media-2.mp4?v=352"
+                  data-poster="assets/portfolio/procedural-hit-reactions/poster-2.webp?v=352"
+                  data-alt="The same procedural hit-reaction system on humanoid and spider creature skeletons"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">One Control Rig, Multiple Skeletons</h3>
+                  <p>
+                    I reused one Control Rig across humanoid and creature skeletons. It imports each character’s skeleton and calculates reactions from its hierarchy, so the same hit-reaction logic works across different body shapes.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="image"
+                  data-src="assets/portfolio/procedural-hit-reactions/hit-accumulation.svg?v=hit-decay-1"
+                  data-alt="Shots enter an array with location, direction and a 0.15-second lifetime. The Animation Blueprint counts down lifetimes and removes expired hits. The Control Rig combines the surviving hits into additive rotations, then damped springs produce overlapping shakes and recovery."
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Hit Accumulation And Recovery</h3>
+                  <p>
+                    I collect each shot’s location and direction in an array, with a
+                    0.15-second lifetime. Each animation update counts down the lifetimes
+                    and rebuilds the array from unexpired hits. The Control Rig combines
+                    their additive rotations, and damped springs produce overlapping shakes
+                    that settle back to the base pose.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </details>
+        </li>
+
+        <li>
+          <details data-project>
+            <summary>
+              <div class="project-thumb">
+                <video
+                  class="thumb-video"
+                  data-src="assets/portfolio/procedural-bosses/thumb.mp4?v=351"
+                  poster="assets/portfolio/procedural-bosses/thumb.webp?v=351"
+                  muted
+                  playsinline
+                  loop
+                  preload="none"
+                  aria-hidden="true"
+                ></video>
+              </div>
+              <div class="project-copy">
+                <span class="project-name" role="heading" aria-level="2">Procedural Boss Animation</span>
+                <span class="project-blurb">Believable boss-fight motion with minimal baked animation.</span>
+              </div>
+            </summary>
+            <div class="project-body">
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/procedural-bosses/media-1.mp4?v=349"
+                  data-poster="assets/portfolio/procedural-bosses/poster.webp?v=349"
+                  data-alt="Boss rig demonstrating secondary motion in the scythe, cape and limbs"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Secondary Motion</h3>
+                  <p>
+                    I combined Unreal’s <a href="https://dev.epicgames.com/community/learning/tutorials/vrWZ/unreal-engine-physics-control-component-let-s-build-a-character-interactive-raft-in-the-water-subtitle" target="_blank" rel="noopener">Physical Animation</a>
+                    with world-space spring interpolation of bone positions and rotations.
+                    Sinusoidal time functions generate bone targets for the cape and feet.
+                    The cape and limbs gain believable secondary motion with no baked animation.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/procedural-bosses/media-2.mp4?v=349"
+                  data-poster="assets/portfolio/procedural-bosses/poster-2.webp?v=349"
+                  data-alt="Boss attacking in gameplay with procedural whole-character motion"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Whole-Character Control</h3>
+                  <p>
+                    I drove the whole character procedurally, using minimal baked animation
+                    for the scythe. This keeps animation authoring inexpensive while
+                    producing effective boss attacks.
+                  </p>
                 </div>
               </div>
             </div>

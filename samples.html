@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="css/humanoid-rigging.css?v=code-loop-1" />
     <link rel="stylesheet" href="css/pages.css?v=328" />
     <link rel="stylesheet" href="css/custom-gas.css?v=gas-evidence-3" />
-    <link rel="stylesheet" href="css/scansfactory-mass.css?v=idle-capture-3" />
+    <link rel="stylesheet" href="css/scansfactory-mass.css?v=idle-gestures-1" />
   </head>
   <body class="page-samples">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -280,9 +280,9 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                 <div class="project-detail">
                   <h3 class="project-detail__title">MetaHuman Collection &amp; Wardrobe</h3>
                   <p>
-                    I built C++ and Python tools for the MetaHuman Collection pipeline.
+                    I built C++ and Python tools for the <a href="https://dev.epicgames.com/documentation/metahuman/metahuman-collections-in-unreal-engine" target="_blank" rel="noopener">MetaHuman Collection</a> pipeline.
                     We used my Convert to Wardrobe tool to reuse outfits from Epic’s Matrix Sample,
-                    turning their meshes into cloth assets and wardrobe outfit assets.
+                    turning their meshes into cloth assets and <a href="https://dev.epicgames.com/documentation/metahuman/tailoring-your-own-wardrobe-items?lang=en-US" target="_blank" rel="noopener">wardrobe outfit assets</a>.
                   </p>
                   <p>
                     Body-specific outfit assets and generated hidden-face maps keep clothing compatible
@@ -346,23 +346,32 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                   </p>
                   <figure class="idle-capture">
                     <div class="idle-capture__panels">
-                      <svg viewBox="285 400 230 410" role="img" aria-label="Source video performance for MetaHuman animation">
-                        <defs><clipPath id="idle-source-crop"><rect x="285" y="400" width="230" height="410" /></clipPath></defs>
-                        <image href="assets/portfolio/scansfactory-mass/metahuman-video-authoring.png?v=idle-capture-1"
-                          width="2048" height="1075" clip-path="url(#idle-source-crop)" />
-                      </svg>
-                      <svg viewBox="1080 365 345 335" role="img" aria-label="Skeleton preview in MetaHuman Animator">
-                        <defs><clipPath id="idle-skeleton-crop"><rect x="1080" y="365" width="345" height="335" /></clipPath></defs>
-                        <image href="assets/portfolio/scansfactory-mass/metahuman-video-authoring.png?v=idle-capture-1"
-                          width="2048" height="1075" clip-path="url(#idle-skeleton-crop)" />
-                      </svg>
-                      <svg class="idle-capture__setup" viewBox="1660 166 388 165" role="img" aria-label="MetaHuman Animator input set to Monocular Footage with the standing-listen capture asset">
-                        <defs><clipPath id="idle-setup-crop"><rect x="1660" y="166" width="388" height="165" /></clipPath></defs>
-                        <image href="assets/portfolio/scansfactory-mass/metahuman-video-authoring.png?v=idle-capture-1"
-                          width="2048" height="1075" clip-path="url(#idle-setup-crop)" />
-                      </svg>
+                      <div class="media-slot idle-gesture" data-media-slot data-type="video"
+                        data-src="assets/portfolio/scansfactory-mass/gesture-pointing.mp4?v=gestures-1"
+                        data-poster="assets/portfolio/scansfactory-mass/gesture-pointing.webp?v=gestures-1"
+                        role="img" aria-label="My source performance: pointing and gesturing upward">
+                        <div class="media-slot__frame" data-media-frame>
+                          <div class="media-slot__placeholder" aria-hidden="true"></div>
+                        </div>
+                      </div>
+                      <div class="media-slot idle-gesture" data-media-slot data-type="video"
+                        data-src="assets/portfolio/scansfactory-mass/gesture-standing-talk.mp4?v=gestures-1"
+                        data-poster="assets/portfolio/scansfactory-mass/gesture-standing-talk.webp?v=gestures-1"
+                        role="img" aria-label="My source performance: expressive standing conversation">
+                        <div class="media-slot__frame" data-media-frame>
+                          <div class="media-slot__placeholder" aria-hidden="true"></div>
+                        </div>
+                      </div>
+                      <div class="media-slot idle-gesture" data-media-slot data-type="video"
+                        data-src="assets/portfolio/scansfactory-mass/gesture-seated-talk.mp4?v=gestures-1"
+                        data-poster="assets/portfolio/scansfactory-mass/gesture-seated-talk.webp?v=gestures-1"
+                        role="img" aria-label="My source performance: seated conversation gestures">
+                        <div class="media-slot__frame" data-media-frame>
+                          <div class="media-slot__placeholder" aria-hidden="true"></div>
+                        </div>
+                      </div>
                     </div>
-                    <figcaption>MetaHuman Animator: video-to-animation authoring.</figcaption>
+                    <figcaption>My source performances for MetaHuman Animator.</figcaption>
                   </figure>
                 </div>
               </div>
@@ -386,7 +395,7 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                     vehicle queues and crossing occupancy shared by cars and pedestrians.
                   </p>
                   <p>
-                    Here the plugin runs in a detailed Scans Factory environment,
+                    Here the plugin runs in a detailed <a href="https://www.scansfactory.com/" target="_blank" rel="noopener">Scans Factory</a> environment,
                     with pedestrians using crossings alongside moving traffic.
                   </p>
                 </div>

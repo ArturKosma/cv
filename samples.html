@@ -30,194 +30,6 @@
     <main id="main" class="page">
       <ul class="project-list">
         <li>
-          <details data-project>
-            <summary>
-              <div class="project-thumb">
-                <video
-                  class="thumb-video"
-                  data-src="assets/portfolio/locomotor/thumb.mp4?v=333"
-                  poster="assets/portfolio/locomotor/thumb.webp?v=347"
-                  muted
-                  playsinline
-                  loop
-                  preload="none"
-                  aria-hidden="true"
-                ></video>
-              </div>
-              <div class="project-copy">
-                <span class="project-name" role="heading" aria-level="2">Procedural Spider Locomotion</span>
-                <span class="project-blurb">Epic’s Locomotor extended with custom foot placement and physics.</span>
-              </div>
-            </summary>
-            <div class="project-body">
-              <div class="project-beat">
-                <div
-                  class="media-slot"
-                  data-media-slot
-                  data-type="video"
-                  data-src="assets/portfolio/locomotor/media-1.mp4?v=329"
-                  data-poster="assets/portfolio/locomotor/poster.webp?v=347"
-                  data-alt="Locomotor sample 1"
-                >
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Uneven Terrain</h3>
-                  <p>
-                    I built the spider’s gait on Epic’s <a href="https://dev.epicgames.com/community/learning/tutorials/EkxO/unreal-engine-procedural-animation-with-a-locomotor" target="_blank" rel="noopener">Locomotor</a>,
-                    with runtime stepping and foot placement that adapts to uneven terrain.
-                  </p>
-                  <figure class="project-illustration">
-                    <img
-                      class="project-illustration__image"
-                      src="assets/portfolio/locomotor/locomotor-node.png"
-                      width="407"
-                      height="367"
-                      alt="My Locomotor Control Rig node with a Feet Transforms output."
-                      loading="lazy"
-                      decoding="async"
-                    />
-                    <figcaption>
-                      Locomotor provides foot targets; Full Body IK solves the leg poses.
-                    </figcaption>
-                  </figure>
-                </div>
-              </div>
-              <div class="project-beat">
-                <div
-                  class="media-slot"
-                  data-media-slot
-                  data-type="video"
-                  data-src="assets/portfolio/locomotor/media-2.mp4?v=330"
-                  data-poster="assets/portfolio/locomotor/poster-2.webp?v=347"
-                  data-alt="Locomotor sample 2"
-                >
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Any Orientation</h3>
-                  <p>
-                    Epic’s probes assumed world Z. I fixed them to follow the rig’s orientation,
-                    including full 180° inversions.
-                  </p>
-                  <p>
-                    <code>Offset</code> sets the ground probe’s direction and reach.
-                  </p>
-                  <div class="code-compare" aria-label="Ground probe offset before and after, simplified">
-                    <span class="code-compare__file">LocomotorCore.cpp</span>
-                    <figure class="code-panel">
-                      <figcaption>Before</figcaption>
-                      <pre><code>const FVector Offset = FVector(0, 0, MaxHeight);</code></pre>
-                    </figure>
-                    <figure class="code-panel">
-                      <figcaption>After</figcaption>
-                      <pre><code>const FVector LocalUp = Foot.ReferenceWorld
-    .GetRotation().GetUpVector();
-
-const FVector Offset = LocalUp * MaxHeight;</code></pre>
-                    </figure>
-                  </div>
-                </div>
-              </div>
-              <div class="project-beat">
-                <div
-                  class="media-slot"
-                  data-media-slot
-                  data-type="video"
-                  data-src="assets/portfolio/locomotor/media-3.mp4?v=336"
-                  data-poster="assets/portfolio/locomotor/poster-3.webp?v=347"
-                  data-alt="Spider adapting its footing to changing support widths"
-                >
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Narrow Supports</h3>
-                  <p>
-                    I added inward sphere casts to find side contacts
-                    when Epic’s ground probes miss narrow supports.
-                  </p>
-                  <div class="code-compare" aria-label="Added inward probe direction and endpoint, excerpt">
-                    <figure class="code-panel">
-                      <figcaption>Added inward probe</figcaption>
-                      <pre><code>FVector TowardBody = BodyLocation - RefLocation;
-TowardBody.Normalize();
-
-const FVector End = RefLocation
-    + LocalDown * InwardProbeDistanceDown
-    + TowardBody * InwardProbeDistance;</code></pre>
-                    </figure>
-                  </div>
-                </div>
-              </div>
-              <div class="project-beat">
-                <div
-                  class="media-slot"
-                  data-media-slot
-                  data-type="video"
-                  data-src="assets/portfolio/locomotor/media-4.mp4?v=339"
-                  data-poster="assets/portfolio/locomotor/poster-4.webp?v=347"
-                  data-alt="Spider reference automatically adjusting pitch and roll near a wall"
-                >
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Automatic Surface Alignment</h3>
-                  <p>
-                    I use the combined normal of surrounding sphere probes to align the rig’s pitch and roll.
-                  </p>
-                  <div class="code-compare" aria-label="Plant normal calculation and reference tilt, pseudocode">
-                    <figure class="code-panel">
-                      <figcaption>Reference tilt · pseudocode</figcaption>
-                      <pre><code>P = MAIN.position
-normalSum = (0, 0, 0)
-for d in grid3D(0, ±0.5, ±1) except zero:
-    hit = sphereCast(P, P + unit(d) * 500, 50)
-    if hit:
-        normalSum += hit.normal
-
-PlantNormal = unit(normalSum)
-axis = unit(cross((0, 0, 1), PlantNormal))
-angle = acos(dot((0, 0, 1), PlantNormal))
-tilt = axisAngle(axis, angle)
-reference.rotation = tilt * MAIN.rotation</code></pre>
-                    </figure>
-                  </div>
-                </div>
-              </div>
-              <div class="project-beat">
-                <div
-                  class="media-slot"
-                  data-media-slot
-                  data-type="video"
-                  data-src="assets/portfolio/locomotor/media-5.mp4?v=340"
-                  data-poster="assets/portfolio/locomotor/poster-5.webp?v=347"
-                  data-alt="Spring dampers adding inertia and secondary motion to the spider’s procedural pose"
-                >
-                  <div class="media-slot__frame" data-media-frame>
-                    <div class="media-slot__placeholder" aria-hidden="true"></div>
-                  </div>
-                </div>
-                <div class="project-detail">
-                  <h3 class="project-detail__title">Physical Response</h3>
-                  <p>
-                    I integrated <a href="https://dev.epicgames.com/community/learning/tutorials/rpYD/unreal-engine-control-rig-physics" target="_blank" rel="noopener">Control Rig Physics</a> after Locomotor and Full Body IK.
-                    Spring-damped bodies add inertia and world-collision response, while kinematic anchors preserve procedural control.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </details>
-        </li>
-
-        <li>
           <details data-project data-project-id="scansfactory-mass" id="scansfactory-mass">
             <summary>
               <div class="project-thumb">
@@ -762,6 +574,322 @@ reference.rotation = tilt * MAIN.rotation</code></pre>
                   <p>
                     <a href="https://github.com/ArturKosma/Learning/blob/main/animFlex/source/AFUtility.cpp#L166" target="_blank" rel="noopener">CCD IK source</a>
                     &middot; <a href="https://github.com/ArturKosma/Learning/blob/main/animFlex/source/AFGraphNode_CCDIK.cpp" target="_blank" rel="noopener">Animation graph node</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </details>
+        </li>
+
+        <li>
+          <details data-project data-project-id="animflex-plugin" id="animflex-plugin">
+            <summary>
+              <div class="project-thumb">
+                <video
+                  class="thumb-video"
+                  data-src="assets/portfolio/animflex-plugin/thumb.mp4?v=capture-1"
+                  poster="assets/portfolio/animflex-plugin/thumb.webp?v=capture-1"
+                  muted
+                  playsinline
+                  loop
+                  preload="none"
+                  aria-hidden="true"
+                ></video>
+              </div>
+              <div class="project-copy">
+                <span class="project-name" role="heading" aria-level="2">AnimFlex: Mocap Cleanup &amp; Retargeting</span>
+                <span class="project-blurb">My C++ Unreal plugin: geometry-aware foot contact, motion cleanup and editable Control Rig layers.</span>
+              </div>
+            </summary>
+            <div class="project-body">
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/animflex-plugin/media-1.mp4?v=capture-1"
+                  data-poster="assets/portfolio/animflex-plugin/poster.webp?v=capture-1"
+                  data-alt="Close-up of a MetaHuman shoe as its additive sole correction is toggled in Sequencer"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Geometry-Aware Foot Contact</h3>
+                  <p>
+                    I built AnimFlex to take mocap from import through animation cleanup inside Unreal.
+                    My foot calibration fits a contact plane to the actual shoe geometry,
+                    then solves foot IK and pelvis offsets against the floor.
+                  </p>
+                  <p>
+                    The close-up toggles the additive correction to show its effect on sole alignment and height.
+                    Calibration can use a shared pose, separate left and right plant frames, or automatic plant selection.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/animflex-plugin/media-2.mp4?v=capture-1"
+                  data-poster="assets/portfolio/animflex-plugin/poster-2.webp?v=capture-1"
+                  data-alt="Jogging foot trajectories and contact anchors in the viewport, with editable cleanup layer weights beside them"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Contact-Aware Motion Cleanup</h3>
+                  <p>
+                    I detect planted intervals from foot trajectories, lock contact transforms to the calibrated floor,
+                    and blend translation and quaternion corrections through each swing.
+                    Trajectory and anchor overlays make the solve inspectable.
+                  </p>
+                  <p>
+                    A separate sliding pass uses a hidden semi-Markov model to infer contact states,
+                    followed by change-point segmentation and adaptive One Euro filtering.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/animflex-plugin/media-3.mp4?v=capture-1"
+                  data-poster="assets/portfolio/animflex-plugin/poster-3.webp?v=capture-1"
+                  data-alt="A MetaHuman gesture playing alongside named pose, grounding, reach correction, finger posing and loop layers in Sequencer"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Editable Cleanup &amp; Looping</h3>
+                  <p>
+                    My gesture setup builds separate layers for pose, grounding, arm and leg reach limits,
+                    finger posing and matching loop endpoints. Animators can blend each correction
+                    and continue editing the Control Rig keys.
+                  </p>
+                  <p>
+                    For noisy capture, I provide adaptive One Euro filtering and a periodic,
+                    zero-phase denoiser for walk cycles that preserves motion range and extrema.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/animflex-plugin/media-4.mp4?v=capture-1"
+                  data-poster="assets/portfolio/animflex-plugin/poster-4.webp?v=capture-1"
+                  data-alt="AnimFlex's HumanIK to MetaHuman Interchange pipeline followed by the imported performance playing in Sequencer"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">HumanIK to MetaHuman</h3>
+                  <p>
+                    I built an Interchange pipeline that imports HumanIK FBX, retargets through Unreal's IK Retargeter,
+                    and stages the result in Sequencer with the chosen character.
+                  </p>
+                  <p>
+                    For multi-character FBX files, my preprocessor keeps the selected performer before Unreal translates the file,
+                    avoiding the importer losing animation on additional skeletons.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </details>
+        </li>
+
+        <li>
+          <details data-project>
+            <summary>
+              <div class="project-thumb">
+                <video
+                  class="thumb-video"
+                  data-src="assets/portfolio/locomotor/thumb.mp4?v=333"
+                  poster="assets/portfolio/locomotor/thumb.webp?v=347"
+                  muted
+                  playsinline
+                  loop
+                  preload="none"
+                  aria-hidden="true"
+                ></video>
+              </div>
+              <div class="project-copy">
+                <span class="project-name" role="heading" aria-level="2">Procedural Spider Locomotion</span>
+                <span class="project-blurb">Epic’s Locomotor extended with custom foot placement and physics.</span>
+              </div>
+            </summary>
+            <div class="project-body">
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/locomotor/media-1.mp4?v=329"
+                  data-poster="assets/portfolio/locomotor/poster.webp?v=347"
+                  data-alt="Locomotor sample 1"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Uneven Terrain</h3>
+                  <p>
+                    I built the spider’s gait on Epic’s <a href="https://dev.epicgames.com/community/learning/tutorials/EkxO/unreal-engine-procedural-animation-with-a-locomotor" target="_blank" rel="noopener">Locomotor</a>,
+                    with runtime stepping and foot placement that adapts to uneven terrain.
+                  </p>
+                  <figure class="project-illustration">
+                    <img
+                      class="project-illustration__image"
+                      src="assets/portfolio/locomotor/locomotor-node.png"
+                      width="407"
+                      height="367"
+                      alt="My Locomotor Control Rig node with a Feet Transforms output."
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <figcaption>
+                      Locomotor provides foot targets; Full Body IK solves the leg poses.
+                    </figcaption>
+                  </figure>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/locomotor/media-2.mp4?v=330"
+                  data-poster="assets/portfolio/locomotor/poster-2.webp?v=347"
+                  data-alt="Locomotor sample 2"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Any Orientation</h3>
+                  <p>
+                    Epic’s probes assumed world Z. I fixed them to follow the rig’s orientation,
+                    including full 180° inversions.
+                  </p>
+                  <p>
+                    <code>Offset</code> sets the ground probe’s direction and reach.
+                  </p>
+                  <div class="code-compare" aria-label="Ground probe offset before and after, simplified">
+                    <span class="code-compare__file">LocomotorCore.cpp</span>
+                    <figure class="code-panel">
+                      <figcaption>Before</figcaption>
+                      <pre><code>const FVector Offset = FVector(0, 0, MaxHeight);</code></pre>
+                    </figure>
+                    <figure class="code-panel">
+                      <figcaption>After</figcaption>
+                      <pre><code>const FVector LocalUp = Foot.ReferenceWorld
+    .GetRotation().GetUpVector();
+
+const FVector Offset = LocalUp * MaxHeight;</code></pre>
+                    </figure>
+                  </div>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/locomotor/media-3.mp4?v=336"
+                  data-poster="assets/portfolio/locomotor/poster-3.webp?v=347"
+                  data-alt="Spider adapting its footing to changing support widths"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Narrow Supports</h3>
+                  <p>
+                    I added inward sphere casts to find side contacts
+                    when Epic’s ground probes miss narrow supports.
+                  </p>
+                  <div class="code-compare" aria-label="Added inward probe direction and endpoint, excerpt">
+                    <figure class="code-panel">
+                      <figcaption>Added inward probe</figcaption>
+                      <pre><code>FVector TowardBody = BodyLocation - RefLocation;
+TowardBody.Normalize();
+
+const FVector End = RefLocation
+    + LocalDown * InwardProbeDistanceDown
+    + TowardBody * InwardProbeDistance;</code></pre>
+                    </figure>
+                  </div>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/locomotor/media-4.mp4?v=339"
+                  data-poster="assets/portfolio/locomotor/poster-4.webp?v=347"
+                  data-alt="Spider reference automatically adjusting pitch and roll near a wall"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Automatic Surface Alignment</h3>
+                  <p>
+                    I use the combined normal of surrounding sphere probes to align the rig’s pitch and roll.
+                  </p>
+                  <div class="code-compare" aria-label="Plant normal calculation and reference tilt, pseudocode">
+                    <figure class="code-panel">
+                      <figcaption>Reference tilt · pseudocode</figcaption>
+                      <pre><code>P = MAIN.position
+normalSum = (0, 0, 0)
+for d in grid3D(0, ±0.5, ±1) except zero:
+    hit = sphereCast(P, P + unit(d) * 500, 50)
+    if hit:
+        normalSum += hit.normal
+
+PlantNormal = unit(normalSum)
+axis = unit(cross((0, 0, 1), PlantNormal))
+angle = acos(dot((0, 0, 1), PlantNormal))
+tilt = axisAngle(axis, angle)
+reference.rotation = tilt * MAIN.rotation</code></pre>
+                    </figure>
+                  </div>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/locomotor/media-5.mp4?v=340"
+                  data-poster="assets/portfolio/locomotor/poster-5.webp?v=347"
+                  data-alt="Spring dampers adding inertia and secondary motion to the spider’s procedural pose"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Physical Response</h3>
+                  <p>
+                    I integrated <a href="https://dev.epicgames.com/community/learning/tutorials/rpYD/unreal-engine-control-rig-physics" target="_blank" rel="noopener">Control Rig Physics</a> after Locomotor and Full Body IK.
+                    Spring-damped bodies add inertia and world-collision response, while kinematic anchors preserve procedural control.
                   </p>
                 </div>
               </div>

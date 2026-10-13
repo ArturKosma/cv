@@ -598,7 +598,7 @@
               </div>
               <div class="project-copy">
                 <span class="project-name" role="heading" aria-level="2">AnimFlex: Mocap Cleanup &amp; Retargeting</span>
-                <span class="project-blurb">My C++ Unreal plugin: geometry-aware foot contact, motion cleanup and editable Control Rig layers.</span>
+                <span class="project-blurb">My C++ Unreal plugin: geometry-aware foot contact, procedural finger polish and editable mocap cleanup.</span>
               </div>
             </summary>
             <div class="project-body">
@@ -677,6 +677,59 @@
                   <p>
                     For noisy capture, I provide adaptive One Euro filtering and a periodic,
                     zero-phase denoiser for walk cycles that preserves motion range and extrema.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/animflex-plugin/media-5.mp4?v=fingers-1"
+                  data-poster="assets/portfolio/animflex-plugin/poster-5.webp?v=fingers-1"
+                  data-alt="Close-up of a MetaHuman hand with baked finger springs and micromovement, the bake settings and separate additive animation layers"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Finger Springs &amp; Micromovement</h3>
+                  <p>
+                    My finger tools build secondary motion from a few saved poses. Per-finger lag,
+                    damped overshoot and settling shape each transition; a micromovement bake
+                    adds subtle variation to held poses.
+                  </p>
+                  <p>
+                    Both passes bake to separate additive Control Rig layers, with editable keys and blend weights.
+                    The micromovement curves use deterministic per-control seeds and parallel generation
+                    for repeatable variation with independent finger timing.
+                  </p>
+                </div>
+              </div>
+              <div class="project-beat">
+                <div
+                  class="media-slot"
+                  data-media-slot
+                  data-type="video"
+                  data-src="assets/portfolio/animflex-plugin/media-6.mp4?v=fingers-1"
+                  data-poster="assets/portfolio/animflex-plugin/poster-6.webp?v=fingers-1"
+                  data-alt="Choosing the target hand and saved finger poses, followed by the keyed hand animation without rig overlays"
+                >
+                  <div class="media-slot__frame" data-media-frame>
+                    <div class="media-slot__placeholder" aria-hidden="true"></div>
+                  </div>
+                </div>
+                <div class="project-detail">
+                  <h3 class="project-detail__title">Pose Pasting Without Selecting Controls</h3>
+                  <p>
+                    I choose a saved pose and a target hand; AnimFlex finds the finger controls and keys the pose
+                    at the playhead. It reuses the FingersPosing layer and can mirror poses between hands,
+                    avoiding manual control selection.
+                  </p>
+                  <p>
+                    Those keys become anchors for the spring pass. The full-body paste command also selects
+                    controls from the pose asset and can preserve the character's existing placement.
                   </p>
                 </div>
               </div>

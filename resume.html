@@ -3,6 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      /* On touch phones, show the same native PDF as Open without another tap.
+         Replace this entry so Back returns to the previous site page. */
+      if (window.matchMedia("(max-width: 767px) and (hover: none) and (pointer: coarse)").matches) {
+        window.location.replace("resume.pdf?v=custom-domain-1");
+      }
+    </script>
     <meta name="theme-color" content="#0f1412" />
     <link rel="icon" href="assets/favicon.svg?v=328" type="image/svg+xml" />
     <meta name="description" content="CV — Artur Kosma." />

@@ -87,7 +87,8 @@ try {
         loaded: videos.length,
         invalid: videos.filter(v => !visible(v) || (!v.classList.contains('thumb-video') && !v.closest('details').open)).map(v => v.src),
         thumbs: videos.filter(v => v.classList.contains('thumb-video')).length,
-        full: videos.filter(v => !v.classList.contains('thumb-video')).length,
+        gestures: videos.filter(v => v.closest('.idle-gesture')).length,
+        full: videos.filter(v => !v.classList.contains('thumb-video') && !v.closest('.idle-gesture')).length,
       };
     });
     assert.deepEqual(report.invalid, [], `${label}: invisible videos retained sources`);
@@ -120,6 +121,38 @@ try {
     await page.setViewport({ ...viewport, deviceScaleFactor: 1 });
     for (const route of ['index.html', 'reel.html', 'resume.html', 'samples.html']) {
       videoRequests.clear();
+      if (route === 'resume.html' && viewport.isMobile) {
+        // Headless browsers cannot display native phone PDF viewers. Capture
+        // the navigation and verify the real PDF separately from its viewer.
+        const pdfUrl = `${base}/resume.pdf?v=custom-domain-1`;
+        const pdf = await fetch(pdfUrl);
+        assert.equal(pdf.status, 200, 'The phone CV PDF must be available');
+        assert.equal(pdf.headers.get('content-type'), 'application/pdf');
+        assert.equal(Buffer.from(await pdf.arrayBuffer()).subarray(0, 5).toString(), '%PDF-');
+        const navigations = [];
+        const intercept = request => {
+          if (request.url() === pdfUrl && request.isNavigationRequest()) {
+            navigations.push(request.url());
+            request.respond({ status: 200, contentType: 'text/html', body: '<title>Native PDF destination</title><link rel="icon" href="data:,">' });
+          } else {
+            request.continue();
+          }
+        };
+        await page.setRequestInterception(true);
+        page.on('request', intercept);
+        try {
+          await page.goto(`${base}/${route}`, { waitUntil: 'networkidle0' });
+          assert.equal(page.url(), pdfUrl, 'Phones must go straight to the Open PDF');
+          assert.deepEqual(navigations, [pdfUrl], 'The PDF must open once in the same tab');
+          await page.goBack({ waitUntil: 'networkidle0' });
+          assert.equal(page.url(), `${base}/reel.html`, 'Back must skip the replaced CV page');
+        } finally {
+          page.off('request', intercept);
+          await page.setRequestInterception(false);
+        }
+        console.log(`PASS ${viewport.name}: CV opens the native PDF without an extra tap`);
+        continue;
+      }
       await page.goto(`${base}/${route}`, { waitUntil: 'networkidle0' });
       const report = await page.evaluate(() => ({
         overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
@@ -198,13 +231,14 @@ try {
       slot.closest('details').open = true;
     }, id);
     await pause(450);
-    await page.evaluate(id => document.querySelector(`[data-qa-slot="${id}"]`).scrollIntoView({ block: 'center' }), id);
+    await page.evaluate(id => document.querySelector(`[data-qa-slot="${id}"]`).scrollIntoView({ block: 'center', behavior: 'instant' }), id);
     await playing(`[data-qa-slot="${id}"] video`);
     await pause(100);
     const report = await invariant(`clip ${id}`);
     maximumLoaded = Math.max(maximumLoaded, report.loaded);
     maximumFull = Math.max(maximumFull, report.full);
     assert.ok(report.full <= 3, `clip ${id}: unexpected simultaneous full-size streams: ${report.full}`);
+    assert.ok(report.gestures <= 3, `clip ${id}: unexpected simultaneous gesture previews: ${report.gestures}`);
     assert.ok(await page.evaluate(() => window.__oldVideos.filter(v => !v.isConnected).every(v => !v.hasAttribute('src') && v.readyState === 0 && v.buffered.length === 0)), 'Detached videos must release their buffers');
     if (id === slots[0] || id === slots.at(-1)) await shot(`iphone-12-mini-clip-${id}`);
   }

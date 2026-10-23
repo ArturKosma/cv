@@ -124,7 +124,7 @@ try {
       if (route === 'resume.html' && viewport.isMobile) {
         // Headless browsers cannot display native phone PDF viewers. Capture
         // the navigation and verify the real PDF separately from its viewer.
-        const pdfUrl = `${base}/resume.pdf?v=linkedin-3`;
+        const pdfUrl = `${base}/resume.pdf?v=linkedin-4`;
         const pdf = await fetch(pdfUrl);
         assert.equal(pdf.status, 200, 'The phone CV PDF must be available');
         assert.equal(pdf.headers.get('content-type'), 'application/pdf');

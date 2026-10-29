@@ -10,6 +10,7 @@
         Top: identity + contact. Body: experience | skills/details.
         Section rules are soft gold 2px bars; render snaps h2 bottoms
         to whole CSS pixels so Chrome PDF does not thin some rules.
+        On screen the script below rounds them up to whole screen pixels.
       */
       @page {
         size: Letter;
@@ -226,8 +227,15 @@
         content: "";
         display: block;
         width: 100%;
-        height: 2px;
+        /* Screen: whole screen pixels, set by the script below */
+        height: var(--rule-h, 2px);
         background: var(--key-line);
+      }
+
+      @media print {
+        h2::after {
+          height: 2px;
+        }
       }
 
       .aside > h2,
@@ -353,6 +361,25 @@
         color: var(--body);
       }
     </style>
+    <script>
+      /*
+        On screens with fractional scaling (125%, browser zoom) a 2px rule
+        is 2.5 screen pixels, so some rules round to 2 and others to 3.
+        Round the rule up to a whole number of screen pixels so every one
+        draws at the same, thicker weight. Re-run when the scaling changes.
+      */
+      (function () {
+        function snapRules() {
+          var dpr = window.devicePixelRatio || 1;
+          var px = Math.ceil(2 * dpr - 0.01) / dpr;
+          document.documentElement.style.setProperty("--rule-h", px + "px");
+          window
+            .matchMedia("(resolution: " + dpr + "dppx)")
+            .addEventListener("change", snapRules, { once: true });
+        }
+        snapRules();
+      })();
+    </script>
   </head>
   <body>
     <article class="resume">

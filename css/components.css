@@ -251,29 +251,28 @@ details[data-project][open]::details-content {
   display: none;
 }
 
+/* Same chevron as the Samples rows (.project-list summary::after), no label */
 .timeline-summary::after {
   content: "";
   position: absolute;
   right: 0.2rem;
-  top: 0.45rem;
-  width: 0.35rem;
-  height: 0.35rem;
-  border-right: 1.5px solid var(--muted-dim);
-  border-bottom: 1.5px solid var(--muted-dim);
-  opacity: 0.85;
+  top: 0.32rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
   transform: rotate(45deg);
-  transition: border-color var(--ease), transform var(--ease), opacity var(--ease);
+  transition: border-color var(--ease), transform var(--ease);
   pointer-events: none;
 }
 
 .timeline-summary:hover::after,
 .timeline-item details[open] > .timeline-summary::after {
   border-color: var(--accent);
-  opacity: 1;
 }
 
 .timeline-item details[open] > .timeline-summary::after {
-  top: 0.6rem;
+  top: 0.65rem;
   transform: rotate(225deg);
 }
 
@@ -384,45 +383,84 @@ details[data-project][open]::details-content {
   width: 100%;
 }
 
+/*
+  Row = one big button. The hover tint bleeds --row-pad past the column
+  (negative margin) so thumbnails and text stay aligned with the page.
+  Toggle = "Details" label (::before) + chevron (::after) on the right.
+*/
 .project-list summary {
+  --row-pad: var(--space-3);
   list-style: none;
   display: grid;
-  grid-template-columns: minmax(7rem, 10rem) minmax(0, 1fr);
+  grid-template-columns: clamp(9rem, 24vw, 16rem) minmax(0, 1fr);
   gap: var(--space-5);
   align-items: center;
-  width: 100%;
-  padding: var(--space-5) 1.75rem var(--space-5) 0;
+  margin-inline: calc(-1 * var(--row-pad));
+  padding: var(--space-5) calc(var(--row-pad) + 6.25rem) var(--space-5) var(--row-pad);
+  border-radius: 6px;
   position: relative;
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--ease);
+}
+
+@media (hover: hover) {
+  .project-list summary:hover {
+    background-color: var(--bg-elevated);
+  }
 }
 
 .project-list summary::-webkit-details-marker {
   display: none;
 }
 
+.project-list summary::before {
+  content: "Details";
+  content: "Details" / "";
+  position: absolute;
+  right: calc(var(--row-pad) + 1.3rem);
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--chrome-size);
+  font-weight: var(--chrome-weight);
+  letter-spacing: var(--chrome-tracking);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color var(--ease);
+  pointer-events: none;
+}
+
+.project-list details[open] > summary::before {
+  content: "Close";
+  content: "Close" / "";
+}
+
 .project-list summary::after {
   content: "";
   position: absolute;
-  right: 0.15rem;
+  right: calc(var(--row-pad) + 0.2rem);
   top: 50%;
-  width: 0.35rem;
-  height: 0.35rem;
-  margin-top: -0.28rem;
-  border-right: 1.5px solid var(--muted-dim);
-  border-bottom: 1.5px solid var(--muted-dim);
-  opacity: 0.85;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: -0.38rem;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
   transform: rotate(45deg);
-  transition: border-color var(--ease), transform var(--ease), opacity var(--ease);
+  transition: border-color var(--ease), transform var(--ease);
   pointer-events: none;
+}
+
+.project-list summary:hover::before,
+.project-list details[open] > summary::before {
+  color: var(--accent);
 }
 
 .project-list summary:hover::after,
 .project-list details[open] > summary::after {
   border-color: var(--accent);
-  opacity: 1;
 }
 
 .project-list details[open] > summary::after {
@@ -780,10 +818,17 @@ details[data-project][open]::details-content {
   }
 }
 
+/* Tablet: no room for the label next to the blurb, keep the chevron only */
 @media (max-width: 720px) {
   .project-list summary {
-    grid-template-columns: minmax(6rem, 8rem) minmax(0, 1fr);
+    grid-template-columns: clamp(7rem, 24vw, 11rem) minmax(0, 1fr);
     gap: var(--space-3);
+    padding-right: calc(var(--row-pad) + 1.75rem);
+  }
+
+  .project-list summary::before,
+  .project-list details[open] > summary::before {
+    content: none;
   }
 }
 
@@ -813,10 +858,28 @@ details[data-project][open]::details-content {
 
   .project-list summary {
     grid-template-columns: 1fr;
+    padding-right: var(--row-pad);
   }
 
   .project-thumb {
     max-width: 12rem;
+  }
+
+  /* Phone: thumbnail sits on top, so the toggle fits in the space beside it
+     (top = row padding + half of a 12rem 16:10 thumbnail) */
+  .project-list summary::before {
+    content: "Details";
+    content: "Details" / "";
+    top: calc(var(--space-5) + 3.75rem);
+  }
+
+  .project-list details[open] > summary::before {
+    content: "Close";
+    content: "Close" / "";
+  }
+
+  .project-list summary::after {
+    top: calc(var(--space-5) + 3.75rem);
   }
 }
 
